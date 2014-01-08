@@ -10,17 +10,31 @@ using System.Threading.Tasks;
 
 namespace FHSDK.FHHttpClient
 {
+    /// <summary>
+    /// Base class for all the API requests
+    /// </summary>
     public abstract class FHRequest
     {
         const double DEFAULT_TIMEOUT = 30*1000;
+
+        /// <summary>
+        /// The app configurations
+        /// </summary>
         protected AppProps appProps;
         private TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appProps"></param>
         public FHRequest(AppProps appProps)
         {
             this.appProps = appProps;
         }
 
+        /// <summary>
+        /// Get or set the timeout value
+        /// </summary>
         public TimeSpan TimeOut
         {
             get
@@ -34,6 +48,10 @@ namespace FHSDK.FHHttpClient
             }
         }
 
+        /// <summary>
+        /// Exxcute the request asynchronously
+        /// </summary>
+        /// <returns>Server response</returns>
         public async Task<FHResponse> execAsync()
         {
             string uri = GetUri();
@@ -42,6 +60,10 @@ namespace FHSDK.FHHttpClient
             return fhres;
         }
 
+        /// <summary>
+        /// Get the default request parameters
+        /// </summary>
+        /// <returns></returns>
         protected IDictionary<string, object> GetDefaultParams()
         {
             Dictionary<string, object> defaults = new Dictionary<string, object>();
@@ -62,6 +84,9 @@ namespace FHSDK.FHHttpClient
             return defaults;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
         protected JObject GetInitInfo()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
@@ -75,6 +100,12 @@ namespace FHSDK.FHHttpClient
             return initInfo;
         }
 
+        /// <summary>
+        /// Get the unique client id for analytics.
+        /// </summary>
+        /// <remarks>
+        /// It will use Windows Phone ANID by default. If it's not avaiable, the unique device id will be used.
+        /// </remarks>
         protected string UUID
         {
             get
@@ -98,44 +129,89 @@ namespace FHSDK.FHHttpClient
             }
         }
 
+        /// <summary>
+        /// Construct the remote uri based on the request type
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetUri();
+
+        /// <summary>
+        /// Construct the request data based on the request type
+        /// </summary>
+        /// <returns></returns>
         public abstract IDictionary<string, object> GetRequestParams();
 
     }
 
+    /// <summary>
+    /// Class represents init requests
+    /// </summary>
     public class FHInitRequest : FHRequest
     {
         const string INIT_PATH = "app/init";
         
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appProps"></param>
         public FHInitRequest(AppProps appProps)
             : base(appProps)
         {
         }
 
+        /// <summary>
+        /// Construct the remote uri based on the request type
+        /// </summary>
+        /// <returns></returns>
         public override string GetUri()
         {
             return String.Format("{0}/{1}", this.appProps.host, INIT_PATH);
         }
 
+        /// <summary>
+        /// Construct the request data based on the request type
+        /// </summary>
+        /// <returns></returns>
         public override IDictionary<string, object> GetRequestParams()
         {
             return GetDefaultParams();
         }
     }
 
+    /// <summary>
+    /// Class represents act requests
+    /// </summary>
     public class FHActRequest : FHRequest
     {
         private JObject cloudProps;
 
+        /// <summary>
+        /// Get or set the remote cloud function name
+        /// </summary>
         public string RemoteAct { get; set; }
+
+        /// <summary>
+        /// Get or set the request parameters
+        /// </summary>
         public IDictionary<string, object> RequestParams { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="appProps"></param>
+        /// <param name="cloudProps"></param>
         public FHActRequest(AppProps appProps, JObject cloudProps)
             : base(appProps)
         {
             this.cloudProps = cloudProps;
         }
 
+        /// <summary>
+        /// Execute the act request asynchronously
+        /// </summary>
+        /// <param name="remoteAct">The name of the cloud action</param>
+        /// <param name="requestParams">The request parameters</param>
+        /// <returns></returns>
         public async Task<FHResponse> execAsync(string remoteAct, IDictionary<string, object> requestParams)
         {
             this.RemoteAct = remoteAct;
@@ -143,6 +219,10 @@ namespace FHSDK.FHHttpClient
             return await this.execAsync();
         }
 
+        /// <summary>
+        /// Construct the remote uri based on the request type
+        /// </summary>
+        /// <returns></returns>
         public override string GetUri()
         {
             if (null == this.RemoteAct)
@@ -172,6 +252,10 @@ namespace FHSDK.FHHttpClient
             return String.Format("{0}/{1}/{2}", uri, "cloud", this.RemoteAct);
         }
 
+        /// <summary>
+        /// Construct the request data based on the request type
+        /// </summary>
+        /// <returns></returns>
         public override IDictionary<string, object> GetRequestParams()
         {
             Dictionary<string, object> data = new Dictionary<string, object>();

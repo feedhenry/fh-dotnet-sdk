@@ -7,7 +7,9 @@ using System.Text;
 
 namespace FHSDK.FHHttpClient
 {
-
+    /// <summary>
+    /// HttpClient used by the SDK
+    /// </summary>
     public class FHHttpClient
     {
 
@@ -26,12 +28,12 @@ namespace FHSDK.FHHttpClient
         }
 
         /// <summary>
-        /// Call remote uri asyn.
+        /// Post request to the remote uri
         /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="requestData"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
+        /// <param name="uri">The remote uri</param>
+        /// <param name="requestData">The request data</param>
+        /// <param name="timeout">Timeout in milliseconds</param>
+        /// <returns>Server response</returns>
         public static async Task<FHResponse> PostAsync(string uri, IDictionary<string, object> requestData, TimeSpan timeout)
         {
             bool online = await IsOnlineAsync();

@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace FHSDK.FHHttpClient
 {
+    /// <summary>
+    /// </summary>
     public class FHResponse
     {
         private HttpStatusCode statusCode;
         private string rawResponse;
         private FHException error;
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <param name="rawResponse"></param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse)
         {
             this.statusCode = statusCode;
@@ -21,6 +28,12 @@ namespace FHSDK.FHHttpClient
             this.error = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <param name="rawResponse"></param>
+        /// <param name="error"></param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse, FHException error)
         {
             this.statusCode = statusCode;
@@ -28,12 +41,21 @@ namespace FHSDK.FHHttpClient
             this.error = error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rawResponse"></param>
+        /// <param name="error"></param>
         public FHResponse(string rawResponse, FHException error)
         {
             this.rawResponse = rawResponse;
             this.error = error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="error"></param>
         public FHResponse(FHException error)
         {
             this.rawResponse = null;
@@ -41,6 +63,9 @@ namespace FHSDK.FHHttpClient
             this.error = error;
         }
 
+        /// <summary>
+        /// Get the status code of the response
+        /// </summary>
         public HttpStatusCode StatusCode
         {
             get
@@ -49,6 +74,9 @@ namespace FHSDK.FHHttpClient
             }
         }
 
+        /// <summary>
+        /// Get the raw response data
+        /// </summary>
         public string RawResponse
         {
             get
@@ -57,6 +85,9 @@ namespace FHSDK.FHHttpClient
             }
         }
 
+        /// <summary>
+        /// Get the response error. Should be null if the request is successful.
+        /// </summary>
         public FHException Error
         {
             get
@@ -65,6 +96,10 @@ namespace FHSDK.FHHttpClient
             }
         }
 
+        /// <summary>
+        /// Get the response data as JSON object
+        /// </summary>
+        /// <returns></returns>
         public JObject GetResponseAsJObject()
         {
             if (null != rawResponse)
@@ -78,6 +113,10 @@ namespace FHSDK.FHHttpClient
 
         }
 
+        /// <summary>
+        /// Get the response data as JSON array
+        /// </summary>
+        /// <returns></returns>
         public JArray GetResponseAsJArray()
         {
             if (null != rawResponse)

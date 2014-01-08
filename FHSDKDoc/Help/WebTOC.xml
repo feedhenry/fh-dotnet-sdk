@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="95667fd1-c663-475e-abbb-894328cfac6f" Title="FHSDK Namespace" Url="html/N_FHSDK.htm">
+    <HelpTOCNode Id="eafb2743-b6d7-47c7-a714-54acca13a1ba" Title="AppProps Class" Url="html/T_FHSDK_AppProps.htm">
+      <HelpTOCNode Title="AppProps Members" Url="html/AllMembers_T_FHSDK_AppProps.htm" />
+      <HelpTOCNode Title="AppProps Constructor " Url="html/M_FHSDK_AppProps__ctor.htm" />
+      <HelpTOCNode Title="AppProps Methods" Url="html/Methods_T_FHSDK_AppProps.htm" />
+      <HelpTOCNode Id="93d708b1-251a-4516-a6e0-7eee48120894" Title="AppProps Properties" Url="html/Properties_T_FHSDK_AppProps.htm">
+        <HelpTOCNode Title="appid Property " Url="html/P_FHSDK_AppProps_appid.htm" />
+        <HelpTOCNode Title="appkey Property " Url="html/P_FHSDK_AppProps_appkey.htm" />
+        <HelpTOCNode Title="host Property " Url="html/P_FHSDK_AppProps_host.htm" />
+        <HelpTOCNode Title="mode Property " Url="html/P_FHSDK_AppProps_mode.htm" />
+        <HelpTOCNode Title="projectid Property " Url="html/P_FHSDK_AppProps_projectid.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="2f88345a-488c-45d5-ba1e-25a8c8512cdc" Title="FH Class" Url="html/T_FHSDK_FH.htm">
+      <HelpTOCNode Title="FH Members" Url="html/AllMembers_T_FHSDK_FH.htm" />
+      <HelpTOCNode Title="FH Constructor " Url="html/M_FHSDK_FH__ctor.htm" />
+      <HelpTOCNode Id="34a22117-1350-4b90-a5ea-e17296a9c236" Title="FH Methods" Url="html/Methods_T_FHSDK_FH.htm">
+        <HelpTOCNode Title="Act Method " Url="html/M_FHSDK_FH_Act.htm" />
+        <HelpTOCNode Title="GetAppProps Method " Url="html/M_FHSDK_FH_GetAppProps.htm" />
+        <HelpTOCNode Title="Init Method " Url="html/M_FHSDK_FH_Init.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="f543452b-a61c-4355-9bb8-55fc348195a6" Title="FH Properties" Url="html/Properties_T_FHSDK_FH.htm">
+        <HelpTOCNode Title="SDK_VERSION Property " Url="html/P_FHSDK_FH_SDK_VERSION.htm" />
+        <HelpTOCNode Title="TimeOut Property " Url="html/P_FHSDK_FH_TimeOut.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="0990e79b-b06a-46e2-b6d4-82a5b999abb7" Title="FHSDK.FHHttpClient Namespace" Url="html/N_FHSDK_FHHttpClient.htm">
+    <HelpTOCNode Id="1e55469f-2174-4d77-964b-dd8a44a7ea61" Title="FHActRequest Class" Url="html/T_FHSDK_FHHttpClient_FHActRequest.htm">
+      <HelpTOCNode Title="FHActRequest Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHActRequest.htm" />
+      <HelpTOCNode Title="FHActRequest Constructor " Url="html/M_FHSDK_FHHttpClient_FHActRequest__ctor.htm" />
+      <HelpTOCNode Title="FHActRequest Fields" Url="html/Fields_T_FHSDK_FHHttpClient_FHActRequest.htm" />
+      <HelpTOCNode Id="5eea1373-fbad-443f-a61d-a0d945340964" Title="FHActRequest Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHActRequest.htm">
+        <HelpTOCNode Id="7d13d419-8e0c-4337-a761-53040bb1a868" Title="execAsync Method " Url="html/Overload_FHSDK_FHHttpClient_FHActRequest_execAsync.htm">
+          <HelpTOCNode Title="execAsync Method (String, IDictionary(String, Object))" Url="html/M_FHSDK_FHHttpClient_FHActRequest_execAsync.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="GetRequestParams Method " Url="html/M_FHSDK_FHHttpClient_FHActRequest_GetRequestParams.htm" />
+        <HelpTOCNode Title="GetUri Method " Url="html/M_FHSDK_FHHttpClient_FHActRequest_GetUri.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="dfc5ed86-2c09-4c62-98d4-36b857802022" Title="FHActRequest Properties" Url="html/Properties_T_FHSDK_FHHttpClient_FHActRequest.htm">
+        <HelpTOCNode Title="RemoteAct Property " Url="html/P_FHSDK_FHHttpClient_FHActRequest_RemoteAct.htm" />
+        <HelpTOCNode Title="RequestParams Property " Url="html/P_FHSDK_FHHttpClient_FHActRequest_RequestParams.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="2c59caef-6d8c-485a-9bce-b79840f807b5" Title="FHException Class" Url="html/T_FHSDK_FHHttpClient_FHException.htm">
+      <HelpTOCNode Title="FHException Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHException.htm" />
+      <HelpTOCNode Id="1ccaff35-afc8-49b8-b089-2084cfc427ae" Title="FHException Constructor " Url="html/Overload_FHSDK_FHHttpClient_FHException__ctor.htm">
+        <HelpTOCNode Title="FHException Constructor " Url="html/M_FHSDK_FHHttpClient_FHException__ctor.htm" />
+        <HelpTOCNode Title="FHException Constructor (String)" Url="html/M_FHSDK_FHHttpClient_FHException__ctor_1.htm" />
+        <HelpTOCNode Title="FHException Constructor (String, FHException.ErrorCode)" Url="html/M_FHSDK_FHHttpClient_FHException__ctor_2.htm" />
+        <HelpTOCNode Title="FHException Constructor (String, FHException.ErrorCode, Exception)" Url="html/M_FHSDK_FHHttpClient_FHException__ctor_3.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="FHException Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHException.htm" />
+      <HelpTOCNode Id="2d6fdec1-2172-43a8-ae41-e49fa9eed769" Title="FHException Properties" Url="html/Properties_T_FHSDK_FHHttpClient_FHException.htm">
+        <HelpTOCNode Title="Error Property " Url="html/P_FHSDK_FHHttpClient_FHException_Error.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Title="FHException.ErrorCode Enumeration" Url="html/T_FHSDK_FHHttpClient_FHException_ErrorCode.htm" />
+    <HelpTOCNode Id="ebf53ef2-4d2a-4c27-bb0a-83e3af813d82" Title="FHHttpClient Class" Url="html/T_FHSDK_FHHttpClient_FHHttpClient.htm">
+      <HelpTOCNode Title="FHHttpClient Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHHttpClient.htm" />
+      <HelpTOCNode Title="FHHttpClient Constructor " Url="html/M_FHSDK_FHHttpClient_FHHttpClient__ctor.htm" />
+      <HelpTOCNode Id="bb4750d8-9aa5-498b-a7b8-af31f28f2a0d" Title="FHHttpClient Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHHttpClient.htm">
+        <HelpTOCNode Title="PostAsync Method " Url="html/M_FHSDK_FHHttpClient_FHHttpClient_PostAsync.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="581fc794-ba46-4319-8f5a-d461253db029" Title="FHInitRequest Class" Url="html/T_FHSDK_FHHttpClient_FHInitRequest.htm">
+      <HelpTOCNode Title="FHInitRequest Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHInitRequest.htm" />
+      <HelpTOCNode Title="FHInitRequest Constructor " Url="html/M_FHSDK_FHHttpClient_FHInitRequest__ctor.htm" />
+      <HelpTOCNode Title="FHInitRequest Fields" Url="html/Fields_T_FHSDK_FHHttpClient_FHInitRequest.htm" />
+      <HelpTOCNode Id="2c4e59bb-2fb6-4336-b42f-b39cac00f543" Title="FHInitRequest Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHInitRequest.htm">
+        <HelpTOCNode Title="GetRequestParams Method " Url="html/M_FHSDK_FHHttpClient_FHInitRequest_GetRequestParams.htm" />
+        <HelpTOCNode Title="GetUri Method " Url="html/M_FHSDK_FHHttpClient_FHInitRequest_GetUri.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="FHInitRequest Properties" Url="html/Properties_T_FHSDK_FHHttpClient_FHInitRequest.htm" />
+    </HelpTOCNode>
+    <HelpTOCNode Id="cc2eaee7-ed27-46d4-84e0-e4d2955bad26" Title="FHRequest Class" Url="html/T_FHSDK_FHHttpClient_FHRequest.htm">
+      <HelpTOCNode Title="FHRequest Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHRequest.htm" />
+      <HelpTOCNode Title="FHRequest Constructor " Url="html/M_FHSDK_FHHttpClient_FHRequest__ctor.htm" />
+      <HelpTOCNode Id="e03b7060-cbb6-43c1-b712-66736811302b" Title="FHRequest Fields" Url="html/Fields_T_FHSDK_FHHttpClient_FHRequest.htm">
+        <HelpTOCNode Title="appProps Field" Url="html/F_FHSDK_FHHttpClient_FHRequest_appProps.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="e994ef90-04e5-4aa2-bde2-0784c0d00eec" Title="FHRequest Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHRequest.htm">
+        <HelpTOCNode Title="execAsync Method " Url="html/M_FHSDK_FHHttpClient_FHRequest_execAsync.htm" />
+        <HelpTOCNode Title="GetDefaultParams Method " Url="html/M_FHSDK_FHHttpClient_FHRequest_GetDefaultParams.htm" />
+        <HelpTOCNode Title="GetInitInfo Method " Url="html/M_FHSDK_FHHttpClient_FHRequest_GetInitInfo.htm" />
+        <HelpTOCNode Title="GetRequestParams Method " Url="html/M_FHSDK_FHHttpClient_FHRequest_GetRequestParams.htm" />
+        <HelpTOCNode Title="GetUri Method " Url="html/M_FHSDK_FHHttpClient_FHRequest_GetUri.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="7285c429-b635-4437-ad79-d1d225cd002d" Title="FHRequest Properties" Url="html/Properties_T_FHSDK_FHHttpClient_FHRequest.htm">
+        <HelpTOCNode Title="TimeOut Property " Url="html/P_FHSDK_FHHttpClient_FHRequest_TimeOut.htm" />
+        <HelpTOCNode Title="UUID Property " Url="html/P_FHSDK_FHHttpClient_FHRequest_UUID.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="a9c51558-7fb9-44e1-aaf5-349089eeaa35" Title="FHResponse Class" Url="html/T_FHSDK_FHHttpClient_FHResponse.htm">
+      <HelpTOCNode Title="FHResponse Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHResponse.htm" />
+      <HelpTOCNode Id="2516ec51-deb5-4acf-8c08-5d7149d338b8" Title="FHResponse Constructor " Url="html/Overload_FHSDK_FHHttpClient_FHResponse__ctor.htm">
+        <HelpTOCNode Title="FHResponse Constructor (FHException)" Url="html/M_FHSDK_FHHttpClient_FHResponse__ctor.htm" />
+        <HelpTOCNode Title="FHResponse Constructor (HttpStatusCode, String)" Url="html/M_FHSDK_FHHttpClient_FHResponse__ctor_1.htm" />
+        <HelpTOCNode Title="FHResponse Constructor (String, FHException)" Url="html/M_FHSDK_FHHttpClient_FHResponse__ctor_3.htm" />
+        <HelpTOCNode Title="FHResponse Constructor (HttpStatusCode, String, FHException)" Url="html/M_FHSDK_FHHttpClient_FHResponse__ctor_2.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="6980c83c-8b0e-4cee-8c70-877946c704ad" Title="FHResponse Methods" Url="html/Methods_T_FHSDK_FHHttpClient_FHResponse.htm">
+        <HelpTOCNode Title="GetResponseAsJArray Method " Url="html/M_FHSDK_FHHttpClient_FHResponse_GetResponseAsJArray.htm" />
+        <HelpTOCNode Title="GetResponseAsJObject Method " Url="html/M_FHSDK_FHHttpClient_FHResponse_GetResponseAsJObject.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="f2eb5bee-e412-4ed4-9a86-ff2046ef7cbc" Title="FHResponse Properties" Url="html/Properties_T_FHSDK_FHHttpClient_FHResponse.htm">
+        <HelpTOCNode Title="Error Property " Url="html/P_FHSDK_FHHttpClient_FHResponse_Error.htm" />
+        <HelpTOCNode Title="RawResponse Property " Url="html/P_FHSDK_FHHttpClient_FHResponse_RawResponse.htm" />
+        <HelpTOCNode Title="StatusCode Property " Url="html/P_FHSDK_FHHttpClient_FHResponse_StatusCode.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>

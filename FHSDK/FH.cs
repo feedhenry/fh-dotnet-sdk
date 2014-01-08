@@ -136,7 +136,7 @@ namespace FHSDK
         /// <example>
         /// <code>
         /// string cloudFunc = "test";
-        /// IDictionary<string, object> dict = new Dictionary<string, object>();
+        /// IDictionary&lt;string, object&gt; dict = new Dictionary&lt;string, object&gt;();
         /// dict.Add("data", "test");
         /// FHResponse response = await FH.Act(cloudFunc, dict);
         /// if(null == response.Error)
@@ -206,10 +206,25 @@ namespace FHSDK
     /// </summary>
     public class AppProps
     {
+        /// <summary>
+        /// Get or Set the app host
+        /// </summary>
         public string host { get; set; }
+        /// <summary>
+        /// Get or set the project id
+        /// </summary>
         public string projectid { get; set; }
+        /// <summary>
+        /// Get or set the appid
+        /// </summary>
         public string appid { get; set; }
+        /// <summary>
+        /// Get or set the app API key
+        /// </summary>
         public string appkey { get; set; }
+        /// <summary>
+        /// Get or set the app mode
+        /// </summary>
         public string mode { get; set; }
     }
 
