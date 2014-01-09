@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Net.Http;
 using System.Text;
+using System.Net.Http;
+using FHSDK.Services;
 
 namespace FHSDK.FHHttpClient
 {
@@ -21,10 +22,8 @@ namespace FHSDK.FHHttpClient
         /// <returns></returns>
         private static async Task<bool> IsOnlineAsync()
         {
-            return await Task.Run(() =>
-            {
-                return (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType != Microsoft.Phone.Net.NetworkInformation.NetworkInterfaceType.None);
-            });
+            INetworkService networkServiceProvider = (INetworkService) ServiceFinder.Resolve<INetworkService>();
+            return await networkServiceProvider.IsOnlineAsync();
         }
 
         /// <summary>

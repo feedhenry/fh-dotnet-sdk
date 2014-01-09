@@ -1,22 +1,13 @@
 ﻿using FHSDK.FHHttpClient;
+using FHSDK.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.IsolatedStorage;
-using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Resources;
-using System.Windows.Shapes;
 
 namespace FHSDK
 {
@@ -31,7 +22,6 @@ namespace FHSDK
         private static bool appReady = false;
         private static JObject cloudProps = null;
         private static TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
-        const string VERSION = "BUILD_VERSION";
 
 
         /// <summary>
@@ -41,7 +31,10 @@ namespace FHSDK
         {
             get
             {
-                return VERSION;
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string name = assembly.FullName;
+                AssemblyName asm = new AssemblyName(name);
+                return asm.Version.ToString();
             }
         }
 
@@ -173,11 +166,10 @@ namespace FHSDK
         /// <returns></returns>
         private static async Task<AppProps> ReadAppPropsAsync()
         {
-            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(APP_PROP_FILE, UriKind.Relative));
-            if (streamInfo != null)
+            IDeviceService deviceService = (IDeviceService) ServiceFinder.Resolve<IDeviceService>();
+            string appPropsStr = await deviceService.ReadResourceAsString(APP_PROP_FILE);
+            if (appPropsStr != null)
             {
-                StreamReader sr = new StreamReader(streamInfo.Stream);
-                string appPropsStr = await sr.ReadToEndAsync();
                 Debug.WriteLine(String.Format("appProps = {0}", appPropsStr));
                 AppProps props = JsonConvert.DeserializeObject<AppProps>(appPropsStr);
                 return props;
@@ -194,9 +186,8 @@ namespace FHSDK
         /// <param name="initInfo"></param>
         private static void SaveInitInfo(string initInfo)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            settings.Add("init", initInfo);
-            settings.Save();
+            IDeviceService deviceService = (IDeviceService)ServiceFinder.Resolve<IDeviceService>();
+            deviceService.SaveData("init", initInfo);
         }
 
     }

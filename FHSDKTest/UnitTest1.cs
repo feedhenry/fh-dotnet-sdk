@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using FHSDK;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections.Generic;
-using FHSDK.FHHttpClient;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
+using FHSDK;
+using FHSDK.FHHttpClient;
 
 namespace FHSDKTest
 {
@@ -15,6 +16,14 @@ namespace FHSDKTest
         [TestMethod]
         public async Task Read_App_Config()
         {
+            string sdkversion = FH.SDK_VERSION;
+            Debug.WriteLine("SDKversion = " + sdkversion);
+
+            Assembly appAssem = Assembly.GetExecutingAssembly();
+            AssemblyName asm = new AssemblyName(appAssem.FullName);
+            string appversion = asm.Version.ToString();
+            Debug.WriteLine("appversion = " + appversion);
+
             AppProps appProps = await FH.GetAppProps();
             Assert.AreEqual("testAppid", appProps.appid, "AppId not match");
             Assert.AreEqual("testKey", appProps.appkey, "AppKey not match");

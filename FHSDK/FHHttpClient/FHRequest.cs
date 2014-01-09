@@ -1,9 +1,8 @@
-﻿using Microsoft.Phone.Info;
+﻿using FHSDK.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +15,7 @@ namespace FHSDK.FHHttpClient
     public abstract class FHRequest
     {
         const double DEFAULT_TIMEOUT = 30*1000;
+        private IDeviceService deviceServiceProvider = null;
 
         /// <summary>
         /// The app configurations
@@ -30,6 +30,7 @@ namespace FHSDK.FHHttpClient
         public FHRequest(AppProps appProps)
         {
             this.appProps = appProps;
+            this.deviceServiceProvider = (IDeviceService)ServiceFinder.Resolve<IDeviceService>();
         }
 
         /// <summary>
@@ -89,9 +90,7 @@ namespace FHSDK.FHHttpClient
         /// <returns></returns>
         protected JObject GetInitInfo()
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            string initValue;
-            settings.TryGetValue<string>("init", out initValue);
+            string initValue = this.deviceServiceProvider.GetData("init");
             JObject initInfo = null;
             if (null != initValue)
             {
@@ -110,21 +109,7 @@ namespace FHSDK.FHHttpClient
         {
             get
             {
-                string retVal = "";
-                object uuid;
-                UserExtendedProperties.TryGetValue("ANID2", out uuid);
-                if (null != uuid)
-                {
-                    retVal = uuid.ToString().Substring(2, 32);
-                }
-                else
-                {
-                    DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uuid);
-                    if (null != uuid)
-                    {
-                        retVal = Convert.ToBase64String((byte[])uuid);
-                    }
-                }
+                string retVal = this.deviceServiceProvider.GetDeviceId();
                 return retVal;
             }
         }
