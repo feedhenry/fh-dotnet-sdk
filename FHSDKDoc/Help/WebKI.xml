@@ -162,8 +162,19 @@
     <HelpKINode Title="FHResponse Class" Url="html/T_FHSDK_FHHttpClient_FHResponse.htm" />
     <HelpKINode Title="FHResponse Members" Url="html/AllMembers_T_FHSDK_FHHttpClient_FHResponse.htm" />
   </HelpKINode>
+  <HelpKINode Title="FHSDK.Services namespace" Url="html/N_FHSDK_Services.htm" />
+  <HelpKINode Title="FHSDK.Services.IDeviceService interface">
+    <HelpKINode Title="IDeviceService Interface" Url="html/T_FHSDK_Services_IDeviceService.htm" />
+    <HelpKINode Title="IDeviceService Members" Url="html/AllMembers_T_FHSDK_Services_IDeviceService.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FHSDK.Services.INetworkService interface">
+    <HelpKINode Title="INetworkService Interface" Url="html/T_FHSDK_Services_INetworkService.htm" />
+    <HelpKINode Title="INetworkService Members" Url="html/AllMembers_T_FHSDK_Services_INetworkService.htm" />
+  </HelpKINode>
   <HelpKINode Title="GetAppProps method" Url="html/M_FHSDK_FH_GetAppProps.htm" />
+  <HelpKINode Title="GetData method" Url="html/M_FHSDK_Services_IDeviceService_GetData.htm" />
   <HelpKINode Title="GetDefaultParams method" Url="html/M_FHSDK_FHHttpClient_FHRequest_GetDefaultParams.htm" />
+  <HelpKINode Title="GetDeviceId method" Url="html/M_FHSDK_Services_IDeviceService_GetDeviceId.htm" />
   <HelpKINode Title="GetInitInfo method" Url="html/M_FHSDK_FHHttpClient_FHRequest_GetInitInfo.htm" />
   <HelpKINode Title="GetRequestParams method">
     <HelpKINode Title="FHActRequest.GetRequestParams Method " Url="html/M_FHSDK_FHHttpClient_FHActRequest_GetRequestParams.htm" />
@@ -179,14 +190,36 @@
   </HelpKINode>
   <HelpKINode Title="host property" Url="html/P_FHSDK_AppProps_host.htm" />
   <HelpKINode Title="HttpError enumeration member" Url="html/T_FHSDK_FHHttpClient_FHException_ErrorCode.htm" />
+  <HelpKINode Title="IDeviceService interface">
+    <HelpKINode Title="IDeviceService Interface" Url="html/T_FHSDK_Services_IDeviceService.htm" />
+    <HelpKINode Title="IDeviceService Members" Url="html/AllMembers_T_FHSDK_Services_IDeviceService.htm" />
+    <HelpKINode Title="about IDeviceService interface" Url="html/T_FHSDK_Services_IDeviceService.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_FHSDK_Services_IDeviceService.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_FHSDK_Services_IDeviceService.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDeviceService.GetData method" Url="html/M_FHSDK_Services_IDeviceService_GetData.htm" />
+  <HelpKINode Title="IDeviceService.GetDeviceId method" Url="html/M_FHSDK_Services_IDeviceService_GetDeviceId.htm" />
+  <HelpKINode Title="IDeviceService.ReadResourceAsString method" Url="html/M_FHSDK_Services_IDeviceService_ReadResourceAsString.htm" />
+  <HelpKINode Title="IDeviceService.SaveData method" Url="html/M_FHSDK_Services_IDeviceService_SaveData.htm" />
+  <HelpKINode Title="INetworkService interface">
+    <HelpKINode Title="INetworkService Interface" Url="html/T_FHSDK_Services_INetworkService.htm" />
+    <HelpKINode Title="INetworkService Members" Url="html/AllMembers_T_FHSDK_Services_INetworkService.htm" />
+    <HelpKINode Title="about INetworkService interface" Url="html/T_FHSDK_Services_INetworkService.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_FHSDK_Services_INetworkService.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_FHSDK_Services_INetworkService.htm" />
+  </HelpKINode>
+  <HelpKINode Title="INetworkService.IsOnlineAsync method" Url="html/M_FHSDK_Services_INetworkService_IsOnlineAsync.htm" />
   <HelpKINode Title="Init method" Url="html/M_FHSDK_FH_Init.htm" />
+  <HelpKINode Title="IsOnlineAsync method" Url="html/M_FHSDK_Services_INetworkService_IsOnlineAsync.htm" />
   <HelpKINode Title="mode property" Url="html/P_FHSDK_AppProps_mode.htm" />
   <HelpKINode Title="NetworkError enumeration member" Url="html/T_FHSDK_FHHttpClient_FHException_ErrorCode.htm" />
   <HelpKINode Title="PostAsync method" Url="html/M_FHSDK_FHHttpClient_FHHttpClient_PostAsync.htm" />
   <HelpKINode Title="projectid property" Url="html/P_FHSDK_AppProps_projectid.htm" />
   <HelpKINode Title="RawResponse property" Url="html/P_FHSDK_FHHttpClient_FHResponse_RawResponse.htm" />
+  <HelpKINode Title="ReadResourceAsString method" Url="html/M_FHSDK_Services_IDeviceService_ReadResourceAsString.htm" />
   <HelpKINode Title="RemoteAct property" Url="html/P_FHSDK_FHHttpClient_FHActRequest_RemoteAct.htm" />
   <HelpKINode Title="RequestParams property" Url="html/P_FHSDK_FHHttpClient_FHActRequest_RequestParams.htm" />
+  <HelpKINode Title="SaveData method" Url="html/M_FHSDK_Services_IDeviceService_SaveData.htm" />
   <HelpKINode Title="SDK_VERSION property" Url="html/P_FHSDK_FH_SDK_VERSION.htm" />
   <HelpKINode Title="ServerError enumeration member" Url="html/T_FHSDK_FHHttpClient_FHException_ErrorCode.htm" />
   <HelpKINode Title="StatusCode property" Url="html/P_FHSDK_FHHttpClient_FHResponse_StatusCode.htm" />

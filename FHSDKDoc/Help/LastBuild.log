@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder" version="1.9.8.0" projectFile="C:\FHSDK\FHSDK\FHSDKDoc\FHSDKDoc.shfbproj" started="08/01/2014 17:00:48">
+<shfbBuild product="Sandcastle Help File Builder" version="1.9.8.0" projectFile="C:\FHSDK\FHSDK\FHSDKDoc\FHSDKDoc.shfbproj" started="10/01/2014 09:52:59">
 <buildStep step="Initializing">
 Finding tools...
 Found Sandcastle tools in &#39;C:\Program Files (x86)\Sandcastle\&#39;
@@ -8,16 +8,16 @@ Found HTML Help 1 compiler in &#39;C:\Program Files (x86)\HTML Help Workshop\&#3
 </buildStep>
 <buildStep step="ValidatingDocumentationSources">
 Validating and copying documentation source information
-Source: C:\FHSDK\FHSDK\FHSDK\Bin\ARM\Debug\FHSDK.XML
-Source: C:\FHSDK\FHSDK\FHSDK\Bin\ARM\Debug\FHSDK.dll
-    Found assembly &#39;C:\FHSDK\FHSDK\FHSDK\Bin\ARM\Debug\FHSDK.dll&#39;
+Source: C:\FHSDK\FHSDK\FHSDK\bin\Release\FHSDK.XML
+Source: C:\FHSDK\FHSDK\FHSDK\bin\Release\FHSDK.dll
+    Found assembly &#39;C:\FHSDK\FHSDK\FHSDK\bin\Release\FHSDK.dll&#39;
 
 Copying XML comments files
-    C:\FHSDK\FHSDK\FHSDK\Bin\ARM\Debug\FHSDK.XML -&gt; C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\FHSDK.XML
+    C:\FHSDK\FHSDK\FHSDK\bin\Release\FHSDK.XML -&gt; C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\FHSDK.XML
 </buildStep>
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
-    Last step completed in 00:00:00.0626
+    Last step completed in 00:00:00.1564
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
@@ -30,23 +30,23 @@ Generating reflection information...
   Copyright &#184; 2006-2013, Microsoft Corporation, All Rights Reserved.
   Portions Copyright &#184; 2006-2013, Eric Woodruff, All Rights Reserved.
   Info: Loaded 1 assemblies for reflection and 0 dependency assemblies.
-  Info: Wrote information on 2 namespaces, 9 types, and 50 members
+  Info: Wrote information on 3 namespaces, 11 types, and 55 members
   XslTransform (v2.7.4.0)
   Copyright &#184; 2006-2013, Microsoft Corporation, All Rights Reserved.
   Portions Copyright &#184; 2006-2013, Eric Woodruff, All Rights Reserved.
   Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\ProductionTransforms\MergeDuplicates.xsl&#39;.
-    Last step completed in 00:00:01.1962
+    Last step completed in 00:00:07.4438
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0009
+    Last step completed in 00:00:00.0000
 </buildStep>
 <buildStep step="ApplyVisibilityProperties">
 Applying visibility properties to reflection information file
     0 attribute nodes removed
     0 explicit interface implementations removed
     0 local and base class EII elements removed
-    Last step completed in 00:00:00.2120
+    Last step completed in 00:00:00.2030
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
@@ -310,12 +310,12 @@ C:\Program Files (x86)\Sandcastle\\Presentation\VS2010\branding -&gt; C:\FHSDK\F
     C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-instrumentedLink.xslt -> C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\branding\ps-instrumentedLink.xslt
     C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-languageSpecificText.xslt -> C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\branding\ps-languageSpecificText.xslt
     C:\Program Files (x86)\Sandcastle\Presentation\VS2010\branding\ps-codesnippet.xslt -> C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\branding\ps-codesnippet.xslt
-    Last step completed in 00:00:01.4835
+    Last step completed in 00:00:05.1912
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
 No additional content to copy
-    Last step completed in 00:00:00.0000
+    Last step completed in 00:00:00.0147
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
@@ -329,18 +329,18 @@ Generating intermediate table of contents file...
   Portions Copyright &#184; 2006-2013, Eric Woodruff, All Rights Reserved.
   Info: Applying XSL transformation &#39;C:\Program Files (x86)\Sandcastle\\ProductionTransforms\CreateVSToc.xsl&#39;.
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.2756
+    Last step completed in 00:00:00.3127
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.3440
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
 C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\sandcastle.config
     Replacing default configuration for &#39;Code Block Component&#39; with the custom configuration
-    Last step completed in 00:00:00.1356
+    Last step completed in 00:00:00.2346
 </buildStep>
 <buildStep step="BuildReferenceTopics">
 Building reference help topics...
@@ -399,17 +399,33 @@ Building reference help topics...
   Warn: ResolveReferenceLinksComponent2: [M:FHSDK.FHHttpClient.FHResponse.GetResponseAsJObject] Unknown reference link target &#39;T:Newtonsoft.Json.Linq.JObject&#39;.
   Warn: ResolveReferenceLinksComponent2: [M:FHSDK.FHHttpClient.FHResponse.GetResponseAsJObject] Unknown reference link target &#39;T:Newtonsoft.Json.Linq.JObject&#39;.
   Warn: ResolveReferenceLinksComponent2: [M:FHSDK.FHHttpClient.FHResponse.GetResponseAsJObject] Unknown reference link target &#39;T:Newtonsoft.Json.Linq.JObject&#39;.
-  Info: Processed 86 topic(s)
-  Info: 49 warning(s)
+  Warn: ShowMissingComponent: [N:FHSDK.Services] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [T:FHSDK.Services.IDeviceService] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.GetData(System.String)] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.GetData(System.String)] Missing &lt;returns&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.GetData(System.String)] Missing &lt;param name=&quot;dataId&quot;/&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.GetDeviceId] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.GetDeviceId] Missing &lt;returns&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.ReadResourceAsString(System.String)] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.ReadResourceAsString(System.String)] Missing &lt;returns&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.ReadResourceAsString(System.String)] Missing &lt;param name=&quot;resourceName&quot;/&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.SaveData(System.String,System.String)] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.SaveData(System.String,System.String)] Missing &lt;param name=&quot;dataId&quot;/&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.IDeviceService.SaveData(System.String,System.String)] Missing &lt;param name=&quot;dataValue&quot;/&gt; documentation
+  Warn: ShowMissingComponent: [T:FHSDK.Services.INetworkService] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.INetworkService.IsOnlineAsync] Missing &lt;summary&gt; documentation
+  Warn: ShowMissingComponent: [M:FHSDK.Services.INetworkService.IsOnlineAsync] Missing &lt;returns&gt; documentation
+  Info: Processed 98 topic(s)
+  Info: 65 warning(s)
   Diagnostic: CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 5 of 15.
   Diagnostic: CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 2 of 30.
-    Last step completed in 00:00:13.0775
+    Last step completed in 00:00:20.1713
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
 
 Clearing any prior web output
-    Last step completed in 00:00:00.3880
+    Last step completed in 00:00:00.0000
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
@@ -421,17 +437,17 @@ E-Mail: Eric@EWoodruff.us
 Using LCID &#39;1033&#39;, code page &#39;65001&#39;, encoding charset &#39;UTF-8&#39;.
 
 Processing Help 1 files in C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\HtmlHelp1
-Processed 86 HTML files
+Processed 98 HTML files
 Sorting keywords and generating See Also indices
 Saving HTML Help 1 keyword index to C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\FHSDK API.hhk
 Saving HTML Help 1 table of contents to C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\FHSDK API.hhc
 
 Processing website files in C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\Website
-Processed 86 HTML files
+Processed 98 HTML files
 Sorting keywords and generating See Also indices
 Saving website keyword index to C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\WebKI.xml
 Saving website table of contents to C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\WebTOC.xml
-    Last step completed in 00:00:00.3737
+    Last step completed in 00:00:01.4694
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -603,7 +619,7 @@ C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\SyncTOC.gif 
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\TOC.css -&gt; C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\Website\.\TOC.css
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\TOC.js -&gt; C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\Website\.\TOC.js
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\\Web\Web.Config -&gt; C:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\Website\.\Web.Config
-    Last step completed in 00:00:00.4530
+    Last step completed in 00:00:05.0198
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContents">
 Generating HTML Help 1 table of contents file...
@@ -615,7 +631,7 @@ Generating HTML Help 1 index file...
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1 project file...
-    Last step completed in 00:00:00.0023
+    Last step completed in 00:00:00.0143
 </buildStep>
 <buildStep step="CompilingHelpFile">
 Compiling HTML Help 1 file...
@@ -630,13 +646,13 @@ Compiling HTML Help 1 file...
   
   
   
-  Compile time: 0 minutes, 0 seconds
+  Compile time: 0 minutes, 1 second
   
-  88	Topics
+  100	Topics
   
-  993	Local links
+  1,117	Local links
   
-  375	Internet links
+  385	Internet links
   
   0	Graphics
   
@@ -644,11 +660,11 @@ Compiling HTML Help 1 file...
   
   
   
-  Created c:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\HtmlHelp1\FHSDK API.chm, 124,661 bytes
+  Created c:\FHSDK\FHSDK\FHSDKDoc\Help\Working\Output\HtmlHelp1\FHSDK API.chm, 135,617 bytes
   
-  Compression decreased file by 786,039 bytes.
+  Compression decreased file by 871,125 bytes.
   
-    Last step completed in 00:00:03.5650
+    Last step completed in 00:00:03.4400
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContents">
 Generating website table of contents file...
@@ -657,23 +673,23 @@ Generating website table of contents file...
 <buildStep step="GenerateFullTextIndex">
 Generating full-text index for the website...
 
-    Last step completed in 00:00:00.2225
+    Last step completed in 00:00:00.5161
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
 
 Copied 100 files
 Copied 200 files
-Copied 207 files for the website content
-    Last step completed in 00:00:00.1129
+Copied 219 files for the website content
+    Last step completed in 00:00:00.5158
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.2843
+    Last step completed in 00:00:03.0346
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 01/08/2014 05:01 pm.  Total time: 00:00:22.0348
+Build completed successfully at 01/10/2014 09:53 am.  Total time: 00:00:48.3004
 
 </buildStep>
 </shfbBuild>
