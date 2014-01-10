@@ -151,13 +151,36 @@ namespace FHSDK
         /// <exception cref="InvalidOperationException"> It will be thrown if FH SDK is not ready.</exception>
         public static async Task<FHResponse> Act(string remoteAct, IDictionary<string, object> actParams)
         {
+            RequireAppReady();
+            FHActRequest actRequest = new FHActRequest(appProps, cloudProps);
+            actRequest.TimeOut = timeout;
+            return await actRequest.execAsync(remoteAct, actParams);
+        }
+
+        public static async Task<FHResponse> Auth(string policyId)
+        {
+            RequireAppReady();
+            FHAuthRequest authRequest = new FHAuthRequest(appProps);
+            authRequest.TimeOut = timeout;
+            authRequest.SetAuthPolicyId(policyId);
+            return await authRequest.execAsync();
+        }
+
+        public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
+        {
+            RequireAppReady();
+            FHAuthRequest authRequest = new FHAuthRequest(appProps);
+            authRequest.TimeOut = timeout;
+            authRequest.SetAuthUser(policyId, userName, userPassword);
+            return await authRequest.execAsync();
+        }
+
+        private static void RequireAppReady()
+        {
             if (!appReady)
             {
                 throw new InvalidOperationException("FH is not ready. Have you called FH.Init?");
             }
-            FHActRequest actRequest = new FHActRequest(appProps, cloudProps);
-            actRequest.TimeOut = timeout;
-            return await actRequest.execAsync(remoteAct, actParams);
         }
 
         /// <summary>

@@ -88,6 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeviceService.cs" />
     <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\OAuthClientHandlerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FHSDK\FHSDK.csproj">

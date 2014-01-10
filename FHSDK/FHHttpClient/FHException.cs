@@ -31,7 +31,15 @@ namespace FHSDK.FHHttpClient
             /// <summary>
             /// This error code means the server returns error 
             /// </summary>
-            ServerError = 3
+            ServerError = 3,
+            /// <summary>
+            /// This error code means authentication failed
+            /// </summary>
+            AuthenticationError = 4,
+            /// <summary>
+            /// User cancelled
+            /// </summary>
+            Cancelled = 5
 
         }
 
