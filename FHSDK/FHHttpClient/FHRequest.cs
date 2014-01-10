@@ -134,7 +134,7 @@ namespace FHSDK.FHHttpClient
     /// </summary>
     public class FHInitRequest : FHRequest
     {
-        const string INIT_PATH = "app/init";
+        const string INIT_PATH = "box/srv/1.1/app/init";
         
         /// <summary>
         /// Constructor
@@ -257,7 +257,7 @@ namespace FHSDK.FHHttpClient
 
     public class FHAuthRequest : FHRequest
     {
-        const string AUTH_PATH = "admin/authpolicy/auth";
+        const string AUTH_PATH = "box/srv/1.1/admin/authpolicy/auth";
         private string authPolicyId;
         private string authUserName;
         private string authUserPass;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Net.Http;
 using FHSDK.Services;
+using System.Diagnostics;
 
 namespace FHSDK.FHHttpClient
 {
@@ -46,6 +47,7 @@ namespace FHSDK.FHHttpClient
             HttpClient httpClient = new HttpClient();
             try
             {
+                Debug.WriteLine("Send request to " + uri);
                 System.Uri requestUri = new Uri(uri);
                 httpClient.DefaultRequestHeaders.Add("User-Agent", "FHSDK/WindowsPhone");
                 httpClient.MaxResponseContentBufferSize = BUFFER_SIZE;

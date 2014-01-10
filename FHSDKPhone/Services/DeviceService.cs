@@ -40,7 +40,11 @@ namespace FHSDK.Services
         public void SaveData(string dataId, string dataValue)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            settings.Add(dataId, dataValue);
+            if (!settings.Contains(dataId))
+            {
+                settings.Add(dataId, dataValue);
+            }
+            
             settings.Save();
         }
 

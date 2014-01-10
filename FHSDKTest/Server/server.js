@@ -33,7 +33,7 @@ var initResponse = {
 
 app.use(express.bodyParser({}));
 
-app.post('/app/init', function(req, res){
+app.post('/box/srv/1.1//app/init', function(req, res){
 	res.send(JSON.stringify(initResponse));
 });
 
