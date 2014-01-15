@@ -310,13 +310,13 @@ namespace FHSDK.FHHttpClient
             data.Add("policyId", this.authPolicyId);
             data.Add("device", this.UUID);
             data.Add("clientToken", this.appProps.appid);
+            Dictionary<string, string> userParams = new Dictionary<string, string>();
             if (null != this.authUserName && null != this.authUserPass)
             {
-                Dictionary<string, string> userParams = new Dictionary<string, string>();
                 userParams.Add("userId", this.authUserName);
                 userParams.Add("password", this.authUserPass);
-                data.Add("params", userParams);
             }
+            data.Add("params", userParams);
             IDictionary<string, object> defaultParams = GetDefaultParams();
             data["__fh"] = defaultParams;
             return data;
@@ -353,7 +353,7 @@ namespace FHSDK.FHHttpClient
                             }
                             else if (oauthLoginResult.Result == OAuthResult.ResultCode.FAILED)
                             {
-                                authRes = new FHResponse(null, new FHException("Authentication Failed", FHException.ErrorCode.AuthenticationError, oauthLoginResult.Error));
+                                authRes = new FHResponse(null, new FHException("Authentication Failed. Message = " + oauthLoginResult.Error.Message, FHException.ErrorCode.AuthenticationError, oauthLoginResult.Error));
                             }
                             else if (oauthLoginResult.Result == OAuthResult.ResultCode.CANCELLED)
                             {
@@ -368,7 +368,8 @@ namespace FHSDK.FHHttpClient
                     }
                     else
                     {
-                        return fhres;
+                        FHResponse authRes = new FHResponse(HttpStatusCode.BadRequest, fhres.RawResponse, new FHException("Authentication Failed", FHException.ErrorCode.AuthenticationError));
+                        return authRes;
                     }
                 }
                 else

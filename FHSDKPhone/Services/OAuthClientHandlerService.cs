@@ -122,7 +122,9 @@ namespace FHSDK.Services
                 }
                 else
                 {
-                    OAuthResult oauthResult = new OAuthResult(OAuthResult.ResultCode.FAILED);
+                    string errorMessage = null;
+                    queryMap.TryGetValue("message", out errorMessage);
+                    OAuthResult oauthResult = new OAuthResult(OAuthResult.ResultCode.FAILED, new Exception(errorMessage));
                     tcs.TrySetResult(oauthResult);
                 }
             }

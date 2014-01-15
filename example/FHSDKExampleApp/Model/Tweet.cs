@@ -1,20 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FHSDKExampleApp.ViewModels
+namespace FHSDKExampleApp.Model
 {
-    public class TweetViewModel : INotifyPropertyChanged
+    public class Tweet : INotifyPropertyChanged
     {
         private string _content;
 
-        public TweetViewModel(string content)
+        public Tweet(string content)
         {
             _content = content;
         }

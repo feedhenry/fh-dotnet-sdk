@@ -11,41 +11,41 @@ using FHSDKExampleApp.Resources;
 using FHSDK;
 using System.Threading.Tasks;
 using FHSDK.FHHttpClient;
+using System.Diagnostics;
+using FHSDKExampleApp.ViewModels;
 
 namespace FHSDKExampleApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private TweetsViewModel tvm;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
-            AppReady();
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+            tvm = new TweetsViewModel();
         }
 
-        private async Task AppReady()
+        // Load data for the ViewModel Items
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+            ActView.DataContext = tvm;
             try
             {
                 await FH.Init();
             }
-            catch (FHException e)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error occured when init app");
+                MessageBox.Show("FH init failed");
             }
-            if (!App.ViewModel.IsDataLoaded)
+            if (!tvm.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                await tvm.LoadData();
             }
-        }
-
-        // Load data for the ViewModel Items
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
         }
 
         // Sample code for building a localized ApplicationBar

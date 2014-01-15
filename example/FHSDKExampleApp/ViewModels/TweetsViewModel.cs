@@ -7,20 +7,21 @@ using FHSDK.FHHttpClient;
 using FHSDK;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using FHSDKExampleApp.Model;
 
 namespace FHSDKExampleApp.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class TweetsViewModel : INotifyPropertyChanged
     {
-        public MainViewModel()
+        public TweetsViewModel()
         {
-            this.Items = new ObservableCollection<TweetViewModel>();
+            this.Items = new ObservableCollection<Tweet>();
         }
 
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<TweetViewModel> Items { get; private set; }
+        public ObservableCollection<Tweet> Items { get; private set; }
 
         public bool IsDataLoaded
         {
@@ -39,7 +40,7 @@ namespace FHSDKExampleApp.ViewModels
             for (int i = 0; i < tweetsArr.Count; i++)
             {
                 string content = (string) tweetsArr[i]["text"];
-                this.Items.Add(new TweetViewModel(content));
+                this.Items.Add(new Tweet(content));
             }
 
             this.IsDataLoaded = true;
