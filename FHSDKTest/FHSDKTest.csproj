@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="fh.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="ReadMe.md" />
     <None Include="Server\server.js" />
