@@ -16,7 +16,7 @@ namespace FHSDK
     /// </summary>
     public class FH
     {
-        const string APP_PROP_FILE = "fh.config";
+        const string APP_PROP_FILE = "fhconfig.json";
         const double DEFAULT_TIMEOUT = 30 * 1000;
         private static AppProps appProps;
         private static bool appReady = false;
