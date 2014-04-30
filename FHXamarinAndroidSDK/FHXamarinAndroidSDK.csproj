@@ -46,10 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="FH.cs" />
+    <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Device\DeviceService.cs" />
+    <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Network\NetworkService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -63,5 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Services\Data\" />
+    <Folder Include="Services\Device\" />
+    <Folder Include="Services\Log\" />
+    <Folder Include="Services\Network\" />
   </ItemGroup>
 </Project>

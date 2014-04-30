@@ -1,0 +1,40 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/FHHttpClient/FHHttpClient.cs">
+    <Files>
+      <File FileName="FHXamarinAndroidSDK/Services/Network/NetworkService.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/FH.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/packages.config" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="27" Column="49" />
+      <File FileName="FHSDK/Services/ServiceFinder.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/app.config" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHRequest.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/packages.config" Line="1" Column="1" />
+      <File FileName="tests/XamarinAndroidExample/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Data/DataService.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Device/DeviceService.cs" Line="1" Column="1" />
+      <File FileName="tests/XamarinAndroidExample/Assets/fhconfig.properties" Line="1" Column="1" />
+      <File FileName="FHSDK/Services/Log/LogServiceBase.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Log/LogService.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Services/Log/ILogService.cs" Line="1" Column="1" />
+      <File FileName="tests/XamarinAndroidExample/Properties/AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="FHSDK/FHBase.cs" Line="1" Column="1" />
+      <File FileName="tests/XamarinAndroidExample/Assets/AboutAssets.txt" Line="1" Column="1" />
+      <File FileName="FHSDK/Services/Data/DataServiceBase.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Adaptation/IAdapterResolver.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Adaptation/ProbingAdapterResolver.cs" Line="100" Column="76" />
+      <File FileName="FHSDK/Services/Network/INetworkService.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHException.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHRequest.cs" line="300" column="1" />
+      <Breakpoint hitAction="PrintExpression" traceExpression="{appProps}" file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHXamarinAndroidSDK/Services/Device/DeviceService.cs" line="38" column="1" />
+      <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHHttpClient.cs" line="50" column="1" />
+      <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHHttpClient.cs" line="68" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.XamarinAndroidExample AndroidDeviceId-Debug="4df7374a04c03053" />
+</Properties>

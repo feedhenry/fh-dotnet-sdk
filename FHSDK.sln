@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHXamarinIOSSDK", "FHXamari
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHXamarinAndroidSDK", "FHXamarinAndroidSDK\FHXamarinAndroidSDK.csproj", "{46E20803-ED70-4605-A132-AC86D6BBCF52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinAndroidExample", "tests\XamarinAndroidExample\XamarinAndroidExample.csproj", "{C349DD93-4455-41DB-94F1-E0AE1D8620F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,22 @@ Global
 		{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}.Release|x86.ActiveCfg = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|ARM.Build.0 = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{C349DD93-4455-41DB-94F1-E0AE1D8620F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FHSDKTest\FHSDKTest.csproj

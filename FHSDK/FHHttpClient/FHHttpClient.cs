@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
-using System.Net.Http;
 using FHSDK.Services;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net;
+using System.Diagnostics.Contracts;
 
 namespace FHSDK.FHHttpClient
 {
+
     /// <summary>
     /// HttpClient used by the SDK
     /// </summary>
@@ -16,6 +19,7 @@ namespace FHSDK.FHHttpClient
     {
 
         const int BUFFER_SIZE = 10*1024;
+		const string LOG_TAG = "FHHttpClient";
 
         /// <summary>
         /// Check if the device is online
@@ -27,6 +31,29 @@ namespace FHSDK.FHHttpClient
             return await networkServiceProvider.IsOnlineAsync();
         }
 
+		private static Uri BuildUri(Uri uri, string requestMethod, IDictionary<string, object> requestData)
+		{
+			if (!"POST".Equals (requestMethod.ToUpper ()) && !"PUT".Equals (requestMethod.ToUpper ())) {
+				if (null != requestData) {
+					UriBuilder ub = new UriBuilder (uri);
+					List<string> qs = new List<string> ();
+					foreach (var item in requestData) {
+						qs.Add (String.Format ("{0}={1}", item.Key, JsonConvert.SerializeObject (item.Value)));
+					}
+					string query = String.Join (",", qs.ToArray ());
+					string existingQuery = ub.Query;
+					if (null != existingQuery && existingQuery.Length > 1) {
+						ub.Query = existingQuery.Substring (1) + "&" + query;
+					} else {
+						ub.Query = query;
+					}
+					return ub.Uri;
+				}
+				return uri;
+			}
+			return uri;
+		}
+
         /// <summary>
         /// Post request to the remote uri
         /// </summary>
@@ -34,8 +61,9 @@ namespace FHSDK.FHHttpClient
         /// <param name="requestData">The request data</param>
         /// <param name="timeout">Timeout in milliseconds</param>
         /// <returns>Server response</returns>
-        public static async Task<FHResponse> PostAsync(string uri, IDictionary<string, object> requestData, TimeSpan timeout)
+		public static async Task<FHResponse> SendAsync(HttpClientHandler handler, Uri uri, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestData, TimeSpan timeout)
         {
+			ILogService logger = ServiceFinder.Resolve<ILogService> ();
             bool online = await IsOnlineAsync();
             FHResponse fhres = null;
             if (!online)
@@ -44,27 +72,40 @@ namespace FHSDK.FHHttpClient
                 fhres = new FHResponse(exception);
                 return fhres;
             }
-            HttpClient httpClient = new HttpClient();
+			Contract.Assert (null != uri, "No request uri defined");
+			Contract.Assert (null != requestMethod, "No http request method defined");
+            HttpClient httpClient;
+			if (null != handler) {
+				httpClient = new HttpClient (handler);
+			} else {
+				httpClient = new HttpClient ();
+			}
+
             try
             {
-                Debug.WriteLine("Send request to " + uri);
-                System.Uri requestUri = new Uri(uri);
-                httpClient.DefaultRequestHeaders.Add("User-Agent", "FHSDK/WindowsPhone");
+				logger.d(LOG_TAG, "Send request to " + uri, null);
+				httpClient.DefaultRequestHeaders.Add("User-Agent", "FHSDK/DOTNET");
                 httpClient.MaxResponseContentBufferSize = BUFFER_SIZE;
-                httpClient.Timeout = timeout;
+				httpClient.Timeout = timeout;
+                
 
-                HttpContent requestContent = new StringContent("", Encoding.UTF8, "application/json");
-                if (null != requestData)
-                {
-                    string requestDataStr = JsonConvert.SerializeObject(requestData);
-                    if (null != requestDataStr)
-                    {
-                        requestContent = new StringContent(requestDataStr, Encoding.UTF8, "application/json");
-                    }
-                }
+				HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod(requestMethod), BuildUri(uri, requestMethod, requestData));
+				if(null != headers){
+					foreach (var item in headers) {
+						requestMessage.Headers.Add(item.Key, item.Value);
+					}
+				}
 
-                HttpResponseMessage responseMessage = await httpClient.PostAsync(requestUri, requestContent);
+				if("POST".Equals(requestMethod.ToUpper()) || "PUT".Equals(requestMethod.ToUpper())){
+					if(null != requestData){
+						string requestDataStr = JsonConvert.SerializeObject(requestData);
+						requestMessage.Content = new StringContent(requestDataStr, Encoding.UTF8, "application/json");
+					}
+				}
+
+				HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
                 string responseStr = await responseMessage.Content.ReadAsStringAsync();
+				logger.d(LOG_TAG, "Response string is " + responseStr, null);
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     fhres = new FHResponse(responseMessage.StatusCode, responseStr);
@@ -77,11 +118,13 @@ namespace FHSDK.FHHttpClient
             }
             catch (HttpRequestException he)
             {
+				logger.e (LOG_TAG, "HttpRequestException", he);
                 FHException fhexception = new FHException("HttpError", FHException.ErrorCode.HttpError, he);
                 fhres = new FHResponse(fhexception);
             }
             catch (Exception e)
             {
+				logger.e (LOG_TAG, "Exception", e);
                 FHException fhexception = new FHException("UnknownError", FHException.ErrorCode.UnknownError, e);
                 fhres = new FHResponse(fhexception);
             }
