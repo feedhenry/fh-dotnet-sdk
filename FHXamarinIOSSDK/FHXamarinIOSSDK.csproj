@@ -39,6 +39,11 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
+    <Folder Include="Services\Device\" />
+    <Folder Include="Services\Data\" />
+    <Folder Include="Services\Log\" />
+    <Folder Include="Services\Network\" />
+    <Folder Include="Services\Auth\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -48,6 +53,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="FH.cs" />
+    <Compile Include="Services\Device\DeviceService.cs" />
+    <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Network\Reachability.cs" />
+    <Compile Include="Services\Network\NetworkService.cs" />
+    <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
+    <Compile Include="Services\Auth\FHOAuthViewController.cs" />
   </ItemGroup>
 </Project>

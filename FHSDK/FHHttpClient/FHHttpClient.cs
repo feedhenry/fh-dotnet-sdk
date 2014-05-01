@@ -61,7 +61,7 @@ namespace FHSDK.FHHttpClient
         /// <param name="requestData">The request data</param>
         /// <param name="timeout">Timeout in milliseconds</param>
         /// <returns>Server response</returns>
-		public static async Task<FHResponse> SendAsync(HttpClientHandler handler, Uri uri, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestData, TimeSpan timeout)
+		public static async Task<FHResponse> SendAsync(Uri uri, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestData, TimeSpan timeout)
         {
 			ILogService logger = ServiceFinder.Resolve<ILogService> ();
             bool online = await IsOnlineAsync();
@@ -74,12 +74,7 @@ namespace FHSDK.FHHttpClient
             }
 			Contract.Assert (null != uri, "No request uri defined");
 			Contract.Assert (null != requestMethod, "No http request method defined");
-            HttpClient httpClient;
-			if (null != handler) {
-				httpClient = new HttpClient (handler);
-			} else {
-				httpClient = new HttpClient ();
-			}
+			HttpClient httpClient = HttpClientFactory.Get ();
 
             try
             {

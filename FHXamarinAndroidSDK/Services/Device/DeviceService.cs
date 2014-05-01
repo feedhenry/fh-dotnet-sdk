@@ -17,6 +17,7 @@ namespace FHSDK.Services
 		private const string HOST_PROP = "host";
 		private const string CONNECTION_TAG_PROP = "connectiontag";
 		private const string MODE_PROP = "mode";
+		private AppProps appPropsObj = null;
 
 		public DeviceService  ()
 		{
@@ -29,37 +30,40 @@ namespace FHSDK.Services
 			
 		public AppProps ReadAppProps()
 		{
-			Properties appProps = new Properties();
-			Stream input = null;
-			ILogService logger = ServiceFinder.Resolve<ILogService>();
-			try {
-				input = Application.Context.Assets.Open(APP_PROP_FILE);
-				appProps.Load(input);
-				AppProps appPropsObj = new AppProps();
-				appPropsObj.projectid = appProps.GetProperty(PROJECT_ID_PROP);
-				appPropsObj.appid = appProps.GetProperty(APP_ID_PROP);
-				appPropsObj.appkey = appProps.GetProperty(APP_KEY_PROP);
-				appPropsObj.host = appProps.GetProperty(HOST_PROP);
-				appPropsObj.connectiontag = appProps.GetProperty(CONNECTION_TAG_PROP);
-				appPropsObj.mode = appProps.GetProperty(MODE_PROP);
-				return appPropsObj;
-			} catch (Exception ex) {
-				if(null != logger) {
-					logger.e(TAG, "Failed to load " + APP_PROP_FILE, ex);
-				}
-				return null;
+			if (null == appPropsObj) {
+				Properties appProps = new Properties();
+				Stream input = null;
+				ILogService logger = ServiceFinder.Resolve<ILogService>();
+				try {
+					input = Application.Context.Assets.Open(APP_PROP_FILE);
+					appProps.Load(input);
+					appPropsObj = new AppProps();
+					appPropsObj.projectid = appProps.GetProperty(PROJECT_ID_PROP);
+					appPropsObj.appid = appProps.GetProperty(APP_ID_PROP);
+					appPropsObj.appkey = appProps.GetProperty(APP_KEY_PROP);
+					appPropsObj.host = appProps.GetProperty(HOST_PROP);
+					appPropsObj.connectiontag = appProps.GetProperty(CONNECTION_TAG_PROP);
+					appPropsObj.mode = appProps.GetProperty(MODE_PROP);
+					return appPropsObj;
+				} catch (Exception ex) {
+					if(null != logger) {
+						logger.e(TAG, "Failed to load " + APP_PROP_FILE, ex);
+					}
+					return null;
 
-			} finally {
-				if(null != input){
-					try {
-						input.Close();
-					} catch (Exception exc) {
-						if(null != logger){
-							logger.w(TAG, "Failed to close stream", exc);
+				} finally {
+					if(null != input){
+						try {
+							input.Close();
+						} catch (Exception exc) {
+							if(null != logger){
+								logger.w(TAG, "Failed to close stream", exc);
+							}
 						}
 					}
 				}
 			}
+			return appPropsObj;
 		}
 
 		public string GetDeviceDestination()

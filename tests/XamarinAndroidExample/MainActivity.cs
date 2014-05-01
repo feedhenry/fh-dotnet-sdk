@@ -8,6 +8,8 @@ using Android.OS;
 using FHSDK.Droid;
 using FHSDK.Services;
 
+
+
 namespace XamarinAndroidExample
 {
 	[Activity (Label = "XamarinAndroidExample", MainLauncher = true)]
@@ -21,7 +23,6 @@ namespace XamarinAndroidExample
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-
 			await  FH.Init();
 		}
 	}

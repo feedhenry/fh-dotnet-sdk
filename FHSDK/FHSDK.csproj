@@ -59,6 +59,7 @@
     <Compile Include="Config\AppProps.cs" />
     <Compile Include="Config\CloudProps.cs" />
     <Compile Include="API\FHCloudRequest.cs" />
+    <Compile Include="FHHttpClient\HttpClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

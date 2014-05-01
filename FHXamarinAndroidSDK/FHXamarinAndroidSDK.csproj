@@ -51,6 +51,9 @@
     <Compile Include="Services\Device\DeviceService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
+    <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
+    <Compile Include="Services\Auth\FHOAuthWebview.cs" />
+    <Compile Include="Services\Auth\FHOAuthIntent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -72,5 +75,6 @@
     <Folder Include="Services\Device\" />
     <Folder Include="Services\Log\" />
     <Folder Include="Services\Network\" />
+    <Folder Include="Services\Auth\" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,48 @@ namespace FHSDK.Services
         Task<OAuthResult> Login(string oauthLoginUrl);
     }
 
+	public abstract class OAuthClientHandlerServiceBase: IOAuthClientHandlerService
+	{
+		public OAuthClientHandlerServiceBase()
+		{
+
+		}
+
+		protected void OnSuccess(Uri uri, TaskCompletionSource<OAuthResult> tcs)
+		{
+			string queryParams = uri.Query;
+			string[] parts = queryParams.Split('&');
+			Dictionary<string, string> queryMap = new Dictionary<string, string>();
+			for (int i = 0; i < parts.Length; i++)
+			{
+				string[] kv = parts[i].Split('=');
+				queryMap.Add(kv[0], kv[1]);
+			}
+
+			string result = null;
+			queryMap.TryGetValue("result", out result);
+			if ("success" == result)
+			{
+				string sessionToken = null;
+				string authRes = null;
+				queryMap.TryGetValue("fh_auth_session", out sessionToken);
+				queryMap.TryGetValue("authResponse", out authRes);
+				OAuthResult oauthResult = new OAuthResult(OAuthResult.ResultCode.OK, sessionToken, Uri.UnescapeDataString(authRes));
+				tcs.TrySetResult(oauthResult);
+			}
+			else
+			{
+				string errorMessage = null;
+				queryMap.TryGetValue("message", out errorMessage);
+				OAuthResult oauthResult = new OAuthResult(OAuthResult.ResultCode.FAILED, new Exception(errorMessage));
+				tcs.TrySetResult(oauthResult);
+			}
+
+		}
+
+		public	abstract Task<OAuthResult> Login(string oauthLoginUrl);
+	}
+
     public class OAuthResult
     {
         public enum ResultCode 

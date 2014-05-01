@@ -27,7 +27,6 @@ namespace FHSDK.API
         private TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
 
 		private string requestMethod = "POST";
-		private HttpClientHandler httpHandler = null;
 		private IDictionary<string, string> requestHeaders = null;
 
         /// <summary>
@@ -68,19 +67,6 @@ namespace FHSDK.API
 
 		}
 
-		public HttpClientHandler HttpClientHandler
-		{
-			get
-			{
-				return HttpClientHandler;
-			}
-
-			set
-			{
-				this.httpHandler = value;
-			}
-		}
-
 		public IDictionary<string, string> RequestHeaders
 		{
 			get
@@ -109,7 +95,7 @@ namespace FHSDK.API
         {
 			Uri uri = GetUri();
             IDictionary<string, object> requestParams = GetRequestParams();
-			FHResponse fhres = await FHHttpClient.FHHttpClient.SendAsync(this.httpHandler, uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
+			FHResponse fhres = await FHHttpClient.FHHttpClient.SendAsync(uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
             return fhres;
         }
 
