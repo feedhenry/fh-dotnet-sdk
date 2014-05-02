@@ -3,11 +3,11 @@ using System.Net.Http;
 
 namespace FHSDK.FHHttpClient
 {
-	public static class HttpClientFactory
+	public static class FHHttpClientFactory
 	{
 		public static Func<HttpClient> Get { get; set; }
 
-		static HttpClientFactory()
+		static FHHttpClientFactory()
 		{
 			Get = (() => new HttpClient());
 		}

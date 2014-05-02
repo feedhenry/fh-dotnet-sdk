@@ -12,6 +12,8 @@ namespace FHSK.Touch
 			ServiceFinder.SetTargetAssemblyName(typeof(FH).Assembly.GetName());
 		}
 
+		protected new static 
+
 		public new static async Task<bool> Init()
 		{
 			return await FHBase.Init ();

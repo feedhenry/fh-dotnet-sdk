@@ -5,10 +5,9 @@
       <File FileName="FHXamarinAndroidSDK/Services/Network/NetworkService.cs" Line="1" Column="1" />
       <File FileName="FHXamarinAndroidSDK/FH.cs" Line="1" Column="1" />
       <File FileName="FHSDK/packages.config" Line="1" Column="1" />
-      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="27" Column="49" />
+      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="30" Column="43" />
       <File FileName="FHSDK/Services/ServiceFinder.cs" Line="1" Column="1" />
       <File FileName="FHSDK/app.config" Line="1" Column="1" />
-      <File FileName="FHSDK/FHHttpClient/FHRequest.cs" Line="1" Column="1" />
       <File FileName="FHXamarinAndroidSDK/packages.config" Line="1" Column="1" />
       <File FileName="tests/XamarinAndroidExample/MainActivity.cs" Line="1" Column="1" />
       <File FileName="FHXamarinAndroidSDK/Services/Data/DataService.cs" Line="1" Column="1" />
@@ -22,7 +21,7 @@
       <File FileName="tests/XamarinAndroidExample/Assets/AboutAssets.txt" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Data/DataServiceBase.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Adaptation/IAdapterResolver.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Adaptation/ProbingAdapterResolver.cs" Line="100" Column="76" />
+      <File FileName="FHSDK/Adaptation/ProbingAdapterResolver.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Network/INetworkService.cs" Line="1" Column="1" />
       <File FileName="FHSDK/FHHttpClient/FHException.cs" Line="1" Column="1" />
     </Files>

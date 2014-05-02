@@ -11,7 +11,7 @@ namespace FHSDK.Services
 		{
 		}
 
-		public void setLogLevel (int level)
+		public void SetLogLevel (int level)
 		{
 			logLevel = level;
 		}

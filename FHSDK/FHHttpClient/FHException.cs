@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FHSDK.FHHttpClient
+namespace FHSDK
 {
     /// <summary>
     /// The exception that is thrown by FH API calls

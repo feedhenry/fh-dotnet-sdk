@@ -19,6 +19,7 @@ namespace FHSDK.Services
 		{
 			appContext = Application.Context;
 			tcs = new TaskCompletionSource<OAuthResult> ();
+			logger = ServiceFinder.Resolve<ILogService> ();
 		}
 
 		public override Task<OAuthResult> Login(string oauthLoginUrl)
@@ -32,6 +33,7 @@ namespace FHSDK.Services
 			IntentFilter filter = new IntentFilter (FHOAuthWebview.BROADCAST_ACTION_FILTER);
 			this.appContext.RegisterReceiver (this.receiver, filter);
 			i.PutExtra ("settings", data);
+			i.AddFlags (ActivityFlags.NewTask);
 			this.appContext.StartActivity (i);
 			return tcs.Task;
 		}

@@ -177,6 +177,15 @@ namespace FHSDK
 			return await cloudRequest.execAsync ();
 		}
 
+		public static async Task<FHResponse> Mbaas(string service, IDictionary<string, object> requestParams)
+		{
+			RequireAppReady ();
+			Contract.Assert (null != service, "service is not defined");
+			string path = String.Format ("{0}/{1}", "mbaas", service);
+			FHCloudRequest cloudRequest = GetCloudRequest (path, "POST", null, requestParams);
+			return await cloudRequest.execAsync ();
+		}
+
 		public static string GetCloudHost()
 		{
 			RequireAppReady ();
@@ -215,7 +224,17 @@ namespace FHSDK
 				string headername = "X-FH-" + item.Key;
 				headers.Add (headername, JsonConvert.SerializeObject(item.Value));
 			}
+			headers.Add ("X-FH-AUTH-APP", FHConfig.getInstance ().GetAppKey ());
+
+			//TODO: Remove this!!
+			headers.Add ("X-FH-AUTH-USER", "b602f9d672a61df2bd9028c2e6ddc5a89a737317");
 			return headers;
+		}
+
+		public static void SetLogLevel(int level)
+		{
+			ILogService logService = ServiceFinder.Resolve<ILogService> ();
+			logService.SetLogLevel (level);
 		}
         
 

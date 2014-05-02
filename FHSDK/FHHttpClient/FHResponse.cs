@@ -5,8 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace FHSDK.FHHttpClient
+namespace FHSDK
 {
     /// <summary>
     /// </summary>
@@ -128,5 +129,14 @@ namespace FHSDK.FHHttpClient
                 return JArray.Parse(@"[]");
             }
         }
+
+		public IDictionary<string, object> GetResponseAsDictionary()
+		{
+			Dictionary<string, object> dict = new Dictionary<string, object> ();
+			if (null != rawResponse) {
+				dict = JsonConvert.DeserializeObject<Dictionary<string, object>> (rawResponse);
+			}
+			return dict;
+		}
     }
 }

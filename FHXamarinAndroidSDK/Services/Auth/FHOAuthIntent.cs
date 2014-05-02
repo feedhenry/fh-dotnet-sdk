@@ -5,6 +5,7 @@ using Android.Views;
 
 namespace FHSDK.Services
 {
+	[Activity (Name="fhsdk.services.FHOAuthIntent")]
 	public class FHOAuthIntent: Activity
 	{
 		private FHOAuthWebview oauthWebView;
@@ -15,7 +16,7 @@ namespace FHSDK.Services
 
 		}
 
-		public void onCreate(Bundle savedInstanceState)
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 			this.Window.RequestFeature (Android.Views.WindowFeatures.NoTitle);

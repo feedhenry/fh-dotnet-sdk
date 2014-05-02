@@ -63,6 +63,8 @@ namespace FHSDK.FHHttpClient
         /// <returns>Server response</returns>
 		public static async Task<FHResponse> SendAsync(Uri uri, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestData, TimeSpan timeout)
         {
+			Stopwatch timer = new Stopwatch ();
+
 			ILogService logger = ServiceFinder.Resolve<ILogService> ();
             bool online = await IsOnlineAsync();
             FHResponse fhres = null;
@@ -74,7 +76,7 @@ namespace FHSDK.FHHttpClient
             }
 			Contract.Assert (null != uri, "No request uri defined");
 			Contract.Assert (null != requestMethod, "No http request method defined");
-			HttpClient httpClient = HttpClientFactory.Get ();
+			HttpClient httpClient = FHHttpClientFactory.Get ();
 
             try
             {
@@ -98,7 +100,10 @@ namespace FHSDK.FHHttpClient
 					}
 				}
 
+				timer.Start ();
 				HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
+				timer.Stop();
+				logger.d(LOG_TAG, "Reqeust Time: " + timer.ElapsedMilliseconds + "ms", null);
                 string responseStr = await responseMessage.Content.ReadAsStringAsync();
 				logger.d(LOG_TAG, "Response string is " + responseStr, null);
                 if (responseMessage.IsSuccessStatusCode)
