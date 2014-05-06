@@ -32,8 +32,11 @@ namespace FHSDK.Services
 			return topController;
 		}
 
-		public void OnFail(){
+		public void OnFail(bool cancelled){
 			OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.FAILED, new Exception ("NOT_FINISHED"));
+			if (cancelled) {
+				oauthResult = new OAuthResult (OAuthResult.ResultCode.CANCELLED, new Exception ("USER_CANCELLED"));
+			}
 			this.tcs.TrySetResult (oauthResult);
 		}
 

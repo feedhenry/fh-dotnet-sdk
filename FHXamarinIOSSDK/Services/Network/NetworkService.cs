@@ -9,17 +9,10 @@ namespace FHSDK.Services
 
 		public NetworkService ()
 		{
+			CheckNetworkStatus ();
 			Reachability.ReachabilityChanged += (object sender, EventArgs e) => 
 			{
-				var remoteHostStatus = Reachability.RemoteHostStatus();
-				var internetStatus = Reachability.InternetConnectionStatus();
-				var localWifiStatus = Reachability.LocalWifiConnectionStatus();
-				IsConnected = (internetStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
-					internetStatus == NetworkStatus.ReachableViaWiFiNetwork) ||
-					(localWifiStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
-						localWifiStatus == NetworkStatus.ReachableViaWiFiNetwork) ||
-					(remoteHostStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
-						remoteHostStatus == NetworkStatus.ReachableViaWiFiNetwork);
+				CheckNetworkStatus();
 			};
 		}
 
@@ -28,6 +21,19 @@ namespace FHSDK.Services
 			return await Task.Run( () => {
 				return IsConnected;
 			});
+		}
+
+		private void CheckNetworkStatus()
+		{
+			var remoteHostStatus = Reachability.RemoteHostStatus();
+			var internetStatus = Reachability.InternetConnectionStatus();
+			var localWifiStatus = Reachability.LocalWifiConnectionStatus();
+			IsConnected = (internetStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
+				internetStatus == NetworkStatus.ReachableViaWiFiNetwork) ||
+				(localWifiStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
+					localWifiStatus == NetworkStatus.ReachableViaWiFiNetwork) ||
+				(remoteHostStatus == NetworkStatus.ReachableViaCarrierDataNetwork ||
+					remoteHostStatus == NetworkStatus.ReachableViaWiFiNetwork);
 		}
 	}
 }

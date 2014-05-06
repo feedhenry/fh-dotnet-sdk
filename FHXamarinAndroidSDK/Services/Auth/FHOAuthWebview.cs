@@ -81,12 +81,13 @@ namespace FHSDK.Services
 			return barlayout;
 		}
 
-		public void close()
+		public void close(bool cancelled = false)
 		{
 			this.webView.StopLoading ();
 			Intent i = new Intent ();
 			i.SetAction (BROADCAST_ACTION_FILTER);
-			i.PutExtra ("url", finishedUrl);
+			string message = cancelled ? "CANCELLED" : finishedUrl;
+			i.PutExtra ("url", message);
 			this.context.SendBroadcast (i);
 			this.context.Finish ();
 		}

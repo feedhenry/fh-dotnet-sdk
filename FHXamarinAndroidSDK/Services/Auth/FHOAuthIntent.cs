@@ -29,7 +29,7 @@ namespace FHSDK.Services
 		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
 		{
 			if (keyCode == Keycode.Back) {
-				oauthWebView.close ();
+				oauthWebView.close (true);
 				return true;
 			} else {
 				return base.OnKeyDown (keyCode, e);

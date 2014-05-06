@@ -20,10 +20,10 @@ namespace FHSDK.Services
 
 		public String GetDeviceId()
 		{
-			if (float.Parse (UIDevice.CurrentDevice.SystemVersion) >= 6.0f) {
+			if (UIDevice.CurrentDevice.CheckSystemVersion (7, 0)) {
 				ASIdentifierManager idManager = ASIdentifierManager.SharedManager;
 				NSUuid uuid = idManager.AdvertisingIdentifier;
-				return uuid.ToString ();
+				return uuid.AsString ();
 			} else {
 				return UniqueID ();
 			}

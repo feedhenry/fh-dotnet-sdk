@@ -3,7 +3,7 @@ using FHSDK;
 using FHSDK.Services;
 using System.Threading.Tasks;
 
-namespace FHSK.Touch
+namespace FHSDK.Touch
 {
 	public class FH: FHBase
 	{
@@ -12,7 +12,11 @@ namespace FHSK.Touch
 			ServiceFinder.SetTargetAssemblyName(typeof(FH).Assembly.GetName());
 		}
 
-		protected new static 
+		public new static void SetLogLevel(int level)
+		{
+			FHBase.SetLogLevel (level);
+		}
+
 
 		public new static async Task<bool> Init()
 		{

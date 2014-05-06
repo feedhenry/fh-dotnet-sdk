@@ -62,6 +62,9 @@ namespace FHSDK.Services
 				if ("NOT_FINISHED".Equals (data)) {
 					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.FAILED, new Exception ("NOT_FINISHED"));
 					this.parent.tcs.TrySetResult (oauthResult);
+				} else if ("CANCELLED".Equals (data)) {
+					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.CANCELLED, new Exception ("USER_CANCELLED"));
+					this.parent.tcs.TrySetResult (oauthResult);
 				} else {
 					this.parent.appContext.UnregisterReceiver (this.parent.receiver);
 					this.parent.OnSuccess (new Uri (data), this.parent.tcs);

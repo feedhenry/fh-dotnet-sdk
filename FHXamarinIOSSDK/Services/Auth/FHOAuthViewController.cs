@@ -14,6 +14,7 @@ namespace FHSDK.Services
 		UIActivityIndicatorView activityView;
 		OAuthClientHandlerService authHanlder;
 		bool finished = false;
+		bool cancelled = false;
 
 		public FHOAuthViewController (string url, OAuthClientHandlerService handler)
 			:base()
@@ -53,7 +54,8 @@ namespace FHSDK.Services
 
 			UINavigationItem titleBarItem = new UINavigationItem ("Login");
 			UIBarButtonItem done = new UIBarButtonItem ("Close", UIBarButtonItemStyle.Done, delegate (object sender, EventArgs e) {
-
+				cancelled = true;
+				CloseView();
 			});
 
 			titleBarItem.SetLeftBarButtonItem (done, true);
@@ -66,7 +68,7 @@ namespace FHSDK.Services
 		{
 			this.PresentingViewController.DismissViewController (true, null);
 			if (!this.finished) {
-				this.authHanlder.OnFail ();
+				this.authHanlder.OnFail (this.cancelled);
 			}
 		}
 
