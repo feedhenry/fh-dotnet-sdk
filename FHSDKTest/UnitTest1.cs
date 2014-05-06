@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
-using FHSDK;
+using FHSDK.Phone;
 using FHSDK.FHHttpClient;
+using FHSDK;
 
 namespace FHSDKTest
 {
@@ -16,8 +17,6 @@ namespace FHSDKTest
         [TestMethod]
         public async Task Read_App_Config()
         {
-            string sdkversion = FH.SDK_VERSION;
-            Debug.WriteLine("SDKversion = " + sdkversion);
 
             Assembly appAssem = Assembly.GetExecutingAssembly();
             AssemblyName asm = new AssemblyName(appAssem.FullName);

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Phone.Info;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +13,8 @@ namespace FHSDK.Services
 {
     class DeviceService : IDeviceService
     {
-        public DeviceService()
-        {
-        }
+
+        private const string CONFIG_FILE_NAME = "fhconfig.json";
 
         public string GetDeviceId()
         {
@@ -37,39 +36,29 @@ namespace FHSDK.Services
             return retVal;
         }
 
-        public void SaveData(string dataId, string dataValue)
+        public AppProps ReadAppProps()
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            if (!settings.Contains(dataId))
-            {
-                settings.Add(dataId, dataValue);
-            }
-            
-            settings.Save();
-        }
-
-        public string GetData(string dataId)
-        {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            string retvalue = null;
-            settings.TryGetValue(dataId, out retvalue);
-            return retvalue;
-        }
-
-        public async Task<string> ReadResourceAsString(string resourceName)
-        {
-            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(resourceName, UriKind.Relative));
+             AppProps appProps = null;
+            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(CONFIG_FILE_NAME, UriKind.Relative));
             if (null != streamInfo)
             {
                 StreamReader sr = new StreamReader(streamInfo.Stream);
-                return await sr.ReadToEndAsync();
+                string fileContent = sr.ReadToEnd();
+                if(null != fileContent)
+                {
+                    appProps = JsonConvert.DeserializeObject<AppProps>(fileContent);
+                }
             }
             else
             {
-                throw new IOException("Can not find resource " + resourceName);
+                throw new IOException("Can not find resource " + CONFIG_FILE_NAME);
             }
+            return appProps;
+        }
+
+        public string GetDeviceDestination()
+        {
+            return "windowsphone";
         }
     }
-
-   
 }

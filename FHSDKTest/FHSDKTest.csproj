@@ -96,7 +96,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fh.config" />
+    <Resource Include="fhconfig.json" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="ReadMe.md" />
