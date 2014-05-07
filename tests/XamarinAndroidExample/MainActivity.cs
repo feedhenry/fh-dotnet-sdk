@@ -7,11 +7,11 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using FHSDK;
-using FHSDK.Droid;
 using FHSDK.Services;
 using FHSDK.FHHttpClient;
 using System.Net.Http;
 using ModernHttpClient;
+using FHSDK.Droid;
 
 namespace XamarinAndroidExample
 {
@@ -29,7 +29,7 @@ namespace XamarinAndroidExample
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			await  FH.Init();
+			await  FHClient.Init();
 
 			ShowMessage ("App Ready!");
 

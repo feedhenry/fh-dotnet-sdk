@@ -51,7 +51,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FH.cs" />
     <Compile Include="Services\Device\DeviceService.cs" />
     <Compile Include="Services\Data\DataService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
@@ -59,5 +58,6 @@
     <Compile Include="Services\Network\NetworkService.cs" />
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
     <Compile Include="Services\Auth\FHOAuthViewController.cs" />
+    <Compile Include="FHClient.cs" />
   </ItemGroup>
 </Project>
