@@ -224,10 +224,7 @@ namespace FHSDK
 				string headername = "X-FH-" + item.Key;
 				headers.Add (headername, JsonConvert.SerializeObject(item.Value));
 			}
-			headers.Add ("X-FH-AUTH-APP", FHConfig.getInstance ().GetAppKey ());
-
-			//TODO: Remove this!!
-			headers.Add ("X-FH-AUTH-USER", "b602f9d672a61df2bd9028c2e6ddc5a89a737317");
+            headers.Add("X-FH-AUTH-APP", FHConfig.getInstance().GetAppKey());
 			return headers;
 		}
 
