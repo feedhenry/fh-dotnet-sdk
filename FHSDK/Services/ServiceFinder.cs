@@ -9,7 +9,7 @@ using System.Text;
 
 namespace FHSDK.Services
 {
-    class ServiceFinder
+    public class ServiceFinder
     {
         private static readonly string[] KnownPlatformNames = new[] { "FHSDKPhone", "FHXamarinAndroidSDK", "FHXmarinIOSSDK" };
         private static IAdapterResolver _resolver = new ProbingAdapterResolver(KnownPlatformNames);

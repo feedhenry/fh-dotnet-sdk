@@ -81,7 +81,8 @@ namespace FHSDK.Services
                             {
                                 grid.Children.Remove(webBrowser);
                             }
-                            page.ApplicationBar = null;
+                            //page.ApplicationBar = null;
+                            page.BackKeyPress -= backkey_Pressed;
                         }
                     }
                     webBrowser = null;
@@ -92,6 +93,7 @@ namespace FHSDK.Services
         void backkey_Pressed(object sender, CancelEventArgs e)
         {
             Close();
+            e.Cancel = true;
             OAuthResult authResult = new OAuthResult(OAuthResult.ResultCode.CANCELLED);
             tcs.SetResult(authResult);
         }
@@ -106,6 +108,7 @@ namespace FHSDK.Services
             if (uri.Contains("status=complete"))
             {
                 base.OnSuccess(e.Uri, tcs);
+                Close();
             }
         }
 

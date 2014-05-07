@@ -29,7 +29,7 @@ namespace WindowsPhoneExample
 
         private async void InitApp()
         {
-            await FH.Init();
+            await FHClient.Init();
             ShowMessage("App Ready!");
         }
 

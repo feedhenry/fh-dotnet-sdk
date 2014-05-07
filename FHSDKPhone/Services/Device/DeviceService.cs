@@ -58,7 +58,7 @@ namespace FHSDK.Services
 
         public string GetDeviceDestination()
         {
-            return "windowsphone";
+            return "windowsphone8";
         }
     }
 }
