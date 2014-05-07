@@ -1,53 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FHSDK.Adaptation;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace FHSDK.Services
 {
-	public class ServiceFinder
+    class ServiceFinder
     {
-		/*private static Dictionary<Type, object> _adapters = new Dictionary<Type, object>();
+        private static readonly string[] KnownPlatformNames = new[] { "FHSDKPhone", "FHXamarinAndroidSDK", "FHXmarinIOSSDK" };
+        private static IAdapterResolver _resolver = new ProbingAdapterResolver(KnownPlatformNames);
 
         public static T Resolve<T>()
         {
             Type tType = typeof(T);
-			object instance;
+            T value = (T)_resolver.Resolve(tType);
 
-			if (!_adapters.TryGetValue (tType, out instance)) 
-			{
-				throw new PlatformNotSupportedException("No implementation found for " + tType.FullName);
-			}
+            if (value == null)
+                throw new PlatformNotSupportedException("No implementation found for " + tType.FullName);
 
-			return (T) instance;
+            return value;
         }
-
-		public static void AddServiceImplementation<T> (object instance)
-		{
-			Type tType = typeof(T);
-			_adapters.Add (tType, instance);
-		}*/
-
-		private static IAdapterResolver _resolver = new ProbingAdapterResolver();
-		private static AssemblyName _targetAssemblyName;
-
-		public static void SetTargetAssemblyName(AssemblyName targetAssembly)
-		{
-			_targetAssemblyName = targetAssembly;
-		}
-
-
-		public static T Resolve<T>()
-		{
-			Type tType = typeof(T);
-			T value = (T)_resolver.Resolve(tType, _targetAssemblyName);
-
-			if (value == null)
-				throw new PlatformNotSupportedException("No implementation found for " + tType.FullName);
-
-			return value;
-		}
     }
 }

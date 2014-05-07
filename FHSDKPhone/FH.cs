@@ -7,21 +7,11 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Phone
 {
-    public class FH : FHBase
+    public class FH : FH
     {
         static FH()
         {
             ServiceFinder.SetTargetAssemblyName(typeof(FH).Assembly.GetName());
-        }
-
-        public new static void SetLogLevel(int level)
-        {
-            FHBase.SetLogLevel(level);
-        }
-
-        public new static async Task<bool> Init()
-        {
-            return await FHBase.Init();
         }
     }
 }

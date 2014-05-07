@@ -16,7 +16,7 @@ namespace FHSDK
     /// <summary>
     /// This is the main FeedHenry SDK class
     /// </summary>
-	public abstract class FHBase
+	public class FH
     {
         const double DEFAULT_TIMEOUT = 30 * 1000;
 		protected static bool appReady = false;
@@ -73,7 +73,7 @@ namespace FHSDK
         /// </example>
         /// <returns>If Init is success or not</returns>
         /// <exception cref="FHException"></exception>
-		protected static async Task<bool> Init()
+		public static async Task<bool> Init()
         {
 			FHConfig.getInstance();
             if (!appReady)

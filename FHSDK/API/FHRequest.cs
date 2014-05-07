@@ -71,7 +71,7 @@ namespace FHSDK.API
 		{
 			get
 			{
-				IDictionary<string, string> defaultHeaders = FHBase.GetDefaultParamsAsHeaders ();
+				IDictionary<string, string> defaultHeaders = FH.GetDefaultParamsAsHeaders ();
 				if (null != this.requestHeaders) {
 					defaultHeaders.Concat (this.requestHeaders);
 				}
@@ -105,7 +105,7 @@ namespace FHSDK.API
         /// <returns></returns>
 		protected IDictionary<string, object> GetDefaultParams()
         {
-			return FHBase.GetDefaultParams ();
+			return FH.GetDefaultParams ();
         }
 
         

@@ -39,7 +39,7 @@
     <Compile Include="FHHttpClient\FHResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceFinder.cs" />
-    <Compile Include="FHBase.cs" />
+    <Compile Include="FH.cs" />
     <Compile Include="Services\Data\DataServiceBase.cs" />
     <Compile Include="Services\Data\IDataService.cs" />
     <Compile Include="Services\Device\IDeviceService.cs" />
@@ -90,14 +90,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Services\Data\" />
-    <Folder Include="Services\Device\" />
-    <Folder Include="Services\Log\" />
-    <Folder Include="Services\Network\" />
-    <Folder Include="Services\Auth\" />
-    <Folder Include="Adaptation\" />
-    <Folder Include="API\" />
-    <Folder Include="Config\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
