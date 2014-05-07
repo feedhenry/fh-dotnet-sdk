@@ -2,10 +2,10 @@
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using FHSDK.Touch;
 using FHSDK.Services;
 using FHSDK;
 using System.Collections.Generic;
+using FHSDK.Touch;
 
 namespace XamarinIOSExample
 {
@@ -36,7 +36,7 @@ namespace XamarinIOSExample
 			base.ViewDidLoad ();
 			FH.SetLogLevel ((int)LogService.LogLevels.DEBUG);
 			// Perform any additional setup after loading the view, typically from a nib.
-			await FH.Init ();
+			await FHClient.Init ();
 			ShowMessage ("App Ready!");
 		}
 

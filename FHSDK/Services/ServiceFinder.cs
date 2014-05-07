@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using FHSDK.Adaptation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace FHSDK.Services
 {
-    class ServiceFinder
+	public class ServiceFinder
     {
-        private static readonly string[] KnownPlatformNames = new[] { "FHSDKPhone", "FHXamarinAndroidSDK", "FHXmarinIOSSDK" };
+		private static readonly string[] KnownPlatformNames = new[] { "FHSDKPhone", "FHXamarinAndroidSDK", "FHXamarinIOSSDK" };
         private static IAdapterResolver _resolver = new ProbingAdapterResolver(KnownPlatformNames);
 
         public static T Resolve<T>()

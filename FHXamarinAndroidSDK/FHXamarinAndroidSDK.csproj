@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="FH.cs" />
     <Compile Include="Services\Data\DataService.cs" />
     <Compile Include="Services\Device\DeviceService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
@@ -52,6 +51,7 @@
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
     <Compile Include="Services\Auth\FHOAuthWebview.cs" />
     <Compile Include="Services\Auth\FHOAuthIntent.cs" />
+    <Compile Include="FHClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
