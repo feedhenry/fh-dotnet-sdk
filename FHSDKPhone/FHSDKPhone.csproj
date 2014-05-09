@@ -85,10 +85,13 @@
     <DocumentationFile>Bin\ARM\Release\FHSDKPhone.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FHClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DeviceService.cs" />
-    <Compile Include="Services\NetworkService.cs" />
-    <Compile Include="Services\OAuthClientHandlerService.cs" />
+    <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Device\DeviceService.cs" />
+    <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
+    <Compile Include="Services\Network\NetworkService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FHSDK\FHSDK.csproj">
@@ -96,6 +99,18 @@
       <Name>FHSDK</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

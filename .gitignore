@@ -1,4 +1,5 @@
 **/obj/*
 **/Bin/*
 **/node_modules/*
-**/packages/*
+packages/*
+**/Components/*

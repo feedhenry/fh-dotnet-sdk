@@ -1,0 +1,49 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="examples/XamarinIOSExample/Main.cs">
+    <Files>
+      <File FileName="examples/XamarinIOSExample/Main.cs" Line="16" Column="1" />
+      <File FileName="examples/XamarinIOSExample/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="examples/XamarinIOSExample/XamarinIOSExampleViewController.cs" Line="4" Column="23" />
+      <File FileName="examples/XamarinIOSExample/XamarinIOSExampleViewController.designer.cs" Line="1" Column="1" />
+      <File FileName="tests/XamarinAndroidExample/MainActivity.cs" Line="64" Column="1" />
+      <File FileName="FHXamarinIOSSDK/Services/Network/NetworkService.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/API/FHInitRequest.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/API/FHRequest.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="50" Column="1" />
+      <File FileName="FHXamarinIOSSDK/Services/Auth/OAuthClientHandlerService.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinIOSSDK/Services/Auth/FHOAuthViewController.cs" Line="37" Column="34" />
+      <File FileName="FHSDK/API/FHAuthRequest.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHResponse.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/API/FHCloudRequest.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Auth/OAuthClientHandlerService.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Auth/FHOAuthWebview.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Auth/FHOAuthIntent.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/packages.config" Line="7" Column="12" />
+      <File FileName="FHSDK/app.config" Line="3" Column="17" />
+      <File FileName="FHSDK/Config/FHConfig.cs" Line="21" Column="26" />
+      <File FileName="FHXamarinIOSSDK/Services/Data/DataService.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinIOSSDK/Services/Device/DeviceService.cs" Line="34" Column="4" />
+      <File FileName="FHXamarinIOSSDK/Services/Log/LogService.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/FH.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Device/DeviceService.cs" Line="36" Column="37" />
+      <File FileName="FHSDK/Services/ServiceFinder.cs" Line="12" Column="79" />
+      <File FileName="FHSDK/Adaptation/ProbingAdapterResolver.cs" Line="102" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHRequest.cs" line="300" column="1" />
+      <Breakpoint hitAction="PrintExpression" traceExpression="{appProps}" file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHXamarinAndroidSDK/Services/Device/DeviceService.cs" line="38" column="1" />
+      <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/Adaptation/ProbingAdapterResolver.cs" line="93" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>FHSDKDoc/FHSDKDoc.shfbproj</String>
+    <String>example/FHSDKExampleApp/FHSDKExampleApp.csproj</String>
+    <String>FHSDKPhone/FHSDKPhone.csproj</String>
+    <String>FHSDKTest/FHSDKTest.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.ItemProperties.XamarinAndroidExample AndroidDeviceId-Debug="4df7374a04c03053" MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+</Properties>

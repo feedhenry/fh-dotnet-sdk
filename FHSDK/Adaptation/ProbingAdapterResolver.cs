@@ -8,29 +8,30 @@ using System.Text;
 namespace FHSDK.Adaptation
 {
     // An implementation IAdapterResolver that probes for platforms-specific adapters by dynamically
-    // looking for concrete types in platform-specific assemblies, such as Portable.Silverlight.
+    // looking for concrete types in platform-specific assemblies
     internal class ProbingAdapterResolver : IAdapterResolver
     {
         private readonly string[] _platformNames;
-        private readonly Func<string, Assembly> _assemblyLoader;
         private readonly object _lock = new object();
         private Dictionary<Type, object> _adapters = new Dictionary<Type, object>();
         private Assembly _assembly;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="platformNames"> the names of the assemblies to look for the implementations</param>
         public ProbingAdapterResolver(params string[] platformNames)
-            : this(Assembly.Load, platformNames)
-        {
-        }
-
-        public ProbingAdapterResolver(Func<string, Assembly> assemblyLoader, params string[] platformNames)
         {
             Debug.Assert(platformNames != null);
-            Debug.Assert(assemblyLoader != null);
 
             _platformNames = platformNames;
-            _assemblyLoader = assemblyLoader;
         }
 
+        /// <summary>
+        /// Return the implementation of a type
+        /// </summary>
+        /// <param name="type">the interface</param>
+        /// <returns>The correctly implementation instance of the type</returns>
         public object Resolve(Type type)
         {
             Debug.Assert(type != null);
@@ -53,7 +54,7 @@ namespace FHSDK.Adaptation
         {
             string typeName = MakeAdapterTypeName(interfaceType);
 
-            Type type = assembly.GetType(typeName, throwOnError: false);
+            Type type = assembly.GetType(typeName);
             if (type != null)
                 return Activator.CreateInstance(type);
 
@@ -62,7 +63,7 @@ namespace FHSDK.Adaptation
 
         private static string MakeAdapterTypeName(Type interfaceType)
         {
-            Debug.Assert(interfaceType.IsInterface);
+            Debug.Assert(interfaceType.GetTypeInfo().IsInterface);
             Debug.Assert(interfaceType.DeclaringType == null);
             Debug.Assert(interfaceType.Name.StartsWith("I", StringComparison.Ordinal));
 
@@ -98,14 +99,12 @@ namespace FHSDK.Adaptation
 
         private Assembly ProbeForPlatformSpecificAssembly(string platformName)
         {
-            AssemblyName assemblyName = new AssemblyName(GetType().Assembly.FullName);
-            // we expect each platform's SDK to be name like FHSDK + <platformname>
-            //e.g FHSDKPhone or FHSDKStore
-            assemblyName.Name = "FHSDK" + platformName;    
+            AssemblyName assemblyName = new AssemblyName(typeof(ProbingAdapterResolver).GetTypeInfo().Assembly.FullName);
+            assemblyName.Name = platformName;
 
             try
             {
-                return _assemblyLoader(assemblyName.FullName);
+                return Assembly.Load(assemblyName);
             }
             catch (Exception e)
             {

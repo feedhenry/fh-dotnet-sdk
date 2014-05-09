@@ -1,6 +1,0 @@
-﻿{
-  "appid": "testAppid",
-  "host" : "http://192.168.28.206:3001",
-  "appkey" : "testKey",
-  "mode": "test"
-}

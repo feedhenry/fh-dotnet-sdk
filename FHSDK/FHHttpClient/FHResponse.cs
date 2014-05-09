@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace FHSDK.FHHttpClient
+namespace FHSDK
 {
     /// <summary>
+    /// Represents a response from a request to the FeedHenry cloud.
     /// </summary>
     public class FHResponse
     {
@@ -17,10 +19,10 @@ namespace FHSDK.FHHttpClient
         private FHException error;
 
         /// <summary>
-        ///
+        /// Constructor
         /// </summary>
-        /// <param name="statusCode"></param>
-        /// <param name="rawResponse"></param>
+        /// <param name="statusCode">Http status code</param>
+        /// <param name="rawResponse">the response body</param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse)
         {
             this.statusCode = statusCode;
@@ -29,11 +31,11 @@ namespace FHSDK.FHHttpClient
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="statusCode"></param>
-        /// <param name="rawResponse"></param>
-        /// <param name="error"></param>
+        /// <param name="statusCode">The http status code</param>
+        /// <param name="rawResponse">The http response body</param>
+        /// <param name="error">An error</param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse, FHException error)
         {
             this.statusCode = statusCode;
@@ -42,10 +44,10 @@ namespace FHSDK.FHHttpClient
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="rawResponse"></param>
-        /// <param name="error"></param>
+        /// <param name="rawResponse">The http response body</param>
+        /// <param name="error">An error</param>
         public FHResponse(string rawResponse, FHException error)
         {
             this.rawResponse = rawResponse;
@@ -53,9 +55,9 @@ namespace FHSDK.FHHttpClient
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="error"></param>
+        /// <param name="error">An error</param>
         public FHResponse(FHException error)
         {
             this.rawResponse = null;
@@ -128,5 +130,18 @@ namespace FHSDK.FHHttpClient
                 return JArray.Parse(@"[]");
             }
         }
+
+        /// <summary>
+        /// Get the response data as a dictionary
+        /// </summary>
+        /// <returns></returns>
+		public IDictionary<string, object> GetResponseAsDictionary()
+		{
+			Dictionary<string, object> dict = new Dictionary<string, object> ();
+			if (null != rawResponse) {
+				dict = JsonConvert.DeserializeObject<Dictionary<string, object>> (rawResponse);
+			}
+			return dict;
+		}
     }
 }
