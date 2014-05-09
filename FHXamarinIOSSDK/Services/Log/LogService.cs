@@ -2,6 +2,9 @@
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Logging service provider for iOS
+    /// </summary>
 	public class LogService: LogServiceBase
 	{
 		public LogService (): base()

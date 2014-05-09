@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Logging service for windows phone
+    /// </summary>
     class LogService: LogServiceBase
     {
         public LogService()

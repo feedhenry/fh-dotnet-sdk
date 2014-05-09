@@ -35,8 +35,14 @@
     <HelpTitle>FHSDK API References</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\FHSDK\bin\Release\FHSDK.XML" />
       <DocumentationSource sourceFile="..\FHSDK\bin\Release\FHSDK.dll" />
+      <DocumentationSource sourceFile="..\FHSDK\bin\Release\FHSDK.xml" />
+      <DocumentationSource sourceFile="..\FHSDKPhone\Bin\ARM\Release\FHSDKPhone.dll" />
+      <DocumentationSource sourceFile="..\FHSDKPhone\Bin\ARM\Release\FHSDKPhone.xml" />
+      <DocumentationSource sourceFile="..\FHXamarinAndroidSDK\bin\Release\FHXamarinAndroidSDK.dll" />
+      <DocumentationSource sourceFile="..\FHXamarinAndroidSDK\bin\Release\FHXamarinAndroidSDK.XML" />
+      <DocumentationSource sourceFile="..\FHXamarinIOSSDK\bin\Release\FHXamarinIOSSDK.dll" />
+      <DocumentationSource sourceFile="..\FHXamarinIOSSDK\bin\Release\FHXamarinIOSSDK.xml" />
     </DocumentationSources>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
@@ -73,6 +79,16 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v4.0.3\Mono.Android.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="monotouch, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoTouch\v1.0\monotouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>

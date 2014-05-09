@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Network service provider for iOS
+    /// </summary>
 	public class NetworkService: INetworkService
 	{
 		private bool IsConnected{ get; set;}

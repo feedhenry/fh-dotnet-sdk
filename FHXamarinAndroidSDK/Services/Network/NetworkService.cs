@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Network service provider for Android
+    /// </summary>
 	public class NetworkService: INetworkService
 	{
 		public NetworkService ()

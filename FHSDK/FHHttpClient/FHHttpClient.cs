@@ -55,9 +55,11 @@ namespace FHSDK.FHHttpClient
 		}
 
         /// <summary>
-        /// Post request to the remote uri
+        /// Send request to the remote uri
         /// </summary>
         /// <param name="uri">The remote uri</param>
+        /// <param name="requestMethod">The http request method</param>
+        /// <param name="headers">The http reqeust headers</param>
         /// <param name="requestData">The request data</param>
         /// <param name="timeout">Timeout in milliseconds</param>
         /// <returns>Server response</returns>

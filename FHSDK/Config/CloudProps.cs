@@ -3,17 +3,28 @@ using Newtonsoft.Json.Linq;
 
 namespace FHSDK
 {
+    /// <summary>
+    /// Class represents the cloud app instance (MBAAS service) the app should be communication with.
+    /// </summary>
 	public class CloudProps
 	{
 		private JObject cloudPropsJson;
 
 		private string hostUrl;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="props">The json format of the cloud host info</param>
 		public CloudProps(JObject props)
 		{
 			cloudPropsJson = props;
 		}
 
+        /// <summary>
+        /// Return the cloud host info as URL
+        /// </summary>
+        /// <returns>the cloud host url</returns>
 		public string GetCloudHost()
 		{
 			if (null == hostUrl) {

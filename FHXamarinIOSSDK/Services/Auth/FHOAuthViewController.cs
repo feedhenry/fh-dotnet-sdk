@@ -5,6 +5,9 @@ using MonoTouch.Foundation;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// A view controller to handle OAuth login using UIWebView
+    /// </summary>
 	public class FHOAuthViewController: UIViewController, IUIWebViewDelegate
 	{
 		string authUrl;
@@ -23,7 +26,9 @@ namespace FHSDK.Services
 			this.authHanlder = handler;
 		}
 
-
+        /// <summary>
+        /// Construct the UI
+        /// </summary>
 		public override void LoadView()
 		{
 			UIWindow appWindow = UIApplication.SharedApplication.Delegate.Window;
@@ -64,6 +69,9 @@ namespace FHSDK.Services
 			this.View = topView;
 		}
 
+        /// <summary>
+        /// Close the view
+        /// </summary>
 		public void CloseView()
 		{
 			this.PresentingViewController.DismissViewController (true, null);
@@ -72,6 +80,9 @@ namespace FHSDK.Services
 			}
 		}
 
+        /// <summary>
+        /// Start to load request when view is loaded
+        /// </summary>
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad ();

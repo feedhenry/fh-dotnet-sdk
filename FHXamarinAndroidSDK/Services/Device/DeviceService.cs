@@ -7,6 +7,9 @@ using System.IO;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Device info service provider for Android
+    /// </summary>
 	public class DeviceService : IDeviceService
 	{
 		private const string TAG = "FHSDK:DeviceService";

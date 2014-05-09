@@ -4,6 +4,9 @@ using FHSDK.Services;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Data service provider for Android
+    /// </summary>
 	public class DataService: DataServiceBase
 	{
 		private const String PREF_ID = "fhprefs";

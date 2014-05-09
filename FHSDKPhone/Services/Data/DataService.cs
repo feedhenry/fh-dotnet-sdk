@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// On device data service provider for windows phone
+    /// </summary>
     class DataService: DataServiceBase
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DataService() :
             base()
         {

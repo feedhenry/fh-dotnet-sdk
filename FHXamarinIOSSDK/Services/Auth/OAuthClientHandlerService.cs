@@ -5,6 +5,9 @@ using System.Diagnostics.Contracts;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// OAuth login handler implementation for iOS
+    /// </summary>
 	public class OAuthClientHandlerService: OAuthClientHandlerServiceBase
 	{
 		private TaskCompletionSource<OAuthResult> tcs;

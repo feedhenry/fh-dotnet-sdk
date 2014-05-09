@@ -4,6 +4,9 @@ using Java.Lang;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Logging service provider for Android
+    /// </summary>
 	public class LogService: LogServiceBase
 	{
 		public LogService (): base()

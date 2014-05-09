@@ -5,6 +5,9 @@ using Android.Views;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Start a new intent for OAuth login using WebView.
+    /// </summary>
 	[Activity (Name="fhsdk.services.FHOAuthIntent")]
 	public class FHOAuthIntent: Activity
 	{

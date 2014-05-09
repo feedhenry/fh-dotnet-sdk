@@ -3,6 +3,9 @@ using MonoTouch.Foundation;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Data Service provider for ios
+    /// </summary>
 	public class DataService: DataServiceBase
 	{
 		public DataService () : base()

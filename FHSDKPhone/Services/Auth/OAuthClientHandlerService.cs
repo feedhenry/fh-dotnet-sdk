@@ -11,11 +11,17 @@ using System.Windows.Controls;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// OAuth login handler for windows phone
+    /// </summary>
     class OAuthClientHandlerService : OAuthClientHandlerServiceBase
     {
         private WebBrowser webBrowser;
         private TaskCompletionSource<OAuthResult> tcs;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public OAuthClientHandlerService()
             : base()
         {

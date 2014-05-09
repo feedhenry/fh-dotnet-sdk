@@ -26,7 +26,7 @@ namespace FHSDK
 
 
         /// <summary>
-        /// Get the current version of the FeedHenry WindowsPhone SDk
+        /// Get the current version of the FeedHenry .NET SDk
         /// </summary>
 		public static string SDK_VERSION
         {
@@ -53,27 +53,13 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Initialise FeedHenry WindowsPhone SDK. This function should be called when the app is ready.
+        /// The actual implementation of initialising the FeedHenry SDK. It is called when the Init method of each platform's FHClient class called in. 
+        /// This way it will guarantee the platform's specific assembly will be loaded so that the ServiceFinder can find the correct implmenetation for some of the services.
+        /// (The Adaptation approach used here works for wp and xamarain android without the FHClient reference. However, due to Xamarain IOS is using AOT compiler, we have to reference the FHClient class of the IOS SDK to make sure it will be loaded during compile.)
         /// </summary>
-        /// <example>
-        /// <code>
-        /// try
-        /// {
-        ///   bool inited = await FH.Init();
-        ///   if(inited)
-        ///   {
-        ///     //Initialisation is successful
-        ///   }
-        /// }
-        /// catch(FHException e)
-        /// {
-        ///   //Initialisation failed, handle exception
-        /// }
-        /// </code>
-        /// </example>
         /// <returns>If Init is success or not</returns>
         /// <exception cref="FHException"></exception>
-		public static async Task<bool> Init()
+		protected static async Task<bool> Init()
         {
 			FHConfig.getInstance();
             if (!appReady)
@@ -105,7 +91,7 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Invoke a cloud function.
+        /// Invoke a cloud function which you have defined in cloud/main.js (the old way).
         /// </summary>
         /// <param name="remoteAct">The name of the cloud function name</param>
         /// <param name="actParams">The parameters passed to the cloud function</param>
@@ -140,6 +126,12 @@ namespace FHSDK
             return await actRequest.execAsync(remoteAct, actParams);
         }
 
+        /// <summary>
+        /// Call the FeedHenry Authentication API with the given policyId. This is normally used for OAuth type authentications. 
+        /// The user will be prompted for login details and the the login result will be returned.
+        /// </summary>
+        /// <param name="policyId">The id of the new policy</param>
+        /// <returns>The result of the authencation</returns>
         public static async Task<FHResponse> Auth(string policyId)
         {
             RequireAppReady();
@@ -149,6 +141,13 @@ namespace FHSDK
             return await authRequest.execAsync();
         }
 
+        /// <summary>
+        ///  Call the FeedHenry Authentication API with the given policyId, user name and password. This is normally used for LDAP and other basic authentication types.
+        /// </summary>
+        /// <param name="policyId">The id of the auth policy</param>
+        /// <param name="userName">The name of the user</param>
+        /// <param name="userPassword">The user's password</param>
+        /// <returns>The result of the authencation</returns>
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
@@ -157,7 +156,15 @@ namespace FHSDK
             authRequest.SetAuthUser(policyId, userName, userPassword);
             return await authRequest.execAsync();
         }
-			
+		
+	    /// <summary>
+	    /// Build the cloud request to call the app's cloud functions.
+	    /// </summary>
+	    /// <param name="path">The path of the cloud request</param>
+	    /// <param name="requestMethod">The request method</param>
+	    /// <param name="headers">The HTTP headers for the request</param>
+	    /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
+	    /// <returns>The cloud request object</returns>
 		public static FHCloudRequest GetCloudRequest(string path, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestParams)
 		{
 			RequireAppReady ();
@@ -171,12 +178,44 @@ namespace FHSDK
 			return cloudRequest;
 		}
 
+        /// <summary>
+        /// Create a cloud request and execute it immediately.
+        /// </summary>
+        /// <param name="path">The path of the cloud request</param>
+        /// <param name="requestMethod">The reqeust method</param>
+        /// <param name="headers">The HTTP headers of the reqeust</param>
+        /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
+        /// <example>
+        /// <code>
+        /// FHResponse response = await FH.Cloud("api/echo", "GET", null, null);
+        /// if(null == response.Error)
+        /// {
+        ///   //no error occured, the request is successful
+        ///   string rawResponseData = response.RawResponse;
+        ///   //you can get it as JSONObject (require Json.Net library)
+        ///   JObject resJson = response.GetResponseAsJObject();
+        ///   //process response data
+        /// }
+        /// else
+        /// {
+        ///   //error occured during the request, deal with it.
+        ///   //More infomation can be access from response.Error.InnerException
+        /// }
+        /// </code>
+        /// </example>
+        /// <returns>The response from the cloud</returns>
 		public static async Task<FHResponse> Cloud(string path, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestParams)
 		{
 			FHCloudRequest cloudRequest = GetCloudRequest (path, requestMethod, headers, requestParams);
 			return await cloudRequest.execAsync ();
 		}
 
+        /// <summary>
+        /// Invoke a FeedHenry MBAAS Service function
+        /// </summary>
+        /// <param name="service">The MBAAS service name</param>
+        /// <param name="requestParams">The request body</param>
+        /// <returns>The response from the MBAAS service</returns>
 		public static async Task<FHResponse> Mbaas(string service, IDictionary<string, object> requestParams)
 		{
 			RequireAppReady ();
@@ -186,12 +225,21 @@ namespace FHSDK
 			return await cloudRequest.execAsync ();
 		}
 
+        /// <summary>
+        /// Get the cloud host to use with your own choice of HTTP clients.
+        /// </summary>
+        /// <returns>The cloud host URL</returns>
 		public static string GetCloudHost()
 		{
 			RequireAppReady ();
 			return cloudProps.GetCloudHost ();
 		}
 
+        /// <summary>
+        /// If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
+        /// you need to add the returnd object as part of the request body with the key "__fh".
+        /// </summary>
+        /// <returns>The default request parameters</returns>
 		public static IDictionary<string, object> GetDefaultParams()
 		{
 			Dictionary<string, object> defaults = new Dictionary<string, object>();
@@ -216,6 +264,11 @@ namespace FHSDK
 			return defaults;
 		}
 
+        /// <summary>
+        /// If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
+        /// you need to add the returned object as HTTP headers to each cloud request.
+        /// </summary>
+        /// <returns>The default HTTP request headers</returns>
 		public static IDictionary<string, string> GetDefaultParamsAsHeaders()
 		{
 			IDictionary<string, object> defaultParams = GetDefaultParams ();
@@ -228,6 +281,16 @@ namespace FHSDK
 			return headers;
 		}
 
+        /// <summary>
+        /// Set the log levels. 
+        /// VERBOSE=1
+        /// DEBUG=2
+        /// INFO=3
+        /// WARNING=4
+        /// ERROR=5
+        /// NONE=Int16.MaxValue
+        /// </summary>
+        /// <param name="level">One of the options above</param>
 		public static void SetLogLevel(int level)
 		{
 			ILogService logService = ServiceFinder.Resolve<ILogService> ();

@@ -8,7 +8,7 @@ using System.Text;
 namespace FHSDK.Adaptation
 {
     // An implementation IAdapterResolver that probes for platforms-specific adapters by dynamically
-    // looking for concrete types in platform-specific assemblies, such as Portable.Silverlight.
+    // looking for concrete types in platform-specific assemblies
     internal class ProbingAdapterResolver : IAdapterResolver
     {
         private readonly string[] _platformNames;
@@ -16,6 +16,10 @@ namespace FHSDK.Adaptation
         private Dictionary<Type, object> _adapters = new Dictionary<Type, object>();
         private Assembly _assembly;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="platformNames"> the names of the assemblies to look for the implementations</param>
         public ProbingAdapterResolver(params string[] platformNames)
         {
             Debug.Assert(platformNames != null);
@@ -23,6 +27,11 @@ namespace FHSDK.Adaptation
             _platformNames = platformNames;
         }
 
+        /// <summary>
+        /// Return the implementation of a type
+        /// </summary>
+        /// <param name="type">the interface</param>
+        /// <returns>The correctly implementation instance of the type</returns>
         public object Resolve(Type type)
         {
             Debug.Assert(type != null);

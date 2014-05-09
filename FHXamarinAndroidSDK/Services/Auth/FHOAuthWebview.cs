@@ -9,6 +9,9 @@ using Android.Graphics;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// OAuth login handler Webview
+    /// </summary>
 	public class FHOAuthWebview
 	{
 		private WebView webView;
@@ -21,6 +24,11 @@ namespace FHSDK.Services
 		protected ILogService logger;
 		public const string BROADCAST_ACTION_FILTER = "com.feedhenry.sdk.oauth.urlChanged";
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="aContext">application context</param>
+        /// <param name="aSettings">setting</param>
 		public FHOAuthWebview (Activity aContext, Bundle aSettings)
 		{
 			this.context = aContext;
@@ -28,6 +36,9 @@ namespace FHSDK.Services
 			this.logger = ServiceFinder.Resolve<ILogService> ();
 		}
 
+        /// <summary>
+        /// Construct the UI and start loading
+        /// </summary>
 		public void onCreate()
 		{
 			string startUrl = webSettings.GetString ("url");
@@ -81,6 +92,10 @@ namespace FHSDK.Services
 			return barlayout;
 		}
 
+        /// <summary>
+        /// Close the WebView
+        /// </summary>
+        /// <param name="cancelled">if the action is cancelled by the user</param>
 		public void close(bool cancelled = false)
 		{
 			this.webView.StopLoading ();
@@ -92,11 +107,18 @@ namespace FHSDK.Services
 			this.context.Finish ();
 		}
 
+        /// <summary>
+        /// Return the root view
+        /// </summary>
+        /// <returns></returns>
 		public ViewGroup GetView()
 		{
 			return mainLayout;
 		}
 
+        /// <summary>
+        /// Destroy the view
+        /// </summary>
 		public void Destroy()
 		{
 			if (null != this.webView) {

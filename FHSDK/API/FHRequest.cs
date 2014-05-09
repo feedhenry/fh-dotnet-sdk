@@ -30,9 +30,8 @@ namespace FHSDK.API
 		private IDictionary<string, string> requestHeaders = null;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="appProps"></param>
         public FHRequest()
         {
         }
@@ -53,6 +52,9 @@ namespace FHSDK.API
             }
         }
 
+        /// <summary>
+        /// Get or set the http request method
+        /// </summary>
 		public string RequestMethod
 		{
 			get 
@@ -67,6 +69,9 @@ namespace FHSDK.API
 
 		}
 
+        /// <summary>
+        /// Get or set the http request headers
+        /// </summary>
 		public IDictionary<string, string> RequestHeaders
 		{
 			get

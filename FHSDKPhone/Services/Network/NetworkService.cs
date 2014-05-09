@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Network service provider for windows phone
+    /// </summary>
     class NetworkService : INetworkService
     {
         public NetworkService()

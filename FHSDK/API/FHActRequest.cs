@@ -27,7 +27,6 @@ namespace FHSDK.API
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="appProps"></param>
 		/// <param name="cloudProps"></param>
 		public FHActRequest(CloudProps cloudProps)
 			: base()

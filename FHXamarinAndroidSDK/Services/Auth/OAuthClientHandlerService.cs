@@ -6,6 +6,9 @@ using Android.OS;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// OAuth login handler implementation for Android
+    /// </summary>
 	public class OAuthClientHandlerService: OAuthClientHandlerServiceBase
 	{
 		private Context appContext;

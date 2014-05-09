@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace FHSDK
 {
+    /// <summary>
+    /// Class represents cloud requests.
+    /// </summary>
 	public class FHCloudRequest: FHRequest
 	{
 		private CloudProps cloudProps;
@@ -27,6 +30,9 @@ namespace FHSDK
 			}
 	    }
 
+        /// <summary>
+        /// Get or set the path of the cloud request
+        /// </summary>
 		public string RequestPath { 
 			get 
 			{
@@ -38,6 +44,10 @@ namespace FHSDK
 			}
 		}
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="props">The cloud host info</param>
 		public FHCloudRequest (CloudProps props)
 			: base()
 		{

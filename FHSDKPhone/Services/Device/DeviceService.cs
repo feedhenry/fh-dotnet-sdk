@@ -11,6 +11,9 @@ using System.Windows.Resources;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Device info service for windows phone
+    /// </summary>
     class DeviceService : IDeviceService
     {
 

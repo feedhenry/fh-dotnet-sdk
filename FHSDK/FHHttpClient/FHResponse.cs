@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 namespace FHSDK
 {
     /// <summary>
+    /// Represents a response from a request to the FeedHenry cloud.
     /// </summary>
     public class FHResponse
     {
@@ -18,10 +19,10 @@ namespace FHSDK
         private FHException error;
 
         /// <summary>
-        ///
+        /// Constructor
         /// </summary>
-        /// <param name="statusCode"></param>
-        /// <param name="rawResponse"></param>
+        /// <param name="statusCode">Http status code</param>
+        /// <param name="rawResponse">the response body</param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse)
         {
             this.statusCode = statusCode;
@@ -30,11 +31,11 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="statusCode"></param>
-        /// <param name="rawResponse"></param>
-        /// <param name="error"></param>
+        /// <param name="statusCode">The http status code</param>
+        /// <param name="rawResponse">The http response body</param>
+        /// <param name="error">An error</param>
         public FHResponse(HttpStatusCode statusCode, string rawResponse, FHException error)
         {
             this.statusCode = statusCode;
@@ -43,10 +44,10 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="rawResponse"></param>
-        /// <param name="error"></param>
+        /// <param name="rawResponse">The http response body</param>
+        /// <param name="error">An error</param>
         public FHResponse(string rawResponse, FHException error)
         {
             this.rawResponse = rawResponse;
@@ -54,9 +55,9 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="error"></param>
+        /// <param name="error">An error</param>
         public FHResponse(FHException error)
         {
             this.rawResponse = null;
@@ -130,6 +131,10 @@ namespace FHSDK
             }
         }
 
+        /// <summary>
+        /// Get the response data as a dictionary
+        /// </summary>
+        /// <returns></returns>
 		public IDictionary<string, object> GetResponseAsDictionary()
 		{
 			Dictionary<string, object> dict = new Dictionary<string, object> ();

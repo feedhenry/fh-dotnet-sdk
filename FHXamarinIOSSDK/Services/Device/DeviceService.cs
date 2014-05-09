@@ -7,6 +7,9 @@ using MonoTouch.AdSupport;
 
 namespace FHSDK.Services
 {
+    /// <summary>
+    /// Device info service provider for iOS
+    /// </summary>
 	public class DeviceService : IDeviceService
 	{
 		private ILogService logger;

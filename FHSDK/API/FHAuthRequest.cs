@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.API
 {
+    /// <summary>
+    /// Class represents an authentication API request
+    /// </summary>
 	public class FHAuthRequest : FHRequest
 	{
 		const string AUTH_PATH = "box/srv/1.1/admin/authpolicy/auth";
@@ -16,17 +19,30 @@ namespace FHSDK.API
 		private string authUserPass;
 		private IOAuthClientHandlerService oauthClient = null;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
 		public FHAuthRequest()
 			: base()
 		{
 			this.oauthClient = ServiceFinder.Resolve<IOAuthClientHandlerService>();
 		}
 
+        /// <summary>
+        /// Set the policy id for the request
+        /// </summary>
+        /// <param name="authPolicy">the auth policy id</param>
 		public void SetAuthPolicyId(string authPolicy)
 		{
 			this.authPolicyId = authPolicy;
 		}
 
+        /// <summary>
+        /// Set the policy id and user credentials for the request
+        /// </summary>
+        /// <param name="authPolicy">the auth policy id</param>
+        /// <param name="authUserName">the auth user name</param>
+        /// <param name="authPassword">the auth user password</param>
 		public void SetAuthUser(string authPolicy, string authUserName, string authPassword)
 		{
 			this.authPolicyId = authPolicy;
@@ -34,6 +50,11 @@ namespace FHSDK.API
 			this.authUserPass = authPassword;
 		}
 
+        /// <summary>
+        /// Set the OAuth handler. The auth API will return a URL to redirect users to login for OAuth type authentications.
+        /// The handler need to implement the function to allow user to login and return the authentication info at the end.
+        /// </summary>
+        /// <param name="oauthHandler">the handler for OAuth login</param>
 		public void SetOAuthHandler(IOAuthClientHandlerService oauthHandler)
 		{
 			this.oauthClient = oauthHandler;
@@ -75,6 +96,10 @@ namespace FHSDK.API
 			return data;
 		}
 
+        /// <summary>
+        /// Execute the authentication request. If the authencation type is OAuth and an OAuthHandler is set, it will be called automatically to redirect users to login.
+        /// </summary>
+        /// <returns>the authentication details</returns>
 		public override async Task<FHResponse> execAsync()
 		{
 			FHResponse fhres = await base.execAsync();
