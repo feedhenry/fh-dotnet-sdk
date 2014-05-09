@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FH.SDK</id>
+    <version>1.0.4</version>
+    <authors>FeedHenry</authors>
+    <owners>FeedHenry</owners>
+    <projectUrl>https://github.com/feedhenry/fh-dotnet-sdk</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>FeedHenry .Net SDK</description>
+    <copyright>Copyright 2014</copyright>
+    <tags>FeedHenry Cloud .Net Xamarin</tags>
+    <dependencies>
+      
+      <group>
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+        <dependency id="Microsoft.Net.Http" version="2.2.20" />
+      </group>
+
+      <group targetFramework="net45">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+      </group>
+
+       <group targetFramework="win8">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+       </group>
+
+       <group targetFramework="wp81">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+       </group>
+
+       <group targetFramework="wpa81">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+       </group>
+
+       <group targetFramework="monoandroid">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+       </group>
+
+       <group targetFramework="monotouch">
+        <dependency id="Newtonsoft.Json" version="5.0.8" />
+       </group>
+
+    </dependencies>
+  </metadata>
+</package>

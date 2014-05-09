@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FHSDKPhone</name>
+    </assembly>
+    <members>
+        <member name="T:FHSDK.Phone.NamespaceDoc">
+            <summary>
+            Contains the entry class of the FeedHenry SDK for Windows Phone 8 platform. It's defined in the FHSDKPhone.dll.
+            To use the FeedHenry SDK, both FHSDK.dll and FHSDKPhone.dll should be referenced by your WP8 project, and initialise the SDK using the FHClient class in this name space.
+            </summary>
+        </member>
+        <member name="T:FHSDK.Phone.FHClient">
+             <summary>
+             Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should be called after the app finish intialising.
+             </summary>
+             <example>
+             <code>
+              public MainPage()
+                {
+                    InitializeComponent();
+                    InitApp();
+                }
+            
+                private async void InitApp()
+                {
+                    try
+                    {
+                        bool inited = await FHClient.Init();
+                        if(inited)
+                        {
+                          //Initialisation is successful
+                        }
+                   }
+                   catch(FHException e)
+                   {
+                       //Initialisation failed, handle exception
+                   }
+                }
+             
+             </code>
+             </example>
+             <returns>If Init is success or not</returns>
+             <exception cref="T:FHSDK.FHException"></exception>
+        </member>
+        <member name="T:FHSDK.Services.DataService">
+            <summary>
+            On device data service provider for windows phone
+            </summary>
+        </member>
+        <member name="M:FHSDK.Services.DataService.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:FHSDK.Services.DeviceService">
+            <summary>
+            Device info service for windows phone
+            </summary>
+        </member>
+        <member name="T:FHSDK.Services.LogService">
+            <summary>
+            Logging service for windows phone
+            </summary>
+        </member>
+        <member name="T:FHSDK.Services.OAuthClientHandlerService">
+            <summary>
+            OAuth login handler for windows phone
+            </summary>
+        </member>
+        <member name="M:FHSDK.Services.OAuthClientHandlerService.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:FHSDK.Services.NetworkService">
+            <summary>
+            Network service provider for windows phone
+            </summary>
+        </member>
+    </members>
+</doc>
