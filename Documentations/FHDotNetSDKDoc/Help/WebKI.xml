@@ -151,23 +151,23 @@
     <HelpKINode Title="about FHClient class" Url="html/b8d0a8c7-ee93-829a-c4a9-1a674f93b33b.htm" />
     <HelpKINode Title="about FHClient class" Url="html/842bceba-5782-555e-6704-e884635b86c4.htm" />
     <HelpKINode Title="all members" Url="html/362b363e-3de2-1ac0-03e5-398441f2fe62.htm" />
-    <HelpKINode Title="all members" Url="html/59ba0226-cc85-d0b9-2756-e19d1a6ef2a3.htm" />
     <HelpKINode Title="all members" Url="html/d521f1a3-5df4-b9b8-9e23-8e63cb7f9577.htm" />
-    <HelpKINode Title="constructor" Url="html/7966dcd3-57c0-1f20-8fc0-50fe7e668c2e.htm" />
+    <HelpKINode Title="all members" Url="html/59ba0226-cc85-d0b9-2756-e19d1a6ef2a3.htm" />
     <HelpKINode Title="constructor" Url="html/88ef7e60-47f5-8b95-91fc-3d88427e7b7a.htm" />
     <HelpKINode Title="constructor" Url="html/df754225-3741-02b4-d715-39d919b7e051.htm" />
-    <HelpKINode Title="methods" Url="html/4a7485c9-bd4e-54b5-b61b-437dd43be440.htm" />
-    <HelpKINode Title="methods" Url="html/9ba1fb97-0903-414e-3065-55a3e5ec4142.htm" />
+    <HelpKINode Title="constructor" Url="html/7966dcd3-57c0-1f20-8fc0-50fe7e668c2e.htm" />
     <HelpKINode Title="methods" Url="html/90ed9b53-380c-cc9d-0449-1df9626118dc.htm" />
+    <HelpKINode Title="methods" Url="html/9ba1fb97-0903-414e-3065-55a3e5ec4142.htm" />
+    <HelpKINode Title="methods" Url="html/4a7485c9-bd4e-54b5-b61b-437dd43be440.htm" />
   </HelpKINode>
   <HelpKINode Title="FHClient.FHClient constructor">
+    <HelpKINode Title="FHClient Constructor " Url="html/df754225-3741-02b4-d715-39d919b7e051.htm" />
     <HelpKINode Title="FHClient Constructor " Url="html/7966dcd3-57c0-1f20-8fc0-50fe7e668c2e.htm" />
     <HelpKINode Title="FHClient Constructor " Url="html/88ef7e60-47f5-8b95-91fc-3d88427e7b7a.htm" />
-    <HelpKINode Title="FHClient Constructor " Url="html/df754225-3741-02b4-d715-39d919b7e051.htm" />
   </HelpKINode>
   <HelpKINode Title="FHClient.Init method">
-    <HelpKINode Title="FHClient.Init Method " Url="html/69ab785e-4209-e5ad-bd69-4cc2dbac1f22.htm" />
     <HelpKINode Title="FHClient.Init Method " Url="html/6c52f6b2-fbc1-f33b-e11a-5949e15d0596.htm" />
+    <HelpKINode Title="FHClient.Init Method " Url="html/69ab785e-4209-e5ad-bd69-4cc2dbac1f22.htm" />
     <HelpKINode Title="FHClient.Init Method " Url="html/91b9e5bd-2682-c1f4-1847-334dcfa1cc01.htm" />
   </HelpKINode>
   <HelpKINode Title="FHCloudRequest class">
