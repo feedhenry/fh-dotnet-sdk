@@ -13,6 +13,15 @@ using System.Net.Http;
 namespace FHSDK.API
 {
     /// <summary>
+    /// Contains implementations for accessing FeedHenry APIs. Defined in the FHSDK.dll.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
+
+    /// <summary>
     /// Base class for all the API requests
     /// </summary>
     public abstract class FHRequest

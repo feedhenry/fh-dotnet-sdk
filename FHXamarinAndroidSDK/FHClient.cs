@@ -3,6 +3,16 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Droid
 {
+    /// <summary>
+    /// Contains the entry class of the FeedHenry Xamarin SDK for Android platform. It's defined in the FHXamarinAndroidSDK.dll.
+    /// To use the FeedHenry SDK, both FHSDK.dll and FHXamarinAndroidSDK.dll should be referenced by your Xamarain Android project, and initialise the SDK using the FHClient class in this name space.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
+
 	public class FHClient: FH
 	{
         /// <summary>

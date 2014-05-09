@@ -3,6 +3,16 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Touch
 {
+    /// <summary>
+    /// Contains the entry class of the FeedHenry Xamarin SDK for iOS platform. It's defined in the FHXamarinIOSSDK.dll.
+    /// To use the FeedHenry SDK, both FHSDK.dll and FHXamarinIOSSDK.dll should be referenced by your Xamarain iOS project, and initialise the SDK using the FHClient class in this name space.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
+
 	public class FHClient: FH
 	{
         /// <summary>

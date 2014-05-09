@@ -11,6 +11,14 @@ using System.Diagnostics.Contracts;
 
 namespace FHSDK.FHHttpClient
 {
+    /// <summary>
+    /// Contains implementation of a HttpClient used by the FeedHenry .Net SDK. Defined in the FHSDK.dll assembly.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
 
     /// <summary>
     /// HttpClient used by the SDK

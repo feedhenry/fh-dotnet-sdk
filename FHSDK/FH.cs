@@ -14,6 +14,15 @@ using System.Diagnostics.Contracts;
 namespace FHSDK
 {
     /// <summary>
+    /// The parent name space defined by FeedHenry .Net SDK. It is defined inside the FHSDK.dll assembly, which is a Portable Class Library.
+    /// The FHSDK.dll assembly can be referenced by other PCL projects.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
+    /// <summary>
     /// This is the main FeedHenry SDK class
     /// </summary>
 	public class FH

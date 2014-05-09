@@ -7,6 +7,16 @@ using System.Text;
 namespace FHSDK.Services
 {
     /// <summary>
+    /// Contains implementations of a few services used by the FeedHenry .Net SDK. The interfaces are defined in the FHSDK.dll assemably, then each platform's 
+    /// assembly contains platform-specific implementations of these services.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+
+    }
+
+    /// <summary>
     /// A helper class to resolve the correct implementation if a type using IAdapterResolver
     /// </summary>
     public class ServiceFinder
