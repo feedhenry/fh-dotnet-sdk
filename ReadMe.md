@@ -40,6 +40,7 @@ try {
 catch(FHException e) {
   //Initialisation failed, handle exception
 }
+````
 
 ### FH.Cloud
 
@@ -60,6 +61,7 @@ else
   //error occured during the request, deal with it. 
   //More infomation can be access from response.Error.InnerException
 }
+````
 
 ### FH.Auth
 
@@ -76,6 +78,7 @@ else
 {
     //auth failed
 }
+````
 
 ### FH.GetCloudHost
 
