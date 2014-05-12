@@ -97,12 +97,19 @@ For full list of APIs, please check [FH .NET SDK API References](http://feedhenr
 The complete FH .NET SDK contains four projects:
 
 * FHSDK
+  
   A PCL library contains core code. It is required by all the other three projects.  Most the the APIs are implemented here. It contains a few interface definitions which are implemented in each platform's project.  Another important function of this library is to automatically figure out the correct implementions for the inferfaces when running on devices (see code in [FHSDK/Adaptation](FHSDK/Adaptation)). The assembly file built by the project can be used by other PCL projects.
+
 * FHSDKPhone
+  
   A WP8 library project. Contains implementaion details for WP8 platform.
+
 * FHXamarinAndroidSDK
+  
   A Xamarin Android library project. Contains implementaion details for Android platform.
+
 * FHXamarinIOSSDK
+  
   A Xamarin IOS library project. Contains implementaion details for iOS platform.
 
 ## Building
