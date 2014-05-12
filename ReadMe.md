@@ -4,7 +4,7 @@ FeedHenry native .NET SDK for Windows Phone 8+ and Xamarin platform. It supports
 
 ## Install
 
-You can install the SDK to your project either using automatically (using NuGet) or manually.
+You can install the SDK to your project either automatically (using NuGet) or manually.
 
 ### NuGet (Recommended)
 
