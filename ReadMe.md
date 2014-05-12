@@ -1,6 +1,6 @@
 # FeedHenry C#/.NET SDK
 
-FeedHenry native SDK for Windows Phone 8+ and Xamarin platform. It supports Portable Class Library (PCL) projects as well.
+FeedHenry native .NET SDK for Windows Phone 8+ and Xamarin platform. It supports Portable Class Library (PCL) projects as well.
 
 ## Install
 
@@ -9,13 +9,13 @@ You can install the SDK to your project either using NuGet or manually.
 ### NuGet (Recommended)
 
 FH SDK is available on NuGet: https://www.nuget.org/packages/FH.SDK/. 
-If you are using the NuGet plugin of Visual Studio or Xamarin Studio, please search for FH.SDK.
+If you are using the NuGet plugin on Visual Studio or Xamarin Studio, please search for FH.SDK.
 NuGet will install dependecy libraries automatically.
 
 ### Manually
 
 The .dll assembly files can be found in the [Distribution directory](Dist). Please use the .dll files inside the folder that is corresponding to your project's target platform. 
-The library is depending on [Json.Net](https://www.nuget.org/packages/Newtonsoft.Json/) and [Microsoft HTTP Client Libraries](https://www.nuget.org/packages/Microsoft.Net.Http/). You need to install the assemblies of those libraries as well if they are not available in your project.
+The SDK is depending on [Json.Net](https://www.nuget.org/packages/Newtonsoft.Json/) and [Microsoft HTTP Client Libraries](https://www.nuget.org/packages/Microsoft.Net.Http/). You need to install the assemblies of those libraries as well if they are not available in your project.
 
 ## Usage
 
@@ -29,6 +29,8 @@ FHClient is available in the following namespaces:
 * FHSDK.Touch - For iOS
 
 Depending on your app's build target, only one of these name spaces should be available to your app.
+
+The main reason for having the same FHClient class defined in different name spaces is to ensure that the platform-specific assembly file is loaded correctly.
 
 ````cs
 try {
@@ -89,6 +91,19 @@ Return the url of the cloud host the app is communicating with. Can be used in P
 Invoke a cloud function which you have defined in cloud/main.js (the old way). Can be used in PCL projects.
 
 For full list of APIs, please check [FH .NET SDK API References](http://feedhenry.github.io/fh-dotnet-sdk/Documentations/FHDotNetSDKDoc/Help/index.html).
+
+## Structure
+
+The complete FH .NET SDK contains four projects:
+
+* FHSDK
+  A PCL library contains core code. It is required by all the other three projects.  Most the the APIs are implemented here. It contains a few interface definitions which are implemented in each platform's project.  Another important function of this library is to automatically figure out the correct implementions for the inferfaces when running on devices (see code in [FHSDK/Adaptation](FHSDK/Adaptation)). The assembly file built by the project can be used by other PCL projects.
+* FHSDKPhone
+  A WP8 library project. Contains implementaion details for WP8 platform.
+* FHXamarinAndroidSDK
+  A Xamarin Android library project. Contains implementaion details for Android platform.
+* FHXamarinIOSSDK
+  A Xamarin IOS library project. Contains implementaion details for iOS platform.
 
 ## Building
 
