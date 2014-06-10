@@ -62,7 +62,7 @@ namespace XamarinIOSExample
 
 		#endregion
 
-		async partial void onCloudCallTouched (NSObject sender)
+        async partial void onCloudCallTouched (UIButton sender)
 		{
 			Dictionary<string, object> data = new Dictionary<string, object>();
 			data.Add("hello", "world");
@@ -77,7 +77,7 @@ namespace XamarinIOSExample
 			ShowMessage(message);
 		}
 
-		async partial void onMbaasCallTouched (NSObject sender)
+        async partial void onMbaasCallTouched (UIButton sender)
 		{
 			Dictionary<string, object> data = new Dictionary<string, object>();
 			data.Add("act", "create");
@@ -113,7 +113,7 @@ namespace XamarinIOSExample
 			}
 		}
 
-		async partial void onAuthCallTouched (NSObject sender)
+        async partial void onAuthCallTouched (UIButton sender)
 		{
 			string authPolicy = "TestGooglePolicy";
 			FHResponse res = await FH.Auth(authPolicy);

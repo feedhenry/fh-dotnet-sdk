@@ -1,10 +1,12 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace XamarinIOSExample
@@ -13,43 +15,47 @@ namespace XamarinIOSExample
 	partial class XamarinIOSExampleViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton authCallButton { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton authCallButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton cloudCallButton { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton cloudCallButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton mbaasCallButton { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton mbaasCallButton { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView messageField { get; set; }
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextView messageField { get; set; }
 
 		[Action ("onAuthCallTouched:")]
-		partial void onAuthCallTouched (MonoTouch.Foundation.NSObject sender);
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void onAuthCallTouched (UIButton sender);
 
 		[Action ("onCloudCallTouched:")]
-		partial void onCloudCallTouched (MonoTouch.Foundation.NSObject sender);
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void onCloudCallTouched (UIButton sender);
 
 		[Action ("onMbaasCallTouched:")]
-		partial void onMbaasCallTouched (MonoTouch.Foundation.NSObject sender);
-		
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void onMbaasCallTouched (UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (authCallButton != null) {
 				authCallButton.Dispose ();
 				authCallButton = null;
 			}
-
 			if (cloudCallButton != null) {
 				cloudCallButton.Dispose ();
 				cloudCallButton = null;
 			}
-
 			if (mbaasCallButton != null) {
 				mbaasCallButton.Dispose ();
 				mbaasCallButton = null;
 			}
-
 			if (messageField != null) {
 				messageField.Dispose ();
 				messageField = null;
