@@ -32,7 +32,7 @@ namespace FHSDK.Sync
           this.initialised = true;
         }
 
-        private FHSyncDataset<IFHSyncModel> Manage(string datasetId, FHSyncConfig syncConfig, IDictionary<string, string> qp)
+        private FHSyncDataset<IFHSyncModel> Manage<T>(string datasetId, FHSyncConfig syncConfig, IDictionary<string, string> qp) where T:IFHSyncModel
         {
             FHSyncDataset<IFHSyncModel> dataset = null;
             if(!this.datasets.ContainsKey(datasetId)){
