@@ -33,7 +33,7 @@ namespace FHSDK.API
 		/// Construct the request data based on the request type
 		/// </summary>
 		/// <returns></returns>
-		protected override IDictionary<string, object> GetRequestParams()
+		protected override object GetRequestParams()
 		{
 			return GetDefaultParams();
 		}

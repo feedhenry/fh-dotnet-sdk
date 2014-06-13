@@ -22,6 +22,11 @@ namespace FHSDK.Services
 			});
 		}
 
+		public bool IsOnline ()
+		{
+			return checkNetworkStatus ();
+		}
+
 		private bool checkNetworkStatus()
 		{
 			ConnectivityManager connMgr = (ConnectivityManager) Application.Context.GetSystemService(Context.ConnectivityService);

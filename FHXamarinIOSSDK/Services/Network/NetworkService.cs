@@ -26,6 +26,11 @@ namespace FHSDK.Services
 			});
 		}
 
+		public bool IsOnline ()
+		{
+			return IsConnected;
+		}
+
 		private void CheckNetworkStatus()
 		{
 			var remoteHostStatus = Reachability.RemoteHostStatus();

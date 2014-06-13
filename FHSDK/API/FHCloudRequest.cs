@@ -11,13 +11,13 @@ namespace FHSDK
 	{
 		private CloudProps cloudProps;
 
-		private IDictionary<string, object> requestParams;
+		private object requestParams;
 		private string path = "";
 
 		/// <summary>
 		/// Get or set the request parameters
 		/// </summary>
-		public IDictionary<string, object> RequestParams 
+		public object RequestParams 
 		{ 
 			get 
 		    { 
@@ -68,7 +68,7 @@ namespace FHSDK
 		/// Construct the request data based on the request type
 		/// </summary>
 		/// <returns></returns>
-		protected override IDictionary<string, object> GetRequestParams()
+		protected override object GetRequestParams()
 		{
 			return this.requestParams;
 		}

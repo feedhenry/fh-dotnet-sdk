@@ -22,7 +22,7 @@ namespace FHSDK.API
 		/// <summary>
 		/// Get or set the request parameters
 		/// </summary>
-		public IDictionary<string, object> RequestParams { get; set; }
+		public object RequestParams { get; set; }
 
 		/// <summary>
 		/// Constructor
@@ -40,7 +40,7 @@ namespace FHSDK.API
 		/// <param name="remoteAct">The name of the cloud action</param>
 		/// <param name="requestParams">The request parameters</param>
 		/// <returns></returns>
-		public async Task<FHResponse> execAsync(string remoteAct, IDictionary<string, object> requestParams)
+        public async Task<FHResponse> execAsync(string remoteAct, object requestParams)
 		{
 			this.RemoteAct = remoteAct;
 			this.RequestParams = requestParams;
@@ -62,15 +62,20 @@ namespace FHSDK.API
 		/// Construct the request data based on the request type
 		/// </summary>
 		/// <returns></returns>
-		protected override IDictionary<string, object> GetRequestParams()
+		protected override object GetRequestParams()
 		{
-			Dictionary<string, object> data = new Dictionary<string, object>();
+            JObject data = new JObject();
 			if(null != this.RequestParams)
 			{
-				data = new Dictionary<string, object>(this.RequestParams);
+                
+                try{
+                    data = JObject.FromObject(this.RequestParams);
+                }catch(Exception e){
+                    
+                }
 			}
 			IDictionary<string, object> defaultParams = GetDefaultParams();
-			data["__fh"] = defaultParams;
+			data["__fh"] = JToken.FromObject(defaultParams);
 			return data;
 		}
 	}

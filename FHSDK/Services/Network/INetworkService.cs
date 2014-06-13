@@ -16,5 +16,7 @@ namespace FHSDK.Services
         /// </summary>
         /// <returns>if the device is online</returns>
         Task<bool> IsOnlineAsync();
+
+		bool IsOnline ();
     }
 }

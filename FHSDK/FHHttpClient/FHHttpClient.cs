@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json.Linq;
 
 namespace FHSDK.FHHttpClient
 {
@@ -39,15 +40,30 @@ namespace FHSDK.FHHttpClient
             return await networkServiceProvider.IsOnlineAsync();
         }
 
-		private static Uri BuildUri(Uri uri, string requestMethod, IDictionary<string, object> requestData)
+		private static Uri BuildUri(Uri uri, string requestMethod, object requestData)
 		{
 			if (!"POST".Equals (requestMethod.ToUpper ()) && !"PUT".Equals (requestMethod.ToUpper ())) {
 				if (null != requestData) {
 					UriBuilder ub = new UriBuilder (uri);
 					List<string> qs = new List<string> ();
-					foreach (var item in requestData) {
-						qs.Add (String.Format ("{0}={1}", item.Key, JsonConvert.SerializeObject (item.Value)));
-					}
+                    JToken jToken = JToken.FromObject(requestData);
+                    if(jToken.Type == JTokenType.Object){
+                        JObject jObject = (JObject)jToken;
+                        foreach (var item in jObject) {
+                            qs.Add (String.Format ("{0}={1}", item.Key, JsonConvert.SerializeObject (item.Value)));
+                        }
+                    } else if(jToken.Type == JTokenType.Array){
+                        JArray jArray = (JArray)jToken;
+                        int i = 0;
+                        foreach (var item in jArray)
+                        {
+                            qs.Add(String.Format("{0}={1}", i, JsonConvert.SerializeObject(item)));
+                            i++;    
+                        }
+                    } else {
+                        qs.Add(JsonConvert.SerializeObject(requestData));
+                    }
+					
 					string query = String.Join (",", qs.ToArray ());
 					string existingQuery = ub.Query;
 					if (null != existingQuery && existingQuery.Length > 1) {
@@ -71,7 +87,7 @@ namespace FHSDK.FHHttpClient
         /// <param name="requestData">The request data</param>
         /// <param name="timeout">Timeout in milliseconds</param>
         /// <returns>Server response</returns>
-		public static async Task<FHResponse> SendAsync(Uri uri, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestData, TimeSpan timeout)
+		public static async Task<FHResponse> SendAsync(Uri uri, string requestMethod, IDictionary<string, string> headers, object requestData, TimeSpan timeout)
         {
 			Stopwatch timer = new Stopwatch ();
 

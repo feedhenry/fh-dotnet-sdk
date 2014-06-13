@@ -127,7 +127,7 @@ namespace FHSDK
         /// </example>
         /// <returns>The response data returned by the cloud function</returns>
         /// <exception cref="InvalidOperationException"> It will be thrown if FH SDK is not ready.</exception>
-        public static async Task<FHResponse> Act(string remoteAct, IDictionary<string, object> actParams)
+        public static async Task<FHResponse> Act(string remoteAct, object actParams)
         {
             RequireAppReady();
             FHActRequest actRequest = new FHActRequest(cloudProps);
@@ -174,7 +174,7 @@ namespace FHSDK
 	    /// <param name="headers">The HTTP headers for the request</param>
 	    /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
 	    /// <returns>The cloud request object</returns>
-		public static FHCloudRequest GetCloudRequest(string path, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestParams)
+		public static FHCloudRequest GetCloudRequest(string path, string requestMethod, IDictionary<string, string> headers, object requestParams)
 		{
 			RequireAppReady ();
 			Contract.Assert (null != path, "Cloud path is not defined");
@@ -213,7 +213,7 @@ namespace FHSDK
         /// </code>
         /// </example>
         /// <returns>The response from the cloud</returns>
-		public static async Task<FHResponse> Cloud(string path, string requestMethod, IDictionary<string, string> headers, IDictionary<string, object> requestParams)
+		public static async Task<FHResponse> Cloud(string path, string requestMethod, IDictionary<string, string> headers, object requestParams)
 		{
 			FHCloudRequest cloudRequest = GetCloudRequest (path, requestMethod, headers, requestParams);
 			return await cloudRequest.execAsync ();
@@ -225,7 +225,7 @@ namespace FHSDK
         /// <param name="service">The MBAAS service name</param>
         /// <param name="requestParams">The request body</param>
         /// <returns>The response from the MBAAS service</returns>
-		public static async Task<FHResponse> Mbaas(string service, IDictionary<string, object> requestParams)
+		public static async Task<FHResponse> Mbaas(string service, object requestParams)
 		{
 			RequireAppReady ();
 			Contract.Assert (null != service, "service is not defined");

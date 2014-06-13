@@ -108,7 +108,7 @@ namespace FHSDK.API
         public virtual async Task<FHResponse> execAsync()
         {
 			Uri uri = GetUri();
-            IDictionary<string, object> requestParams = GetRequestParams();
+            object requestParams = GetRequestParams();
 			FHResponse fhres = await FHHttpClient.FHHttpClient.SendAsync(uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
             return fhres;
         }
@@ -135,7 +135,7 @@ namespace FHSDK.API
         /// Construct the request data based on the request type
         /// </summary>
         /// <returns></returns>
-		protected abstract IDictionary<string, object> GetRequestParams();
+		protected abstract object GetRequestParams();
 
     }
 
