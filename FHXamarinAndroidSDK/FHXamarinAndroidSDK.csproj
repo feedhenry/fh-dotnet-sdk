@@ -54,6 +54,9 @@
     <Compile Include="Services\Auth\FHOAuthWebview.cs" />
     <Compile Include="Services\Auth\FHOAuthIntent.cs" />
     <Compile Include="FHClient.cs" />
+    <Compile Include="Services\Hash\HashService.cs" />
+    <Compile Include="Services\Monitor\MonitorService.cs" />
+    <Compile Include="Services\Data\IOService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,4 +73,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Hash\" />
+    <Folder Include="Services\Monitor\" />
+  </ItemGroup>
 </Project>

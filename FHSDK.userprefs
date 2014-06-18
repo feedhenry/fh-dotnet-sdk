@@ -1,19 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/Sync/FHSyncDataset.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/Sync/FHSyncClient.cs">
     <Files>
-      <File FileName="FHSDK/Sync/FHSyncConfig.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/FHHttpClient/FHResponse.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncDataRecord.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Sync/FHSyncConfig.cs" Line="62" Column="18" />
+      <File FileName="FHSDK/FHHttpClient/FHResponse.cs" Line="26" Column="36" />
+      <File FileName="FHSDK/Sync/FHSyncDataRecord.cs" Line="48" Column="3" />
       <File FileName="FHSDK/Sync/FHSyncUtils.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Hash/IHashService.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Device/IDeviceService.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="331" Column="72" />
+      <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="117" Column="33" />
+      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="159" Column="45" />
       <File FileName="FHSDK/Services/Data/IDataService.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/IDataStore.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/InMemoryDataStore.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/FH.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Sync/IDataStore.cs" Line="8" Column="41" />
+      <File FileName="FHSDK/Sync/InMemoryDataStore.cs" Line="13" Column="3" />
+      <File FileName="FHSDK/FH.cs" Line="232" Column="60" />
       <File FileName="FHSDK/Services/Log/LogServiceBase.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Data/DataServiceBase.cs" Line="1" Column="1" />
       <File FileName="FHXamarinAndroidSDK/Services/Data/DataService.cs" Line="1" Column="1" />
@@ -24,6 +24,13 @@
       <File FileName="FHXamarinAndroidSDK/Services/Network/NetworkService.cs" Line="1" Column="1" />
       <File FileName="FHSDK/Services/Network/INetworkService.cs" Line="1" Column="1" />
       <File FileName="FHXamarinIOSSDK/Services/Network/NetworkService.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/API/FHActRequest.cs" Line="79" Column="16" />
+      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="49" Column="66" />
+      <File FileName="FHSDK/API/FHCloudRequest.cs" Line="20" Column="16" />
+      <File FileName="FHSDK/API/FHRequest.cs" Line="111" Column="19" />
+      <File FileName="FHSDK/API/FHInitRequest.cs" Line="36" Column="28" />
+      <File FileName="FHSDK/API/FHAuthRequest.cs" Line="76" Column="28" />
+      <File FileName="FHSDK/Sync/FHSyncClient.cs" Line="35" Column="150" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

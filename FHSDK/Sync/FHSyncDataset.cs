@@ -20,13 +20,12 @@ namespace FHSDK.Sync
         /// <summary>
         /// If the sync loop is running
         /// </summary>
-        public Boolean syncRunning { get; set; }
+        private Boolean syncRunning = false;
         /// <summary>
         /// <summary>
         /// Is there any pending sync records
         /// </summary>
-        public Boolean syncPending { get; set; }
-        /// <summary>
+        private Boolean syncPending = false;
         /// The store of pending records
         /// </summary>
         private IDataStore<FHSyncPendingRecord> pendingRecords;
@@ -40,67 +39,6 @@ namespace FHSDK.Sync
         private Boolean stopSync = false;
         private static ILogService logger = ServiceFinder.Resolve<ILogService>();
         private static INetworkService networkService = ServiceFinder.Resolve<INetworkService>();
-
-        protected enum SyncNotification
-        {
-            CLIENT_STORAGE_FAILED,
-            SYNC_STARTED,
-            SYNC_COMPLETED,
-            OFFLINE_UPDATE,
-            COLLISION_DETECTED,
-            REMOTE_UPDATE_APPLIED,
-            REMOTE_UPDATE_FAILED,
-            LOCAL_UPDATE_APPLIED,
-            DELTA_RECEIVED,
-            RECORD_DELTA_RECEIVED,
-            SYNC_FAILED}
-
-        ;
-
-        /// <summary>
-        /// Notify client storage failed event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> ClientStorageFailed;
-        /// <summary>
-        /// Notify sync loop started event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> SyncStarted;
-        /// <summary>
-        /// Notify sync loop complete event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> SyncCompleted;
-        /// <summary>
-        /// Notify offline update event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> OfflineUpdate;
-        /// <summary>
-        /// Notify collision detected event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> CollisionDetected;
-        /// <summary>
-        /// Notify remote update failed event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> RemoteUpdateFailed;
-        /// <summary>
-        /// Notify local update applied event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> LocalUpdateApplied;
-        /// <summary>
-        /// Notify remote update applied event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> RemoteUpdateApplied;
-        /// <summary>
-        /// Notify delta received event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> DeltaReceived;
-        /// <summary>
-        /// Notify record delta received event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> RecordDeltaReceived;
-        /// <summary>
-        /// Notify sync loop failed event
-        /// </summary>
-        public event EventHandler<FHSyncNotificationEventArgs> SyncFailed;
 
         /// <summary>
         /// The sync configuration
@@ -120,12 +58,12 @@ namespace FHSDK.Sync
         /// <summary>
         /// When the last sync started
         /// </summary>
-        private DateTime SyncStart { get; set; }
+        private Nullable<DateTime> SyncStart { get; set; }
 
         /// <summary>
         /// When the last sync ended
         /// </summary>
-        private DateTime SyncEnd { get; set; }
+        private Nullable<DateTime> SyncEnd { get; set; }
 
         /// <summary>
         /// The query params for the data records. Will be used to send to the cloud when listing initial records.
@@ -137,12 +75,18 @@ namespace FHSDK.Sync
         /// </summary>
         protected FHSyncMetaData MetaData { get; set; }
 
-        public Boolean StopSync { get; set; }
+        /// <summary>
+        /// If this is set to true, a sync loop will start almost immediately
+        /// </summary>
+        /// <value><c>true</c> if force sync; otherwise, <c>false</c>.</value>
+        public Boolean ForceSync { set; get; }
 
         /// <summary>
         /// Records change acknowledgements
         /// </summary>
         protected List<FHSyncResponseUpdatesData> Acknowledgements { get; set; }
+
+        public event EventHandler<FHSyncNotificationEventArgs> SyncNotificationHandler;
 
         public FHSyncDataset()
         {
@@ -930,75 +874,72 @@ namespace FHSDK.Sync
         }
 
         /// <summary>
-        /// Send the event notification
+        /// Check if a sync loop should run
         /// </summary>
-        /// <param name="datasetId">Dataset identifier.</param>
-        /// <param name="uid">Uid.</param>
-        /// <param name="code">Code.</param>
-        /// <param name="message">Message.</param>
-        protected virtual void OnSyncNotification(string uid, SyncNotification code, string message)
+        /// <returns><c>true</c>, if sync was shoulded, <c>false</c> otherwise.</returns>
+        public bool ShouldSync()
         {
-            FHSyncNotificationEventArgs args = new FHSyncNotificationEventArgs
-            {
-                DatasetId = this.DatasetId,
-                Uid = uid,
-                Code = code.ToString(),
-                Message = message
-            };
-            logger.d(LOG_TAG, "Receive Notification : " + args.ToString(), null);
-            EventHandler<FHSyncNotificationEventArgs> handler = null;
-            switch (code)
-            {
-                case SyncNotification.CLIENT_STORAGE_FAILED:
-                    handler = ClientStorageFailed;
-                    break;
-                case SyncNotification.COLLISION_DETECTED:
-                    handler = CollisionDetected;
-                    break;
-                case SyncNotification.DELTA_RECEIVED:
-                    handler = DeltaReceived;
-                    break;
-                case SyncNotification.LOCAL_UPDATE_APPLIED:
-                    handler = LocalUpdateApplied;
-                    break;
-                case SyncNotification.OFFLINE_UPDATE:
-                    handler = OfflineUpdate;
-                    break;
-                case SyncNotification.RECORD_DELTA_RECEIVED:
-                    handler = RecordDeltaReceived;
-                    break;
-                case SyncNotification.REMOTE_UPDATE_APPLIED:
-                    handler = RemoteUpdateApplied;
-                    break;
-                case SyncNotification.REMOTE_UPDATE_FAILED:
-                    handler = RemoteUpdateFailed;
-                    break;
-                case SyncNotification.SYNC_COMPLETED:
-                    handler = SyncCompleted;
-                    break;
-                case SyncNotification.SYNC_FAILED:
-                    handler = SyncFailed;
-                    break;
-                case SyncNotification.SYNC_STARTED:
-                    handler = SyncStarted;
-                    break;
-                default:
-                    break;
-            }
-            if (null != handler)
-            {
-                //make sure event handlers won't block current thread
-                Task.Run(() =>
-                    {
-                        handler(this, args);
-                    });
+           if(!syncRunning && (!stopSync || this.ForceSync)){
+                if(this.ForceSync){
+                    this.syncPending = true;
+                } else if(null == SyncStart){
+                    DebugLog(this.DatasetId + " - Performing initial sync");
+                    this.syncPending = true;
+                } else if(null != SyncEnd){
+                    DateTime nextSync = SyncEnd.Value.Add(TimeSpan.FromSeconds(this.SyncConfig.SyncFrequency));
+                    if(DateTime.Now >= nextSync){
+                        this.syncPending = true;
+                    }
+                }
+                if(this.syncPending){
+                    this.ForceSync = false;
+                }
+                return this.syncPending; 
+           } else {
+                return false;
+           }
+        }
+
+        /// <summary>
+        /// Will run a sync loop
+        /// </summary>
+        public void DoSync()
+        {
+            this.syncPending = true;
+        }
+
+        /// <summary>
+        /// Stop the sync
+        /// </summary>
+        public void StopSync()
+        {
+            if(!stopSync){
+                this.stopSync = true;
             }
         }
 
-        public bool ShouldSync()
+        /// <summary>
+        /// Start sync
+        /// </summary>
+        public void StartSync()
         {
-            //TODO: implement me!!
-            return true;
+            if(stopSync){
+                this.stopSync = false;
+            }
+        }
+
+        protected virtual void OnSyncNotification(string uid, SyncNotification code, string message)
+        {
+            if(null != this.SyncNotificationHandler){
+                FHSyncNotificationEventArgs args = new FHSyncNotificationEventArgs
+                {
+                    DatasetId = this.DatasetId,
+                    Uid = uid,
+                    Code = code,
+                    Message = message
+                };
+                this.SyncNotificationHandler(this, args);
+            }
         }
             
 
@@ -1081,24 +1022,6 @@ namespace FHSDK.Sync
                 this.ClientRecords = records;
             }
 
-        }
-    }
-
-
-
-    public class FHSyncNotificationEventArgs : EventArgs
-    {
-        public string DatasetId { set; get; }
-
-        public string Uid { get; set; }
-
-        public string Code { get; set; }
-
-        public string Message { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format("[FHSyncNotificationEventArgs: DatasetId={0}, Uid={1}, Code={2}, Message={3}]", DatasetId, Uid, Code, Message);
         }
     }
 
