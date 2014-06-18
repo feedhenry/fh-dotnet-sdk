@@ -21,6 +21,8 @@ namespace FHSDK.Services
 
         public void WriteFile(string fullPath, string content)
         {
+            string parentDir = Path.GetDirectoryName(fullPath);
+            Directory.CreateDirectory(parentDir);
             File.WriteAllText(fullPath, content);
         }
 

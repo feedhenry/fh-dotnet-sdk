@@ -43,7 +43,8 @@ namespace FHSDK.Sync
 		{
 			IIOService ioService = ServiceFinder.Resolve<IIOService> ();
 			string dirName = "com_feedhenry_sync";
-			return Path.Combine (ioService.GetDataPersistDir (), dataId, dirName);
+			string dataDirPath = Path.Combine (ioService.GetDataPersistDir (), dataId, dirName);
+            return dataDirPath;
 		}
 
 		public static string GetDataFilePath(string dataId, string dataFileName)
