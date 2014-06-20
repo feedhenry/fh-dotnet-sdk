@@ -88,9 +88,12 @@
     <Compile Include="FHClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Data\DataService.cs" />
+    <Compile Include="Services\Data\IOService.cs" />
     <Compile Include="Services\Device\DeviceService.cs" />
+    <Compile Include="Services\Hash\HashService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
+    <Compile Include="Services\Monitor\MonitorService.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
   </ItemGroup>
   <ItemGroup>
