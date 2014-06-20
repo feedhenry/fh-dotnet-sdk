@@ -70,9 +70,16 @@ namespace FHSDK
         /// <exception cref="FHException"></exception>
 		protected static async Task<bool> Init()
         {
-			FHConfig.getInstance();
+			FHConfig fhconfig = FHConfig.getInstance();
             if (!appReady)
             {
+                if(fhconfig.IsLocalDevelopment){
+                    appReady = true;
+                    JObject cloudJson = new JObject();
+                    cloudJson["url"] = fhconfig.GetHost();
+                    cloudProps = new CloudProps(cloudJson);
+                    return true;
+                }
                 FHInitRequest initRequest = new FHInitRequest();
                 initRequest.TimeOut = timeout;
                 FHResponse initRes = await initRequest.execAsync();

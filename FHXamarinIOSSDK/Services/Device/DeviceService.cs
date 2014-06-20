@@ -15,6 +15,7 @@ namespace FHSDK.Services
 		private ILogService logger;
 		private AppProps appProps;
 		private const string APP_PROPS_FILE = "fhconfig";
+        private const string LOCAL_DEV_APP_PROPS_FILE = "fhconfiglocal";
 
 		public DeviceService ()
 		{
@@ -36,15 +37,24 @@ namespace FHSDK.Services
 		public AppProps ReadAppProps()
 		{
 			if (null == appProps) {
-				string path = NSBundle.MainBundle.PathForResource (APP_PROPS_FILE, "plist");
+                bool localDev = false;
+                string path = NSBundle.MainBundle.PathForResource (LOCAL_DEV_APP_PROPS_FILE, "plist");
+                if(null == path){
+                    path = NSBundle.MainBundle.PathForResource(APP_PROPS_FILE, "plist");
+                } else {
+                    localDev = true;
+                }
 				NSDictionary props = NSDictionary.FromFile (path);
 				appProps = new AppProps ();
 				appProps.host = ((NSString) props["host"]).ToString();
-				appProps.appid = ((NSString)props ["appid"]).ToString();
-				appProps.appkey = ((NSString)props ["appkey"]).ToString();
+				appProps.appid = null == props["appid"]? null : ((NSString)props ["appid"]).ToString();
+				appProps.appkey = null == props["appkey"]? null : ((NSString)props ["appkey"]).ToString();
 				appProps.projectid = null == props ["projectid"] ? null : ((NSString)props ["projectid"]).ToString();
 				appProps.connectiontag = null == props ["connectiontag"] ? null : ((NSString)props ["connectiontag"]).ToString();
 				appProps.mode = null == props ["mode"] ? null : ((NSString)props ["mode"]).ToString();
+                if(localDev){
+                    appProps.IsLocalDevelopment = true;
+                }
 			}
 			return appProps;
 		}

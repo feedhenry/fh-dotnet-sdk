@@ -87,7 +87,13 @@ namespace FHSDK.API
 			{
 				IDictionary<string, string> defaultHeaders = FH.GetDefaultParamsAsHeaders ();
 				if (null != this.requestHeaders) {
-					defaultHeaders.Concat (this.requestHeaders);
+                    foreach (var item in this.requestHeaders)
+                    {
+                        string key = item.Key;
+                        if(!defaultHeaders.ContainsKey(key)){
+                            defaultHeaders.Add(key, item.Value);
+                        }        
+                    }
 				}
 				return defaultHeaders;
 			}
