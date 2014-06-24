@@ -1,0 +1,3 @@
+[submodule "TestCloudApp"]
+	path = TestCloudApp
+	url = git@github.com:fheng/fh-sdks-test-cloud-app.git
