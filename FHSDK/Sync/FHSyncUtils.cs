@@ -76,7 +76,7 @@ namespace FHSDK.Sync
 				keys.Sort ();
 				for (int i = 0; i < keys.Count; i++) {
 					string key = keys [i];
-					if ( pObject is IFHSyncModel && key.Equals ("UID")) {
+					if ( pObject is IFHSyncModel && key.ToUpper().Equals ("UID")) {
 						continue;
 					}
 					JObject obj = new JObject ();

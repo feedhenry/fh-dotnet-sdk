@@ -17,6 +17,8 @@ namespace FHSDK.Sync
     {
         private const string LOG_TAG = "FHSyncDataset";
         private const string PERSIST_FILE_NAME = ".sync.json";
+        private const string DATA_PERSIST_FILE_NAME = ".data.json";
+        private const string PENDING_DATA_PERSIST_FILE_NAME = ".pendings.json";
         /// <summary>
         /// If the sync loop is running
         /// </summary>
@@ -28,15 +30,14 @@ namespace FHSDK.Sync
         private Boolean syncPending = false;
         /// The store of pending records
         /// </summary>
-        private IDataStore<FHSyncPendingRecord> pendingRecords;
+        private IDataStore<FHSyncPendingRecord<T>> pendingRecords;
         /// <summary>
         /// The store of data records
         /// </summary>
-        private IDataStore<FHSyncDataRecord> dataRecords;
+        private IDataStore<FHSyncDataRecord<T>> dataRecords;
         /// <summary>
         /// Should the sync be stopped
         /// </summary>
-        private Boolean stopSync = false;
         private static ILogService logger = ServiceFinder.Resolve<ILogService>();
         private static INetworkService networkService = ServiceFinder.Resolve<INetworkService>();
 
@@ -68,22 +69,26 @@ namespace FHSDK.Sync
         /// <summary>
         /// The query params for the data records. Will be used to send to the cloud when listing initial records.
         /// </summary>
+        [JsonProperty("QueryParams")]
         protected IDictionary<string, string> QueryParams { get; set; }
 
         /// <summary>
         /// The meta data for the dataset
         /// </summary>
+        [JsonProperty("MetaData")]
         protected FHSyncMetaData MetaData { get; set; }
 
         /// <summary>
         /// If this is set to true, a sync loop will start almost immediately
         /// </summary>
         /// <value><c>true</c> if force sync; otherwise, <c>false</c>.</value>
+        [JsonIgnore]
         public Boolean ForceSync { set; get; }
 
         /// <summary>
         /// Records change acknowledgements
         /// </summary>
+        [JsonProperty("Acknowledgements")]
         protected List<FHSyncResponseUpdatesData> Acknowledgements { get; set; }
 
         public event EventHandler<FHSyncNotificationEventArgs> SyncNotificationHandler;
@@ -111,10 +116,12 @@ namespace FHSDK.Sync
                 dataset = new FHSyncDataset<X>();
                 dataset.DatasetId = datasetId;
                 dataset.SyncConfig = syncConfig;
-                dataset.QueryParams = qp;
-                dataset.MetaData = meta;
-                dataset.dataRecords = new InMemoryDataStore<FHSyncDataRecord>();
-                dataset.pendingRecords = new InMemoryDataStore<FHSyncPendingRecord>();
+                dataset.QueryParams = null == qp ? new Dictionary<string, string>() : qp;
+                dataset.MetaData = null == meta ? new FHSyncMetaData() : meta;
+                dataset.dataRecords = new InMemoryDataStore<FHSyncDataRecord<X>>();
+                dataset.dataRecords.PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, DATA_PERSIST_FILE_NAME);
+                dataset.pendingRecords = new InMemoryDataStore<FHSyncPendingRecord<X>>();
+                dataset.pendingRecords.PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, PENDING_DATA_PERSIST_FILE_NAME);
                 //persist the dataset immediately
                 dataset.Save();
             }
@@ -127,11 +134,12 @@ namespace FHSDK.Sync
         public List<T> List()
         {
             List<T> results = new List<T>();
-            Dictionary<string, FHSyncDataRecord> storedData = this.dataRecords.List();
-            foreach (KeyValuePair<string, FHSyncDataRecord> item in storedData)
+            Dictionary<string, FHSyncDataRecord<T>> storedData = this.dataRecords.List();
+            foreach (KeyValuePair<string, FHSyncDataRecord<T>> item in storedData)
             {
-                FHSyncDataRecord record = item.Value;
+                FHSyncDataRecord<T> record = item.Value;
                 T data = (T)FHSyncUtils.Clone(record.Data);
+                data.UID = item.Key;
                 results.Add(data);
             }
             return results;
@@ -144,10 +152,11 @@ namespace FHSDK.Sync
         public T Read(string uid)
         {
             Contract.Assert(null != uid, "uid is null");
-            FHSyncDataRecord record = this.dataRecords.Get(uid);
+            FHSyncDataRecord<T> record = this.dataRecords.Get(uid);
             if (null != record)
             {
                 T data = (T)FHSyncUtils.Clone(record.Data);
+                data.UID = record.Uid;
                 return data;
             }
             else
@@ -164,18 +173,19 @@ namespace FHSDK.Sync
         {
             Contract.Assert(data.UID == null, "data is not new");
             T ret = default(T);
-            FHSyncPendingRecord pendingRecord = AddPendingRecord(data, "create");
-            if (null == pendingRecord)
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "create");
+            if (null != pendingRecord)
             {
                 //for creation, the uid will be the uid of the pending record temporarily
-                FHSyncDataRecord record = this.dataRecords.Get(pendingRecord.Uid);
+                FHSyncDataRecord<T> record = this.dataRecords.Get(pendingRecord.Uid);
                 if (null != record)
                 {
                     ret = (T)FHSyncUtils.Clone(record.Data);
+                    ret.UID = record.Uid;
                 }
 
             }
-            if (ret.Equals(default(T)))
+            if (ret == null)
             {
                 throw new Exception("create failed");
             }
@@ -192,19 +202,20 @@ namespace FHSDK.Sync
         public T Update(T data)
         {
             Contract.Assert(data.UID != null, "data is new");
-            FHSyncDataRecord record = this.dataRecords.Get(data.UID);
+            FHSyncDataRecord<T> record = this.dataRecords.Get(data.UID);
             Contract.Assert(null != record, "data record with uid " + data.UID + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord pendingRecord = AddPendingRecord(data, "update");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "update");
             if (null != pendingRecord)
             {
-                FHSyncDataRecord updatedRecord = this.dataRecords.Get(data.UID);
+                FHSyncDataRecord<T> updatedRecord = this.dataRecords.Get(data.UID);
                 if (null != updatedRecord)
                 {
                     ret = (T)FHSyncUtils.Clone(record.Data);
+                    ret.UID = record.Uid;
                 }
             }
-            if (ret.Equals(default(T)))
+            if (ret == null)
             {
                 throw new Exception("update failed");
             }
@@ -221,13 +232,14 @@ namespace FHSDK.Sync
         public T Delete(string uid)
         {
             Contract.Assert(null != uid, "uid is null");
-            FHSyncDataRecord record = this.dataRecords.Get(uid);
+            FHSyncDataRecord<T> record = this.dataRecords.Get(uid);
             Contract.Assert(null != record, "data record with uid " + uid + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord pendingRecord = AddPendingRecord(record.Data, "delete");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(record.Data, "delete");
             if (null != pendingRecord)
             {
                 ret = (T)FHSyncUtils.Clone(record.Data);
+                ret.UID = uid;
             }
             if (ret.Equals(default(T)))
             {
@@ -239,52 +251,55 @@ namespace FHSDK.Sync
             }
         }
 
-        protected FHSyncPendingRecord AddPendingRecord(IFHSyncModel dataRecords, string action)
+        protected FHSyncPendingRecord<T> AddPendingRecord(T dataRecords, string action)
         {
             if (!networkService.IsOnline())
             {
                 this.OnSyncNotification(dataRecords.UID, SyncNotification.OFFLINE_UPDATE, action);
             }
             //create pendingRecord
-            FHSyncPendingRecord pendingRecord = new FHSyncPendingRecord();
+            FHSyncPendingRecord<T> pendingRecord = new FHSyncPendingRecord<T>();
             pendingRecord.InFlight = false;
             pendingRecord.Action = action;
-            FHSyncDataRecord dataRecord = null;
+            FHSyncDataRecord<T> dataRecord = null;
             if (null != dataRecords)
             {
-                dataRecord = new FHSyncDataRecord(dataRecords);
+                dataRecord = new FHSyncDataRecord<T>(dataRecords);
                 pendingRecord.PostData = dataRecord;
             }
             if ("create".Equals(action))
             {
                 pendingRecord.Uid = pendingRecord.PostData.HashValue;
+                dataRecord.Uid = pendingRecord.Uid;
             }
             else
             {
-                FHSyncDataRecord existing = this.dataRecords.Get(dataRecords.UID);
-                pendingRecord.Uid = dataRecords.UID;
+                FHSyncDataRecord<T> existing = this.dataRecords.Get(dataRecords.UID);
+                dataRecord.Uid = existing.Uid;
+                pendingRecord.Uid = existing.Uid;
                 pendingRecord.PreData = existing.Clone();
             }
             StorePendingRecord(pendingRecord);
+            string uid = pendingRecord.Uid;
             if("delete".Equals(action)){
                 this.dataRecords.Delete(dataRecords.UID);
             } else {
-                this.dataRecords.Insert(dataRecord.Uid, dataRecord);
-                this.MetaData.InsertBoolMetaData(dataRecord.Uid, "fromPending", true);
-                this.MetaData.InsertStringMetaData(dataRecord.Uid, "pendingUid", pendingRecord.GetHashValue());
+                this.dataRecords.Insert(uid, dataRecord);
             }
+            this.Save();
+            this.OnSyncNotification(uid, SyncNotification.LOCAL_UPDATE_APPLIED, pendingRecord.Action);
             return pendingRecord;
         }
 
         //TODO: probably move this to a dedicated PendingRecordsManager
-        protected void StorePendingRecord(FHSyncPendingRecord pendingRecord)
+        protected void StorePendingRecord(FHSyncPendingRecord<T> pendingRecord)
         {
             this.pendingRecords.Insert(pendingRecord.GetHashValue(), pendingRecord);
             string previousPendingUID = null;
-            FHSyncPendingRecord previousPending = null;
+            FHSyncPendingRecord<T> previousPending = null;
             string uid = pendingRecord.Uid;
             DebugLog("update local dataset for uid " + uid + " - action = " + pendingRecord.Action);
-            FHSyncDataRecord existing = dataRecords.Get(uid);
+            FHSyncDataRecord<T> existing = dataRecords.Get(uid);
             Boolean fromPending = this.MetaData.GetMetaDataAsBool(uid, "fromPending");
             if ("create".Equals(pendingRecord.Action)) {
                 if (null != existing) {
@@ -296,9 +311,12 @@ namespace FHSDK.Sync
                         }
                     }
                 }
+                this.MetaData.InsertBoolMetaData(uid, "fromPending", true);
+                this.MetaData.InsertStringMetaData(uid, "pendingUid", pendingRecord.GetHashValue());
             }
 
             if ("update".Equals(pendingRecord.Action)) {
+                string metaPendingHash = pendingRecord.GetHashValue();
                 if (null != existing) {
                     DebugLog("Update an existing pending record for dataset :: " + existing.ToString());
                     previousPendingUID = this.MetaData.GetMetaDataAsString(uid, "pendingUid");
@@ -310,14 +328,16 @@ namespace FHSDK.Sync
                                 DebugLog("existing pre-flight pending record =" + previousPending.ToString());
                                 previousPending.PostData = pendingRecord.PostData;
                                 pendingRecords.Delete(pendingRecord.GetHashValue());
+                                metaPendingHash = previousPendingUID;
                             } else {
                                 DebugLog("existing in-flight pending record = " + previousPending.ToString());
                                 pendingRecord.SetDelayed(previousPending.GetHashValue());
                             }
                         }
                     }
-
                 }
+                this.MetaData.InsertBoolMetaData(uid, "fromPending", true);
+                this.MetaData.InsertStringMetaData(uid, "pendingUid", metaPendingHash);
             }
 
             if("delete".Equals(pendingRecord.Action)){
@@ -352,11 +372,9 @@ namespace FHSDK.Sync
             if(this.SyncConfig.AutoSyncLocalUpdates){
                 this.syncPending = true;
             }
-            this.Save();
-            this.OnSyncNotification(uid, SyncNotification.LOCAL_UPDATE_APPLIED, pendingRecord.Action);
         }
 
-        public async void StartSyncLoop()
+        public async Task StartSyncLoop()
         {
             this.syncPending = false;
             this.syncRunning = true;
@@ -366,114 +384,114 @@ namespace FHSDK.Sync
                 FHSyncLoopParams syncParams = new FHSyncLoopParams(this);
                 if(syncParams.Pendings.Count > 0){
                     logger.i(LOG_TAG, "starting sync loop - global hash = " + this.HashValue + " :: params = " + syncParams.ToString(), null);
-                    try {
-                        FHResponse syncRes = await DoCloudCall(syncParams);
-                        if(null == syncRes.Error){
-                            FHSyncResponseData returnedSyncData = (FHSyncResponseData)FHSyncUtils.DeserializeObject(syncRes.RawResponse, typeof(FHSyncResponseData));
-
-                            //TODO: it should be possible achieve the same effects using one loop through the pending records, there is no need to loop the pending records 6 times!
-                            //e.g. 
-                            /**
-                             * for each pending in pendingRecords
-                             *   check if sync response contains update for the pending
-                             *       true => update pending pre data from the syn response
-                             *       false => update syn response with the pending record post data
-                             *          
-                             *   if pending is in flight
-                             *     if pending is crashed
-                             *       check if there is updates for the crashed record
-                             *        true => resole the crash status
-                             *        false => keep waiting or give up
-                             *   
-                             *   if pendingRecord is delayed
-                             *     check if sync response contains info about the delay records
-                             *       true => resolve delayed status
-                             */
-
-                            // Check to see if any new pending records need to be updated to reflect the current state of play.
-                            this.UpdatePendingFromNewData(returnedSyncData);
-
-                            // Check to see if any previously crashed inflight records can now be resolved
-                            this.UpdateCrashedInFlightFromNewData(returnedSyncData);
-
-                            //Check to see if any delayed pending records can now be set to ready
-                            this.UpdateDelayedFromNewData(returnedSyncData);
-
-                            //Check meta data as well to make sure it contains the correct info
-                            this.UpdateMetaFromNewData(returnedSyncData);
-
-                            // Update the new dataset with details of any inflight updates which we have not received a response on
-                            this.UpdateNewDataFromInFlight(returnedSyncData);
-
-                            // Update the new dataset with details of any pending updates
-                            this.UpdateNewDataFromPending(returnedSyncData);
-
-                            if(null != returnedSyncData.Records){
-                                this.UpdateLocalDatasetFromRemote(returnedSyncData);
-                            }
-
-                            if(null != returnedSyncData.Updates){
-                                this.ProcessUpdatesFromRemote(returnedSyncData);
-                            }
-
-                            if(null == returnedSyncData.Records && returnedSyncData.Hash != null){
-                                DebugLog("Local dataset stale - syncing records :: local hash = " + this.HashValue + " - remoteHash = " + returnedSyncData.Hash);
-                                //Different hash value returned - sync individual records
-                                this.SyncRecords();
-                            } else {
-                                DebugLog("Local dataset up to date");
-                                this.SyncLoopComplete("online", SyncNotification.SYNC_COMPLETED);
-                            }
-                        } else {
-                            // The HTTP call failed to complete succesfully, so the state of the current pending updates is unknown
-                            // Mark them as "crashed". The next time a syncLoop completets successfully, we will review the crashed
-                            // records to see if we can determine their current state.
-                            this.MarkInFlightAsCrased();
-                            DebugLog("syncLoop failed :: res = " + syncRes.RawResponse + " err = " + syncRes.Error);
-                            this.SyncLoopComplete(syncRes.RawResponse, SyncNotification.SYNC_FAILED);
-
-                        }
-                    } catch (Exception e) {
-                        DebugLog("Error performing sync - " + e.ToString());
-                        this.SyncLoopComplete(e.Message, SyncNotification.SYNC_FAILED);
-                    }     
                 }
+                try {
+                    FHResponse syncRes = await DoCloudCall(syncParams);
+                    if(null == syncRes.Error){
+                        FHSyncResponseData<T> returnedSyncData = (FHSyncResponseData<T>)FHSyncUtils.DeserializeObject(syncRes.RawResponse, typeof(FHSyncResponseData<T>));
+
+                        //TODO: it should be possible achieve the same effects using one loop through the pending records, there is no need to loop the pending records 6 times!
+                        //e.g. 
+                        /**
+                         * for each pending in pendingRecords
+                         *   check if sync response contains update for the pending
+                         *       true => update pending pre data from the syn response
+                         *       false => update syn response with the pending record post data
+                         *          
+                         *   if pending is in flight
+                         *     if pending is crashed
+                         *       check if there is updates for the crashed record
+                         *        true => resole the crash status
+                         *        false => keep waiting or give up
+                         *   
+                         *   if pendingRecord is delayed
+                         *     check if sync response contains info about the delay records
+                         *       true => resolve delayed status
+                         */
+
+                        // Check to see if any new pending records need to be updated to reflect the current state of play.
+                        this.UpdatePendingFromNewData(returnedSyncData);
+
+                        // Check to see if any previously crashed inflight records can now be resolved
+                        this.UpdateCrashedInFlightFromNewData(returnedSyncData);
+
+                        //Check to see if any delayed pending records can now be set to ready
+                        this.UpdateDelayedFromNewData(returnedSyncData);
+
+                        //Check meta data as well to make sure it contains the correct info
+                        this.UpdateMetaFromNewData(returnedSyncData);
+
+                        // Update the new dataset with details of any inflight updates which we have not received a response on
+                        this.UpdateNewDataFromInFlight(returnedSyncData);
+
+                        // Update the new dataset with details of any pending updates
+                        this.UpdateNewDataFromPending(returnedSyncData);
+
+                        if(null != returnedSyncData.Records){
+                            this.UpdateLocalDatasetFromRemote(returnedSyncData);
+                        }
+
+                        if(null != returnedSyncData.Updates){
+                            this.ProcessUpdatesFromRemote(returnedSyncData);
+                        }
+
+                        if(null == returnedSyncData.Records && returnedSyncData.Hash != null){
+                            DebugLog("Local dataset stale - syncing records :: local hash = " + this.HashValue + " - remoteHash = " + returnedSyncData.Hash);
+                            //Different hash value returned - sync individual records
+                            await this.SyncRecords();
+                        } else {
+                            DebugLog("Local dataset up to date");
+                            this.SyncLoopComplete("online", SyncNotification.SYNC_COMPLETED);
+                        }
+                    } else {
+                        // The HTTP call failed to complete succesfully, so the state of the current pending updates is unknown
+                        // Mark them as "crashed". The next time a syncLoop completets successfully, we will review the crashed
+                        // records to see if we can determine their current state.
+                        this.MarkInFlightAsCrased();
+                        DebugLog("syncLoop failed :: res = " + syncRes.RawResponse + " err = " + syncRes.Error);
+                        this.SyncLoopComplete(syncRes.RawResponse, SyncNotification.SYNC_FAILED);
+
+                    }
+                } catch (Exception e) {
+                    DebugLog("Error performing sync - " + e.ToString());
+                    this.SyncLoopComplete(e.Message, SyncNotification.SYNC_FAILED);
+                }     
             } else {
                 this.OnSyncNotification(null, SyncNotification.SYNC_FAILED, "offline");
             }
         }
 
-        private async void SyncRecords()
+        private async Task SyncRecords()
         {
             FHSyncRecordsParams syncParams = new FHSyncRecordsParams(this);
             FHResponse syncRecordsRes = await this.DoCloudCall(syncParams);
             if(null == syncRecordsRes.Error){
-                FHSyncRecordsResponseData remoteDataRecords = (FHSyncRecordsResponseData) FHSyncUtils.DeserializeObject(syncRecordsRes.RawResponse, typeof(FHSyncRecordsResponseData));
+                FHSyncRecordsResponseData<T> remoteDataRecords = (FHSyncRecordsResponseData<T>) FHSyncUtils.DeserializeObject(syncRecordsRes.RawResponse, typeof(FHSyncRecordsResponseData<T>));
 
-                IDataStore<FHSyncDataRecord> updatedDatasetRecords = new InMemoryDataStore<FHSyncDataRecord>();
-                updatedDatasetRecords.PersistPath = this.dataRecords.PersistPath;
-
-                Dictionary<string, FHSyncDataRecord> createdRecords = remoteDataRecords.CreatedRecords;
+                Dictionary<string, FHSyncDataRecord<T>> createdRecords = remoteDataRecords.CreatedRecords;
                 foreach(var created in createdRecords){
-                    updatedDatasetRecords.Insert(created.Key, created.Value);
+                    FHSyncDataRecord<T> r = created.Value;
+                    r.Uid = created.Key;
+                    this.dataRecords.Insert(created.Key, r);
                     this.OnSyncNotification(created.Key, SyncNotification.RECORD_DELTA_RECEIVED, "create");
                 }
 
-                Dictionary<string, FHSyncDataRecord> updatedRecords = remoteDataRecords.UpdatedRecords;
+                Dictionary<string, FHSyncDataRecord<T>> updatedRecords = remoteDataRecords.UpdatedRecords;
                 foreach(var updated in updatedRecords){
-                    updatedDatasetRecords.Insert(updated.Key, updated.Value);
+                    FHSyncDataRecord<T> r = updated.Value;
+                    r.Uid = updated.Key;
+                    this.dataRecords.Insert(updated.Key, r);
                     this.OnSyncNotification(updated.Key, SyncNotification.RECORD_DELTA_RECEIVED, "update");
                 }
 
-                Dictionary<string, FHSyncDataRecord> deletedRecords = remoteDataRecords.DeletedRecords;
+                Dictionary<string, FHSyncDataRecord<T>> deletedRecords = remoteDataRecords.DeletedRecords;
                 foreach (var deleted in deletedRecords) {
-                    updatedDatasetRecords.Delete(deleted.Key);
+                    this.dataRecords.Delete(deleted.Key);
                     this.OnSyncNotification(deleted.Key, SyncNotification.RECORD_DELTA_RECEIVED, "delete");    
                 }
 
 
                 this.OnSyncNotification(remoteDataRecords.Hash, SyncNotification.DELTA_RECEIVED, "partial dataset");
-                this.dataRecords = updatedDatasetRecords;
                 if(null != remoteDataRecords.Hash){
                     this.HashValue = remoteDataRecords.Hash;
                 }
@@ -494,13 +512,13 @@ namespace FHSDK.Sync
             this.OnSyncNotification(this.HashValue, notification, message);
         }
 
-        private void UpdatePendingFromNewData(FHSyncResponseData syncResData)
+        private void UpdatePendingFromNewData(FHSyncResponseData<T> syncResData)
         {
             if(null != pendingRecords && null != syncResData.Records){
-                Dictionary<string, FHSyncPendingRecord> localPendingRecords = pendingRecords.List();
+                Dictionary<string, FHSyncPendingRecord<T>> localPendingRecords = pendingRecords.List();
                 foreach (var item in localPendingRecords)
                 {
-                    FHSyncPendingRecord pendingRecord = item.Value;
+                    FHSyncPendingRecord<T> pendingRecord = item.Value;
                     if(!pendingRecord.InFlight){
                         //process pending records that have not been submitted
                         DebugLog("Found Non in flight record -> action = " + pendingRecord.Action + " :: uid=" + pendingRecord.Uid + " :: hash=" + pendingRecord.GetHashValue());
@@ -508,7 +526,7 @@ namespace FHSDK.Sync
                             //update the prevalue of pending record to reflect the latest data returned from sync
                             //This will prevent a collision being reported when the pending record is sent
                             //TODO: is this mean we are blindly apply changes from remote to the current store, then when the local change is submitted, the remote data will be overridden by local updates even local updates could be wrong?
-                            FHSyncDataRecord returnedRecord = null;
+                            FHSyncDataRecord<T> returnedRecord = null;
                             syncResData.Records.TryGetValue(pendingRecord.Uid, out returnedRecord);
                             if(null != returnedRecord){
                                 DebugLog("updating pre values for existing pending record " + pendingRecord.Uid);
@@ -517,13 +535,13 @@ namespace FHSDK.Sync
                                 //The update/delete maybe for a newly created record in which case the uid will have changed
                                 string previousPendingUid = this.MetaData.GetMetaDataAsString(pendingRecord.Uid, "previousPendingUid");
                                 if(null != previousPendingUid){
-                                    FHSyncPendingRecord previousPendingRecord = null;
+                                    FHSyncPendingRecord<T> previousPendingRecord = null;
                                     localPendingRecords.TryGetValue(previousPendingUid, out previousPendingRecord);
                                     if(null != previousPendingRecord){
                                         FHSyncResponseUpdatesData appliedRecord = syncResData.GetAppliedUpdates(previousPendingRecord.GetHashValue());
                                         if(null != appliedRecord){
                                             string newUid = appliedRecord.Uid;
-                                            FHSyncDataRecord newRecord = syncResData.GetRemoteRecord(newUid);
+                                            FHSyncDataRecord<T> newRecord = syncResData.GetRemoteRecord(newUid);
                                             if(null != newRecord){
                                                 DebugLog("Updating pre values for existing pending record which was previously a create " + pendingRecord.Uid + " => " + newUid);
                                                 pendingRecord.PreData = newRecord;
@@ -539,7 +557,7 @@ namespace FHSDK.Sync
                             FHSyncResponseUpdatesData appliedRecord = syncResData.GetAppliedUpdates(pendingRecord.GetHashValue());
                             if(null != appliedRecord){
                                 DebugLog("Found an update for a pending create + " + appliedRecord.ToString());
-                                FHSyncDataRecord newRecord = syncResData.GetRemoteRecord(pendingRecord.GetHashValue());
+                                FHSyncDataRecord<T> newRecord = syncResData.GetRemoteRecord(pendingRecord.GetHashValue());
                                 if(null != newRecord){
                                     DebugLog("Changing pending create to an update based on new record " + newRecord.ToString());
                                     pendingRecord.Action = "update";
@@ -553,14 +571,14 @@ namespace FHSDK.Sync
             }
         }
 
-        private void UpdateCrashedInFlightFromNewData(FHSyncResponseData syncResData)
+        private void UpdateCrashedInFlightFromNewData(FHSyncResponseData<T> syncResData)
         {
-            Dictionary<string, FHSyncPendingRecord> localPendingRecords = this.pendingRecords.List();
+            Dictionary<string, FHSyncPendingRecord<T>> localPendingRecords = this.pendingRecords.List();
 
             foreach (string pendingRecordKey in localPendingRecords.Keys)
             {
                 bool processed = false;
-                FHSyncPendingRecord pendingRecord = localPendingRecords[pendingRecordKey];
+                FHSyncPendingRecord<T> pendingRecord = localPendingRecords[pendingRecordKey];
                 if(pendingRecord.InFlight && pendingRecord.Crashed){
                     DebugLog("Found crashed inFlight pending record uid =" + pendingRecord.Uid + " :: hash = " + pendingRecord.GetHashValue());
                     if(null != syncResData.Updates && syncResData.Updates.ContainsKey("hashes") ){
@@ -613,11 +631,11 @@ namespace FHSDK.Sync
             }
         }
 
-        private void UpdateDelayedFromNewData(FHSyncResponseData syncResData){
-            Dictionary<string, FHSyncPendingRecord> localPendingRecords = this.pendingRecords.List();
+        private void UpdateDelayedFromNewData(FHSyncResponseData<T> syncResData){
+            Dictionary<string, FHSyncPendingRecord<T>> localPendingRecords = this.pendingRecords.List();
             foreach (string pendingRecordKey in localPendingRecords.Keys)
             {
-                FHSyncPendingRecord pendingRecord = localPendingRecords[pendingRecordKey];
+                FHSyncPendingRecord<T> pendingRecord = localPendingRecords[pendingRecordKey];
                 if(pendingRecord.Delayed && null != pendingRecord.Waiting){
                     DebugLog("Found delayed pending record uid = " + pendingRecord.Uid + " :: hash=" + pendingRecord.GetHashValue());
                     FHSyncResponseUpdatesData waitingRecord = syncResData.GetUpdateByHash(pendingRecord.Waiting);
@@ -629,10 +647,12 @@ namespace FHSDK.Sync
             }
         }
 
-        private void UpdateMetaFromNewData(FHSyncResponseData syncResData)
+        private void UpdateMetaFromNewData(FHSyncResponseData<T> syncResData)
         {
             FHSyncMetaData metaData = this.MetaData;
-            foreach (string metaDataKey in this.MetaData.Keys)
+            Dictionary<string, Dictionary<string, string>>.KeyCollection keys = this.MetaData.Keys;
+            List<string> keysToDelete = new List<string>();
+            foreach (string metaDataKey in keys)
             {
                 string pendingHash = metaData.GetMetaDataAsString(metaDataKey, "pendingUid");
                 string previousPendingHash = metaData.GetMetaDataAsString(metaDataKey, "previousPendingUid");
@@ -665,30 +685,36 @@ namespace FHSDK.Sync
 
                 if(pendingResolved && previousPendingResolved){
                     DebugLog("both previous and current pendings are resolved for meta data with uid " + metaDataKey + ". Delete it");
-                    metaData.Delete(metaDataKey);
+
+                    keysToDelete.Add(metaDataKey);
                 }
+            }
+
+            foreach (string keyToDelete in keysToDelete)
+            {
+                this.MetaData.Delete(keyToDelete);
             }
         }
 
-        private void UpdateNewDataFromInFlight(FHSyncResponseData syncResData)
+        private void UpdateNewDataFromInFlight(FHSyncResponseData<T> syncResData)
         {
             if(null != syncResData.Records){
-                Dictionary<string, FHSyncPendingRecord> localPendingRecords = this.pendingRecords.List();
+                Dictionary<string, FHSyncPendingRecord<T>> localPendingRecords = this.pendingRecords.List();
                 foreach (string pendingRecordKey in localPendingRecords.Keys)
                 {
-                    FHSyncPendingRecord pendingRecord = localPendingRecords[pendingRecordKey];
+                    FHSyncPendingRecord<T> pendingRecord = localPendingRecords[pendingRecordKey];
                     if(pendingRecord.InFlight){
                         FHSyncResponseUpdatesData updatedPending = syncResData.GetUpdateByHash(pendingRecordKey);
                         if(null == updatedPending){
                             DebugLog("Found inFlight pending record -> action =" + pendingRecord.Action + " :: uid = " + pendingRecord.Uid + " :: hash = " + pendingRecord.GetHashValue());
-                            FHSyncDataRecord newRecord = syncResData.GetRemoteRecord(pendingRecord.Uid);
+                            FHSyncDataRecord<T> newRecord = syncResData.GetRemoteRecord(pendingRecord.Uid);
                             if(pendingRecord.Action.Equals("update") && null != newRecord){
                                 newRecord = pendingRecord.PostData;
                             } else if(pendingRecord.Action.Equals("delete") && null != newRecord){
                                 syncResData.Records.Remove(pendingRecord.Uid);
                             } else if(pendingRecord.Action.Equals("create")){
                                 DebugLog("re adding pending create to incomming dataset");
-                                FHSyncDataRecord createRecordData = pendingRecord.PostData.Clone();
+                                FHSyncDataRecord<T> createRecordData = pendingRecord.PostData.Clone();
                                 syncResData.Records[pendingRecord.Uid] = createRecordData;
                             }
                         }
@@ -697,23 +723,23 @@ namespace FHSDK.Sync
             }
         }
 
-        private void UpdateNewDataFromPending(FHSyncResponseData syncResData)
+        private void UpdateNewDataFromPending(FHSyncResponseData<T> syncResData)
         {
             if(null != syncResData.Records){
-                Dictionary<string, FHSyncPendingRecord> localPendingRecords = this.pendingRecords.List();
+                Dictionary<string, FHSyncPendingRecord<T>> localPendingRecords = this.pendingRecords.List();
                 foreach (string pendingRecordKey in localPendingRecords.Keys)
                 {
-                    FHSyncPendingRecord pendingRecord = localPendingRecords[pendingRecordKey];
+                    FHSyncPendingRecord<T> pendingRecord = localPendingRecords[pendingRecordKey];
                     if(!pendingRecord.InFlight){
                         DebugLog("Found non inFlight record -> action =" + pendingRecord.Action + " :: uid = " + pendingRecord.Uid + " :: hash = " + pendingRecord.GetHashValue());
-                        FHSyncDataRecord newRecord = syncResData.GetRemoteRecord(pendingRecord.Uid);
+                        FHSyncDataRecord<T> newRecord = syncResData.GetRemoteRecord(pendingRecord.Uid);
                         if(pendingRecord.Action.Equals("update") && null != newRecord){
                             newRecord = pendingRecord.PostData;
                         } else if(pendingRecord.Action.Equals("delete") && null != newRecord){
                             syncResData.Records.Remove(pendingRecord.Uid);
                         } else if(pendingRecord.Action.Equals("create")){
                             DebugLog("re adding pending create to incomming dataset");
-                            FHSyncDataRecord createRecordData = pendingRecord.PostData.Clone();
+                            FHSyncDataRecord<T> createRecordData = pendingRecord.PostData.Clone();
                             syncResData.Records[pendingRecord.Uid] = createRecordData;
                         }
                     }    
@@ -721,11 +747,13 @@ namespace FHSDK.Sync
             }
         }
 
-        private void UpdateLocalDatasetFromRemote(FHSyncResponseData syncResData)
+        private void UpdateLocalDatasetFromRemote(FHSyncResponseData<T> syncResData)
         {
-            IDataStore<FHSyncDataRecord> anotherDataStore = new InMemoryDataStore<FHSyncDataRecord>();
+            IDataStore<FHSyncDataRecord<T>> anotherDataStore = new InMemoryDataStore<FHSyncDataRecord<T>>();
             foreach(var item in syncResData.Records){
-                anotherDataStore.Insert(item.Key, item.Value);
+                FHSyncDataRecord<T> record = item.Value;
+                record.Uid = item.Key;
+                anotherDataStore.Insert(item.Key, record);
             }
             anotherDataStore.PersistPath = this.dataRecords.PersistPath;
             this.dataRecords = anotherDataStore;
@@ -733,33 +761,35 @@ namespace FHSDK.Sync
             this.OnSyncNotification(syncResData.Hash, SyncNotification.DELTA_RECEIVED, "full dataset");
         }
 
-        private void ProcessUpdatesFromRemote(FHSyncResponseData syncResData)
+        private void ProcessUpdatesFromRemote(FHSyncResponseData<T> syncResData)
         {
             List<FHSyncResponseUpdatesData> acks = new List<FHSyncResponseUpdatesData>();
             foreach(string key in syncResData.Updates.Keys){
-                Dictionary<string, FHSyncResponseUpdatesData> updates = syncResData.Updates[key];
-                foreach(var item in updates){
-                    SyncNotification notification = default(SyncNotification);
-                    FHSyncResponseUpdatesData update = item.Value;
-                    acks.Add(update);
-                    FHSyncPendingRecord pending = this.pendingRecords.Get(item.Key);
-                    if(pending.InFlight && !pending.Crashed){
-                        this.pendingRecords.Delete(item.Key);
-                        switch (update.Type)
-                        {
-                            case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.applied:
-                                notification = SyncNotification.REMOTE_UPDATE_APPLIED;
-                                break;
-                            case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.failed:
-                                notification = SyncNotification.REMOTE_UPDATE_FAILED;
-                                break;
-                            case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.collisions:
-                                notification = SyncNotification.COLLISION_DETECTED;
-                                break;
-                            default:
-                                break;
+                if(!"hashes".Equals(key)){
+                    Dictionary<string, FHSyncResponseUpdatesData> updates = syncResData.Updates[key];
+                    foreach(var item in updates){
+                        SyncNotification notification = default(SyncNotification);
+                        FHSyncResponseUpdatesData update = item.Value;
+                        acks.Add(update);
+                        FHSyncPendingRecord<T> pending = this.pendingRecords.Get(item.Key);
+                        if(null != pending && pending.InFlight && !pending.Crashed){
+                            this.pendingRecords.Delete(item.Key);
+                            switch (update.Type)
+                            {
+                                case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.applied:
+                                    notification = SyncNotification.REMOTE_UPDATE_APPLIED;
+                                    break;
+                                case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.failed:
+                                    notification = SyncNotification.REMOTE_UPDATE_FAILED;
+                                    break;
+                                case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.collisions:
+                                    notification = SyncNotification.COLLISION_DETECTED;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            this.OnSyncNotification(update.Uid, notification, update.ToString());
                         }
-                        this.OnSyncNotification(update.Uid, notification, update.ToString());
                     }
                 }
             }
@@ -770,7 +800,7 @@ namespace FHSDK.Sync
         private void MarkInFlightAsCrased(){
             foreach (var item in this.pendingRecords.List())
             {
-                FHSyncPendingRecord pendingRecord = item.Value;
+                FHSyncPendingRecord<T> pendingRecord = item.Value;
                 if(pendingRecord.InFlight){
                     DebugLog("Marking in flight pending record as crashed : " + item.Key);
                     pendingRecord.Crashed = true;
@@ -857,20 +887,22 @@ namespace FHSDK.Sync
 
         private static FHSyncDataset<X> LoadDataForDataset<X>(FHSyncDataset<X> dataSet) where X: IFHSyncModel
         {
-            string datasetFile = FHSyncUtils.GetDataFilePath(dataSet.DatasetId, ".data.json");
-            string pendingdatasetFile = FHSyncUtils.GetDataFilePath(dataSet.DatasetId, ".pending.json");
-            if (null != dataSet.SyncConfig)
-            {
-                string configDataPath = dataSet.SyncConfig.DataPersistanceDir;
-                if (!string.IsNullOrEmpty(configDataPath))
-                {
-                    datasetFile = Path.Combine(configDataPath, dataSet.DatasetId, ".data.json");
-                    pendingdatasetFile = Path.Combine(configDataPath, dataSet.DatasetId, ".pending.json");
+            string datasetFile = GetPersistFilePathForDataset(dataSet.SyncConfig, dataSet.DatasetId, DATA_PERSIST_FILE_NAME);
+            string pendingdatasetFile = GetPersistFilePathForDataset(dataSet.SyncConfig, dataSet.DatasetId, PENDING_DATA_PERSIST_FILE_NAME);
+            dataSet.dataRecords = InMemoryDataStore<FHSyncDataRecord<X>>.Load<FHSyncDataRecord<X>>(datasetFile);
+            dataSet.pendingRecords = InMemoryDataStore<FHSyncPendingRecord<X>>.Load<FHSyncPendingRecord<X>>(pendingdatasetFile);
+            return dataSet;
+        }
+
+        private static String GetPersistFilePathForDataset(FHSyncConfig syncConfig, string datasetId, string fileName)
+        {
+            string filePath = FHSyncUtils.GetDataFilePath(datasetId, fileName);
+            if(null != syncConfig){
+                if(!string.IsNullOrEmpty(syncConfig.DataPersistanceDir)){
+                    filePath = Path.Combine(syncConfig.DataPersistanceDir, datasetId, fileName);
                 }
             }
-            dataSet.dataRecords = InMemoryDataStore<FHSyncDataRecord>.Load<FHSyncDataRecord>(datasetFile);
-            dataSet.pendingRecords = InMemoryDataStore<FHSyncPendingRecord>.Load<FHSyncPendingRecord>(pendingdatasetFile);
-            return dataSet;
+            return filePath;
         }
 
         /// <summary>
@@ -879,7 +911,7 @@ namespace FHSDK.Sync
         /// <returns><c>true</c>, if sync was shoulded, <c>false</c> otherwise.</returns>
         public bool ShouldSync()
         {
-           if(!syncRunning && (!stopSync || this.ForceSync)){
+           if(!syncRunning && (this.SyncConfig.SyncActive || this.ForceSync)){
                 if(this.ForceSync){
                     this.syncPending = true;
                 } else if(null == SyncStart){
@@ -900,6 +932,14 @@ namespace FHSDK.Sync
            }
         }
 
+        public void RunSyncLoop()
+        {
+            DebugLog("Checking if sync loop should run");
+            if(this.ShouldSync()){
+                this.StartSyncLoop();
+            }
+        }
+
         /// <summary>
         /// Will run a sync loop
         /// </summary>
@@ -913,8 +953,8 @@ namespace FHSDK.Sync
         /// </summary>
         public void StopSync()
         {
-            if(!stopSync){
-                this.stopSync = true;
+            if(this.SyncConfig.SyncActive){
+                this.SyncConfig.SyncActive = false;
             }
         }
 
@@ -923,9 +963,14 @@ namespace FHSDK.Sync
         /// </summary>
         public void StartSync()
         {
-            if(stopSync){
-                this.stopSync = false;
+            if(!this.SyncConfig.SyncActive){
+                this.SyncConfig.SyncActive = true;
             }
+        }
+
+        public IDataStore<FHSyncPendingRecord<T>> GetPendingRecords()
+        {
+            return this.pendingRecords.Clone();
         }
 
         protected virtual void OnSyncNotification(string uid, SyncNotification code, string message)
@@ -965,7 +1010,7 @@ namespace FHSDK.Sync
             [JsonProperty("acknowledgements")]
             public List<FHSyncResponseUpdatesData> Acknowledgements { set; get;}
             [JsonProperty("pending")]
-            public List<FHSyncPendingRecord> Pendings { set; get; }
+            public List<JObject> Pendings { set; get; }
 
             public FHSyncLoopParams(FHSyncDataset<T> dataset)
             {
@@ -976,13 +1021,13 @@ namespace FHSDK.Sync
                 this.MetaData = dataset.MetaData;
                 this.Hash = dataset.HashValue;
                 this.Acknowledgements = dataset.Acknowledgements;
-                List<FHSyncPendingRecord> pendingRecords = new List<FHSyncPendingRecord>();
-                foreach (KeyValuePair<string, FHSyncPendingRecord> item in dataset.pendingRecords.List()) {
-                    FHSyncPendingRecord record = item.Value;
+                List<JObject> pendingRecords = new List<JObject>();
+                foreach (KeyValuePair<string, FHSyncPendingRecord<T>> item in dataset.pendingRecords.List()) {
+                    FHSyncPendingRecord<T> record = item.Value;
                     if(!record.InFlight && !record.Crashed && !record.Delayed) {
                         record.InFlight = true;
                         record.InFlightDate = DateTime.Now;
-                        pendingRecords.Add(record);
+                        pendingRecords.Add(record.AsJObjectWithHash());
                     }
                 }
                 this.Pendings = pendingRecords;
@@ -1029,7 +1074,7 @@ namespace FHSDK.Sync
     {
         public FHSyncMetaData()
         {
-
+            this.metaData = new Dictionary<string, Dictionary<string, string>>();
         }
 
         public Dictionary<string, Dictionary<string, string>> metaData { set; get; }
@@ -1037,7 +1082,9 @@ namespace FHSDK.Sync
         private Dictionary<string, string> GetDict(string uid)
         {
             Dictionary<string, string> dict = null;
-            metaData.TryGetValue(uid, out dict);
+            if(metaData.ContainsKey(uid)){
+                metaData.TryGetValue(uid, out dict);
+            }
             if (null == dict)
                 {
                     dict = new Dictionary<string, string>();
@@ -1060,25 +1107,31 @@ namespace FHSDK.Sync
 
         public string GetMetaDataAsString(string uid, string key)
         {
-            Dictionary<string, string> dict = GetDict(uid);
-            string value = null;
-            dict.TryGetValue(key, out value);
-            return value;
+            if(metaData.ContainsKey(uid)){
+                Dictionary<string, string> dict = GetDict(uid);
+                string value = null;
+                dict.TryGetValue(key, out value);
+                return value;
+            } else {
+                return null;
+            }
+
         }
 
         public bool GetMetaDataAsBool(string uid, string key)
         {
             string val = GetMetaDataAsString(uid, key);
             if (null != val)
-                {
-                    return Boolean.Parse(val);
-                }
+            {
+                return Boolean.Parse(val);
+            }
             else
-                {
-                    return false;
-                }
+            {
+                return false;
+            }
         }
 
+        [JsonIgnore]
         public Dictionary<string, Dictionary<string, string>>.KeyCollection Keys 
         {
             get {
@@ -1103,7 +1156,7 @@ namespace FHSDK.Sync
 
     }
 
-    public class FHSyncResponseData
+    public class FHSyncResponseData<T> where T : IFHSyncModel
     {
         public FHSyncResponseData()
         {
@@ -1111,7 +1164,7 @@ namespace FHSDK.Sync
         }
 
         [JsonProperty("records")]
-        public Dictionary<string, FHSyncDataRecord> Records { set; get; }
+        public Dictionary<string, FHSyncDataRecord<T>> Records { set; get; }
 
         [JsonProperty("updates")]
         public Dictionary<string, Dictionary<string, FHSyncResponseUpdatesData>> Updates { set; get; }
@@ -1132,7 +1185,7 @@ namespace FHSDK.Sync
             return null;
         }
 
-        public FHSyncDataRecord GetRemoteRecord(string key)
+        public FHSyncDataRecord<T> GetRemoteRecord(string key)
         {
             if(null != this.Records && this.Records.Count > 0){
                 if(this.Records.ContainsKey(key)){
@@ -1145,7 +1198,9 @@ namespace FHSDK.Sync
         public FHSyncResponseUpdatesData GetUpdateByHash(string hash){
             if(null != this.Updates && this.Updates.ContainsKey("hashes")){
                 Dictionary<string, FHSyncResponseUpdatesData> hashes = this.Updates["hashes"];
-                return hashes[hash];
+                if(hashes.ContainsKey(hash)){
+                    return hashes[hash];
+                }
             }
             return null;
         }
@@ -1180,7 +1235,7 @@ namespace FHSDK.Sync
         public string Message { set; get; }
     }
 
-    public class FHSyncRecordsResponseData
+    public class FHSyncRecordsResponseData<T> where T: IFHSyncModel
     {
         public FHSyncRecordsResponseData()
         {
@@ -1191,13 +1246,13 @@ namespace FHSDK.Sync
         public string Hash { set; get; }
 
         [JsonProperty("create")]
-        public Dictionary<string, FHSyncDataRecord> CreatedRecords { set; get; }
+        public Dictionary<string, FHSyncDataRecord<T>> CreatedRecords { set; get; }
 
         [JsonProperty("update")]
-        public Dictionary<string, FHSyncDataRecord> UpdatedRecords { set; get; }
+        public Dictionary<string, FHSyncDataRecord<T>> UpdatedRecords { set; get; }
 
         [JsonProperty("delete")]
-        public Dictionary<string, FHSyncDataRecord> DeletedRecords { set; get; }
+        public Dictionary<string, FHSyncDataRecord<T>> DeletedRecords { set; get; }
 
     }
         

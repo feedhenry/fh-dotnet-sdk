@@ -49,12 +49,12 @@ namespace FHSDK.Sync
         private bool initialised = false;
         private FHSyncConfig globalSyncConfig = new FHSyncConfig();
 
-        private Dictionary<string, FHSyncDataset<IFHSyncModel>> datasets = new Dictionary<string, FHSyncDataset<IFHSyncModel>>();
+        private delegate void DatasetSyncDelegate();
+
+        private Dictionary<string, DatasetSyncDelegate> datasetsDelegates = new Dictionary<string, DatasetSyncDelegate>();
+        private Dictionary<string, object> datasets = new Dictionary<string, object>();
 
         private static ILogService logger = ServiceFinder.Resolve<ILogService>();
-
-        private delegate void MonitorDelegate();
-
 
         /// <summary>
         /// Notify client storage failed event
@@ -186,86 +186,95 @@ namespace FHSDK.Sync
           this.initialised = true;
         }
 
-        public FHSyncDataset<IFHSyncModel> Manage(string datasetId, FHSyncConfig syncConfig , IDictionary<string, string> qp)
+        public FHSyncDataset<T> Manage<T>(string datasetId, FHSyncConfig syncConfig , IDictionary<string, string> qp) where T: IFHSyncModel
         {
-            FHSyncDataset<IFHSyncModel> dataset = null;
+            FHSyncDataset<T> dataset = null;
             if(!this.datasets.ContainsKey(datasetId)){
-                dataset = FHSyncDataset<IFHSyncModel>.Build<IFHSyncModel>(datasetId, null == syncConfig? globalSyncConfig.Clone() : syncConfig.Clone(), qp, null);
+                dataset = FHSyncDataset<T>.Build<T>(datasetId, null == syncConfig? globalSyncConfig.Clone() : syncConfig.Clone(), qp, null);
                 dataset.SyncNotificationHandler += (sender, e) =>
                 {
                     this.OnSyncNotification(e);
                 };
                 datasets[datasetId] = dataset;
-            }else {
-                dataset = this.datasets[datasetId];
+                datasetsDelegates[datasetId] = new DatasetSyncDelegate(dataset.RunSyncLoop);
+            } else {
+                dataset = (FHSyncDataset<T>)this.datasets[datasetId];
             }
 
             return dataset;
         }
 
-        public List<IFHSyncModel> List(string datasetId)
+        public List<T> List<T>(string datasetId) where T: IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 return dataset.List();
             } else {
                 return null;
             }
         }
 
-        public IFHSyncModel Read(string datasetId, string uid)
+        public T Read<T>(string datasetId, string uid) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 return dataset.Read(uid);
             } else {
-                return null;
+                return default(T);
             }
         }
 
-        public IFHSyncModel Create(string datasetId, IFHSyncModel model)
+        public T Create<T>(string datasetId, T model) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 return dataset.Create(model);
             } else {
-                return null;
+                return default(T);
             }
         }
 
-        public IFHSyncModel Update(string datasetId, IFHSyncModel model)
+        public T Update<T>(string datasetId, T model) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 return dataset.Update(model);
             } else {
-                return null;
+                return default(T);
             }
         }
 
-        public IFHSyncModel Delete(string datasetId, string uid)
+        public T Delete<T>(string datasetId, string uid) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 return dataset.Delete(uid);
             } else {
-                return null;
+                return default(T);
             }
         }
 
-        public void Stop(string datasetId)
+        public void Stop<T>(string datasetId) where T : IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 dataset.StopSync();
             }
         }
 
-        public void Start(string datasetId)
+        public void Start<T>(string datasetId) where T: IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
-                FHSyncDataset<IFHSyncModel> dataset = this.datasets[datasetId];
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
                 dataset.StartSync();
+            }
+        }
+
+        public void ForceSync<T>(string datasetId) where T : IFHSyncModel
+        {
+            if(this.datasets.ContainsKey(datasetId)){
+                FHSyncDataset<T> dataset = (FHSyncDataset<T>)this.datasets[datasetId];
+                dataset.ForceSync = true;
             }
         }
 
@@ -282,10 +291,8 @@ namespace FHSDK.Sync
 
         private void CheckDatasets()
         {
-            foreach(var dataset in datasets.Values){
-                if(dataset.ShouldSync()){
-                    dataset.StartSyncLoop();
-                }
+            foreach( DatasetSyncDelegate d in datasetsDelegates.Values){
+                d();
             }
         }
 
@@ -293,7 +300,7 @@ namespace FHSDK.Sync
         {
            if(!monitor.IsRunning) {
                monitor.MonitorInterval = this.monitorIntervalInMilliSeconds;
-               MonitorDelegate d = new MonitorDelegate(CheckDatasets);
+               CheckDatasetDelegate d = new CheckDatasetDelegate(CheckDatasets);
                monitor.StartMonitor(d);
            }
         }

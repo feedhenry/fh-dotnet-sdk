@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace FHSDK.Sync
 {
-	public class FHSyncDataRecord
+	public class FHSyncDataRecord<T> where T : IFHSyncModel
 	{
 		private string hashValue = null;
 
 		[JsonProperty("data")]
-		public IFHSyncModel Data { set; get; }
+		public T Data { set; get; }
 
 		[JsonProperty("hashvalue")]
 		public string HashValue
@@ -22,28 +22,19 @@ namespace FHSDK.Sync
 		}
 
 		[JsonProperty("uid")]
-		public string Uid {
-			get {
-				if (this.Data != null) {
-					return this.Data.UID;
-				}
-				return null;
-
-			}
-			set {
-				if (this.Data != null) {
-					this.Data.UID = value;
-				}
-			}
+		public string Uid
+        {
+            get;
+            set;
 		}
 
 		public FHSyncDataRecord ()
 		{
 		}
 
-		public FHSyncDataRecord (IFHSyncModel pData)
+		public FHSyncDataRecord (T pData)
 		{
-			this.Data = (IFHSyncModel) FHSyncUtils.Clone (pData);
+			this.Data = (T)FHSyncUtils.Clone (pData);
 		}
 
 		public override string ToString ()
@@ -53,8 +44,8 @@ namespace FHSDK.Sync
 
 		public override bool Equals (object obj)
 		{
-			if (obj is FHSyncDataRecord) {
-				FHSyncDataRecord that = obj as FHSyncDataRecord;
+			if (obj is FHSyncDataRecord<T>) {
+				FHSyncDataRecord<T> that = obj as FHSyncDataRecord<T>;
 				if (this.HashValue.Equals (that.HashValue)) {
 					return true;
 				} 
@@ -63,14 +54,14 @@ namespace FHSDK.Sync
 			return false;
 		}
 
-		public FHSyncDataRecord Clone()
+		public FHSyncDataRecord<T> Clone()
 		{
-			return (FHSyncDataRecord) FHSyncUtils.Clone (this);
+			return (FHSyncDataRecord<T>) FHSyncUtils.Clone (this);
 		}
 
-		public static FHSyncDataRecord FromJSON(string str)
+		public static FHSyncDataRecord<T> FromJSON(string str)
 		{
-			return (FHSyncDataRecord) FHSyncUtils.DeserializeObject (str, typeof(FHSyncDataRecord));
+			return (FHSyncDataRecord<T>) FHSyncUtils.DeserializeObject (str, typeof(FHSyncDataRecord<T>));
 		}
 	}
 }

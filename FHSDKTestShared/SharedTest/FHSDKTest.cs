@@ -2,28 +2,31 @@
 using System;
 using NUnit.Framework;
 using FHSDK;
+#if __ANDROID__
+using FHSDK.Droid;
+#elif __IOS__
 using FHSDK.Touch;
+#endif
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
-namespace FHSDKIOSTest
+namespace FHSDKTestShared
 {
     [TestFixture]
     public class FHSDKTest
     {
         [SetUp]
-        public async void Setup()
+        public void Setup()
         {
-            bool inited = await FHClient.Init();
-            Assert.IsTrue(inited);
+            FHClient.Init();
         }
 
         [Test]
         public void TestInit()
         {
             string host = FH.GetCloudHost();
-            Assert.IsTrue(host.Contains("http://192.168.28.34:8001"));
+            Assert.IsTrue(host.Contains("http://192.168.28.17:8001"));
         }
 
         [Test]

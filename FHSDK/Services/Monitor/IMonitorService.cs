@@ -10,10 +10,14 @@ namespace FHSDK.Services
 
         Boolean IsRunning { get; }
 
-        void StartMonitor(Delegate target);
+        void StartMonitor(CheckDatasetDelegate target);
 
         void StopMonitor();
+
+
     }
+
+    public delegate void CheckDatasetDelegate();
 
 
 }

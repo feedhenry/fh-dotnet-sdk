@@ -10,8 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)SharedTest\FHSDKTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\Sync\InMemoryDataStoreTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\TestUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\Sync\FHSyncUtilsTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\Sync\FHSyncDatasetTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\Sync\TaskModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedTest\Sync\FHSyncClientTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)SharedTest\" />
+    <Folder Include="$(MSBuildThisFileDirectory)SharedTest\Sync\" />
   </ItemGroup>
 </Project>

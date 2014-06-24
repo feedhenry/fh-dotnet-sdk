@@ -61,7 +61,8 @@ namespace FHSDK
 		protected override Uri GetUri()
 		{
 			string host = this.cloudProps.GetCloudHost ();
-			return new Uri(String.Format("{0}/{1}", host, this.path));
+            string pathWithoutStartingSlash = this.path.StartsWith("/") ? this.path.Substring(1) : this.path;
+			return new Uri(String.Format("{0}/{1}", host, pathWithoutStartingSlash));
 		}
 
 		/// <summary>

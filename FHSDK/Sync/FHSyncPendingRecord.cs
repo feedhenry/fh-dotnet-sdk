@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace FHSDK.Sync
 {
-	public class FHSyncPendingRecord
+	public class FHSyncPendingRecord<T> where T : IFHSyncModel
 	{
 		[JsonProperty("inFlight")]
 		public Boolean InFlight { set; get; }
@@ -23,14 +23,13 @@ namespace FHSDK.Sync
 		public string Uid { set; get; }
 
 		[JsonProperty("timestamp")]
-		[JsonConverter(typeof(JavaScriptDateTimeConverter))]
 		public DateTime Timestamp { set; get; }
 
-		[JsonProperty("preData")]
-		public FHSyncDataRecord PreData { set; get; }
+		[JsonProperty("pre")]
+		public FHSyncDataRecord<T> PreData { set; get; }
 
-		[JsonProperty("postData")]
-		public FHSyncDataRecord PostData { set; get; }
+		[JsonProperty("post")]
+		public FHSyncDataRecord<T> PostData { set; get; }
 
 		[JsonProperty("crashCount")]
 		public int CrashedCount { set; get; }
@@ -41,27 +40,20 @@ namespace FHSDK.Sync
         [JsonProperty("waiting")]
         public string Waiting { set; get; }
 
+        [JsonProperty("hash")]
+        public string Hash { 
+            get {
+                return this.GetHashValue();
+            }
+        }
+
 		private String hashValue = null;
 
 		public String GetHashValue()
 		{
 			if(null == hashValue){
 				//keep it consistant with ios/android/js
-				JObject json = new JObject ();
-				json ["inFlight"] = this.InFlight;
-				json ["crashed"] = this.Crashed;
-				json ["timestamp"] = this.Timestamp;
-				json ["inFlightDate"] = this.InFlightDate;
-				json ["action"] = this.Action;
-				json ["uid"] = this.Uid;
-				if (null != this.PreData) {
-					json ["pre"] = JToken.FromObject(this.PreData.Data);
-					json ["preHash"] = this.PreData.HashValue;
-				}
-				if (null != this.PostData) {
-					json ["post"] = JToken.FromObject(this.PostData.Data);
-					json ["postHash"] = this.PostData.HashValue;
-				}
+                JObject json = AsJObject();
 				hashValue = FHSyncUtils.GenerateSHA1Hash (json);
 			}
 			return hashValue;
@@ -72,9 +64,9 @@ namespace FHSDK.Sync
 			this.Timestamp = DateTime.Now;
 		}
 
-		public static FHSyncPendingRecord FromJSON(string val)
+		public static FHSyncPendingRecord<T> FromJSON(string val)
 		{
-			return (FHSyncPendingRecord) FHSyncUtils.DeserializeObject (val, typeof(FHSyncPendingRecord));
+			return (FHSyncPendingRecord<T>) FHSyncUtils.DeserializeObject (val, typeof(FHSyncPendingRecord<T>));
 		}
 
 		public override string ToString ()
@@ -84,8 +76,8 @@ namespace FHSDK.Sync
 
 		public override bool Equals (object obj)
 		{
-			if (obj is FHSyncPendingRecord) {
-				FHSyncPendingRecord that = obj as FHSyncPendingRecord;
+			if (obj is FHSyncPendingRecord<T>) {
+				FHSyncPendingRecord<T> that = obj as FHSyncPendingRecord<T>;
 				if (that.GetHashValue().Equals (this.GetHashValue())) {
 					return true;
 				}
@@ -115,6 +107,33 @@ namespace FHSDK.Sync
         public void ResetDelayed(){
             this.Delayed = false;
             this.Waiting = null;
+        }
+
+        public JObject AsJObject()
+        {
+            JObject json = new JObject ();
+            json ["inFlight"] = this.InFlight;
+            json ["crashed"] = this.Crashed;
+            json ["timestamp"] = this.Timestamp;
+            json ["inFlightDate"] = this.InFlightDate;
+            json ["action"] = this.Action;
+            json ["uid"] = this.Uid;
+            if (null != this.PreData) {
+                json ["pre"] = JToken.FromObject(this.PreData.Data);
+                json ["preHash"] = this.PreData.HashValue;
+            }
+            if (null != this.PostData) {
+                json ["post"] = JToken.FromObject(this.PostData.Data);
+                json ["postHash"] = this.PostData.HashValue;
+            }
+            return json;
+        }
+
+        public JObject AsJObjectWithHash()
+        {
+            JObject json = AsJObject();
+            json["hash"] = this.hashValue;
+            return json;
         }
 
 	}

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FHSDK
+namespace FHSDK.Services
 {
 	public interface IIOService
 	{

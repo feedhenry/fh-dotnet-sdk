@@ -12,6 +12,7 @@ namespace FHSDK.Sync
         T Delete(string key);
         void Clear();
 		void Save();
+        IDataStore<T> Clone();
 	}
 }
 

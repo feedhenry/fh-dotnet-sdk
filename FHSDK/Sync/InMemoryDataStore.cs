@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using FHSDK.Services;
 using System.Diagnostics.Contracts;
 using System.Collections;
+using System.Threading;
 
 
 namespace FHSDK.Sync
 {
+    /// <summary>
+    /// Thread-safe in memory data cache
+    /// </summary>
 	public class InMemoryDataStore<T> : IDataStore<T>
 	{
-		private Dictionary<string, T> memoryStore;
+        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+        private Dictionary<string, T> memoryStore;
 		public string PersistPath { set; get; }
 
 		public InMemoryDataStore ()
@@ -19,25 +24,59 @@ namespace FHSDK.Sync
 
 		public void Insert(string key, T obj)
 		{
-			memoryStore [key] = obj;
+            cacheLock.EnterWriteLock();
+            try
+            {
+                memoryStore [key] = obj;
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
 		}
 
 		public T Get(string key)
 		{
-			T value = default(T);
-			memoryStore.TryGetValue (key, out value);
-			return value;
+            cacheLock.EnterReadLock();
+            try
+            {
+                T value = default(T);
+                memoryStore.TryGetValue (key, out value);
+                return value;
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
+            }
+			
 		}
 
         public T Delete(string key)
         {
-            if(memoryStore.ContainsKey(key))
+            cacheLock.EnterUpgradeableReadLock();
+            try
             {
-                T ret = Get(key);
-                memoryStore.Remove(key);
-                return ret;
+                if(memoryStore.ContainsKey(key))
+                {
+                    T ret = Get(key);
+                    cacheLock.EnterWriteLock();
+                    try
+                    {
+                        memoryStore.Remove(key);
+                        return ret;
+                    }
+                    finally
+                    {
+                        cacheLock.ExitWriteLock();
+                    }
+                }
+                return default(T);
             }
-            return default(T);
+            finally
+            {
+                cacheLock.ExitUpgradeableReadLock();
+            }
+
         }
 
 		public Dictionary<string, T> List()
@@ -47,20 +86,46 @@ namespace FHSDK.Sync
 
 		public void Save()
 		{
-			Contract.Assert (null != this.PersistPath, "No persist path specified!");
+			//Contract.Assert (null != this.PersistPath, "No persist path specified!");
 			IIOService ioService = ServiceFinder.Resolve<IIOService> ();
 			ILogService logger = ServiceFinder.Resolve<ILogService> ();
-			try {
-				ioService.WriteFile(this.PersistPath, FHSyncUtils.SerializeObject(memoryStore));
-			} catch (Exception ex) {
-				logger.e ("FHSyncClient.InMemoryDataStore", "Failed to save file " + this.PersistPath, ex);
-				throw ex;
-			}
+            Monitor.Enter(this);
+            try {
+                ioService.WriteFile(this.PersistPath, FHSyncUtils.SerializeObject(memoryStore));
+            } catch (Exception ex) {
+                logger.e ("FHSyncClient.InMemoryDataStore", "Failed to save file " + this.PersistPath, ex);
+                throw ex;
+            } finally {
+                Monitor.Exit(this);
+            }
 		}
 
         public void Clear()
         {
-            memoryStore.Clear();
+            cacheLock.EnterWriteLock();
+            try {
+                memoryStore.Clear();
+            } finally {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public IDataStore<T> Clone()
+        {
+            InMemoryDataStore<T> cloned = new InMemoryDataStore<T>();
+            cacheLock.EnterReadLock();
+            try
+            {
+                foreach(var entry in memoryStore){
+                    cloned.Insert(entry.Key, (T)FHSyncUtils.Clone(entry.Value));
+                }
+                return cloned;
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
+            }
+
         }
 
 
@@ -73,7 +138,7 @@ namespace FHSDK.Sync
 			if (ioService.Exists (fullFilePath)) {
 				try {
 					string fileContent = ioService.ReadFile(fullFilePath);
-					dataStore.memoryStore = (Dictionary<string, X>) FHSyncUtils.DeserializeObject(fileContent, typeof(X));
+					dataStore.memoryStore = (Dictionary<string, X>) FHSyncUtils.DeserializeObject(fileContent, typeof(Dictionary<string, X>));
 				} catch (Exception ex) {
 					logger.e ("FHSyncClient.InMemoryDataStore", "Failed to load file " + fullFilePath, ex);
 					dataStore.memoryStore = new Dictionary<string, X> ();
