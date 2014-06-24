@@ -7,6 +7,7 @@ using FHSDK.Sync;
 using System.Collections.Generic;
 using System.Threading;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 #if __ANDROID__
 using FHSDK.Droid;
@@ -62,6 +63,10 @@ namespace FHSDKTestShared
             metaDataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".sync.json");
             dataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".data.json");
             pendingFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".pendings.json");
+
+            TestUtils.DeleteFileIfExists(metaDataFilePath);
+            TestUtils.DeleteFileIfExists(dataFilePath);
+            TestUtils.DeleteFileIfExists(pendingFilePath);
 
             Assert.False(File.Exists(metaDataFilePath));
             Assert.False(File.Exists(dataFilePath));

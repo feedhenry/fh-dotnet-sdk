@@ -15,6 +15,7 @@ namespace FHSDK.Services
             if(File.Exists(fullPath)){
                 StreamReader sr = new StreamReader(fullPath);
                 content = sr.ReadToEnd();
+                sr.Close();
             }  
             return content;
         }

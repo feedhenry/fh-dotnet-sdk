@@ -19,6 +19,7 @@ namespace FHSDK.Services
             if(file.Exists()){
                 StreamReader sr = new StreamReader(file.AbsolutePath, System.Text.Encoding.UTF8);
                 content = sr.ReadToEnd();
+                sr.Close();
             } 
             return content;
         }
@@ -30,13 +31,14 @@ namespace FHSDK.Services
             if(!file.Exists()){
                 Java.IO.File parentDir = file.ParentFile;
                 if(!parentDir.Exists()) {
-                        parentDir.Mkdirs();
-                    }
+                    parentDir.Mkdirs();
+                }
                 file.CreateNewFile();
             }
 
             StreamWriter writer = new StreamWriter(file.AbsolutePath);
             writer.Write(content);
+            writer.Close();
         }
 
         public bool Exists(string fullPath)
@@ -47,7 +49,10 @@ namespace FHSDK.Services
 
         public string GetDataPersistDir()
         {
-            Java.IO.File dataDir = Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDocuments);
+            Java.IO.File dataDir = Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDownloads);
+            if(null == dataDir){
+                dataDir = new Java.IO.File(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+            }
             return dataDir.AbsolutePath;
         }
     }

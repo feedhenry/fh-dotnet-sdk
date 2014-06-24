@@ -15,16 +15,20 @@ namespace FHSDK.Services
 
 		protected override void writeLog(LogLevels level, string tag, string message, System.Exception e)
 		{
+            string errorMessage = "";
+            if(null != e){
+                errorMessage = e.StackTrace;
+            }
 			if (level == LogLevels.VERBOSE) {
-				Log.Verbose (tag, (Throwable)e, message);
+				Log.Verbose (tag, errorMessage, message);
 			} else if (level == LogLevels.DEBUG) {
-				Log.Debug (tag, (Throwable)e, message);
+				Log.Debug (tag, errorMessage, message);
 			} else if (level == LogLevels.INFO) {
-				Log.Info (tag, (Throwable)e, message);
+                Log.Info (tag, errorMessage, message);
 			} else if (level == LogLevels.WARNING) {
-				Log.Warn (tag, (Throwable)e, message);
+                Log.Warn (tag, errorMessage, message);
 			}  else if (level == LogLevels.ERROR) {
-				Log.Error (tag, (Throwable)e, message);
+                Log.Error (tag, errorMessage, message);
 			}
 		}
 

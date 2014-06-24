@@ -34,7 +34,6 @@ namespace FHSDKTestShared
         {
             FHClient.Init();
             FH.SetLogLevel(1);
-
         }
 
         [TearDown]
@@ -61,6 +60,10 @@ namespace FHSDKTestShared
             metaDataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".sync.json");
             dataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".data.json");
             pendingFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".pendings.json");
+
+            TestUtils.DeleteFileIfExists(metaDataFilePath);
+            TestUtils.DeleteFileIfExists(dataFilePath);
+            TestUtils.DeleteFileIfExists(pendingFilePath);
 
             Assert.False(File.Exists(metaDataFilePath));
             Assert.False(File.Exists(dataFilePath));
@@ -91,6 +94,7 @@ namespace FHSDKTestShared
             //Now there should be one pending record
             IDataStore<FHSyncPendingRecord<TaskModel>> pendings = tasksDataset.GetPendingRecords();
             int pendingRecordsCount = pendings.List().Count;
+
             Assert.AreEqual(1, pendingRecordsCount);
 
             TaskModel taskRead = tasksDataset.Read(taskId);
@@ -107,7 +111,7 @@ namespace FHSDKTestShared
             TaskModel readUpdated = tasksDataset.Read(taskId);
             Assert.NotNull(readUpdated);
             Assert.True(readUpdated.TaksName.Equals(updatedTaskName));
-
+           
             //test data list
             List<TaskModel> tasks = tasksDataset.List();
             Assert.AreEqual(1, tasks.Count);
@@ -132,6 +136,7 @@ namespace FHSDKTestShared
 
             //verify the data is created in the remote db
             FHResponse cloudRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "GET", null, null);
+            Debug.WriteLine("Got response " + cloudRes.RawResponse);
             Assert.IsNull(cloudRes.Error);
             JObject dbData = cloudRes.GetResponseAsJObject();
             Assert.AreEqual(1, (int)dbData["count"]);
@@ -161,6 +166,7 @@ namespace FHSDKTestShared
 
             Thread.Sleep(1500);
             Assert.True(tasksDataset.ShouldSync());
+
             //run a sync loop
             await tasksDataset.StartSyncLoop();
 

@@ -14,7 +14,7 @@ namespace FHSDK.Services
             SHA1Managed sha1 = new SHA1Managed();
             var hash = sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(str));
             string hex = BitConverter.ToString(hash);
-            return hex.Replace("-", "");
+            return hex.Replace("-", "").ToLower();
         }
     }
 }
