@@ -54,16 +54,19 @@ namespace FHSDK.Sync
         /// <summary>
         /// The id of the data set the sync client is currently managing
         /// </summary>
+        [JsonProperty]
         protected string DatasetId { get; set; }
 
         /// <summary>
         /// When the last sync started
         /// </summary>
+        [JsonProperty]
         private Nullable<DateTime> SyncStart { get; set; }
 
         /// <summary>
         /// When the last sync ended
         /// </summary>
+        [JsonProperty]
         private Nullable<DateTime> SyncEnd { get; set; }
 
         /// <summary>

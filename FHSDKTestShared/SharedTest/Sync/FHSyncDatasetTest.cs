@@ -175,6 +175,15 @@ namespace FHSDKTestShared
             Assert.AreEqual(2, updatedTaskList.Count);
             Debug.WriteLine("updatedTaskList[0] = " + updatedTaskList[0].ToString());
             Debug.WriteLine("updatedTaskList[1] = " + updatedTaskList[1].ToString());
+
+            FHSyncDataset<TaskModel> anotherDataset = FHSyncDataset<TaskModel>.Build<TaskModel>(DATASET_ID, syncConfig, null, null);
+            List<TaskModel> tasksListInAnotherDataset = anotherDataset.List();
+            Assert.AreEqual(2, tasksListInAnotherDataset.Count);
+            foreach (TaskModel taskInAnotherDataset in tasksListInAnotherDataset)
+            {
+                Assert.NotNull(taskInAnotherDataset.UID);
+                Assert.True(taskInAnotherDataset.TaksName.Equals("updatedTask1") || taskInAnotherDataset.TaksName.Equals("anotherTask"));
+            }
         }
 
 

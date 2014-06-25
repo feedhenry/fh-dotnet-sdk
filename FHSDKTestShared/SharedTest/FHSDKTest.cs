@@ -26,7 +26,7 @@ namespace FHSDKTestShared
         public void TestInit()
         {
             string host = FH.GetCloudHost();
-            Assert.IsTrue(host.Contains("http://192.168.28.17:8001"));
+            Assert.IsTrue(host.Contains("http://192.168.28.34:8001"));
         }
 
         [Test]
