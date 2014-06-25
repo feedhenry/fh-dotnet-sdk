@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using FHSDK;
 using System.IO;
 using System.Net;
@@ -13,6 +12,17 @@ using System.Threading.Tasks;
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
+#endif
+
+#if WINDOWS_PHONE
+using TestFixture = Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
+using SetUp = Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute;
+using TearDown = Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute;
+using FHSDK.Phone;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using NUnit.Framework;
 #endif
 
 namespace FHSDKTestShared
@@ -51,7 +61,7 @@ namespace FHSDKTestShared
         {
             //clear db
             FHResponse setupRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "DELETE", null, null);
-            Assert.True(HttpStatusCode.OK.Equals(setupRes.StatusCode));
+            Assert.IsTrue(HttpStatusCode.OK.Equals(setupRes.StatusCode));
 
             FHSyncConfig syncConfig = new FHSyncConfig();
             syncConfig.SyncActive = false;
@@ -68,9 +78,9 @@ namespace FHSDKTestShared
             TestUtils.DeleteFileIfExists(dataFilePath);
             TestUtils.DeleteFileIfExists(pendingFilePath);
 
-            Assert.False(File.Exists(metaDataFilePath));
-            Assert.False(File.Exists(dataFilePath));
-            Assert.False(File.Exists(pendingFilePath));
+            Assert.IsFalse(File.Exists(metaDataFilePath));
+            Assert.IsFalse(File.Exists(dataFilePath));
+            Assert.IsFalse(File.Exists(pendingFilePath));
 
             syncClient = FHSyncClient.GetInstance();
             syncClient.Initialise(syncConfig);
@@ -101,20 +111,21 @@ namespace FHSDKTestShared
             };
             newTask = syncClient.Create<TaskModel>(DATASET_ID, newTask);
             //syncConfig.SyncActive = true;
-            Assert.NotNull(newTask.UID);
+            Assert.IsNotNull(newTask.UID);
 
             syncClient.ForceSync<TaskModel>(DATASET_ID);
 
-            Thread.Sleep(1500);
+            Thread.Sleep(2000);
 
             FHResponse cloudRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "GET", null, null);
             Assert.IsNull(cloudRes.Error);
             JObject dbData = cloudRes.GetResponseAsJObject();
             Assert.AreEqual(1, (int)dbData["count"]);
             string taskNameInDb = (string)dbData["list"][0]["fields"]["taskName"];
-            Assert.True(taskNameInDb.Equals("task1"));
+            Assert.IsTrue(taskNameInDb.Equals("task1"));
 
             Assert.IsTrue(syncStarted);
+            Thread.Sleep(3000);
             Assert.IsTrue(syncCompleted);
         }
     }

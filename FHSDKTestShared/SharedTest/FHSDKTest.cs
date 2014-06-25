@@ -1,11 +1,21 @@
 ﻿
 using System;
-using NUnit.Framework;
 using FHSDK;
 #if __ANDROID__
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
+#endif
+
+#if WINDOWS_PHONE
+using TestFixture = Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
+using SetUp = Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute;
+using TearDown = Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute;
+using FHSDK.Phone;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using NUnit.Framework;
 #endif
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;

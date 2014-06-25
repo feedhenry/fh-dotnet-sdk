@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using FHSDK.Sync;
 using System.Diagnostics;
 using FHSDK.Services;
@@ -10,6 +9,17 @@ using Newtonsoft.Json.Linq;
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
+#endif
+
+#if WINDOWS_PHONE
+using TestFixture = Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
+using SetUp = Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute;
+using TearDown = Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute;
+using FHSDK.Phone;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using NUnit.Framework;
 #endif
 
 namespace FHSDKTestShared
@@ -35,7 +45,7 @@ namespace FHSDKTestShared
             Debug.WriteLine(string.Format("native hashed value = {0}", nativeHashed));
             string expected = "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3";
             Debug.WriteLine(String.Format("got hash value {0}", nativeHashed));
-            Assert.True(expected.Equals(nativeHashed));
+            Assert.IsTrue(expected.Equals(nativeHashed));
         }
 
         [Test]
@@ -56,7 +66,7 @@ namespace FHSDKTestShared
             string hash = FHSyncUtils.GenerateSHA1Hash(testObject);
             Debug.WriteLine(String.Format("Got hash value = {0}", hash));
             string expected = "5f4675723d658919ede35fac62fade8c6397df1d";
-            Assert.True(expected.Equals(hash));
+            Assert.IsTrue(expected.Equals(hash));
         }
     }
 }

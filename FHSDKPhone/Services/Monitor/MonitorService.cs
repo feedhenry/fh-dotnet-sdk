@@ -10,6 +10,7 @@ namespace FHSDK.Services
     public class MonitorService : IMonitorService
     {
         Timer timer = null;
+        private CheckDatasetDelegate targetDelegate;
 
         public MonitorService()
         {
@@ -20,14 +21,20 @@ namespace FHSDK.Services
 
         public Boolean IsRunning { get; private set; }
 
-        public void StartMonitor(Delegate target)
+        public void StartMonitor(CheckDatasetDelegate target)
         {
+            this.targetDelegate = target;
             if (!IsRunning)
             {
-                TimerCallback tcb = (TimerCallback)target;
+                TimerCallback tcb = RunTarget;
                 timer = new Timer(tcb, null, 0, this.MonitorInterval);
                 IsRunning = true;
             }
+        }
+
+        private void RunTarget(object info)
+        {
+            this.targetDelegate();
         }
 
         public void StopMonitor()

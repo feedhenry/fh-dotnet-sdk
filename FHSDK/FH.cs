@@ -291,9 +291,17 @@ namespace FHSDK
 			IDictionary<string, string> headers = new Dictionary<string, string> ();
 			foreach (var item in defaultParams) {
 				string headername = "X-FH-" + item.Key;
-				headers.Add (headername, JsonConvert.SerializeObject(item.Value));
+                if (null != item.Value)
+                {
+                    headers.Add(headername, JsonConvert.SerializeObject(item.Value));
+                }
+				
 			}
-            headers.Add("X-FH-AUTH-APP", FHConfig.getInstance().GetAppKey());
+            if (null != FHConfig.getInstance().GetAppKey())
+            {
+                headers.Add("X-FH-AUTH-APP", FHConfig.getInstance().GetAppKey());
+            }
+            
 			return headers;
 		}
 

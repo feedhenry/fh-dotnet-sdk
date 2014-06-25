@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿
 using System;
 
 using FHSDK.Services;
@@ -13,6 +13,17 @@ using Newtonsoft.Json;
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
+#endif
+
+#if WINDOWS_PHONE
+using TestFixture = Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
+using SetUp = Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute;
+using TearDown = Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute;
+using FHSDK.Phone;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#else
+using NUnit.Framework;
 #endif
 
 namespace FHSDKTestShared
@@ -52,7 +63,7 @@ namespace FHSDKTestShared
         [Test]
         public void TestInMemoryDataStore()
         {
-            Assert.False(File.Exists(dataPersistFile));
+            Assert.IsFalse(File.Exists(dataPersistFile));
             IDataStore<JObject> dataStore = new InMemoryDataStore<JObject>();
             dataStore.PersistPath = dataPersistFile;
             string key1 = "testkey1";
@@ -70,19 +81,22 @@ namespace FHSDKTestShared
             Assert.IsNotNull(listResult[key2]);
 
             JObject getResult = dataStore.Get(key1);
-            Assert.True(JsonConvert.SerializeObject(getResult).Equals(JsonConvert.SerializeObject(json1)));
+            Assert.IsTrue(JsonConvert.SerializeObject(getResult).Equals(JsonConvert.SerializeObject(json1)));
 
 
             dataStore.Insert(key2, json3);
             JObject getResult2 = dataStore.Get(key2);
-            Assert.True(JsonConvert.SerializeObject(getResult2).Equals(JsonConvert.SerializeObject(json3)));
+            Assert.IsTrue(JsonConvert.SerializeObject(getResult2).Equals(JsonConvert.SerializeObject(json3)));
 
             dataStore.Save();
-            Assert.True(File.Exists(dataPersistFile));
+            Assert.IsTrue(File.Exists(dataPersistFile));
 
-            string savedFileContent = File.ReadAllText(dataPersistFile);
+            string savedFileContent = null;
+            StreamReader reader = new StreamReader(dataPersistFile);
+            savedFileContent = reader.ReadToEnd();
+            reader.Close();
             Debug.WriteLine(String.Format("Save file content = {0}", savedFileContent));
-            Assert.True(savedFileContent.Length > 0);
+            Assert.IsTrue(savedFileContent.Length > 0);
 
             IDataStore<JObject> loadedDataStore = InMemoryDataStore<JObject>.Load<JObject>(dataPersistFile);
             Dictionary<string, JObject> listResult2 = loadedDataStore.List();
@@ -91,7 +105,7 @@ namespace FHSDKTestShared
             Assert.IsNotNull(listResult2[key2]);
 
             JObject getResult3 = loadedDataStore.Get(key2);
-            Assert.True(JsonConvert.SerializeObject(getResult3).Equals(JsonConvert.SerializeObject(json3)));
+            Assert.IsTrue(JsonConvert.SerializeObject(getResult3).Equals(JsonConvert.SerializeObject(json3)));
 
             loadedDataStore.Delete(key1);
             listResult2 = loadedDataStore.List();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Windows.Storage;
 
 namespace FHSDK.Services
 {
@@ -21,6 +22,7 @@ namespace FHSDK.Services
             {
                 StreamReader sr = new StreamReader(fullPath);
                 content = sr.ReadToEnd();
+                sr.Close();
             }
             return content;
         }
@@ -31,6 +33,7 @@ namespace FHSDK.Services
             Directory.CreateDirectory(parentDir);
             StreamWriter writer = File.CreateText(fullPath);
             writer.Write(content);
+            writer.Close();
         }
 
         public bool Exists(string fullPath)
@@ -40,7 +43,8 @@ namespace FHSDK.Services
 
         public string GetDataPersistDir()
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            return local.Path;
         }
     }
 

@@ -935,11 +935,11 @@ namespace FHSDK.Sync
            }
         }
 
-        public void RunSyncLoop()
+        public async void RunSyncLoop()
         {
             DebugLog("Checking if sync loop should run");
             if(this.ShouldSync()){
-                this.StartSyncLoop();
+               await this.StartSyncLoop();
             }
         }
 
