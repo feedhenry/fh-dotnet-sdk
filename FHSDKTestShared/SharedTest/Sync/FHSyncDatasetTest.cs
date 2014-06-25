@@ -55,6 +55,8 @@ namespace FHSDKTestShared
             syncConfig.SyncFrequency = 1;
             syncConfig.AutoSyncLocalUpdates = true;
             syncConfig.SyncCloud = FHSyncConfig.SyncCloudType.MBBAS;
+            syncConfig.CrashedCountWait = 0;
+            syncConfig.ResendCrashedUpdated = true;
 
             //make sure no existing data file exist
             metaDataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".sync.json");
@@ -176,7 +178,9 @@ namespace FHSDKTestShared
             Debug.WriteLine("updatedTaskList[0] = " + updatedTaskList[0].ToString());
             Debug.WriteLine("updatedTaskList[1] = " + updatedTaskList[1].ToString());
 
+            //verify that the saved files can be loaded again and will construct the same dataset
             FHSyncDataset<TaskModel> anotherDataset = FHSyncDataset<TaskModel>.Build<TaskModel>(DATASET_ID, syncConfig, null, null);
+            Assert.NotNull(anotherDataset.HashValue);
             List<TaskModel> tasksListInAnotherDataset = anotherDataset.List();
             Assert.AreEqual(2, tasksListInAnotherDataset.Count);
             foreach (TaskModel taskInAnotherDataset in tasksListInAnotherDataset)
@@ -184,6 +188,45 @@ namespace FHSDKTestShared
                 Assert.NotNull(taskInAnotherDataset.UID);
                 Assert.True(taskInAnotherDataset.TaksName.Equals("updatedTask1") || taskInAnotherDataset.TaksName.Equals("anotherTask"));
             }
+
+            //test some failure cases
+            TaskModel taskToUpdate = updatedTaskList[0];
+            taskToUpdate.Completed = true;
+
+            tasksDataset.Update(taskToUpdate);
+
+            //make sure the next syncLoop will fail
+            FHResponse setFailureRes = await FH.Cloud("/setFailure/true", "GET", null, null);
+            Assert.IsNull(setFailureRes.Error);
+            Assert.IsTrue((bool)setFailureRes.GetResponseAsJObject()["current"]);
+
+            //run the syncloop again, this time it will fail
+            await tasksDataset.StartSyncLoop();
+
+            pendings = tasksDataset.GetPendingRecords();
+            Assert.AreEqual(1, pendings.List().Count);
+
+            FHSyncPendingRecord<TaskModel> pendingRecord = pendings.List().Values.First();
+            Assert.IsTrue(pendingRecord.Crashed);
+
+            setFailureRes = await FH.Cloud("/setFailure/false", "GET", null, null);
+            Assert.IsNull(setFailureRes.Error);
+            Assert.IsFalse((bool)setFailureRes.GetResponseAsJObject()["current"]);
+
+            //run another sync loop, this time there will be no pendings sent as the current update is crashed
+            await tasksDataset.StartSyncLoop();
+
+            //at the end of last loop, since we set the crashCountWait to be 0, the updates should be marked as not-crashed and will be sent in next loop
+            await tasksDataset.StartSyncLoop();
+
+            //there should be no more pendings
+            pendings = tasksDataset.GetPendingRecords();
+            Assert.AreEqual(0, pendings.List().Count);
+
+            //verify the update is sent to the cloud
+            FHResponse verifyUpdateRes = await FH.Cloud(string.Format("/syncTest/{0}/{1}", DATASET_ID, taskToUpdate.UID), "GET", null, null);
+            JObject taskInDBJson = verifyUpdateRes.GetResponseAsJObject();
+            Assert.IsTrue((bool)taskInDBJson["fields"]["completed"]);
         }
 
 

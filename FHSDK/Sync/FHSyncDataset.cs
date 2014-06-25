@@ -615,21 +615,21 @@ namespace FHSDK.Sync
                             }
                             processed = true;
                         }
-                    } 
-                }
-                if(!processed){
-                    //no word on our crashed upate - increment a counter to reflect another sync that did not give us any updates on our crashed record
-                    pendingRecord.IncrementCrashCount();
-                    if(pendingRecord.CrashedCount > this.SyncConfig.CrashedCountWait){
-                        DebugLog("Crashed inflight pending record has reached CrashedCount limit");
-                        if(this.SyncConfig.ResendCrashedUpdated){
-                            DebugLog("Retrying crashed inflight pending record");
-                            pendingRecord.ResetCrashStatus();
-                        } else {
-                            DebugLog("Deleting crashed inflight pending record");
-                            this.pendingRecords.Delete(pendingRecordKey);
-                        }
                     }
+                    if(!processed){
+                        //no word on our crashed upate - increment a counter to reflect another sync that did not give us any updates on our crashed record
+                        pendingRecord.IncrementCrashCount();
+                        if(pendingRecord.CrashedCount > this.SyncConfig.CrashedCountWait){
+                            DebugLog("Crashed inflight pending record has reached CrashedCount limit");
+                            if(this.SyncConfig.ResendCrashedUpdated){
+                                DebugLog("Retrying crashed inflight pending record");
+                                pendingRecord.ResetCrashStatus();
+                            } else {
+                                DebugLog("Deleting crashed inflight pending record");
+                                this.pendingRecords.Delete(pendingRecordKey);
+                            }
+                        }
+                    } 
                 }
             }
         }
