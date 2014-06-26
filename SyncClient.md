@@ -4,7 +4,7 @@ The sync client allows your apps to save data locally for offline usage, and syn
 
 To use the FeedHenry .NET Sync client, you should first setup the project to use the FeedHenry .NET SDK as described in [ReadMe](ReadMe.md). Then you can follow the instructions below:
 
-## Create the sync data models
+## 1. Create the sync data models
 
 The sync data models represent the data needs to be synchronised. They should implement the [IFHSyncModel](FHSDK/Sync/IFHSyncModel.cs) interface. 
 
@@ -36,7 +36,7 @@ public class TaskModel: IFHSyncModel
 }
 ````
 
-## Get the FHSyncClient instance
+## 2. Get the FHSyncClient instance
 
 Next, you need to configure the instance of the FHSyncClient. You can create a new instance of [FHSyncConfig](FHSDK/Sync/FHSyncConfig.cs) to configure the sync client:
 
@@ -63,7 +63,7 @@ syncClient.SyncCompleted += (object sender, FHSyncNotificationEventArgs e) => {
 };
 ````
 
-## Let the FHSyncClient manage the sync data models
+## 3. Let the FHSyncClient manage the sync data models
 
 Next, all you need to do is to let the sync client to manage the sync data model like this:
 
