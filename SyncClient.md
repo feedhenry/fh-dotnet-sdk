@@ -38,7 +38,7 @@ public class TaskModel: IFHSyncModel
 
 ## Get the FHSyncClient instance
 
-Next, you need to configure the instance of the FHSyncClient. You can create a new instance of [FHSyncConfig](FHSDK/Sync/FHSyncConfig) to configure the sync client:
+Next, you need to configure the instance of the FHSyncClient. You can create a new instance of [FHSyncConfig](FHSDK/Sync/FHSyncConfig.cs) to configure the sync client:
 
 ````cs
 

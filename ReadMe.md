@@ -124,9 +124,9 @@ There are 3 test projects ceated for each platform:
 * FHSDKIOSTest
 * FHSDKWindowsPhoneTestNative
 
-They all link to the test files in [FHTestShared](FHTestShared) project.
+They all link to the test files in [FHSDKTestShared](FHSDKTestShared) project.
 
-Before running the test, make sure the [TestCloudApp](TestCloudApp) is running, and update the following files to point them to the cloud app:
+Before running the test, make sure the [TestCloudApp](https://github.com/fheng/fh-sdks-test-cloud-app) is running somewhere, and update the following files to point them to the cloud app:
 
 * [fhconfig.local.properties](FHSDKAndroidTest/Assets/fhconfig.local.properties)
 * [fhconfiglocal.plist](FHSDKIOSTest/fhconfiglocal.plist)
