@@ -1,6 +1,5 @@
 ﻿using System;
 using Android.Util;
-using Java.Lang;
 
 namespace FHSDK.Services
 {
@@ -15,20 +14,20 @@ namespace FHSDK.Services
 
 		protected override void writeLog(LogLevels level, string tag, string message, System.Exception e)
 		{
-            string errorMessage = "";
+            string msg = message;
             if(null != e){
-                errorMessage = e.StackTrace;
+                msg = e.StackTrace;
             }
 			if (level == LogLevels.VERBOSE) {
-				Log.Verbose (tag, errorMessage, message);
+                Log.Verbose(tag, msg);
 			} else if (level == LogLevels.DEBUG) {
-				Log.Debug (tag, errorMessage, message);
+				Log.Debug (tag, msg);
 			} else if (level == LogLevels.INFO) {
-                Log.Info (tag, errorMessage, message);
+                Log.Info (tag, msg);
 			} else if (level == LogLevels.WARNING) {
-                Log.Warn (tag, errorMessage, message);
+                Log.Warn (tag, msg);
 			}  else if (level == LogLevels.ERROR) {
-                Log.Error (tag, errorMessage, message);
+                Log.Error (tag, msg);
 			}
 		}
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 #if __ANDROID__
 using FHSDK.Droid;
@@ -30,7 +31,7 @@ namespace FHSDKTestShared
     [TestFixture()]
     public class FHSyncClientTest
     {
-        private const string DATASET_ID = "tasks";
+        private const string DATASET_ID = "datasetclient_tasks";
         private string metaDataFilePath;
         private string dataFilePath;
         private string pendingFilePath;
@@ -51,6 +52,7 @@ namespace FHSDKTestShared
             TestUtils.DeleteFileIfExists(dataFilePath);
             TestUtils.DeleteFileIfExists(pendingFilePath);
             if(null != syncClient){
+                Debug.WriteLine("Stop running syncing client");
                 syncClient.StopAll();
             }
         }
@@ -127,6 +129,8 @@ namespace FHSDKTestShared
             Assert.IsTrue(syncStarted);
             Thread.Sleep(3000);
             Assert.IsTrue(syncCompleted);
+
+            syncClient.StopAll();
         }
     }
 }

@@ -1008,7 +1008,7 @@ namespace FHSDK.Sync
             public FHSyncConfig SyncConfg { get; set; }
             [JsonProperty("meta_data")]
             public FHSyncMetaData MetaData { get; set; }
-            [JsonProperty("data_set")]
+            [JsonProperty("dataset_hash")]
             public string Hash { set; get; }
             [JsonProperty("acknowledgements")]
             public List<FHSyncResponseUpdatesData> Acknowledgements { set; get;}
@@ -1057,12 +1057,15 @@ namespace FHSDK.Sync
             public IDictionary<string, string> QueryParams { set; get; }
             [JsonProperty("clientRecs")]
             Dictionary<string, string> ClientRecords { set; get; }
+            [JsonProperty("dataset_hash")]
+            public string Hash { set; get; }
 
             public FHSyncRecordsParams(FHSyncDataset<T> dataset)
             {
                 this.FnName = "syncRecords";
                 this.DatasetId = dataset.DatasetId;
                 this.QueryParams = dataset.QueryParams;
+                this.Hash = dataset.HashValue;
                 Dictionary<string, string> records = new Dictionary<string, string>();
                 foreach(var item in dataset.dataRecords.List()){
                     records.Add(item.Value.Uid, item.Value.HashValue);

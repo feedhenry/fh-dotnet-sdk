@@ -1,90 +1,23 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDKAndroidTest/Properties/AndroidManifest.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs">
     <Files>
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" Line="139" Column="63" />
-      <File FileName="FHSDKIOSTest/fhconfiglocal.plist" />
-      <File FileName="FHSDKTestShared/SharedTest/FHSDKTest.cs" Line="10" Column="34" />
-      <File FileName="FHSDK/Sync/InMemoryDataStore.cs" Line="14" Column="38" />
-      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="937" Column="58" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/InMemoryDataStoreTest.cs" Line="30" Column="28" />
-      <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="23" Column="20" />
-      <File FileName="FHSDK/Sync/FHSyncDataRecord.cs" Line="28" Column="17" />
-      <File FileName="FHSDK/Sync/FHSyncUtils.cs" Line="79" Column="52" />
-      <File FileName="FHSDK/Sync/IFHSyncModel.cs" Line="5" Column="23" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/TaskModel.cs" Line="26" Column="113" />
-      <File FileName="FHSDK/Sync/FHSyncClient.cs" Line="277" Column="42" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncClientTest.cs" Line="113" Column="42" />
-      <File FileName="FHSDKTestShared/SharedTest/TestUtils.cs" Line="49" Column="17" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncUtilsTest.cs" Line="24" Column="28" />
-      <File FileName="FHSDK/Sync/FHSyncConfig.cs" Line="62" Column="18" />
-      <File FileName="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs" Line="23" Column="28" />
-      <File FileName="FHSDK/Services/Monitor/IMonitorService.cs" Line="13" Column="56" />
-      <File FileName="FHXamarinAndroidSDK/Services/Monitor/MonitorService.cs" Line="42" Column="10" />
-      <File FileName="FHSDKAndroidTest/MainActivity.cs" Line="15" Column="16" />
-      <File FileName="FHXamarinAndroidSDK/Services/Device/DeviceService.cs" Line="41" Column="1" />
-      <File FileName="FHSDKAndroidTest/Assets/fhconfig.local.properties" Line="2" Column="1" />
+      <File FileName="FHSDKAndroidTest/MainActivity.cs" Line="12" Column="50" />
+      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" Line="132" Column="59" />
+      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="585" Column="69" />
+      <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="1" Column="1" />
       <File FileName="FHXamarinIOSSDK/Services/Hash/HashService.cs" Line="18" Column="51" />
-      <File FileName="FHXamarinAndroidSDK/Services/Hash/HashService.cs" Line="8" Column="16" />
-      <File FileName="FHXamarinAndroidSDK/Services/Data/IOService.cs" Line="38" Column="13" />
-      <File FileName="FHXamarinIOSSDK/Services/Data/IOService.cs" Line="29" Column="50" />
-      <File FileName="FHSDK/Config/CloudProps.cs" Line="30" Column="1" />
-      <File FileName="FHSDK/API/FHRequest.cs" Line="119" Column="1" />
-      <File FileName="FHSDK/Config/FHConfig.cs" Line="21" Column="1" />
-      <File FileName="FHSDK/Config/AppProps.cs" Line="39" Column="39" />
-      <File FileName="FHSDK/FH.cs" Line="76" Column="1" />
-      <File FileName="examples/XamarinAndroidExample/Assets/fhconfig.properties" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/Resources/AboutResources.txt" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/packages.config" Line="1" Column="1" />
-      <File FileName="examples/XamarinAndroidExample/Properties/AndroidManifest.xml" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/Properties/AndroidManifest.xml" Line="10" Column="12" />
+      <File FileName="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs" Line="42" Column="10" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="FHDotNetSDKDoc" expanded="True" />
-          <Node name="FHSDK" expanded="True">
-            <Node name="Config" expanded="True" />
-          </Node>
-          <Node name="FHSDKAndroidTest" expanded="True" selected="True">
-            <Node name="References" expanded="True" />
-            <Node name="Packages" expanded="True" />
-            <Node name="Assets" expanded="True" />
-            <Node name="Properties" expanded="True" />
-            <Node name="Resources" expanded="True" />
-          </Node>
-          <Node name="FHSDKTestShared" expanded="True">
-            <Node name="SharedTest" expanded="True" />
-          </Node>
-          <Node name="FHXamarinAndroidSDK" expanded="True">
-            <Node name="Services" expanded="True">
-              <Node name="Data" expanded="True" />
-              <Node name="Device" expanded="True" />
-              <Node name="Hash" expanded="True" />
-            </Node>
-          </Node>
-          <Node name="FHXamarinIOSSDK" expanded="True">
-            <Node name="Services" expanded="True">
-              <Node name="Data" expanded="True" />
-              <Node name="Hash" expanded="True" />
-            </Node>
-          </Node>
-          <Node name="XamarinAndroidExample" expanded="True">
-            <Node name="Assets" expanded="True" />
-            <Node name="Properties" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHRequest.cs" line="300" column="1" />
       <Breakpoint hitAction="PrintExpression" traceExpression="{appProps}" file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHXamarinAndroidSDK/Services/Device/DeviceService.cs" line="38" column="1" />
       <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/Adaptation/ProbingAdapterResolver.cs" line="93" column="1" />
-      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="165" column="45" />
-      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDK/Sync/FHSyncDataset.cs" line="466" column="1" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="140" column="1" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="182" column="1" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDK/Sync/FHSyncDataset.cs" line="419" column="62" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
@@ -94,6 +27,6 @@
     <String>FHSDKPhone/FHSDKPhone.csproj</String>
     <String>FHSDKTest/FHSDKTest.csproj</String>
   </DisabledProjects>
+  <MonoDevelop.Ide.ItemProperties.FHSDKAndroidTest AndroidDeviceId-Debug="192.168.56.101:5555" />
   <MonoDevelop.Ide.ItemProperties.XamarinAndroidExample AndroidDeviceId-Debug="4df7374a04c03053" MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
-  <MonoDevelop.Ide.ItemProperties.FHSDKAndroidTest />
 </Properties>

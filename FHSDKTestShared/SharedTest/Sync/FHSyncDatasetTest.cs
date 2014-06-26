@@ -30,11 +30,11 @@ using NUnit.Framework;
 
 namespace FHSDKTestShared
 {
-    
+    [TestFixture()]
     public class FHSyncDatasetTest
     {
         
-        private const string DATASET_ID = "tasks";
+        private const string DATASET_ID = "data_tasks";
         private string metaDataFilePath;
         private string dataFilePath;
         private string pendingFilePath;
@@ -161,6 +161,9 @@ namespace FHSDKTestShared
 
             string newTaskUID = (string)dbData["list"][0]["guid"];
             Assert.IsFalse(newTaskUID.Equals(taskId));
+            List<TaskModel> tasklistAfterUpdate = tasksDataset.List();
+            Debug.WriteLine(tasklistAfterUpdate[0].ToString());
+
             //since the data is now created in db, the uid should be updated
             TaskModel readUpdatedAfterSync = tasksDataset.Read(newTaskUID);
             Assert.IsNotNull(readUpdatedAfterSync);
