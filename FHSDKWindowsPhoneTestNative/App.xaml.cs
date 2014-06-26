@@ -6,9 +6,9 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using FHSDKWindowsPhoneTest.Resources;
+using FHSDKWindowsPhoneTestNative.Resources;
 
-namespace FHSDKWindowsPhoneTest
+namespace FHSDKWindowsPhoneTestNative
 {
     public partial class App : Application
     {

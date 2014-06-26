@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FHSDKWindowsPhoneTest")]
+[assembly: AssemblyTitle("FHSDKWindowsPhoneTestNative")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FHSDKWindowsPhoneTest")]
+[assembly: AssemblyProduct("FHSDKWindowsPhoneTestNative")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1b742b2c-90f2-4c07-b8cc-b0a69a4bcd1c")]
+[assembly: Guid("0cdc3784-c76b-41e6-bc3c-4b6fb2a051b3")]
 
 // Version information for an assembly consists of the following four values:
 //

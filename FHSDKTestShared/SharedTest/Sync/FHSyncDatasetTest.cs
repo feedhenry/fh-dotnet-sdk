@@ -18,12 +18,12 @@ using FHSDK.Touch;
 #endif
 
 #if WINDOWS_PHONE
-using TestFixture = Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute;
-using Test = Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute;
-using SetUp = Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute;
-using TearDown = Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute;
+using TestFixture = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestMethodAttribute;
+using SetUp = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestInitializeAttribute;
+using TearDown = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestCleanupAttribute;
 using FHSDK.Phone;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using NUnit.Framework;
 #endif
@@ -55,7 +55,7 @@ namespace FHSDKTestShared
         }
 
         [Test]
-        public async void TestDatasetSync()
+        public async Task TestDatasetSync()
         {
             //clear db
             FHResponse setupRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "DELETE", null, null);

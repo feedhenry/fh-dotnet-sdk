@@ -1,6 +1,6 @@
-﻿using FHSDKWindowsPhoneTest.Resources;
+﻿using FHSDKWindowsPhoneTestNative.Resources;
 
-namespace FHSDKWindowsPhoneTest
+namespace FHSDKWindowsPhoneTestNative
 {
     /// <summary>
     /// Provides access to string resources.

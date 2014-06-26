@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FHSDKWindowsPhoneTest.Resources
+namespace FHSDKWindowsPhoneTestNative.Resources
 {
     using System;
 
@@ -45,7 +45,7 @@ namespace FHSDKWindowsPhoneTest.Resources
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FHSDKWindowsPhoneTest.Resources.AppResources", typeof(AppResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FHSDKWindowsPhoneTestNative.Resources.AppResources", typeof(AppResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

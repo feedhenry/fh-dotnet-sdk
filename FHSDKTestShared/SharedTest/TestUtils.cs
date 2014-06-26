@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 
 #if WINDOWS_PHONE
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using NUnit.Framework;
 #endif
