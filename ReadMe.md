@@ -118,7 +118,21 @@ The complete FH .NET SDK contains four projects:
 
 ## Testing
 
+There are 3 test projects ceated for each platform:
 
+* FHSDKAndroidTest
+* FHSDKIOSTest
+* FHSDKWindowsPhoneTestNative
+
+They all link to the test files in [FHTestShared](FHTestShared) project.
+
+Before running the test, make sure the [TestCloudApp](TestCloudApp) is running, and update the following files to point them to the cloud app:
+
+* [fhconfig.local.properties](FHSDKAndroidTest/Assets/fhconfig.local.properties)
+* [fhconfiglocal.plist](FHSDKIOSTest/fhconfiglocal.plist)
+* [fhconfig.local.json](FHSDKWindowsPhoneTestNative/fhconfig.local.json)
+
+Then you can deploy the test projects to the emulators or devices and run the tests (For Windows Phone, just run the tests using Visual Studio).
 
 ## Building
 
