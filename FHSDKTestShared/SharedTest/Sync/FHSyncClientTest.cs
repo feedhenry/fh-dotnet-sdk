@@ -59,7 +59,11 @@ namespace FHSDKTestShared
 
 
         [Test]
+        #if WINDOWS_PHONE
         public async Task TestFHSyncClient()
+        #else 
+        public async void TestFHSyncClient()
+        #endif
         {
             //clear db
             FHResponse setupRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "DELETE", null, null);

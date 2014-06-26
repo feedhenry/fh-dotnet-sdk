@@ -40,7 +40,11 @@ namespace FHSDKTestShared
         }
 
         [Test]
+        #if WINDOWS_PHONE
         public async Task TestAct()
+        #else
+        public async void TestAct()
+        #endif
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["test"] = "test";
@@ -59,7 +63,11 @@ namespace FHSDKTestShared
         }
 
         [Test]
+        #if WINDOWS_PHONE
         public async Task TestCloud()
+        #else
+        public async void TestCloud()
+        #endif
         {
             
             await TestCloud("GET");

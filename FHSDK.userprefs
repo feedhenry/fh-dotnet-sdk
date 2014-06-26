@@ -1,13 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/Sync/FHSyncDataset.cs">
     <Files>
       <File FileName="FHSDKAndroidTest/MainActivity.cs" Line="12" Column="50" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" Line="132" Column="59" />
-      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="585" Column="69" />
+      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" Line="171" Column="13" />
+      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="1024" Column="17" />
       <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="1" Column="1" />
       <File FileName="FHXamarinIOSSDK/Services/Hash/HashService.cs" Line="18" Column="51" />
       <File FileName="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs" Line="42" Column="10" />
+      <File FileName="FHSDKTestShared/SharedTest/FHSDKTest.cs" Line="39" Column="62" />
+      <File FileName="FHSDKTestShared/SharedTest/TestUtils.cs" Line="51" Column="21" />
+      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncClientTest.cs" Line="133" Column="34" />
+      <File FileName="FHSDKIOSTest/Info.plist" />
+      <File FileName="FHSDKIOSTest/fhconfiglocal.plist" />
+      <File FileName="FHSDKAndroidTest/Assets/fhconfig.local.properties" Line="2" Column="28" />
+      <File FileName="FHSDKTestShared/SharedTest/Sync/TaskModel.cs" Line="26" Column="113" />
+      <File FileName="FHSDKAndroidTest/Properties/AndroidManifest.xml" Line="11" Column="12" />
+      <File FileName="FHSDKAndroidTest/Properties/AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="1" Column="1" />
+      <File FileName="FHXamarinAndroidSDK/Services/Log/LogService.cs" Line="25" Column="41" />
+      <File FileName="FHSDK/Sync/FHSyncClient.cs" Line="274" Column="10" />
+      <File FileName="FHXamarinAndroidSDK/Services/Monitor/MonitorService.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -15,9 +28,10 @@
       <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/FHHttpClient/FHRequest.cs" line="300" column="1" />
       <Breakpoint hitAction="PrintExpression" traceExpression="{appProps}" file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHXamarinAndroidSDK/Services/Device/DeviceService.cs" line="38" column="1" />
       <Breakpoint file="/Users/weili/work/fh-sdks/fh-windowsphone-sdk/FHSDK/Adaptation/ProbingAdapterResolver.cs" line="93" column="1" />
-      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="140" column="1" />
-      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="182" column="1" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="150" column="1" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="195" column="1" />
       <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDK/Sync/FHSyncDataset.cs" line="419" column="62" />
+      <Breakpoint file="/Users/weili/work/fh/eng/fh-sdks/fh-dotnet-sdk/FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" line="64" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
@@ -27,6 +41,6 @@
     <String>FHSDKPhone/FHSDKPhone.csproj</String>
     <String>FHSDKTest/FHSDKTest.csproj</String>
   </DisabledProjects>
-  <MonoDevelop.Ide.ItemProperties.FHSDKAndroidTest AndroidDeviceId-Debug="192.168.56.101:5555" />
   <MonoDevelop.Ide.ItemProperties.XamarinAndroidExample AndroidDeviceId-Debug="4df7374a04c03053" MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.FHSDKAndroidTest AndroidDeviceId-Debug="192.168.56.101:5555" />
 </Properties>
