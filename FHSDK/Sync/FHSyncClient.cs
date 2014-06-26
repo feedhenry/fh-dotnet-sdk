@@ -5,30 +5,84 @@ using FHSDK.Services;
 
 namespace FHSDK.Sync
 {
-    
+    /// <summary>
+    /// The types of notifications that will be emitted by the sync client
+    /// </summary>
     public enum SyncNotification
     {
+        /// <summary>
+        /// Failed to use the client storage
+        /// </summary>
         CLIENT_STORAGE_FAILED,
+        /// <summary>
+        /// One sync loop has started
+        /// </summary>
         SYNC_STARTED,
+        /// <summary>
+        /// One sync loop has completed successfully
+        /// </summary>
         SYNC_COMPLETED,
+        /// <summary>
+        /// The device is offline and the changes is only applied locally
+        /// </summary>
         OFFLINE_UPDATE,
+        /// <summary>
+        /// There is collision detected during the sync loop
+        /// </summary>
         COLLISION_DETECTED,
+        /// <summary>
+        /// Local changes have been applied to remote server
+        /// </summary>
         REMOTE_UPDATE_APPLIED,
+        /// <summary>
+        /// Local changes failed to apply to remote server
+        /// </summary>
         REMOTE_UPDATE_FAILED,
+        /// <summary>
+        /// The changes have been applied to local dataset
+        /// </summary>
         LOCAL_UPDATE_APPLIED,
+        /// <summary>
+        /// There are a batch of changes from remote server
+        /// </summary>
         DELTA_RECEIVED,
+        /// <summary>
+        /// There are updates for one record entry from remote server
+        /// </summary>
         RECORD_DELTA_RECEIVED,
+        /// <summary>
+        /// One sync loop finished with failure
+        /// </summary>
         SYNC_FAILED
     };
 
+    /// <summary>
+    /// The event arguments that will be sent to the sync event listeners
+    /// </summary>
     public class FHSyncNotificationEventArgs : EventArgs
     {
+        /// <summary>
+        /// The id of the dataset
+        /// </summary>
+        /// <value>The dataset identifier.</value>
         public string DatasetId { set; get; }
 
+        /// <summary>
+        /// The unique universal id of the record
+        /// </summary>
+        /// <value>The uid.</value>
         public string Uid { get; set; }
 
+        /// <summary>
+        /// Type fo the notification. See SyncNotification.
+        /// </summary>
+        /// <value>The code.</value>
         public SyncNotification Code { get; set; }
 
+        /// <summary>
+        /// An message associated with the event argument. Could be empty.
+        /// </summary>
+        /// <value>The message.</value>
         public string Message { get; set; }
 
         public override string ToString()
@@ -36,7 +90,13 @@ namespace FHSDK.Sync
             return string.Format("[FHSyncNotificationEventArgs: DatasetId={0}, Uid={1}, Code={2}, Message={3}]", DatasetId, Uid, Code, Message);
         }
     }
-        
+
+    /// <summary>
+    /// The client part of the FH Sync Framework. 
+    /// To use the sync framework, you just need to create a data model that implements the IFHSyncModel interface, and let the sync client manage that data model for you.
+    /// The sync framework will manage the data model for offline use and sync with the cloud when possible. If a data model is managed by the sync framework, you should only use the sync framework
+    /// for any CRUD operations for that model.
+    /// </summary>
     public class FHSyncClient
     {
         private static FHSyncClient syncClientInstance;
@@ -165,7 +225,10 @@ namespace FHSDK.Sync
             }
         }
 
-
+        /// <summary>
+        /// Get the singleton instance of the FHSyncClient
+        /// </summary>
+        /// <returns>The instance.</returns>
         public static FHSyncClient GetInstance()
         {
             if(null == syncClientInstance){
@@ -174,6 +237,11 @@ namespace FHSDK.Sync
             return syncClientInstance;
         }
 
+        /// <summary>
+        /// Set the global FHSyncConfig for all the datasets. 
+        /// This will be used for all the dataset if no instance of FHSyncConfig is provided when managing a sync data model.
+        /// </summary>
+        /// <param name="syncConfig">Sync config.</param>
         public void Initialise(FHSyncConfig syncConfig)
         {
           if(null != syncConfig){
@@ -186,6 +254,13 @@ namespace FHSDK.Sync
           this.initialised = true;
         }
 
+        /// <summary>
+        /// Manage the specified sync data model that implements the IFHSyncModel. 
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier. The datasetId needs to be unique for your app and will be used to name the database collection in the cloud.</param>
+        /// <param name="syncConfig">Sync config. If this is null, the global syncConfig will be used.</param>
+        /// <param name="qp">A query parameter that will be passed to the cloud when initialise the dataset.</param>
+        /// <typeparam name="T"> It should be a type that implements IFHSyncModel.</typeparam>
         public FHSyncDataset<T> Manage<T>(string datasetId, FHSyncConfig syncConfig , IDictionary<string, string> qp) where T: IFHSyncModel
         {
             FHSyncDataset<T> dataset = null;
@@ -199,11 +274,22 @@ namespace FHSDK.Sync
                 datasetsDelegates[datasetId] = new DatasetSyncDelegate(dataset.RunSyncLoop);
             } else {
                 dataset = (FHSyncDataset<T>)this.datasets[datasetId];
+                if(null != syncConfig){
+                    dataset.SyncConfig = syncConfig;
+                }
+                if(null != qp){
+                    dataset.QueryParams = qp;
+                }
             }
 
             return dataset;
         }
 
+        /// <summary>
+        /// List the data records for the specified datasetId.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public List<T> List<T>(string datasetId) where T: IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -214,6 +300,12 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Read the data records with the specified datasetId and uid.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <param name="uid">The unique id of the data model</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public T Read<T>(string datasetId, string uid) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -224,6 +316,13 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Create a new data record with the specified datasetId and an instance of the model.
+        /// The new data record will be synced to the cloud automatically.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <param name="model">An instance of the data model T.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public T Create<T>(string datasetId, T model) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -234,6 +333,14 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Update the data record with the specified datasetId and model.
+        /// The changes of the data record will be synced to the cloud automatically. 
+        /// In case of collision, the collision will be recorded and the local change will be reverted to match the cloud entry.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <param name="model">An instance of the data model T.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public T Update<T>(string datasetId, T model) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -244,6 +351,14 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Delete the data record with the specified datasetId and model.
+        /// The deletion will be applied to local data immediately and sync with cloud when possible. 
+        /// In case of collision, the collision will be recorded and the local change will be reverted to match the cloud entry.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <param name="uid">The uid of the record to delete</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public T Delete<T>(string datasetId, string uid) where T:IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -254,6 +369,11 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Stop syncing the specified dataset with the cloud. All the changes will be saved locally only.
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public void Stop<T>(string datasetId) where T : IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -262,6 +382,11 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Start syncing the specified dataset with the cloud if possible
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public void Start<T>(string datasetId) where T: IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -270,6 +395,12 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Invoke a sync loop almost immediately.
+        /// It will guarantee a sync loop will run in the next 500 milliseconds (even the data model has set to stop sync - but not if StopAll is called.).
+        /// </summary>
+        /// <param name="datasetId">Dataset identifier.</param>
+        /// <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
         public void ForceSync<T>(string datasetId) where T : IFHSyncModel
         {
             if(this.datasets.ContainsKey(datasetId)){
@@ -278,11 +409,17 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Stop syncing all local data models.
+        /// </summary>
         public void StopAll()
         {
             this.monitor.StopMonitor();
         }
 
+        /// <summary>
+        /// Start syncing all local data models.
+        /// </summary>
         public void StartAll()
         {
             this.MonitorTask();

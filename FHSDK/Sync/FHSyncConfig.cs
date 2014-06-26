@@ -2,16 +2,32 @@
 
 namespace FHSDK.Sync
 {
+    /// <summary>
+    /// The configuration options for syncing
+    /// </summary>
 	public class FHSyncConfig
 	{
+        
+        /// <summary>
+        /// The type of the cloud part of the sync framework.
+        /// </summary>
         public enum SyncCloudType {
+            /// <summary>
+            /// Check automatically
+            /// </summary>
             AUTO,
+            /// <summary>
+            /// Use the FH MBAAS sync service
+            /// </summary>
             MBBAS,
+            /// <summary>
+            /// Use the legacy sync service
+            /// </summary>
             LEGACY
         }
 
 		/// <summary>
-		/// How often the sync loop should be running. In seconds
+		/// How often the sync loop should be running. In seconds.
 		/// </summary>
 		/// <value>The sync frequency.</value>
 		public int SyncFrequency { set; get; }

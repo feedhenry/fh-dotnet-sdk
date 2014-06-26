@@ -73,7 +73,7 @@ namespace FHSDK.Sync
         /// The query params for the data records. Will be used to send to the cloud when listing initial records.
         /// </summary>
         [JsonProperty("QueryParams")]
-        protected IDictionary<string, string> QueryParams { get; set; }
+        public IDictionary<string, string> QueryParams { get; set; }
 
         /// <summary>
         /// The meta data for the dataset
