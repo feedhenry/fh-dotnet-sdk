@@ -120,9 +120,9 @@ The complete FH .NET SDK contains four projects:
 
 There are 3 test projects ceated for each platform:
 
-* FHSDKAndroidTest
-* FHSDKIOSTest
-* FHSDKWindowsPhoneTestNative
+* FHSDKAndroidTest (NUnit)
+* FHSDKIOSTest (NUnit)
+* FHSDKWindowsPhoneTestNative (WindowsPhoneUnitTest)
 
 They all link to the test files in [FHSDKTestShared](FHSDKTestShared) project.
 
