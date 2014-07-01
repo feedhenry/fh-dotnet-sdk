@@ -68,11 +68,7 @@ namespace FHSDK.API
 			if(null != this.RequestParams)
 			{
                 
-                try{
-                    data = JObject.FromObject(this.RequestParams);
-                }catch(Exception e){
-                    
-                }
+                data = JObject.FromObject(this.RequestParams);
 			}
 			IDictionary<string, object> defaultParams = GetDefaultParams();
 			data["__fh"] = JToken.FromObject(defaultParams);

@@ -858,7 +858,16 @@ namespace FHSDK.Sync
             string syncClientMeta = FHSyncUtils.GetDataFilePath(this.DatasetId, PERSIST_FILE_NAME);
             IIOService iosService = ServiceFinder.Resolve<IIOService>();
             string content = FHSyncUtils.SerializeObject(this);
-            iosService.WriteFile(syncClientMeta, content);
+            try
+            {
+                iosService.WriteFile(syncClientMeta, content);
+            }
+            catch (Exception ex)
+            {
+                logger.e(LOG_TAG, "Failed to save dataset", ex);
+                throw ex;
+            }
+
         }
 
         private static FHSyncDataset<X> LoadExistingDataSet<X>(string syncClientMetaFile, string datasetId) where X : IFHSyncModel

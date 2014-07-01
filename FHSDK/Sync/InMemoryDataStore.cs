@@ -86,7 +86,6 @@ namespace FHSDK.Sync
 
 		public void Save()
 		{
-			//Contract.Assert (null != this.PersistPath, "No persist path specified!");
 			IIOService ioService = ServiceFinder.Resolve<IIOService> ();
 			ILogService logger = ServiceFinder.Resolve<ILogService> ();
             Monitor.Enter(this);

@@ -189,6 +189,10 @@ namespace FHSDKTestShared
             //run a sync loop
             await tasksDataset.StartSyncLoop();
 
+            Thread.Sleep(9000);
+
+            await tasksDataset.StartSyncLoop();
+
             //now we should see the new record is created locally
             List<TaskModel> updatedTaskList = tasksDataset.List();
             Assert.AreEqual(2, updatedTaskList.Count);

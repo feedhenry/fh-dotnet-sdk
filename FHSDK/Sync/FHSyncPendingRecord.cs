@@ -7,32 +7,32 @@ namespace FHSDK.Sync
 {
 	public class FHSyncPendingRecord<T> where T : IFHSyncModel
 	{
-		[JsonProperty("inFlight")]
-		public Boolean InFlight { set; get; }
+        [JsonProperty("inFlight")]
+        public Boolean InFlight { set; get; }
 
-		[JsonProperty("inFlightDate")]
-		public DateTime InFlightDate { set; get; }
+        [JsonProperty("inFlightDate")]
+        public DateTime InFlightDate { set; get; }
 
-		[JsonProperty("crashed")]
-		public Boolean Crashed { set; get; }
+        [JsonProperty("crashed")]
+        public Boolean Crashed { set; get; }
 
-		[JsonProperty("action")]
-		public String Action { set; get; }
+        [JsonProperty("action")]
+        public String Action { set; get; }
 
-		[JsonProperty("uid")]
-		public string Uid { set; get; }
+        [JsonProperty("uid")]
+        public string Uid { set; get; }
 
-		[JsonProperty("timestamp")]
-		public DateTime Timestamp { set; get; }
+        [JsonProperty("timestamp")]
+        public DateTime Timestamp { set; get; }
 
-		[JsonProperty("pre")]
-		public FHSyncDataRecord<T> PreData { set; get; }
+        [JsonProperty("pre")]
+        public FHSyncDataRecord<T> PreData { set; get; }
 
-		[JsonProperty("post")]
-		public FHSyncDataRecord<T> PostData { set; get; }
+        [JsonProperty("post")]
+        public FHSyncDataRecord<T> PostData { set; get; }
 
-		[JsonProperty("crashCount")]
-		public int CrashedCount { set; get; }
+        [JsonProperty("crashCount")]
+        public int CrashedCount { set; get; }
 
         [JsonProperty("delayed")]
         public Boolean Delayed { set; get; }
