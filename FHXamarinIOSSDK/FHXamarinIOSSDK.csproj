@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Services\Hash\" />
+    <Folder Include="Services\Monitor\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -55,5 +57,8 @@
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
     <Compile Include="Services\Auth\FHOAuthViewController.cs" />
     <Compile Include="FHClient.cs" />
+    <Compile Include="Services\Hash\HashService.cs" />
+    <Compile Include="Services\Monitor\MonitorService.cs" />
+    <Compile Include="Services\Data\IOService.cs" />
   </ItemGroup>
 </Project>

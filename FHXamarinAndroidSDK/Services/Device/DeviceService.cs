@@ -14,6 +14,7 @@ namespace FHSDK.Services
 	{
 		private const string TAG = "FHSDK:DeviceService";
 		private const string APP_PROP_FILE = "fhconfig.properties";
+        private const string LOCAL_DEV_APP_PROP_FILE = "fhconfig.local.properties";
 		private const string PROJECT_ID_PROP = "projectid";
 		private const string APP_ID_PROP = "appid";
 		private const string APP_KEY_PROP = "appkey";
@@ -37,8 +38,19 @@ namespace FHSDK.Services
 				Properties appProps = new Properties();
 				Stream input = null;
 				ILogService logger = ServiceFinder.Resolve<ILogService>();
+                bool foundLocalDevProps = false;
 				try {
-					input = Application.Context.Assets.Open(APP_PROP_FILE);
+                    try
+                    {
+                        input = Application.Context.Assets.Open(LOCAL_DEV_APP_PROP_FILE);
+                        foundLocalDevProps = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        input = null;
+                        foundLocalDevProps = false;
+                        input = Application.Context.Assets.Open(APP_PROP_FILE);
+                    }
 					appProps.Load(input);
 					appPropsObj = new AppProps();
 					appPropsObj.projectid = appProps.GetProperty(PROJECT_ID_PROP);
@@ -47,6 +59,9 @@ namespace FHSDK.Services
 					appPropsObj.host = appProps.GetProperty(HOST_PROP);
 					appPropsObj.connectiontag = appProps.GetProperty(CONNECTION_TAG_PROP);
 					appPropsObj.mode = appProps.GetProperty(MODE_PROP);
+                    if(foundLocalDevProps){
+                        appPropsObj.IsLocalDevelopment = true;
+                    }
 					return appPropsObj;
 				} catch (Exception ex) {
 					if(null != logger) {

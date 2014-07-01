@@ -92,6 +92,10 @@ Invoke a cloud function which you have defined in cloud/main.js (the old way). C
 
 For full list of APIs, please check [FH .NET SDK API References](http://feedhenry.github.io/fh-dotnet-sdk/Documentations/FHDotNetSDKDoc/Help/index.html).
 
+## Sync Client
+
+See [Sync Client Usage Guide](SyncClient.md).
+
 ## Solution Structure
 
 The complete FH .NET SDK contains four projects:
@@ -111,6 +115,24 @@ The complete FH .NET SDK contains four projects:
 * FHXamarinIOSSDK
   
   A Xamarin IOS library project. Contains implementaion details for iOS platform.
+
+## Testing
+
+There are 3 test projects ceated for each platform:
+
+* FHSDKAndroidTest (NUnit Lite for Android)
+* FHSDKIOSTest (NUnit Lite for IOS)
+* FHSDKWindowsPhoneTestNative (WindowsPhoneUnitTest)
+
+They all link to the test files in [FHSDKTestShared](FHSDKTestShared) project.
+
+Before running the test, make sure the [TestCloudApp](https://github.com/fheng/fh-sdks-test-cloud-app) is running somewhere, and update the following files to point them to the cloud app:
+
+* [fhconfig.local.properties](FHSDKAndroidTest/Assets/fhconfig.local.properties)
+* [fhconfiglocal.plist](FHSDKIOSTest/fhconfiglocal.plist)
+* [fhconfig.local.json](FHSDKWindowsPhoneTestNative/fhconfig.local.json)
+
+Then you can deploy the test projects to the emulators or devices and run the tests (For Windows Phone, just run the tests using Visual Studio).
 
 ## Building
 

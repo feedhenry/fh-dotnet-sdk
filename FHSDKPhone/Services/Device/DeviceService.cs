@@ -17,6 +17,7 @@ namespace FHSDK.Services
     class DeviceService : IDeviceService
     {
 
+        private const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
         private const string CONFIG_FILE_NAME = "fhconfig.json";
 
         public string GetDeviceId()
@@ -41,8 +42,17 @@ namespace FHSDK.Services
 
         public AppProps ReadAppProps()
         {
-             AppProps appProps = null;
-            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(CONFIG_FILE_NAME, UriKind.Relative));
+            AppProps appProps = null;
+            bool IsLocalDev = false;
+            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(LOCAL_CONFIG_FILE_NAME, UriKind.Relative));
+            if (null != streamInfo)
+            {
+                IsLocalDev = true;
+            }
+            else
+            {
+                streamInfo = Application.GetResourceStream(new Uri(CONFIG_FILE_NAME, UriKind.Relative));
+            }
             if (null != streamInfo)
             {
                 StreamReader sr = new StreamReader(streamInfo.Stream);
@@ -50,6 +60,10 @@ namespace FHSDK.Services
                 if(null != fileContent)
                 {
                     appProps = JsonConvert.DeserializeObject<AppProps>(fileContent);
+                }
+                if (IsLocalDev)
+                {
+                    appProps.IsLocalDevelopment = true;
                 }
             }
             else

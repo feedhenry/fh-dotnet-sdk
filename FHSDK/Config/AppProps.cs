@@ -32,6 +32,11 @@ namespace FHSDK
         /// Get or set the app mode. Deprecated.
         /// </summary>
         public string mode { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether this instance is for local development.
+        /// </summary>
+        /// <value><c>true</c> if this instance is local development; otherwise, <c>false</c>.</value>
+        public bool IsLocalDevelopment { get; set; }
 	}
 }
 

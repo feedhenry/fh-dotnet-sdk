@@ -87,7 +87,13 @@ namespace FHSDK.API
 			{
 				IDictionary<string, string> defaultHeaders = FH.GetDefaultParamsAsHeaders ();
 				if (null != this.requestHeaders) {
-					defaultHeaders.Concat (this.requestHeaders);
+                    foreach (var item in this.requestHeaders)
+                    {
+                        string key = item.Key;
+                        if(!defaultHeaders.ContainsKey(key)){
+                            defaultHeaders.Add(key, item.Value);
+                        }        
+                    }
 				}
 				return defaultHeaders;
 			}
@@ -108,7 +114,7 @@ namespace FHSDK.API
         public virtual async Task<FHResponse> execAsync()
         {
 			Uri uri = GetUri();
-            IDictionary<string, object> requestParams = GetRequestParams();
+            object requestParams = GetRequestParams();
 			FHResponse fhres = await FHHttpClient.FHHttpClient.SendAsync(uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
             return fhres;
         }
@@ -135,7 +141,7 @@ namespace FHSDK.API
         /// Construct the request data based on the request type
         /// </summary>
         /// <returns></returns>
-		protected abstract IDictionary<string, object> GetRequestParams();
+		protected abstract object GetRequestParams();
 
     }
 

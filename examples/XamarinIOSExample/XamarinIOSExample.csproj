@@ -126,13 +126,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
-      <Project>{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}</Project>
-      <Name>FHSDK</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\FHXamarinIOSSDK\FHXamarinIOSSDK.csproj">
       <Project>{4DE3FCB4-E637-4933-8B87-FE1DE7DF2D36}</Project>
       <Name>FHXamarinIOSSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
+      <Project>{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}</Project>
+      <Name>FHSDK</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

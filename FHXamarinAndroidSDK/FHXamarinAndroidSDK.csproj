@@ -13,7 +13,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AssemblyName>FHXamarinAndroidSDK</AssemblyName>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +54,9 @@
     <Compile Include="Services\Auth\FHOAuthWebview.cs" />
     <Compile Include="Services\Auth\FHOAuthIntent.cs" />
     <Compile Include="FHClient.cs" />
+    <Compile Include="Services\Hash\HashService.cs" />
+    <Compile Include="Services\Monitor\MonitorService.cs" />
+    <Compile Include="Services\Data\IOService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,4 +73,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Hash\" />
+    <Folder Include="Services\Monitor\" />
+  </ItemGroup>
 </Project>

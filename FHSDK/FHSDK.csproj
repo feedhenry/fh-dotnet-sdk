@@ -58,6 +58,18 @@
     <Compile Include="Config\CloudProps.cs" />
     <Compile Include="API\FHCloudRequest.cs" />
     <Compile Include="FHHttpClient\FHHttpClientFactory.cs" />
+    <Compile Include="Sync\FHSyncConfig.cs" />
+    <Compile Include="Sync\FHSyncDataRecord.cs" />
+    <Compile Include="Sync\FHSyncUtils.cs" />
+    <Compile Include="Services\Hash\IHashService.cs" />
+    <Compile Include="Sync\FHSyncPendingRecord.cs" />
+    <Compile Include="Sync\FHSyncDataset.cs" />
+    <Compile Include="Sync\IDataStore.cs" />
+    <Compile Include="Sync\InMemoryDataStore.cs" />
+    <Compile Include="Services\Data\IIOService.cs" />
+    <Compile Include="Sync\IFHSyncModel.cs" />
+    <Compile Include="Sync\FHSyncClient.cs" />
+    <Compile Include="Services\Monitor\IMonitorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -91,4 +103,9 @@
   </Target>
   -->
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sync\" />
+    <Folder Include="Services\Hash\" />
+    <Folder Include="Services\Monitor\" />
+  </ItemGroup>
 </Project>

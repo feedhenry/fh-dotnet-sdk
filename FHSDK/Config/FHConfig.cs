@@ -14,11 +14,18 @@ namespace FHSDK
 		private string deviceid = null;
 		private static FHConfig instance = null;
 
+        public bool IsLocalDevelopment { get; private set; }
+
 		private FHConfig (AppProps props, string dest, string uuid)
 		{
 			appProps = props;
 			destination = dest;
 			deviceid = uuid;
+            if(props.IsLocalDevelopment){
+                this.IsLocalDevelopment = true;
+            } else {
+                this.IsLocalDevelopment = false;
+            }
 		}
 
         /// <summary>

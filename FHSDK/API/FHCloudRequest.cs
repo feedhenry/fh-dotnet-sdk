@@ -11,13 +11,13 @@ namespace FHSDK
 	{
 		private CloudProps cloudProps;
 
-		private IDictionary<string, object> requestParams;
+		private object requestParams;
 		private string path = "";
 
 		/// <summary>
 		/// Get or set the request parameters
 		/// </summary>
-		public IDictionary<string, object> RequestParams 
+		public object RequestParams 
 		{ 
 			get 
 		    { 
@@ -61,14 +61,15 @@ namespace FHSDK
 		protected override Uri GetUri()
 		{
 			string host = this.cloudProps.GetCloudHost ();
-			return new Uri(String.Format("{0}/{1}", host, this.path));
+            string pathWithoutStartingSlash = this.path.StartsWith("/") ? this.path.Substring(1) : this.path;
+			return new Uri(String.Format("{0}/{1}", host, pathWithoutStartingSlash));
 		}
 
 		/// <summary>
 		/// Construct the request data based on the request type
 		/// </summary>
 		/// <returns></returns>
-		protected override IDictionary<string, object> GetRequestParams()
+		protected override object GetRequestParams()
 		{
 			return this.requestParams;
 		}

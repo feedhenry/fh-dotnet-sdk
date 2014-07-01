@@ -9,35 +9,6 @@
             The exception that is thrown by FH API calls
             </summary>
         </member>
-        <member name="M:FHSDK.FHException.#ctor">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:FHSDK.FHException.#ctor(System.String)">
-            <summary>
-            </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:FHSDK.FHException.#ctor(System.String,FHSDK.FHException.ErrorCode)">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-            <param name="errorCode"></param>
-        </member>
-        <member name="M:FHSDK.FHException.#ctor(System.String,FHSDK.FHException.ErrorCode,System.Exception)">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-            <param name="errorCode"></param>
-            <param name="baseException"></param>
-        </member>
-        <member name="P:FHSDK.FHException.Error">
-            <summary>
-            Get the error code
-            </summary>
-        </member>
         <member name="T:FHSDK.FHException.ErrorCode">
             <summary>
             Possible error codes
@@ -60,7 +31,7 @@
         </member>
         <member name="F:FHSDK.FHException.ErrorCode.ServerError">
             <summary>
-            This error code means the server returns error 
+            This error code means the server returns error
             </summary>
         </member>
         <member name="F:FHSDK.FHException.ErrorCode.AuthenticationError">
@@ -71,6 +42,39 @@
         <member name="F:FHSDK.FHException.ErrorCode.Cancelled">
             <summary>
             User cancelled
+            </summary>
+        </member>
+        <member name="M:FHSDK.FHException.#ctor">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:FHSDK.FHException.#ctor(System.String)">
+            <summary>
+            </summary>
+            <param name="message">
+            </param>
+        </member>
+        <member name="M:FHSDK.FHException.#ctor(System.String,FHSDK.FHException.ErrorCode)">
+            <summary>
+            </summary>
+            <param name="message">
+            </param>
+            <param name="errorCode">
+            </param>
+        </member>
+        <member name="M:FHSDK.FHException.#ctor(System.String,FHSDK.FHException.ErrorCode,System.Exception)">
+            <summary>
+            </summary>
+            <param name="message">
+            </param>
+            <param name="errorCode">
+            </param>
+            <param name="baseException">
+            </param>
+        </member>
+        <member name="P:FHSDK.FHException.Error">
+            <summary>
+            Get the error code
             </summary>
         </member>
         <member name="T:FHSDK.FHHttpClient.NamespaceDoc">
@@ -87,9 +91,10 @@
             <summary>
             Check if the device is online
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
-        <member name="M:FHSDK.FHHttpClient.FHHttpClient.SendAsync(System.Uri,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)">
+        <member name="M:FHSDK.FHHttpClient.FHHttpClient.SendAsync(System.Uri,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Object,System.TimeSpan)">
             <summary>
             Send request to the remote uri
             </summary>
@@ -133,24 +138,6 @@
             </summary>
             <param name="error">An error</param>
         </member>
-        <member name="M:FHSDK.FHResponse.GetResponseAsJObject">
-            <summary>
-            Get the response data as JSON object
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.FHResponse.GetResponseAsJArray">
-            <summary>
-            Get the response data as JSON array
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.FHResponse.GetResponseAsDictionary">
-            <summary>
-            Get the response data as a dictionary
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:FHSDK.FHResponse.StatusCode">
             <summary>
             Get the status code of the response
@@ -166,9 +153,30 @@
             Get the response error. Should be null if the request is successful.
             </summary>
         </member>
+        <member name="M:FHSDK.FHResponse.GetResponseAsJObject">
+            <summary>
+            Get the response data as JSON object
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.FHResponse.GetResponseAsJArray">
+            <summary>
+            Get the response data as JSON array
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.FHResponse.GetResponseAsDictionary">
+            <summary>
+            Get the response data as a dictionary
+            </summary>
+            <returns>
+            </returns>
+        </member>
         <member name="T:FHSDK.Services.NamespaceDoc">
             <summary>
-            Contains implementations of a few services used by the FeedHenry .Net SDK. The interfaces are defined in the FHSDK.dll assemably, then each platform's 
+            Contains implementations of a few services used by the FeedHenry .Net SDK. The interfaces are defined in the FHSDK.dll assemably, then each platform's
             assembly contains platform-specific implementations of these services.
             </summary>
         </member>
@@ -181,7 +189,8 @@
             <summary>
             Resolve the correct implementation for the type
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">
+            </typeparam>
             <returns>an instance of the correct implementation class</returns>
         </member>
         <member name="T:FHSDK.NamespaceDoc">
@@ -195,39 +204,50 @@
             This is the main FeedHenry SDK class
             </summary>
         </member>
+        <member name="P:FHSDK.FH.SDK_VERSION">
+            <summary>
+            Get the current version of the FeedHenry .NET SDk
+            </summary>
+        </member>
+        <member name="P:FHSDK.FH.TimeOut">
+            <summary>
+            Get or Set the timeout value for all the requests. Default is 30 seconds.
+            </summary>
+        </member>
         <member name="M:FHSDK.FH.Init">
             <summary>
-            The actual implementation of initialising the FeedHenry SDK. It is called when the Init method of each platform's FHClient class called in. 
+            The actual implementation of initialising the FeedHenry SDK. It is called when the Init method of each platform's FHClient class called in.
             This way it will guarantee the platform's specific assembly will be loaded so that the ServiceFinder can find the correct implmenetation for some of the services.
             (The Adaptation approach used here works for wp and xamarain android without the FHClient reference. However, due to Xamarain IOS is using AOT compiler, we have to reference the FHClient class of the IOS SDK to make sure it will be loaded during compile.)
             </summary>
             <returns>If Init is success or not</returns>
-            <exception cref="T:FHSDK.FHException"></exception>
+            <exception cref="T:FHSDK.FHException">
+            </exception>
         </member>
-        <member name="M:FHSDK.FH.Act(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:FHSDK.FH.Act(System.String,System.Object)">
             <summary>
             Invoke a cloud function which you have defined in cloud/main.js (the old way).
             </summary>
             <param name="remoteAct">The name of the cloud function name</param>
             <param name="actParams">The parameters passed to the cloud function</param>
             <example>
-            <code>
+                <code>
             string cloudFunc = "test";
             IDictionary&lt;string, object&gt; dict = new Dictionary&lt;string, object&gt;();
             dict.Add("data", "test");
             FHResponse response = await FH.Act(cloudFunc, dict);
             if(null == response.Error)
             {
-              //no error occured, the request is successful
-              string rawResponseData = response.RawResponse;
-              //you can get it as JSONObject (require Json.Net library)
-              JObject resJson = response.GetResponseAsJObject();
-              //process response data
+            //no error occured, the request is successful
+            string rawResponseData = response.RawResponse;
+            //you can get it as JSONObject (require Json.Net library)
+            JObject resJson = response.GetResponseAsJObject();
+            //process response data
             }
             else
             {
-              //error occured during the request, deal with it.
-              //More infomation can be access from response.Error.InnerException
+            //error occured during the request, deal with it.
+            //More infomation can be access from response.Error.InnerException
             }
             </code>
             </example>
@@ -236,7 +256,7 @@
         </member>
         <member name="M:FHSDK.FH.Auth(System.String)">
             <summary>
-            Call the FeedHenry Authentication API with the given policyId. This is normally used for OAuth type authentications. 
+            Call the FeedHenry Authentication API with the given policyId. This is normally used for OAuth type authentications.
             The user will be prompted for login details and the the login result will be returned.
             </summary>
             <param name="policyId">The id of the new policy</param>
@@ -244,14 +264,14 @@
         </member>
         <member name="M:FHSDK.FH.Auth(System.String,System.String,System.String)">
             <summary>
-             Call the FeedHenry Authentication API with the given policyId, user name and password. This is normally used for LDAP and other basic authentication types.
+            Call the FeedHenry Authentication API with the given policyId, user name and password. This is normally used for LDAP and other basic authentication types.
             </summary>
             <param name="policyId">The id of the auth policy</param>
             <param name="userName">The name of the user</param>
             <param name="userPassword">The user's password</param>
             <returns>The result of the authencation</returns>
         </member>
-        <member name="M:FHSDK.FH.GetCloudRequest(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:FHSDK.FH.GetCloudRequest(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Object)">
             <summary>
             Build the cloud request to call the app's cloud functions.
             </summary>
@@ -261,7 +281,7 @@
             <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
             <returns>The cloud request object</returns>
         </member>
-        <member name="M:FHSDK.FH.Cloud(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:FHSDK.FH.Cloud(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Object)">
             <summary>
             Create a cloud request and execute it immediately.
             </summary>
@@ -270,26 +290,26 @@
             <param name="headers">The HTTP headers of the reqeust</param>
             <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
             <example>
-            <code>
+                <code>
             FHResponse response = await FH.Cloud("api/echo", "GET", null, null);
             if(null == response.Error)
             {
-              //no error occured, the request is successful
-              string rawResponseData = response.RawResponse;
-              //you can get it as JSONObject (require Json.Net library)
-              JObject resJson = response.GetResponseAsJObject();
-              //process response data
+            //no error occured, the request is successful
+            string rawResponseData = response.RawResponse;
+            //you can get it as JSONObject (require Json.Net library)
+            JObject resJson = response.GetResponseAsJObject();
+            //process response data
             }
             else
             {
-              //error occured during the request, deal with it.
-              //More infomation can be access from response.Error.InnerException
+            //error occured during the request, deal with it.
+            //More infomation can be access from response.Error.InnerException
             }
             </code>
             </example>
             <returns>The response from the cloud</returns>
         </member>
-        <member name="M:FHSDK.FH.Mbaas(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:FHSDK.FH.Mbaas(System.String,System.Object)">
             <summary>
             Invoke a FeedHenry MBAAS Service function
             </summary>
@@ -319,7 +339,7 @@
         </member>
         <member name="M:FHSDK.FH.SetLogLevel(System.Int32)">
             <summary>
-            Set the log levels. 
+            Set the log levels.
             VERBOSE=1
             DEBUG=2
             INFO=3
@@ -333,22 +353,14 @@
             <summary>
             Save app init info. Mainly used for analytics.
             </summary>
-            <param name="initInfo"></param>
+            <param name="initInfo">
+            </param>
         </member>
         <member name="M:FHSDK.FH.GetInitInfo">
             <summary>
             </summary>
-            <returns></returns>
-        </member>
-        <member name="P:FHSDK.FH.SDK_VERSION">
-            <summary>
-            Get the current version of the FeedHenry .NET SDk
-            </summary>
-        </member>
-        <member name="P:FHSDK.FH.TimeOut">
-            <summary>
-            Get or Set the timeout value for all the requests. Default is 30 seconds.
-            </summary>
+            <returns>
+            </returns>
         </member>
         <member name="T:FHSDK.Services.IDataService">
             <summary>
@@ -485,12 +497,6 @@
             <param name="sessionToken">the session token</param>
             <param name="authResponse">the acutal OAuth response</param>
         </member>
-        <member name="M:FHSDK.Services.OAuthResult.ToString">
-            <summary>
-            Return the string representation of this object
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:FHSDK.Services.OAuthResult.Result">
             <summary>
             Get the result code
@@ -510,6 +516,13 @@
             <summary>
             Get the error message if failed.
             </summary>
+        </member>
+        <member name="M:FHSDK.Services.OAuthResult.ToString">
+            <summary>
+            Return the string representation of this object
+            </summary>
+            <returns>
+            </returns>
         </member>
         <member name="T:FHSDK.Adaptation.IAdapterResolver">
             <summary>
@@ -534,108 +547,31 @@
             Class represents init requests
             </summary>
         </member>
-        <member name="T:FHSDK.API.FHRequest">
-            <summary>
-            Base class for all the API requests
-            </summary>
-        </member>
-        <member name="F:FHSDK.API.FHRequest.timeout">
-            <summary>
-            The app configurations
-            </summary>
-        </member>
-        <member name="M:FHSDK.API.FHRequest.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="M:FHSDK.API.FHRequest.execAsync">
-            <summary>
-            Execute the request asynchronously
-            </summary>
-            <returns>Server response</returns>
-        </member>
-        <member name="M:FHSDK.API.FHRequest.GetDefaultParams">
-            <summary>
-            Get the default request parameters
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.API.FHRequest.GetUri">
-            <summary>
-            Construct the remote uri based on the request type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.API.FHRequest.GetRequestParams">
-            <summary>
-            Construct the request data based on the request type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:FHSDK.API.FHRequest.TimeOut">
-            <summary>
-            Get or set the timeout value
-            </summary>
-        </member>
-        <member name="P:FHSDK.API.FHRequest.RequestMethod">
-            <summary>
-            Get or set the http request method
-            </summary>
-        </member>
-        <member name="P:FHSDK.API.FHRequest.RequestHeaders">
-            <summary>
-            Get or set the http request headers
-            </summary>
-        </member>
         <member name="M:FHSDK.API.FHInitRequest.#ctor">
             <summary>
             Constructor
             </summary>
-            <param name="appProps"></param>
+            <param name="appProps">
+            </param>
         </member>
         <member name="M:FHSDK.API.FHInitRequest.GetUri">
             <summary>
             Construct the remote uri based on the request type
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="M:FHSDK.API.FHInitRequest.GetRequestParams">
             <summary>
             Construct the request data based on the request type
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="T:FHSDK.API.FHActRequest">
             <summary>
             Class represents act requests
             </summary>
-        </member>
-        <member name="M:FHSDK.API.FHActRequest.#ctor(FHSDK.CloudProps)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="cloudProps"></param>
-        </member>
-        <member name="M:FHSDK.API.FHActRequest.execAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Execute the act request asynchronously
-            </summary>
-            <param name="remoteAct">The name of the cloud action</param>
-            <param name="requestParams">The request parameters</param>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.API.FHActRequest.GetUri">
-            <summary>
-            Construct the remote uri based on the request type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.API.FHActRequest.GetRequestParams">
-            <summary>
-            Construct the request data based on the request type
-            </summary>
-            <returns></returns>
         </member>
         <member name="P:FHSDK.API.FHActRequest.RemoteAct">
             <summary>
@@ -646,6 +582,36 @@
             <summary>
             Get or set the request parameters
             </summary>
+        </member>
+        <member name="M:FHSDK.API.FHActRequest.#ctor(FHSDK.CloudProps)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="cloudProps">
+            </param>
+        </member>
+        <member name="M:FHSDK.API.FHActRequest.execAsync(System.String,System.Object)">
+            <summary>
+            Execute the act request asynchronously
+            </summary>
+            <param name="remoteAct">The name of the cloud action</param>
+            <param name="requestParams">The request parameters</param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.API.FHActRequest.GetUri">
+            <summary>
+            Construct the remote uri based on the request type
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.API.FHActRequest.GetRequestParams">
+            <summary>
+            Construct the request data based on the request type
+            </summary>
+            <returns>
+            </returns>
         </member>
         <member name="T:FHSDK.API.FHAuthRequest">
             <summary>
@@ -682,13 +648,15 @@
             <summary>
             Construct the remote uri based on the request type
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="M:FHSDK.API.FHAuthRequest.GetRequestParams">
             <summary>
             Construct the request data based on the request type
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="M:FHSDK.API.FHAuthRequest.execAsync">
             <summary>
@@ -701,6 +669,63 @@
             Contains implementations for accessing FeedHenry APIs. Defined in the FHSDK.dll.
             </summary>
         </member>
+        <member name="T:FHSDK.API.FHRequest">
+            <summary>
+            Base class for all the API requests
+            </summary>
+        </member>
+        <member name="F:FHSDK.API.FHRequest.timeout">
+            <summary>
+            The app configurations
+            </summary>
+        </member>
+        <member name="M:FHSDK.API.FHRequest.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:FHSDK.API.FHRequest.TimeOut">
+            <summary>
+            Get or set the timeout value
+            </summary>
+        </member>
+        <member name="P:FHSDK.API.FHRequest.RequestMethod">
+            <summary>
+            Get or set the http request method
+            </summary>
+        </member>
+        <member name="P:FHSDK.API.FHRequest.RequestHeaders">
+            <summary>
+            Get or set the http request headers
+            </summary>
+        </member>
+        <member name="M:FHSDK.API.FHRequest.execAsync">
+            <summary>
+            Execute the request asynchronously
+            </summary>
+            <returns>Server response</returns>
+        </member>
+        <member name="M:FHSDK.API.FHRequest.GetDefaultParams">
+            <summary>
+            Get the default request parameters
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.API.FHRequest.GetUri">
+            <summary>
+            Construct the remote uri based on the request type
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.API.FHRequest.GetRequestParams">
+            <summary>
+            Construct the request data based on the request type
+            </summary>
+            <returns>
+            </returns>
+        </member>
         <member name="T:FHSDK.FHConfig">
             <summary>
             Singleton class to return various configurations of the app.
@@ -710,7 +735,8 @@
             <summary>
             Return the singleton instance of the class
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="M:FHSDK.FHConfig.GetHost">
             <summary>
@@ -795,6 +821,13 @@
             Get or set the app mode. Deprecated.
             </summary>
         </member>
+        <member name="P:FHSDK.AppProps.IsLocalDevelopment">
+            <summary>
+            Gets a value indicating whether this instance is for local development.
+            </summary>
+            <value>
+                <c>true</c> if this instance is local development; otherwise, <c>false</c>.</value>
+        </member>
         <member name="T:FHSDK.CloudProps">
             <summary>
             Class represents the cloud app instance (MBAAS service) the app should be communication with.
@@ -817,24 +850,6 @@
             Class represents cloud requests.
             </summary>
         </member>
-        <member name="M:FHSDK.FHCloudRequest.#ctor(FHSDK.CloudProps)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="props">The cloud host info</param>
-        </member>
-        <member name="M:FHSDK.FHCloudRequest.GetUri">
-            <summary>
-            Construct the remote uri based on the request type
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FHSDK.FHCloudRequest.GetRequestParams">
-            <summary>
-            Construct the request data based on the request type
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:FHSDK.FHCloudRequest.RequestParams">
             <summary>
             Get or set the request parameters
@@ -845,10 +860,510 @@
             Get or set the path of the cloud request
             </summary>
         </member>
+        <member name="M:FHSDK.FHCloudRequest.#ctor(FHSDK.CloudProps)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="props">The cloud host info</param>
+        </member>
+        <member name="M:FHSDK.FHCloudRequest.GetUri">
+            <summary>
+            Construct the remote uri based on the request type
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:FHSDK.FHCloudRequest.GetRequestParams">
+            <summary>
+            Construct the request data based on the request type
+            </summary>
+            <returns>
+            </returns>
+        </member>
         <member name="T:FHSDK.FHHttpClient.FHHttpClientFactory">
             <summary>
-            Create a new instance of HttpClient using the default implementation. 
+            Create a new instance of HttpClient using the default implementation.
             You can override this functin to return your own instance of HttpClient.
+            </summary>
+        </member>
+        <member name="T:FHSDK.Sync.FHSyncConfig">
+            <summary>
+            The configuration options for syncing
+            </summary>
+        </member>
+        <member name="T:FHSDK.Sync.FHSyncConfig.SyncCloudType">
+            <summary>
+            The type of the cloud part of the sync framework.
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.FHSyncConfig.SyncCloudType.AUTO">
+            <summary>
+            Check automatically
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.FHSyncConfig.SyncCloudType.MBBAS">
+            <summary>
+            Use the FH MBAAS sync service
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.FHSyncConfig.SyncCloudType.LEGACY">
+            <summary>
+            Use the legacy sync service
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.SyncFrequency">
+            <summary>
+            How often the sync loop should be running. In seconds.
+            </summary>
+            <value>The sync frequency.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.AutoSyncLocalUpdates">
+            <summary>
+            If there is updates to the local data, should the sync loop be invoked immediately
+            </summary>
+            <value>
+                <c>true</c> if auto sync local updates; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.CrashedCountWait">
+            <summary>
+            If a record is crashed during a sync loop, how many loops should it be waiting until try again
+            </summary>
+            <value>The crashed count wait.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.ResendCrashedUpdated">
+            <summary>
+            If a record is crashed during a sync loop, should it be resent in the future
+            </summary>
+            <value>
+                <c>true</c> if resend crashed updated; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.SyncActive">
+            <summary>
+            Control if the sync should ba activated
+            </summary>
+            <value>
+                <c>true</c> if sync active; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.SyncCloud">
+            <summary>
+            Control if the sync client should be calling the FH MBAAS sync endpoint or the legacy (custom) sync endpoint
+            </summary>
+            <value>
+                <c>true</c> if use custom sync; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncConfig.DataPersistanceDir">
+            <summary>
+            Specify where the data files should be persisited. If not provided, a default path will be provided
+            </summary>
+            <value>The data persistance dir.</value>
+        </member>
+        <member name="F:FHSDK.Sync.FHSyncDataset`1.syncRunning">
+            <summary>
+            If the sync loop is running
+            </summary>
+        </member>
+        <!--FIXME: Invalid documentation markup was found for member F:FHSDK.Sync.FHSyncDataset`1.syncPending-->
+        <!--FIXME: Invalid documentation markup was found for member F:FHSDK.Sync.FHSyncDataset`1.pendingRecords-->
+        <member name="F:FHSDK.Sync.FHSyncDataset`1.dataRecords">
+            <summary>
+            The store of data records
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.FHSyncDataset`1.logger">
+            <summary>
+            Should the sync be stopped
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.SyncConfig">
+            <summary>
+            The sync configuration
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.HashValue">
+            <summary>
+            The hash value of the dataset
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.DatasetId">
+            <summary>
+            The id of the data set the sync client is currently managing
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.SyncStart">
+            <summary>
+            When the last sync started
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.SyncEnd">
+            <summary>
+            When the last sync ended
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.QueryParams">
+            <summary>
+            The query params for the data records. Will be used to send to the cloud when listing initial records.
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.MetaData">
+            <summary>
+            The meta data for the dataset
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.ForceSync">
+            <summary>
+            If this is set to true, a sync loop will start almost immediately
+            </summary>
+            <value>
+                <c>true</c> if force sync; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncDataset`1.Acknowledgements">
+            <summary>
+            Records change acknowledgements
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Build``1(System.String,FHSDK.Sync.FHSyncConfig,System.Collections.Generic.IDictionary{System.String,System.String},FHSDK.Sync.FHSyncMetaData)">
+            <summary>
+            Init a sync dataset with some parameters
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="syncConfig">Sync config.</param>
+            <param name="qp">Query parameters that will be send to the cloud when listing dataset</param>
+            <param name="meta">Meta data that will be send to the cloud when syncing </param>
+            <typeparam name="X">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.List">
+            <summary>
+            List data
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Read(System.String)">
+            <summary>
+            Read data specified by uid.
+            </summary>
+            <param name="uid">Uid.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Create(`0)">
+            <summary>
+            Create data
+            </summary>
+            <param name="data">Data.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Update(`0)">
+            <summary>
+            Update the specified data.
+            </summary>
+            <param name="data">Data.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Delete(System.String)">
+            <summary>
+            Delete the specified uid.
+            </summary>
+            <param name="uid">Uid.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.Save">
+            <summary>
+            Persist the dataset
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.ShouldSync">
+            <summary>
+            Check if a sync loop should run
+            </summary>
+            <returns>
+                <c>true</c>, if sync was shoulded, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.DoSync">
+            <summary>
+            Will run a sync loop
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.StopSync">
+            <summary>
+            Stop the sync
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncDataset`1.StartSync">
+            <summary>
+            Start sync
+            </summary>
+        </member>
+        <member name="T:FHSDK.Sync.InMemoryDataStore`1">
+            <summary>
+            Thread-safe in memory data cache
+            </summary>
+        </member>
+        <member name="T:FHSDK.Sync.IFHSyncModel">
+            <summary>
+            An instance to indicate that a data model can be used by the sync client.
+            To allow the FHSyncClient to manage data syncing, the data models have to implement this interface.
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.IFHSyncModel.UID">
+            <summary>
+            The unique universal id of the record.
+            The implementation of the property should be public readable and writable, and non-serializable (e.g. use JsonIgnore attribute or NonSerializedAttribute).
+            You should not set the value of the property in your code. The FHSyncClient will set the value for you.
+            </summary>
+            <value>
+            </value>
+        </member>
+        <member name="T:FHSDK.Sync.SyncNotification">
+            <summary>
+            The types of notifications that will be emitted by the sync client
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.CLIENT_STORAGE_FAILED">
+            <summary>
+            Failed to use the client storage
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.SYNC_STARTED">
+            <summary>
+            One sync loop has started
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.SYNC_COMPLETED">
+            <summary>
+            One sync loop has completed successfully
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.OFFLINE_UPDATE">
+            <summary>
+            The device is offline and the changes is only applied locally
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.COLLISION_DETECTED">
+            <summary>
+            There is collision detected during the sync loop
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.REMOTE_UPDATE_APPLIED">
+            <summary>
+            Local changes have been applied to remote server
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.REMOTE_UPDATE_FAILED">
+            <summary>
+            Local changes failed to apply to remote server
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.LOCAL_UPDATE_APPLIED">
+            <summary>
+            The changes have been applied to local dataset
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.DELTA_RECEIVED">
+            <summary>
+            There are a batch of changes from remote server
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.RECORD_DELTA_RECEIVED">
+            <summary>
+            There are updates for one record entry from remote server
+            </summary>
+        </member>
+        <member name="F:FHSDK.Sync.SyncNotification.SYNC_FAILED">
+            <summary>
+            One sync loop finished with failure
+            </summary>
+        </member>
+        <member name="T:FHSDK.Sync.FHSyncNotificationEventArgs">
+            <summary>
+            The event arguments that will be sent to the sync event listeners
+            </summary>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncNotificationEventArgs.DatasetId">
+            <summary>
+            The id of the dataset
+            </summary>
+            <value>The dataset identifier.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncNotificationEventArgs.Uid">
+            <summary>
+            The unique universal id of the record
+            </summary>
+            <value>The uid.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncNotificationEventArgs.Code">
+            <summary>
+            Type fo the notification. See SyncNotification.
+            </summary>
+            <value>The code.</value>
+        </member>
+        <member name="P:FHSDK.Sync.FHSyncNotificationEventArgs.Message">
+            <summary>
+            An message associated with the event argument. Could be empty.
+            </summary>
+            <value>The message.</value>
+        </member>
+        <member name="T:FHSDK.Sync.FHSyncClient">
+            <summary>
+            The client part of the FH Sync Framework.
+            To use the sync framework, you just need to create a data model that implements the IFHSyncModel interface, and let the sync client manage that data model for you.
+            The sync framework will manage the data model for offline use and sync with the cloud when possible. If a data model is managed by the sync framework, you should only use the sync framework
+            for any CRUD operations for that model.
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.ClientStorageFailed">
+            <summary>
+            Notify client storage failed event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.SyncStarted">
+            <summary>
+            Notify sync loop started event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.SyncCompleted">
+            <summary>
+            Notify sync loop complete event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.OfflineUpdate">
+            <summary>
+            Notify offline update event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.CollisionDetected">
+            <summary>
+            Notify collision detected event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.RemoteUpdateFailed">
+            <summary>
+            Notify remote update failed event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.LocalUpdateApplied">
+            <summary>
+            Notify local update applied event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.RemoteUpdateApplied">
+            <summary>
+            Notify remote update applied event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.DeltaReceived">
+            <summary>
+            Notify delta received event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.RecordDeltaReceived">
+            <summary>
+            Notify record delta received event
+            </summary>
+        </member>
+        <member name="E:FHSDK.Sync.FHSyncClient.SyncFailed">
+            <summary>
+            Notify sync loop failed event
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.OnSyncNotification(FHSDK.Sync.FHSyncNotificationEventArgs)">
+            <summary>
+            Send the event notification
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="uid">Uid.</param>
+            <param name="code">Code.</param>
+            <param name="message">Message.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.GetInstance">
+            <summary>
+            Get the singleton instance of the FHSyncClient
+            </summary>
+            <returns>The instance.</returns>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Initialise(FHSDK.Sync.FHSyncConfig)">
+            <summary>
+            Set the global FHSyncConfig for all the datasets.
+            This will be used for all the dataset if no instance of FHSyncConfig is provided when managing a sync data model.
+            </summary>
+            <param name="syncConfig">Sync config.</param>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Manage``1(System.String,FHSDK.Sync.FHSyncConfig,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Manage the specified sync data model that implements the IFHSyncModel.
+            </summary>
+            <param name="datasetId">Dataset identifier. The datasetId needs to be unique for your app and will be used to name the database collection in the cloud.</param>
+            <param name="syncConfig">Sync config. If this is null, the global syncConfig will be used.</param>
+            <param name="qp">A query parameter that will be passed to the cloud when initialise the dataset.</param>
+            <typeparam name="T"> It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.List``1(System.String)">
+            <summary>
+            List the data records for the specified datasetId.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Read``1(System.String,System.String)">
+            <summary>
+            Read the data records with the specified datasetId and uid.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="uid">The unique id of the data model</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Create``1(System.String,``0)">
+            <summary>
+            Create a new data record with the specified datasetId and an instance of the model.
+            The new data record will be synced to the cloud automatically.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="model">An instance of the data model T.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Update``1(System.String,``0)">
+            <summary>
+            Update the data record with the specified datasetId and model.
+            The changes of the data record will be synced to the cloud automatically.
+            In case of collision, the collision will be recorded and the local change will be reverted to match the cloud entry.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="model">An instance of the data model T.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Delete``1(System.String,System.String)">
+            <summary>
+            Delete the data record with the specified datasetId and model.
+            The deletion will be applied to local data immediately and sync with cloud when possible.
+            In case of collision, the collision will be recorded and the local change will be reverted to match the cloud entry.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <param name="uid">The uid of the record to delete</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Stop``1(System.String)">
+            <summary>
+            Stop syncing the specified dataset with the cloud. All the changes will be saved locally only.
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.Start``1(System.String)">
+            <summary>
+            Start syncing the specified dataset with the cloud if possible
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.ForceSync``1(System.String)">
+            <summary>
+            Invoke a sync loop almost immediately.
+            It will guarantee a sync loop will run in the next 500 milliseconds (even the data model has set to stop sync - but not if StopAll is called.).
+            </summary>
+            <param name="datasetId">Dataset identifier.</param>
+            <typeparam name="T">It should be a type that implements IFHSyncModel.</typeparam>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.StopAll">
+            <summary>
+            Stop syncing all local data models.
+            </summary>
+        </member>
+        <member name="M:FHSDK.Sync.FHSyncClient.StartAll">
+            <summary>
+            Start syncing all local data models.
             </summary>
         </member>
     </members>

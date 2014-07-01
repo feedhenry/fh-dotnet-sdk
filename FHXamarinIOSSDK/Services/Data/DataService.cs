@@ -16,7 +16,12 @@ namespace FHSDK.Services
 		{
 			NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
 			NSObject value = prefs.ValueForKey (new NSString (dataId));
-			return ((NSString)value).ToString ();
+            if(null != value){
+                return ((NSString)value).ToString();
+            } else {
+                return null;
+            }
+			
 		}
 
 		protected override void doSave(string dataId, string dataValue)
