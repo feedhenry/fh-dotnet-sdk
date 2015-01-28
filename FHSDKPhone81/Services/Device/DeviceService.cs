@@ -1,16 +1,16 @@
 ﻿using FHSDK;
-using FHSDK.Services;
 using FHSDK81.Phone;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using Windows.ApplicationModel;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System.Profile;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     /// <summary>
     /// Device info service for windows phone
@@ -37,14 +37,14 @@ namespace FHSDK81.Services
         {
             AppProps appProps = null;
             bool IsLocalDev = false;
-            StorageFile file = AsyncHelpers.RunSync<StorageFile>(() => StorageFile.GetFileFromApplicationUriAsync(new Uri(LOCAL_CONFIG_FILE_NAME, UriKind.Relative)).AsTask());
+            StorageFile file = GetFile(LOCAL_CONFIG_FILE_NAME);
             if (null != file)
             {
                 IsLocalDev = true;
             }
             else
             {
-                file = AsyncHelpers.RunSync<StorageFile>(() => StorageFile.GetFileFromApplicationUriAsync(new Uri(CONFIG_FILE_NAME, UriKind.Relative)).AsTask());
+                file = GetFile(CONFIG_FILE_NAME);                
             }
             if (null != file)
             {
@@ -57,6 +57,18 @@ namespace FHSDK81.Services
                 throw new IOException("Can not find resource " + CONFIG_FILE_NAME);
             }
             return appProps;
+        }
+
+        private static StorageFile GetFile(string fileName)
+        {
+            StorageFile file = null;
+            try
+            {
+                var folder = Package.Current.InstalledLocation;
+                file = AsyncHelpers.RunSync<StorageFile>(() => folder.GetFileAsync(fileName).AsTask<StorageFile>());
+            }
+            catch (AggregateException e) { }
+            return file;
         }
 
         public string GetDeviceDestination()

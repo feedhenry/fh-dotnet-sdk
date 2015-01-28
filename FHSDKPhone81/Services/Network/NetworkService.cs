@@ -1,8 +1,7 @@
-﻿using FHSDK.Services;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     /// <summary>
     /// Network service provider for windows phone
@@ -13,12 +12,9 @@ namespace FHSDK81.Services
         {
         }
 
-        public async Task<bool> IsOnlineAsync()
+        public Task<bool> IsOnlineAsync()
         {
-            return await Task.Run(() =>
-            {
-                return IsOnline();
-            });
+            return Task.Factory.StartNew(() => IsOnline());
         }
 
         public bool IsOnline()

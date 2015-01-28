@@ -2,9 +2,8 @@
 using System.IO;
 using Windows.Storage;
 using FHSDK81.Phone;
-using FHSDK.Services;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     class IOService : IIOService
     {
@@ -21,7 +20,7 @@ namespace FHSDK81.Services
                 file = GetFile(fullPath);
                 return AsyncHelpers.RunSync<string>(() => FileIO.ReadTextAsync(file).AsTask());
             }
-            catch (FileNotFoundException e)
+            catch (AggregateException e)
             {
                 return null;
             }
@@ -45,7 +44,7 @@ namespace FHSDK81.Services
                 GetFile(fullPath);
                 return true;
             }
-            catch (FileNotFoundException e)
+            catch (AggregateException e)
             {
                 return false;
             }

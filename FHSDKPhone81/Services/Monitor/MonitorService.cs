@@ -1,8 +1,7 @@
-﻿using FHSDK.Services;
-using System;
+﻿using System;
 using System.Threading;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     public class MonitorService : IMonitorService
     {

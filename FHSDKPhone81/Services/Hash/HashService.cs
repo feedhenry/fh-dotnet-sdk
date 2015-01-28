@@ -1,9 +1,8 @@
-﻿using FHSDK.Services;
-using Windows.Security.Cryptography;
+﻿using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     class HashService : IHashService
     {

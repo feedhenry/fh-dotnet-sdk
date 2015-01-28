@@ -1,12 +1,11 @@
-﻿using FHSDK.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace FHSDK81.Services
+namespace FHSDK.Services
 {
     /// <summary>
     /// On device data service provider for windows phone
