@@ -1,16 +1,9 @@
 ﻿using FHSDK.Services;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
 using Windows.Security.Authentication.Web;
 
-namespace FHSDK.Services
+namespace FHSDK81.Services
 {
     /// <summary>
     /// OAuth login handler for windows phone

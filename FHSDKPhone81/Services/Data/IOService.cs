@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Windows.Storage;
-using FHSDK.Phone;
+using FHSDK81.Phone;
+using FHSDK.Services;
 
-namespace FHSDK.Services
+namespace FHSDK81.Services
 {
     class IOService : IIOService
     {

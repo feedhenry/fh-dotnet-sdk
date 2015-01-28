@@ -1,20 +1,16 @@
-﻿using FHSDK.Phone;
+﻿using FHSDK;
+using FHSDK.Services;
+using FHSDK81.Phone;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System.Profile;
 
-namespace FHSDK.Services
+namespace FHSDK81.Services
 {
     /// <summary>
     /// Device info service for windows phone

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FHSDK.Services;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FHSDK.Services
+namespace FHSDK81.Services
 {
     /// <summary>
     /// Network service provider for windows phone

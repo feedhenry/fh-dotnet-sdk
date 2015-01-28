@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FHSDK.Services;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FHSDK.Services
+namespace FHSDK81.Services
 {
     /// <summary>
     /// Logging service for windows phone
