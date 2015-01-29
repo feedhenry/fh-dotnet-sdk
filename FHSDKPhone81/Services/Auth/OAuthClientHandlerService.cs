@@ -20,11 +20,25 @@ namespace FHSDK.Services
 
         }
 
-        public override async Task<OAuthResult> Login(string oauthLoginUrl)
+        public override Task<OAuthResult> Login(string oauthLoginUrl)
         {
+            tcs = new TaskCompletionSource<OAuthResult>();
             Uri uri = new Uri(oauthLoginUrl, UriKind.Absolute);
-            WebAuthenticationBroker.AuthenticateAndContinue(uri);
-            return null;
+            var oauth = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uri);
+            if (oauth.ResponseStatus == WebAuthenticationStatus.Success)
+            {
+                base.OnSuccess(new Uri(oauth.ResponseData), tcs);
+            }
+            else if (oauth.ResponseStatus == WebAuthenticationStatus.UserCancel)
+            {
+                tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.CANCELLED));
+            }
+            else
+            {
+                tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.FAILED));
+            }
+
+            return await tcs.Task;
         }
     }
 }
