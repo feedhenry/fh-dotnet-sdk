@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FHSDK.Services;
 
 namespace FHSDK.Droid
 {
@@ -31,7 +32,20 @@ namespace FHSDK.Droid
         /// <exception cref="FHException"></exception>
 		public new static async Task<bool> Init()
 		{
+			RegisterServices ();
 			return await FH.Init ();
+		}
+
+		private static void RegisterServices()
+		{
+			ServiceFinder.RegisterType<IOAuthClientHandlerService, OAuthClientHandlerService> ();
+			ServiceFinder.RegisterType<IDataService, DataService> ();
+			ServiceFinder.RegisterType<IIOService, IOService> ();
+			ServiceFinder.RegisterType<IDeviceService, DeviceService> ();
+			ServiceFinder.RegisterType<IHashService, HashService> ();
+			ServiceFinder.RegisterType<ILogService, LogService> ();
+			ServiceFinder.RegisterType<IMonitorService, MonitorService> ();
+			ServiceFinder.RegisterType<INetworkService, NetworkService> ();
 		}
 	}
 }

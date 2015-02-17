@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FHSDK.Adaptation;
 using System.Text;
+using Microsoft.Practices.Unity;
 
 namespace FHSDK.Services
 {
@@ -21,8 +21,7 @@ namespace FHSDK.Services
     /// </summary>
     public class ServiceFinder
     {
-		private static readonly string[] KnownPlatformNames = new[] { "FHSDKPhone", "FHXamarinAndroidSDK", "FHXamarinIOSSDK" };
-        private static IAdapterResolver _resolver = new ProbingAdapterResolver(KnownPlatformNames);
+		private static UnityContainer container = new UnityContainer();
 
         /// <summary>
         /// Resolve the correct implementation for the type
@@ -31,13 +30,12 @@ namespace FHSDK.Services
         /// <returns>an instance of the correct implementation class</returns>
         public static T Resolve<T>()
         {
-            Type tType = typeof(T);
-            T value = (T)_resolver.Resolve(tType);
-
-            if (value == null)
-                throw new PlatformNotSupportedException("No implementation found for " + tType.FullName);
-
-            return value;
+			return container.Resolve<T>();
         }
+
+		public static void RegisterType<TFrom, TTo>() where TTo : TFrom
+		{
+			container.RegisterType<TFrom, TTo>();
+		}
     }
 }
