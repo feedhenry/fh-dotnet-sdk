@@ -20,7 +20,7 @@ namespace FHSDK.Services
 
         }
 
-        public override Task<OAuthResult> Login(string oauthLoginUrl)
+        public async override Task<OAuthResult> Login(string oauthLoginUrl)
         {
             tcs = new TaskCompletionSource<OAuthResult>();
             Uri uri = new Uri(oauthLoginUrl, UriKind.Absolute);
