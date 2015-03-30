@@ -136,7 +136,7 @@ Then you can deploy the test projects to the emulators or devices and run the te
 
 ## Building
 
-Open FHSDK.sln solution in Visual Studio and build.
+Open FHSDK.sln solution in Visual Studio and build for Xamarin open FHSDK.sln in xamarin folder
 
 To generate and publish the API docs, please do the following:
 

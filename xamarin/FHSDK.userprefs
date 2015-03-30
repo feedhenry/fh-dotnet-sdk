@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="FHXamarinAndroidSDK\FHXamarinAndroidSDK.csproj">
+  <DisabledProjects>
+    <String>Documentations\FHDotNetSDKDoc\FHDotNetSDKDoc.shfbproj</String>
+    <String>FHSDK\FHSDK.csproj</String>
+    <String>FHSDKPhone\FHSDKPhone.csproj</String>
+    <String>FHSDKTestShared\FHSDKTestShared.shproj</String>
+    <String>FHSDKWindowsPhoneTestNative\FHSDKWindowsPhoneTestNative.csproj</String>
+    <String>examples\WindowsPhoneExample\WindowsPhoneExample.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.AVD_GalaxyNexus_ToolsForApacheCordova" />
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
