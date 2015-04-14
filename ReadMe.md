@@ -1,5 +1,7 @@
 # FeedHenry C#/.NET SDK
 
+[![Build status](https://ci.appveyor.com/api/projects/status/iio3m7a9yhiu0xfr?svg=true)](https://ci.appveyor.com/project/edewit/fh-dotnet-sdk-tekce)
+
 FeedHenry native .NET SDK for Windows Phone 8+ and Xamarin platform. It supports Portable Class Library (PCL) projects as well.
 
 ## Install
