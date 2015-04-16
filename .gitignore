@@ -4,3 +4,6 @@
 packages/*
 **/Components/*
 .nuget/*
+Components/*
+**/**/Bin/*
+**/**/obj/*

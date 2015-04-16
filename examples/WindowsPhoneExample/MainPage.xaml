@@ -57,9 +57,10 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="10,181,14,0">
             <Button Content="Cloud Call" HorizontalAlignment="Left" Margin="150,28,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.201,-1.058" Click="CloudButton_Click"/>
-            <Button Content="Auth Call" HorizontalAlignment="Left" Margin="155,127,0,0" VerticalAlignment="Top" Click="AuthButton_Click"/>
+            <Button Content="Auth Call" HorizontalAlignment="Left" Margin="33,127,0,0" VerticalAlignment="Top" Click="AuthButton_Click"/>
             <Button Content="MBAAS Data" HorizontalAlignment="Left" Margin="138,228,0,0" VerticalAlignment="Top" Click="MBAASButton_Click"/>
             <TextBlock HorizontalAlignment="Left" Margin="20,305,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.483,0.564" Height="258" Width="416" x:Name="textField"/>
+            <Button Content="MBaaS Auth Call" HorizontalAlignment="Left" Margin="224,127,0,0" VerticalAlignment="Top" Click="MBAASAuthButton_Click"/>
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

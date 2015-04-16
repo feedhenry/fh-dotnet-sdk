@@ -19,12 +19,15 @@ namespace FHSDK.API
 		private string authUserPass;
 		private IOAuthClientHandlerService oauthClient = null;
 
+        private CloudProps cloudProps;
+
         /// <summary>
         /// Constructor
         /// </summary>
-		public FHAuthRequest()
+		public FHAuthRequest(CloudProps cloudProps)
 			: base()
 		{
+            this.cloudProps = cloudProps;
 			this.oauthClient = ServiceFinder.Resolve<IOAuthClientHandlerService>();
 		}
 
@@ -91,6 +94,11 @@ namespace FHSDK.API
 				userParams.Add("password", this.authUserPass);
 			}
 			data.Add("params", userParams);
+            string env = this.cloudProps.GetEnv();
+            if (null != env)
+            {
+                data.Add("environment", env);
+            }
 			IDictionary<string, object> defaultParams = GetDefaultParams();
 			data["__fh"] = defaultParams;
 			return data;
@@ -116,7 +124,14 @@ namespace FHSDK.API
 					if ("ok" == status)
 					{
 						JToken oauthurl = null;
+                        JToken sessionToken = null;
 						resData.TryGetValue("url", out oauthurl);
+                        resData.TryGetValue("sessionToken", out sessionToken);
+                        if (null != sessionToken)
+                        {
+                            FHAuthSession authSession = FHAuthSession.Instance;
+                            authSession.SaveSession((string)sessionToken);
+                        }
 						if (null == oauthurl)
 						{
 							return fhres;

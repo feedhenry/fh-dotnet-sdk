@@ -31,5 +31,11 @@ namespace FHSDK.Services
             var settings = ApplicationData.Current.LocalSettings;
             settings.Values[dataId] = dataValue;
         }
+
+        public override void DeleteData(string dataId)
+        {
+            var settings = ApplicationData.Current.LocalSettings;
+            settings.Values.Remove(dataId);
+        }
     }
 }

@@ -151,7 +151,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId)
         {
             RequireAppReady();
-            FHAuthRequest authRequest = new FHAuthRequest();
+            FHAuthRequest authRequest = new FHAuthRequest(cloudProps);
             authRequest.TimeOut = timeout;
             authRequest.SetAuthPolicyId(policyId);
             return await authRequest.execAsync();
@@ -167,7 +167,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
-            FHAuthRequest authRequest = new FHAuthRequest();
+            FHAuthRequest authRequest = new FHAuthRequest(cloudProps);
             authRequest.TimeOut = timeout;
             authRequest.SetAuthUser(policyId, userName, userPassword);
             return await authRequest.execAsync();
@@ -252,6 +252,15 @@ namespace FHSDK
 		}
 
         /// <summary>
+        /// Shortcut to get the FHAuthSession instance
+        /// </summary>
+        /// <returns></returns>
+        public static FHAuthSession GetAuthSession()
+        {
+            return FHAuthSession.Instance;
+        }
+
+        /// <summary>
         /// If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
         /// you need to add the returnd object as part of the request body with the key "__fh".
         /// </summary>
@@ -277,6 +286,11 @@ namespace FHSDK
 			{
 				defaults["init"] = initInfo;
 			}
+            string sessionToken = FHAuthSession.Instance.GetToken();
+            if (null != sessionToken)
+            {
+                defaults["sessionToken"] = sessionToken;
+            }
 			return defaults;
 		}
 

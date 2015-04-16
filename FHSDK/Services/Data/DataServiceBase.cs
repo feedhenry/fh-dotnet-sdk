@@ -35,6 +35,8 @@ namespace FHSDK.Services
 			return data;
 		}
 
+        public abstract void DeleteData(string dataId);
+
 		protected abstract string doRead(string dataId);
 
 		protected abstract void doSave(string dataId, string dataValue);

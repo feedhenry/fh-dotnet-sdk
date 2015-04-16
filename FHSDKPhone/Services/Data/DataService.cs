@@ -38,5 +38,12 @@ namespace FHSDK.Services
 
             settings.Save();
         }
+
+        public override void DeleteData(string dataId)
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings.Remove(dataId);
+            settings.Save();
+        }
     }
 }

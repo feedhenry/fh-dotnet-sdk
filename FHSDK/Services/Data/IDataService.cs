@@ -19,6 +19,11 @@ namespace FHSDK.Services
         /// <param name="dataId">key</param>
         /// <returns>value</returns>
 		string GetData(string dataId);
+        /// <summary>
+        /// Remove the data value associated with the data id
+        /// </summary>
+        /// <param name="dataId"></param>
+        void DeleteData(string dataId);
 	}
 }
 

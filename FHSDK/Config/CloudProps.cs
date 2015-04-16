@@ -11,6 +11,7 @@ namespace FHSDK
 		private JObject cloudPropsJson;
 
 		private string hostUrl;
+        private string env;
 
         /// <summary>
         /// Constructor
@@ -54,6 +55,19 @@ namespace FHSDK
 			}
 			return hostUrl;
 		}
+
+        public string GetEnv()
+        {
+            if (null == env)
+            {
+                JObject hosts = (JObject)cloudPropsJson["hosts"];
+                if (null != hosts["environment"])
+                {
+                    env = (string) hosts["environment"];
+                }
+            }
+            return env;
+        }
 	}
 
 }
