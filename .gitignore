@@ -1,6 +1,9 @@
 **/obj/*
 **/Bin/*
 **/node_modules/*
-packages/*
+**/packages/*
 **/Components/*
 .nuget/*
+Components/*
+**/**/Bin/*
+**/**/obj/*

@@ -72,6 +72,22 @@ namespace WindowsPhoneExample
             }
         }
 
+        private async void MBAASAuthButton_Click(object sender, RoutedEventArgs e)
+        {
+            string authPolicy = "LdapTest";
+            string username = "Martin Murphy";
+            string password = "hello";
+            FHResponse res = await FH.Auth(authPolicy, username, password);
+            if (null == res.Error)
+            {
+                ShowMessage(res.RawResponse);
+            }
+            else
+            {
+                ShowMessage(res.Error.Message);
+            }
+        }
+
         private async void MBAASButton_Click(object sender, RoutedEventArgs e)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();

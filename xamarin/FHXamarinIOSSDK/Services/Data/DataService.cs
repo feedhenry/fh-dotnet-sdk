@@ -30,6 +30,13 @@ namespace FHSDK.Services
 			prefs.SetValueForKey (new NSString (dataValue), new NSString (dataId));
 			prefs.Synchronize ();
 		}
+
+        public override void DeleteData(string dataId)
+        {
+            NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
+            prefs.RemoveObject(new NSString(dataId));
+            prefs.Synchronize();
+        }
 	}
 }
 

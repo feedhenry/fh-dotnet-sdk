@@ -36,6 +36,7 @@
     <DocumentationFile>bin\Release\FHSDK.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\FHAuthSession.cs" />
     <Compile Include="FHHttpClient\FHException.cs" />
     <Compile Include="FHHttpClient\FHHttpClient.cs" />
     <Compile Include="FHHttpClient\FHResponse.cs" />
@@ -105,6 +106,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup />
-  <ItemGroup />
 </Project>

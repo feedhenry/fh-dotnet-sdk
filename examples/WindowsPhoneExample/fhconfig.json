@@ -1,1 +1,8 @@
-﻿{"appid":"uUlcwUr5fGMVylUZUfqNB94y","appkey":"36c3403ea4dd8948256ad9fe9211d53bf5a110aa","connectiontag":"0.0.4","host":"https://testing.beta.feedhenry.com","projectid":"uUlcwRIodukUMt8DPTZMOYlk"}
+﻿{
+  "appid": "4ihc7ha3scfqir64ejqx3enr",
+  "appkey": "d9a8abd8b22af6a2ff3177d06950f2fc0be6fb00",
+  "apptitle": "MbaasAuthTest",
+  "connectiontag": "0.0.1",
+  "host": "https://engdev-t.sandbox.feedhenry.com",
+  "projectid": "4ihc7hdjiwsmaeix2i2s73ji"
+}

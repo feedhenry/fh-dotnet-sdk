@@ -28,6 +28,14 @@ namespace FHSDK.Services
 			prefsEditor.PutString(dataId, dataValue);
 			prefsEditor.Commit();
 		}
+
+        public override void DeleteData(string dataId)
+        {
+            var prefs = Application.Context.GetSharedPreferences (PREF_ID, Android.Content.FileCreationMode.Private);
+            var prefsEditor = prefs.Edit ();
+            prefsEditor.Remove(dataId);
+            prefsEditor.Commit();
+        }
 	}
 }
 
