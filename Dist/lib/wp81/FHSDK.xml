@@ -4,6 +4,36 @@
         <name>FHSDK</name>
     </assembly>
     <members>
+        <member name="M:FHSDK.API.FHAuthSession.SaveSession(System.String)">
+            <summary>
+            Save the session token
+            </summary>
+            <param name="sessionToken"></param>
+        </member>
+        <member name="M:FHSDK.API.FHAuthSession.Exists">
+            <summary>
+            Check if a session token exists
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FHSDK.API.FHAuthSession.GetToken">
+            <summary>
+            Return the saved session token value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FHSDK.API.FHAuthSession.Verify">
+            <summary>
+            Verify if the local session token is valid
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FHSDK.API.FHAuthSession.Clear">
+            <summary>
+            Clear the local session and delete from remote too.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FHSDK.FHException">
             <summary>
             The exception that is thrown by FH API calls
@@ -303,6 +333,12 @@
             </summary>
             <returns>The cloud host URL</returns>
         </member>
+        <member name="M:FHSDK.FH.GetAuthSession">
+            <summary>
+            Shortcut to get the FHAuthSession instance
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FHSDK.FH.GetDefaultParams">
             <summary>
             If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
@@ -368,6 +404,12 @@
             </summary>
             <param name="dataId">key</param>
             <returns>value</returns>
+        </member>
+        <member name="M:FHSDK.Services.IDataService.DeleteData(System.String)">
+            <summary>
+            Remove the data value associated with the data id
+            </summary>
+            <param name="dataId"></param>
         </member>
         <member name="T:FHSDK.Services.IDeviceService">
             <summary>
@@ -511,24 +553,6 @@
             Get the error message if failed.
             </summary>
         </member>
-        <member name="T:FHSDK.Adaptation.IAdapterResolver">
-            <summary>
-            An interface to resolve the correct implmentation of a type
-            </summary>
-        </member>
-        <member name="M:FHSDK.Adaptation.ProbingAdapterResolver.#ctor(System.String[])">
-            <summary>
-            Constructor
-            </summary>
-            <param name="platformNames"> the names of the assemblies to look for the implementations</param>
-        </member>
-        <member name="M:FHSDK.Adaptation.ProbingAdapterResolver.Resolve(System.Type)">
-            <summary>
-            Return the implementation of a type
-            </summary>
-            <param name="type">the interface</param>
-            <returns>The correctly implementation instance of the type</returns>
-        </member>
         <member name="T:FHSDK.API.FHInitRequest">
             <summary>
             Class represents init requests
@@ -652,7 +676,7 @@
             Class represents an authentication API request
             </summary>
         </member>
-        <member name="M:FHSDK.API.FHAuthRequest.#ctor">
+        <member name="M:FHSDK.API.FHAuthRequest.#ctor(FHSDK.CloudProps)">
             <summary>
             Constructor
             </summary>
