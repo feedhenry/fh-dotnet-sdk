@@ -10,6 +10,7 @@ COPY /B FHSDKPhone81\bin\Release\FHSDKPhone81.dll Dist\lib\wp81\
 COPY /B FHSDKPhone81\bin\Release\FHSDK.dll Dist\lib\wpa81\
 COPY /B FHSDKPhone81\bin\Release\FHSDK.xml Dist\lib\wpa81\
 COPY /B FHSDKPhone81\bin\Release\FHSDKPhone81.dll Dist\lib\wpa81\
+COPY /B FHSDKPhone81\bin\Release\FHSDKPhone81.XML Dist\lib\wpa81\
 COPY /B xamarin\FHXamarinAndroidSDK\bin\Release\FHSDK.dll Dist\lib\monoandroid\
 COPY /B xamarin\FHXamarinAndroidSDK\bin\Release\FHSDK.xml Dist\lib\monoandroid\
 COPY /B xamarin\FHXamarinAndroidSDK\bin\Release\FHXamarinAndroidSDK.dll Dist\lib\monoandroid\
