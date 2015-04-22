@@ -31,7 +31,7 @@ namespace FHSDK
 		protected static bool appReady = false;
 		protected static CloudProps cloudProps = null;
 		protected static TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
-		const string SDK_VERSION_STRING = "1.2.0";
+		const string SDK_VERSION_STRING = "1.3.0";
 
 
         /// <summary>
