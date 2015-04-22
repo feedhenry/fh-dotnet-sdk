@@ -14,27 +14,19 @@ namespace FHSDK.Services
 
         public string ReadFile(string fullPath)
         {
-            StorageFile file;
-            try
-            {
-                file = GetFile(fullPath);
-                return AsyncHelpers.RunSync<string>(() => FileIO.ReadTextAsync(file).AsTask());
-            }
-            catch (AggregateException e)
-            {
-                return null;
-            }
+            StorageFile file = GetFile(fullPath);
+            return FileIO.ReadTextAsync(file).AsTask().Result;
         }
 
         public void WriteFile(string fullPath, string content)
         {
             var file = GetFile(fullPath);
-            AsyncHelpers.RunSync(() => FileIO.WriteTextAsync(file, content).AsTask());
+            FileIO.WriteTextAsync(file, content).AsTask().Wait();
         }
 
         private static StorageFile GetFile(string fullPath)
         {
-            return AsyncHelpers.RunSync<StorageFile>(() => StorageFile.GetFileFromPathAsync(fullPath).AsTask());
+            return StorageFile.GetFileFromPathAsync(fullPath).AsTask().Result;
         }
 
         public bool Exists(string fullPath)
@@ -44,7 +36,7 @@ namespace FHSDK.Services
                 GetFile(fullPath);
                 return true;
             }
-            catch (AggregateException e)
+            catch (FileNotFoundException e)
             {
                 return false;
             }

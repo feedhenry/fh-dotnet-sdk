@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 namespace FHSDK.Services
@@ -12,9 +13,9 @@ namespace FHSDK.Services
         {
         }
 
-        public Task<bool> IsOnlineAsync()
+        public async Task<bool> IsOnlineAsync()
         {
-            return Task.Factory.StartNew(() => IsOnline());
+            return await Task.Run<bool>(() => { return IsOnline(); });
         }
 
         public bool IsOnline()
