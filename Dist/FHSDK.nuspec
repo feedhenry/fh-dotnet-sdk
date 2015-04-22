@@ -40,7 +40,7 @@
 
        <group targetFramework="wpa81">
         <dependency id="Newtonsoft.Json" version="6.0.3" />
-        <dependency id="Unity" version="3.5.1405-prerelease" />
+        <dependency id="Unity" version="3.5.1404" />
        </group>
 
        <group targetFramework="monoandroid">
