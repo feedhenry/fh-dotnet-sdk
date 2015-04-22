@@ -3,6 +3,7 @@ using FHSDK81.Phone;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
@@ -44,11 +45,11 @@ namespace FHSDK.Services
             }
             else
             {
-                file = GetFile(CONFIG_FILE_NAME);                
+                file = GetFile(CONFIG_FILE_NAME);
             }
             if (null != file)
             {
-                var json = AsyncHelpers.RunSync<string>(() => FileIO.ReadTextAsync(file).AsTask());
+                var json = FileIO.ReadTextAsync(file).AsTask<string>().Result;
                 appProps = JsonConvert.DeserializeObject<AppProps>(json);
                 appProps.IsLocalDevelopment = IsLocalDev;
             }
@@ -65,7 +66,7 @@ namespace FHSDK.Services
             try
             {
                 var folder = Package.Current.InstalledLocation;
-                file = AsyncHelpers.RunSync<StorageFile>(() => folder.GetFileAsync(fileName).AsTask<StorageFile>());
+                file = folder.GetFileAsync(fileName).AsTask<StorageFile>().Result;
             }
             catch (AggregateException e) { }
             return file;
