@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using FHSDK.API;
 using FHSDK.FHHttpClient;
 using System.Diagnostics.Contracts;
+using FHSDK.Services.Network;
+using AeroGear.Push;
 
 namespace FHSDK
 {
@@ -318,6 +320,11 @@ namespace FHSDK
             
 			return headers;
 		}
+
+        public static async void Push(EventHandler<PushReceivedEvent> HandleNotification)
+        {
+            await ServiceFinder.Resolve<IPush>().Register(HandleNotification);
+        }
 
         /// <summary>
         /// Set the log levels. 
