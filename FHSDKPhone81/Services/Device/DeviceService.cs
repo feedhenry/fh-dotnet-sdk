@@ -19,9 +19,6 @@ namespace FHSDK.Services
     class DeviceService : IDeviceService
     {
 
-        private const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
-        private const string CONFIG_FILE_NAME = "fhconfig.json";
-
         public string GetDeviceId()
         {
             HardwareToken token = HardwareIdentification.GetPackageSpecificToken(null);
@@ -38,14 +35,14 @@ namespace FHSDK.Services
         {
             AppProps appProps = null;
             bool IsLocalDev = false;
-            StorageFile file = GetFile(LOCAL_CONFIG_FILE_NAME);
+            StorageFile file = GetFile(IDeviceService.LOCAL_CONFIG_FILE_NAME);
             if (null != file)
             {
                 IsLocalDev = true;
             }
             else
             {
-                file = GetFile(CONFIG_FILE_NAME);
+                file = GetFile(IDeviceService.CONFIG_FILE_NAME);
             }
             if (null != file)
             {

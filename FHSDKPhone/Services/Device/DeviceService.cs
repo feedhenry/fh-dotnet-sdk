@@ -16,10 +16,6 @@ namespace FHSDK.Services
     /// </summary>
     class DeviceService : IDeviceService
     {
-
-        private const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
-        private const string CONFIG_FILE_NAME = "fhconfig.json";
-
         public string GetDeviceId()
         {
             string retVal = null;
@@ -44,14 +40,14 @@ namespace FHSDK.Services
         {
             AppProps appProps = null;
             bool IsLocalDev = false;
-            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(LOCAL_CONFIG_FILE_NAME, UriKind.Relative));
+            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(IDeviceService.LOCAL_CONFIG_FILE_NAME, UriKind.Relative));
             if (null != streamInfo)
             {
                 IsLocalDev = true;
             }
             else
             {
-                streamInfo = Application.GetResourceStream(new Uri(CONFIG_FILE_NAME, UriKind.Relative));
+                streamInfo = Application.GetResourceStream(new Uri(IDeviceService.CONFIG_FILE_NAME, UriKind.Relative));
             }
             if (null != streamInfo)
             {
@@ -68,7 +64,7 @@ namespace FHSDK.Services
             }
             else
             {
-                throw new IOException("Can not find resource " + CONFIG_FILE_NAME);
+                throw new IOException("Can not find resource " + IDeviceService.CONFIG_FILE_NAME);
             }
             return appProps;
         }

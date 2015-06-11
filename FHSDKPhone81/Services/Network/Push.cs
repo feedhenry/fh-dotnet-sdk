@@ -9,7 +9,7 @@ namespace FHSDKPhone.Services.Network
     {
         public async Task Register(EventHandler<PushReceivedEvent> HandleNotification)
         {
-            Registration registration = new MpnsRegistration();
+            Registration registration = new WnsRegistration();
             registration.PushReceivedEvent += HandleNotification;
 
             await ReadConfig(registration);

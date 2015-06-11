@@ -11,6 +11,9 @@ namespace FHSDK.Services
     /// </summary>
     public interface IDeviceService
     {
+        public const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
+        public const string CONFIG_FILE_NAME = "fhconfig.json";
+
         /// <summary>
         /// Return the unique id of the device
         /// </summary>

@@ -21,11 +21,7 @@ namespace FHSDK
 			appProps = props;
 			destination = dest;
 			deviceid = uuid;
-            if(props.IsLocalDevelopment){
-                this.IsLocalDevelopment = true;
-            } else {
-                this.IsLocalDevelopment = false;
-            }
+            this.IsLocalDevelopment = props.IsLocalDevelopment;
 		}
 
         /// <summary>

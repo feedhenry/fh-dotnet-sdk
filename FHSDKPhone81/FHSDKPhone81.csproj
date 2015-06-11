@@ -91,6 +91,7 @@
     <Compile Include="Services\Log\LogService.cs" />
     <Compile Include="Services\Monitor\MonitorService.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
+    <Compile Include="Services\Network\Push.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="aerogear-windows-push">
