@@ -1,4 +1,5 @@
 ﻿using AeroGear.Push;
+using System;
 using System.Threading.Tasks;
 
 namespace FHSDK.Services.Network
@@ -10,14 +11,16 @@ namespace FHSDK.Services.Network
             string configName;
             if (FHConfig.getInstance().IsLocalDevelopment)
             {
-                configName = IDeviceService.LOCAL_CONFIG_FILE_NAME;
+                configName = Constants.LOCAL_CONFIG_FILE_NAME;
             }
             else
             {
-                configName = IDeviceService.CONFIG_FILE_NAME;
+                configName = Constants.CONFIG_FILE_NAME;
             }
 
             await registration.LoadConfigJson(configName);
         }
+
+        public abstract Task Register(EventHandler<PushReceivedEvent> HandleNotification);
     }
 }
