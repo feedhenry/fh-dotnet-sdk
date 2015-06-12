@@ -7,13 +7,9 @@ namespace FHSDKPhone.Services.Network
 {
     public class Push: PushBase
     {
-        public override async Task Register(EventHandler<PushReceivedEvent> HandleNotification)
+        public override Registration CreateRegistration()
         {
-            Registration registration = new MpnsRegistration();
-            registration.PushReceivedEvent += HandleNotification;
-
-            PushConfig config = await ReadConfig(registration);
-            await registration.Register(config);
+            return new MpnsRegistration();
         }
     }
 }
