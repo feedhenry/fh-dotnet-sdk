@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FHSDK.API;
 using FHSDK.Config;
@@ -16,16 +15,6 @@ using Newtonsoft.Json.Linq;
 
 namespace FHSDK
 {
-    /// <summary>
-    ///     The parent name space defined by FeedHenry .Net SDK. It is defined inside the FHSDK.dll assembly, which is a
-    ///     Portable Class Library.
-    ///     The FHSDK.dll assembly can be referenced by other PCL projects.
-    /// </summary>
-    [CompilerGenerated]
-    internal class NamespaceDoc
-    {
-    }
-
     /// <summary>
     ///     This is the main FeedHenry SDK class
     /// </summary>
@@ -173,11 +162,13 @@ namespace FHSDK
             RequireAppReady();
             Contract.Assert(null != path, "Cloud path is not defined");
             Contract.Assert(null != requestMethod, "Request method is not defined");
-            var cloudRequest = new FHCloudRequest(CloudProps);
-            cloudRequest.RequestMethod = requestMethod;
-            cloudRequest.RequestPath = path;
-            cloudRequest.RequestHeaders = headers;
-            cloudRequest.RequestParams = requestParams;
+            var cloudRequest = new FHCloudRequest(CloudProps)
+            {
+                RequestMethod = requestMethod,
+                RequestPath = path,
+                RequestHeaders = headers,
+                RequestParams = requestParams
+            };
             return cloudRequest;
         }
 
@@ -367,11 +358,7 @@ namespace FHSDK
         {
             var dataService = GetDataService();
             var initValue = dataService.GetData("init");
-            if (null != initValue)
-            {
-                return JObject.Parse(initValue);
-            }
-            return null;
+            return null != initValue ? JObject.Parse(initValue) : null;
         }
 
         private static IDataService GetDataService()
