@@ -321,7 +321,7 @@ namespace FHSDK
 			return headers;
 		}
 
-        public static async void Push(EventHandler<PushReceivedEvent> HandleNotification)
+        public static async void RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
         {
             await ServiceFinder.Resolve<IPush>().Register(HandleNotification);
         }
