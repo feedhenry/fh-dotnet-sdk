@@ -7,7 +7,7 @@ namespace FHSDKPhone.Services.Network
 {
     public class Push: PushBase
     {
-        public override Registration CreateRegister()
+        public override Registration CreateRegistration()
         {
             return new WnsRegistration();
         }
