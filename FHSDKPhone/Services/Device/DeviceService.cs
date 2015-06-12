@@ -1,20 +1,15 @@
-﻿using Microsoft.Phone.Info;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Resources;
+using Microsoft.Phone.Info;
+using Newtonsoft.Json;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Device
 {
     /// <summary>
-    /// Device info service for windows phone
+    ///     Device info service for windows phone
     /// </summary>
-    class DeviceService : IDeviceService
+    internal class DeviceService : IDeviceService
     {
         public string GetDeviceId()
         {
@@ -23,15 +18,15 @@ namespace FHSDK.Services
             UserExtendedProperties.TryGetValue("ANID2", out uuid);
             if (null != uuid)
             {
-                 retVal = uuid.ToString().Substring(2, 32);
+                retVal = uuid.ToString().Substring(2, 32);
             }
             else
             {
                 DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uuid);
-                 if (null != uuid)
-                 {
-                     retVal = Convert.ToBase64String((byte[])uuid);
-                 }
+                if (null != uuid)
+                {
+                    retVal = Convert.ToBase64String((byte[]) uuid);
+                }
             }
             return retVal;
         }
@@ -39,11 +34,11 @@ namespace FHSDK.Services
         public AppProps ReadAppProps()
         {
             AppProps appProps = null;
-            bool IsLocalDev = false;
+            var isLocalDev = false;
             StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(Constants.LOCAL_CONFIG_FILE_NAME, UriKind.Relative));
             if (null != streamInfo)
             {
-                IsLocalDev = true;
+                isLocalDev = true;
             }
             else
             {
@@ -51,13 +46,10 @@ namespace FHSDK.Services
             }
             if (null != streamInfo)
             {
-                StreamReader sr = new StreamReader(streamInfo.Stream);
-                string fileContent = sr.ReadToEnd();
-                if(null != fileContent)
-                {
-                    appProps = JsonConvert.DeserializeObject<AppProps>(fileContent);
-                }
-                if (IsLocalDev)
+                var sr = new StreamReader(streamInfo.Stream);
+                var fileContent = sr.ReadToEnd();
+                appProps = JsonConvert.DeserializeObject<AppProps>(fileContent);
+                if (isLocalDev)
                 {
                     appProps.IsLocalDevelopment = true;
                 }

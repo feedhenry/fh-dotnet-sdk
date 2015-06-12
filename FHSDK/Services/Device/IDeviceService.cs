@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FHSDK.Services
+﻿namespace FHSDK.Services.Device
 {
     /// <summary>
     /// A service interface provides information about the device

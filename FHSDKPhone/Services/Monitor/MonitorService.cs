@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Monitor
 {
     public class MonitorService : IMonitorService
     {
-        Timer timer = null;
         private CheckDatasetDelegate targetDelegate;
+        private Timer timer;
 
         public MonitorService()
         {
@@ -18,23 +13,15 @@ namespace FHSDK.Services
         }
 
         public int MonitorInterval { set; get; }
-
-        public Boolean IsRunning { get; private set; }
+        public bool IsRunning { get; private set; }
 
         public void StartMonitor(CheckDatasetDelegate target)
         {
-            this.targetDelegate = target;
-            if (!IsRunning)
-            {
-                TimerCallback tcb = RunTarget;
-                timer = new Timer(tcb, null, 0, this.MonitorInterval);
-                IsRunning = true;
-            }
-        }
-
-        private void RunTarget(object info)
-        {
-            this.targetDelegate();
+            targetDelegate = target;
+            if (IsRunning) return;
+            TimerCallback tcb = RunTarget;
+            timer = new Timer(tcb, null, 0, MonitorInterval);
+            IsRunning = true;
         }
 
         public void StopMonitor()
@@ -45,6 +32,11 @@ namespace FHSDK.Services
                 timer = null;
             }
             IsRunning = false;
+        }
+
+        private void RunTarget(object info)
+        {
+            targetDelegate();
         }
     }
 }

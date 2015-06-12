@@ -1,4 +1,5 @@
 ﻿using System;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {

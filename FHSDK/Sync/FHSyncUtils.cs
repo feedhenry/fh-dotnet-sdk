@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using FHSDK.Services.Data;
+using FHSDK.Services.Hash;
 
 namespace FHSDK.Sync
 {
@@ -19,7 +21,7 @@ namespace FHSDK.Sync
 			JArray sorted = SortObj (pObject);
 			string strVal = sorted.ToString (Formatting.None);
 			IHashService hasher = ServiceFinder.Resolve<IHashService> ();
-			return hasher.GenerateSHA1Hash (strVal);
+			return hasher.GenerateSha1Hash (strVal);
 		}
 
 		public static object Clone (object pData)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using FHSDK.Services.Auth;
 
 namespace FHSDK.API
 {
@@ -13,22 +14,21 @@ namespace FHSDK.API
     /// </summary>
 	public class FHAuthRequest : FHRequest
 	{
-		const string AUTH_PATH = "box/srv/1.1/admin/authpolicy/auth";
-		private string authPolicyId;
-		private string authUserName;
-		private string authUserPass;
-		private IOAuthClientHandlerService oauthClient = null;
+		const string AuthPath = "box/srv/1.1/admin/authpolicy/auth";
+		private string _authPolicyId;
+		private string _authUserName;
+		private string _authUserPass;
+		private IOAuthClientHandlerService _oauthClient = null;
 
-        private CloudProps cloudProps;
+        private readonly CloudProps _cloudProps;
 
         /// <summary>
         /// Constructor
         /// </summary>
 		public FHAuthRequest(CloudProps cloudProps)
-			: base()
-		{
-            this.cloudProps = cloudProps;
-			this.oauthClient = ServiceFinder.Resolve<IOAuthClientHandlerService>();
+        {
+            _cloudProps = cloudProps;
+			_oauthClient = ServiceFinder.Resolve<IOAuthClientHandlerService>();
 		}
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace FHSDK.API
         /// <param name="authPolicy">the auth policy id</param>
 		public void SetAuthPolicyId(string authPolicy)
 		{
-			this.authPolicyId = authPolicy;
+			_authPolicyId = authPolicy;
 		}
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace FHSDK.API
         /// <param name="authPassword">the auth user password</param>
 		public void SetAuthUser(string authPolicy, string authUserName, string authPassword)
 		{
-			this.authPolicyId = authPolicy;
-			this.authUserName = authUserName;
-			this.authUserPass = authPassword;
+			_authPolicyId = authPolicy;
+			_authUserName = authUserName;
+			_authUserPass = authPassword;
 		}
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FHSDK.API
         /// <param name="oauthHandler">the handler for OAuth login</param>
 		public void SetOAuthHandler(IOAuthClientHandlerService oauthHandler)
 		{
-			this.oauthClient = oauthHandler;
+			_oauthClient = oauthHandler;
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace FHSDK.API
 		/// <returns></returns>
 		protected override Uri GetUri()
 		{
-			return new Uri(String.Format("{0}/{1}", appConfig.GetHost(), AUTH_PATH));
+			return new Uri(String.Format("{0}/{1}", AppConfig.GetHost(), AuthPath));
 		}
 
 		/// <summary>
@@ -79,27 +79,27 @@ namespace FHSDK.API
 		protected override object GetRequestParams()
 		{
 
-			Dictionary<string, object> data = new Dictionary<string, object>();
-			if (null == this.authPolicyId)
+			var data = new Dictionary<string, object>();
+			if (null == _authPolicyId)
 			{
 				throw new ArgumentNullException("No auth policy id");
 			}
-			data.Add("policyId", this.authPolicyId);
-			data.Add("device", appConfig.GetDeviceId());
-			data.Add("clientToken", appConfig.GetAppId());
+			data.Add("policyId", _authPolicyId);
+			data.Add("device", AppConfig.GetDeviceId());
+			data.Add("clientToken", AppConfig.GetAppId());
 			Dictionary<string, string> userParams = new Dictionary<string, string>();
-			if (null != this.authUserName && null != this.authUserPass)
+			if (null != _authUserName && null != this._authUserPass)
 			{
-				userParams.Add("userId", this.authUserName);
-				userParams.Add("password", this.authUserPass);
+				userParams.Add("userId", _authUserName);
+				userParams.Add("password", _authUserPass);
 			}
 			data.Add("params", userParams);
-            string env = this.cloudProps.GetEnv();
+            string env = _cloudProps.GetEnv();
             if (null != env)
             {
                 data.Add("environment", env);
             }
-			IDictionary<string, object> defaultParams = GetDefaultParams();
+			var defaultParams = GetDefaultParams();
 			data["__fh"] = defaultParams;
 			return data;
 		}
@@ -108,67 +108,57 @@ namespace FHSDK.API
         /// Execute the authentication request. If the authencation type is OAuth and an OAuthHandler is set, it will be called automatically to redirect users to login.
         /// </summary>
         /// <returns>the authentication details</returns>
-		public override async Task<FHResponse> execAsync()
+		public override async Task<FHResponse> ExecAsync()
 		{
-			FHResponse fhres = await base.execAsync();
-			if (null == this.oauthClient)
+			var fhres = await base.ExecAsync();
+			if (null == this._oauthClient)
 			{
 				return fhres;
 			}
 			else
 			{
-				if (null == fhres.Error)
-				{
-					JObject resData = fhres.GetResponseAsJObject();
-					string status = (string)resData["status"];
-					if ("ok" == status)
-					{
-						JToken oauthurl = null;
-                        JToken sessionToken = null;
-						resData.TryGetValue("url", out oauthurl);
-                        resData.TryGetValue("sessionToken", out sessionToken);
-                        if (null != sessionToken)
-                        {
-                            FHAuthSession authSession = FHAuthSession.Instance;
-                            authSession.SaveSession((string)sessionToken);
-                        }
-						if (null == oauthurl)
-						{
-							return fhres;
-						}
-						else
-						{
-							OAuthResult oauthLoginResult = await this.oauthClient.Login((string)oauthurl);
-							FHResponse authRes = null;
-							if (oauthLoginResult.Result == OAuthResult.ResultCode.OK)
-							{
-								authRes = new FHResponse(HttpStatusCode.OK, oauthLoginResult.ToString());
-							}
-							else if (oauthLoginResult.Result == OAuthResult.ResultCode.FAILED)
-							{
-								authRes = new FHResponse(null, new FHException("Authentication Failed. Message = " + oauthLoginResult.Error.Message, FHException.ErrorCode.AuthenticationError, oauthLoginResult.Error));
-							}
-							else if (oauthLoginResult.Result == OAuthResult.ResultCode.CANCELLED)
-							{
-								authRes = new FHResponse(null, new FHException("Cancelled", FHException.ErrorCode.Cancelled));
-							}
-							else
-							{
-								authRes = new FHResponse(null, new FHException("Unknown Error", FHException.ErrorCode.UnknownError, oauthLoginResult.Error));
-							}
-							return authRes;
-						}
-					}
-					else
-					{
-						FHResponse authRes = new FHResponse(HttpStatusCode.BadRequest, fhres.RawResponse, new FHException("Authentication Failed", FHException.ErrorCode.AuthenticationError));
-						return authRes;
-					}
-				}
-				else
-				{
-					return fhres;
-				}
+                if (null != fhres.Error) return fhres;
+			    var resData = fhres.GetResponseAsJObject();
+			    var status = (string)resData["status"];
+			    if ("ok" == status)
+			    {
+			        JToken oauthurl = null;
+			        JToken sessionToken = null;
+			        resData.TryGetValue("url", out oauthurl);
+			        resData.TryGetValue("sessionToken", out sessionToken);
+			        if (null != sessionToken)
+			        {
+			            var authSession = FHAuthSession.GetInstance;
+			            FHAuthSession.SaveSession((string)sessionToken);
+			        }
+			        if (null == oauthurl)
+			        {
+			            return fhres;
+			        }
+			        var oauthLoginResult = await this._oauthClient.Login((string)oauthurl);
+			        FHResponse authRes = null;
+			        switch (oauthLoginResult.Result)
+			        {
+			            case OAuthResult.ResultCode.Ok:
+			                authRes = new FHResponse(HttpStatusCode.OK, oauthLoginResult.ToString());
+			                break;
+			            case OAuthResult.ResultCode.Failed:
+			                authRes = new FHResponse(null, new FHException("Authentication Failed. Message = " + oauthLoginResult.Error.Message, FHException.ErrorCode.AuthenticationError, oauthLoginResult.Error));
+			                break;
+			            case OAuthResult.ResultCode.Cancelled:
+			                authRes = new FHResponse(null, new FHException("Cancelled", FHException.ErrorCode.Cancelled));
+			                break;
+			            default:
+			                authRes = new FHResponse(null, new FHException("Unknown Error", FHException.ErrorCode.UnknownError, oauthLoginResult.Error));
+			                break;
+			        }
+			        return authRes;
+			    }
+			    else
+			    {
+			        var authRes = new FHResponse(HttpStatusCode.BadRequest, fhres.RawResponse, new FHException("Authentication Failed", FHException.ErrorCode.AuthenticationError));
+			        return authRes;
+			    }
 			}
 		}
 

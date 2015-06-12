@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Log
 {
     /// <summary>
-    /// Logging service for windows phone
+    ///     Logging service for windows phone
     /// </summary>
-    class LogService: LogServiceBase
+    internal class LogService : LogServiceBase
     {
-        public LogService()
-            : base()
+        protected override void writeLog(LogLevels level, string tag, string message, Exception e)
         {
-        }
-
-        protected override void writeLog(LogServiceBase.LogLevels level, string tag, string message, Exception e)
-        {
-            string output = string.Format("[{0}]:[{1}] - {2} - {3}", level, tag, message, null == e ? "" : e.StackTrace);
+            var output = string.Format("[{0}]:[{1}] - {2} - {3}", level, tag, message, null == e ? "" : e.StackTrace);
             Debug.WriteLine(output);
         }
     }

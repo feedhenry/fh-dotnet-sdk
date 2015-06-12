@@ -2,43 +2,34 @@
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Auth
 {
     /// <summary>
-    /// OAuth login handler for windows phone
+    ///     OAuth login handler for windows phone
     /// </summary>
-    class OAuthClientHandlerService : OAuthClientHandlerServiceBase
+    internal class OAuthClientHandlerService : OAuthClientHandlerServiceBase
     {
-        private TaskCompletionSource<OAuthResult> tcs;
+        private TaskCompletionSource<OAuthResult> _tcs;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public OAuthClientHandlerService()
-            : base()
+        public override async Task<OAuthResult> Login(string oauthLoginUrl)
         {
-
-        }
-
-        public async override Task<OAuthResult> Login(string oauthLoginUrl)
-        {
-            tcs = new TaskCompletionSource<OAuthResult>();
-            Uri uri = new Uri(oauthLoginUrl, UriKind.Absolute);
+            _tcs = new TaskCompletionSource<OAuthResult>();
+            var uri = new Uri(oauthLoginUrl, UriKind.Absolute);
             var oauth = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uri);
-            if (oauth.ResponseStatus == WebAuthenticationStatus.Success)
+            switch (oauth.ResponseStatus)
             {
-                base.OnSuccess(new Uri(oauth.ResponseData), tcs);
-            }
-            else if (oauth.ResponseStatus == WebAuthenticationStatus.UserCancel)
-            {
-                tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.CANCELLED));
-            }
-            else
-            {
-                tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.FAILED));
+                case WebAuthenticationStatus.Success:
+                    OnSuccess(new Uri(oauth.ResponseData), _tcs);
+                    break;
+                case WebAuthenticationStatus.UserCancel:
+                    _tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.Cancelled));
+                    break;
+                default:
+                    _tcs.SetResult(new OAuthResult(OAuthResult.ResultCode.Failed));
+                    break;
             }
 
-            return await tcs.Task;
+            return await _tcs.Task;
         }
     }
 }

@@ -1,20 +1,14 @@
 ﻿using System;
 using System.IO;
 using Windows.Storage;
-using FHSDK81.Phone;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Data
 {
-    class IOService : IIOService
+    internal class IOService : IIOService
     {
-        public IOService()
-        {
-
-        }
-
         public string ReadFile(string fullPath)
         {
-            StorageFile file = GetFile(fullPath);
+            var file = GetFile(fullPath);
             return FileIO.ReadTextAsync(file).AsTask().Result;
         }
 
@@ -24,11 +18,6 @@ namespace FHSDK.Services
             FileIO.WriteTextAsync(file, content).AsTask().Wait();
         }
 
-        private static StorageFile GetFile(string fullPath)
-        {
-            return StorageFile.GetFileFromPathAsync(fullPath).AsTask().Result;
-        }
-
         public bool Exists(string fullPath)
         {
             try
@@ -36,7 +25,7 @@ namespace FHSDK.Services
                 GetFile(fullPath);
                 return true;
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 return false;
             }
@@ -44,12 +33,13 @@ namespace FHSDK.Services
 
         public string GetDataPersistDir()
         {
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var local = ApplicationData.Current.LocalFolder;
             return local.Path;
         }
+
+        private static StorageFile GetFile(string fullPath)
+        {
+            return StorageFile.GetFileFromPathAsync(fullPath).AsTask().Result;
+        }
     }
-
-
-   
-
 }

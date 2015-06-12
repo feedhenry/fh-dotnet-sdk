@@ -1,68 +1,51 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace FHSDK.Sync
 {
-	public class FHSyncDataRecord<T> where T : IFHSyncModel
-	{
-		private string hashValue = null;
+    public class FHSyncDataRecord<T> where T : IFHSyncModel
+    {
+        private string _hashValue;
 
-		[JsonProperty("data")]
-		public T Data { set; get; }
-
-		[JsonProperty("hashvalue")]
-		public string HashValue
-		{
-			get {
-				if (null == hashValue) {
-					hashValue = FHSyncUtils.GenerateSHA1Hash (this.Data);
-				}
-				return hashValue;
-			}
-		}
-
-		[JsonProperty("uid")]
-		public string Uid
+        public FHSyncDataRecord()
         {
-            get;
-            set;
-		}
+        }
 
-		public FHSyncDataRecord ()
-		{
-		}
+        public FHSyncDataRecord(T pData)
+        {
+            Data = (T) FHSyncUtils.Clone(pData);
+        }
 
-		public FHSyncDataRecord (T pData)
-		{
-			this.Data = (T)FHSyncUtils.Clone (pData);
-		}
+        [JsonProperty("data")]
+        public T Data { private set; get; }
 
-		public override string ToString ()
-		{
-			return FHSyncUtils.SerializeObject (this);
-		}
+        [JsonProperty("hashvalue")]
+        public string HashValue
+        {
+            get { return _hashValue ?? (_hashValue = FHSyncUtils.GenerateSHA1Hash(Data)); }
+        }
 
-		public override bool Equals (object obj)
-		{
-			if (obj is FHSyncDataRecord<T>) {
-				FHSyncDataRecord<T> that = obj as FHSyncDataRecord<T>;
-				if (this.HashValue.Equals (that.HashValue)) {
-					return true;
-				} 
-				return false;
-			}
-			return false;
-		}
+        [JsonProperty("uid")]
+        public string Uid { get; set; }
 
-		public FHSyncDataRecord<T> Clone()
-		{
-			return (FHSyncDataRecord<T>) FHSyncUtils.Clone (this);
-		}
+        public override string ToString()
+        {
+            return FHSyncUtils.SerializeObject(this);
+        }
 
-		public static FHSyncDataRecord<T> FromJSON(string str)
-		{
-			return (FHSyncDataRecord<T>) FHSyncUtils.DeserializeObject (str, typeof(FHSyncDataRecord<T>));
-		}
-	}
+        public override bool Equals(object obj)
+        {
+            var record = obj as FHSyncDataRecord<T>;
+            return record != null && HashValue.Equals(record.HashValue);
+        }
+
+        public FHSyncDataRecord<T> Clone()
+        {
+            return (FHSyncDataRecord<T>) FHSyncUtils.Clone(this);
+        }
+
+        public static FHSyncDataRecord<T> FromJson(string str)
+        {
+            return (FHSyncDataRecord<T>) FHSyncUtils.DeserializeObject(str, typeof (FHSyncDataRecord<T>));
+        }
+    }
 }
-
