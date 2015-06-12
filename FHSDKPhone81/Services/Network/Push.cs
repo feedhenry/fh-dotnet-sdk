@@ -12,8 +12,8 @@ namespace FHSDKPhone.Services.Network
             Registration registration = new WnsRegistration();
             registration.PushReceivedEvent += HandleNotification;
 
-            await ReadConfig(registration);
-            await registration.Register();
+            PushConfig config = await ReadConfig(registration);
+            await registration.Register(config);
         }
     }
 }

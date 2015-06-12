@@ -6,7 +6,7 @@ namespace FHSDK.Services.Network
 {
     public abstract class PushBase : IPush
     {
-        public async Task ReadConfig(Registration registration)
+        public async Task<PushConfig> ReadConfig(Registration registration)
         {
             string configName;
             if (FHConfig.getInstance().IsLocalDevelopment)
@@ -18,7 +18,7 @@ namespace FHSDK.Services.Network
                 configName = Constants.CONFIG_FILE_NAME;
             }
 
-            await registration.LoadConfigJson(configName);
+            return await registration.LoadConfigJson(configName);
         }
 
         public abstract Task Register(EventHandler<PushReceivedEvent> HandleNotification);
