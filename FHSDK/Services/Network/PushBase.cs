@@ -47,6 +47,22 @@ namespace FHSDK.Services.Network
             }
         }
 
+        public async Task SetCategories(System.Collections.Generic.List<string> categories)
+        {
+            var registration = CreateRegistration();
+            var config = await ReadConfig(registration);
+            config.Categories = categories;
+            await registration.UpdateConfig(config);
+        }
+
+        public async Task SetAlias(string alias)
+        {
+            var registration = CreateRegistration();
+            var config = await ReadConfig(registration);
+            config.Alias = alias;
+            await registration.UpdateConfig(config);
+        }
+
         public abstract Registration CreateRegistration();
     }
 }
