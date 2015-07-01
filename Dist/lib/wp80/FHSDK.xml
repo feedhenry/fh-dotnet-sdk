@@ -196,6 +196,27 @@
             Get the response error. Should be null if the request is successful.
             </summary>
         </member>
+        <member name="M:FHSDK.Services.Network.IPush.Register(System.EventHandler{AeroGear.Push.PushReceivedEvent})">
+            <summary>
+            Register a event handler to receive push notifications.
+            </summary>
+            <param name="HandleNotification">The handler to receive the notifications</param>
+            <returns>Void</returns>
+        </member>
+        <member name="M:FHSDK.Services.Network.IPush.SetCategories(System.Collections.Generic.List{System.String})">
+            <summary>
+            Set the categories
+            </summary>
+            <param name="categories">The categories that can be used by push</param>
+            <returns></returns>
+        </member>
+        <member name="M:FHSDK.Services.Network.IPush.SetAlias(System.String)">
+            <summary>
+            Set the alias of this device
+            </summary>
+            <param name="alias">The new alias to use</param>
+            <returns></returns>
+        </member>
         <member name="T:FHSDK.Services.NamespaceDoc">
             <summary>
             Contains implementations of a few services used by the FeedHenry .Net SDK. The interfaces are defined in the FHSDK.dll assemably, then each platform's 
@@ -352,6 +373,24 @@
             you need to add the returned object as HTTP headers to each cloud request.
             </summary>
             <returns>The default HTTP request headers</returns>
+        </member>
+        <member name="M:FHSDK.FH.RegisterPush(System.EventHandler{AeroGear.Push.PushReceivedEvent})">
+            <summary>
+            If you want to receive push notifications call this method with a event handler that will receive the notifications
+            </summary>
+            <param name="HandleNotification">The andlerl that will receive the notifications</param>
+        </member>
+        <member name="M:FHSDK.FH.SetPushCategories(System.Collections.Generic.List{System.String})">
+            <summary>
+            Update the categories used for push notifications
+            </summary>
+            <param name="categories">then new categories</param>
+        </member>
+        <member name="M:FHSDK.FH.SetPushAlias(System.String)">
+            <summary>
+            Update the alias used for the push notifications
+            </summary>
+            <param name="alias">the alias for this device</param>
         </member>
         <member name="M:FHSDK.FH.SetLogLevel(System.Int32)">
             <summary>
