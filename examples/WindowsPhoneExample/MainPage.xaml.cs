@@ -13,6 +13,8 @@ using FHSDK;
 using FHSDK.Services;
 using Microsoft.Phone.Info;
 using Microsoft.Devices;
+using AeroGear.Push;
+using FHSDK.Services.Network;
 
 namespace WindowsPhoneExample
 {
@@ -30,7 +32,16 @@ namespace WindowsPhoneExample
         private async void InitApp()
         {
             await FHClient.Init();
+            FHClient.RegisterPush(NotificationReceived);
             ShowMessage("App Ready!");
+        }
+
+        void NotificationReceived(object sender, PushReceivedEvent pushEvent)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                ShowMessage(pushEvent.Args.message);
+            });
         }
 
         private async void CloudButton_Click(object sender, RoutedEventArgs e)

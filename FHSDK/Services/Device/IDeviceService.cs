@@ -27,4 +27,10 @@ namespace FHSDK.Services
         /// <returns>the device type</returns>
 		string GetDeviceDestination();
     }
+
+    public sealed class Constants
+    {
+        public const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
+        public const string CONFIG_FILE_NAME = "fhconfig.json";
+    }
 }

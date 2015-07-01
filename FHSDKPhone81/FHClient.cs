@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FHSDK.Services.Network;
+using FHSDKPhone.Services.Network;
 
 namespace FHSDK81.Phone
 {
@@ -67,6 +69,7 @@ namespace FHSDK81.Phone
 			ServiceFinder.RegisterType<ILogService, LogService> ();
 			ServiceFinder.RegisterType<IMonitorService, MonitorService> ();
 			ServiceFinder.RegisterType<INetworkService, NetworkService> ();
+            ServiceFinder.RegisterType<IPush, Push>();
 		}
     }
 }

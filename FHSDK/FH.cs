@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using FHSDK.API;
 using FHSDK.FHHttpClient;
 using System.Diagnostics.Contracts;
+using FHSDK.Services.Network;
+using AeroGear.Push;
 
 namespace FHSDK
 {
@@ -318,6 +320,32 @@ namespace FHSDK
             
 			return headers;
 		}
+        /// <summary>
+        /// If you want to receive push notifications call this method with a event handler that will receive the notifications
+        /// </summary>
+        /// <param name="HandleNotification">The andlerl that will receive the notifications</param>
+        public static async void RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
+        {
+            await ServiceFinder.Resolve<IPush>().Register(HandleNotification);
+        }
+
+        /// <summary>
+        /// Update the categories used for push notifications
+        /// </summary>
+        /// <param name="categories">then new categories</param>
+        public static async void SetPushCategories(List<string> categories)
+        {
+            await ServiceFinder.Resolve<IPush>().SetCategories(categories);
+        }
+
+        /// <summary>
+        /// Update the alias used for the push notifications
+        /// </summary>
+        /// <param name="alias">the alias for this device</param>
+        public static async void SetPushAlias(string alias)
+        {
+            await ServiceFinder.Resolve<IPush>().SetAlias(alias);
+        }
 
         /// <summary>
         /// Set the log levels. 

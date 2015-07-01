@@ -96,6 +96,7 @@
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
     <Compile Include="Services\Monitor\MonitorService.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
+    <Compile Include="Services\Network\Push.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FHSDK\FHSDK.csproj">
@@ -112,6 +113,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Reference Include="aerogear-windows-push, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aerogear-windows-push.0.0.9-beta7\lib\windowsphone8\aerogear-windows-push.dll</HintPath>
+    </Reference>
+    <Reference Include="cordova, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\aerogear-windows-push.0.0.9-beta7\lib\windowsphone8\cordova.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>

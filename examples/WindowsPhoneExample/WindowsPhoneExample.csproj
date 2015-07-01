@@ -160,6 +160,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="aerogear-windows-push">
+      <HintPath>..\..\packages\aerogear-windows-push.0.0.9-beta7\lib\windowsphone8\aerogear-windows-push.dll</HintPath>
+    </Reference>
+    <Reference Include="cordova">
+      <HintPath>..\..\packages\aerogear-windows-push.0.0.9-beta7\lib\windowsphone8\cordova.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
