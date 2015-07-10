@@ -40,7 +40,7 @@ namespace WindowsPhoneExample
         {
             Dispatcher.BeginInvoke(() =>
             {
-                ShowMessage(pushEvent.Args.message);
+                ShowMessage(pushEvent.Args.Message);
             });
         }
 
