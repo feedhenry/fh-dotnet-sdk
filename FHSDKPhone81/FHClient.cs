@@ -10,6 +10,7 @@ using FHSDK.Services.Hash;
 using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
+using FHSDKPhone.Services.Network;
 
 namespace FHSDKPhone81
 {

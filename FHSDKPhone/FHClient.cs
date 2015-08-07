@@ -10,7 +10,6 @@ using FHSDK.Services.Device;
 using FHSDK.Services.Hash;
 using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
-using FHSDK.Services.Network;
 
 namespace FHSDK.Phone
 {

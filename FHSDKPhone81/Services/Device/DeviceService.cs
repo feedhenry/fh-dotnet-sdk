@@ -15,6 +15,7 @@ namespace FHSDK.Services.Device
     internal class DeviceService : IDeviceService
     {
         private const string LocalConfigFileName = "fhconfig.local.json";
+
         public string GetDeviceId()
         {
             var token = HardwareIdentification.GetPackageSpecificToken(null);
@@ -31,14 +32,14 @@ namespace FHSDK.Services.Device
         {
             AppProps appProps;
             var isLocalDev = false;
-            StorageFile file = GetFile(Constants.LOCAL_CONFIG_FILE_NAME);
+            var file = GetFile(Constants.LocalConfigFileName);
             if (null != file)
             {
                 isLocalDev = true;
             }
             else
             {
-                file = GetFile(Constants.CONFIG_FILE_NAME);
+                file = GetFile(Constants.ConfigFileName);
             }
             if (null != file)
             {
@@ -48,7 +49,7 @@ namespace FHSDK.Services.Device
             }
             else
             {
-                throw new IOException("Can not find resource " + Constants.CONFIG_FILE_NAME);
+                throw new IOException("Can not find resource " + Constants.ConfigFileName);
             }
             return appProps;
         }

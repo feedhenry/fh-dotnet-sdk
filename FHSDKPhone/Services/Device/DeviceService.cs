@@ -35,14 +35,14 @@ namespace FHSDK.Services.Device
         {
             AppProps appProps = null;
             var isLocalDev = false;
-            StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri(Constants.LOCAL_CONFIG_FILE_NAME, UriKind.Relative));
+            var streamInfo = Application.GetResourceStream(new Uri(Constants.LocalConfigFileName, UriKind.Relative));
             if (null != streamInfo)
             {
                 isLocalDev = true;
             }
             else
             {
-                streamInfo = Application.GetResourceStream(new Uri(Constants.CONFIG_FILE_NAME, UriKind.Relative));
+                streamInfo = Application.GetResourceStream(new Uri(Constants.ConfigFileName, UriKind.Relative));
             }
             if (null != streamInfo)
             {
@@ -56,7 +56,7 @@ namespace FHSDK.Services.Device
             }
             else
             {
-                throw new IOException("Can not find resource " + Constants.CONFIG_FILE_NAME);
+                throw new IOException("Can not find resource " + Constants.ConfigFileName);
             }
             return appProps;
         }

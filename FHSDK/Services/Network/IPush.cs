@@ -10,9 +10,9 @@ namespace FHSDK.Services.Network
         /// <summary>
         /// Register a event handler to receive push notifications.
         /// </summary>
-        /// <param name="HandleNotification">The handler to receive the notifications</param>
+        /// <param name="handleNotification">The handler to receive the notifications</param>
         /// <returns>Void</returns>
-        Task Register(EventHandler<PushReceivedEvent> HandleNotification);
+        Task Register(EventHandler<PushReceivedEvent> handleNotification);
 
         /// <summary>
         /// Set the categories
