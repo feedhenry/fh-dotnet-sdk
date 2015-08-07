@@ -1,53 +1,42 @@
-﻿using AeroGear.Push;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using AeroGear.Push;
+using FHSDK.Config;
+using FHSDK.Services.Device;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services.Network
 {
     public abstract class PushBase : IPush
     {
-        private ILogService logger;
-        const string LOG_TAG = "Push";
+        private const string LogTag = "Push";
+        private readonly ILogService _logger;
 
-        public PushBase()
+        protected PushBase()
         {
-            logger = ServiceFinder.Resolve<ILogService>();
+            _logger = ServiceFinder.Resolve<ILogService>();
         }
 
-        public async Task<PushConfig> ReadConfig(Registration registration)
+        public async Task Register(EventHandler<PushReceivedEvent> handleNotification)
         {
-            string configName;
-            if (FHConfig.getInstance().IsLocalDevelopment)
-            {
-                configName = Constants.LOCAL_CONFIG_FILE_NAME;
-            }
-            else
-            {
-                configName = Constants.CONFIG_FILE_NAME;
-            }
-
-            return await registration.LoadConfigJson(configName);
-        }
-
-        public async Task Register(EventHandler<PushReceivedEvent> HandleNotification)
-        {
-            Registration registration = CreateRegistration();
-            registration.PushReceivedEvent += HandleNotification;
+            var registration = CreateRegistration();
+            registration.PushReceivedEvent += handleNotification;
 
             try
             {
-                PushConfig config = await ReadConfig(registration);
+                var config = await ReadConfig(registration);
                 await registration.Register(config);
-
             }
-            catch (SerializationException e)
+            catch (SerializationException)
             {
-                logger.e(LOG_TAG, "push configuration not found skipping push register, update fhconfig with UPS details", null);
+                _logger.e(LogTag,
+                    "push configuration not found skipping push register, update fhconfig with UPS details", null);
             }
         }
 
-        public async Task SetCategories(System.Collections.Generic.List<string> categories)
+        public async Task SetCategories(List<string> categories)
         {
             var registration = CreateRegistration();
             var config = await ReadConfig(registration);
@@ -63,6 +52,14 @@ namespace FHSDK.Services.Network
             await registration.UpdateConfig(config);
         }
 
-        public abstract Registration CreateRegistration();
+        private async Task<PushConfig> ReadConfig(Registration registration)
+        {
+            string configName;
+            configName = FHConfig.GetInstance().IsLocalDevelopment ? Constants.LocalConfigFileName : Constants.ConfigFileName;
+
+            return await registration.LoadConfigJson(configName);
+        }
+
+        protected abstract Registration CreateRegistration();
     }
 }

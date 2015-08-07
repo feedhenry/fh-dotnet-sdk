@@ -8,6 +8,9 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Net;
 using System.Runtime.CompilerServices;
+using FHSDK.Services.Data;
+using FHSDK.Services.Log;
+using FHSDK.Services.Network;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
 
@@ -258,7 +261,7 @@ namespace FHSDK.Sync
         {
             if (!networkService.IsOnline())
             {
-                this.OnSyncNotification(dataRecords.UID, SyncNotification.OFFLINE_UPDATE, action);
+                this.OnSyncNotification(dataRecords.UID, SyncNotification.OfflineUpdate, action);
             }
             //create pendingRecord
             FHSyncPendingRecord<T> pendingRecord = new FHSyncPendingRecord<T>();
@@ -290,7 +293,7 @@ namespace FHSDK.Sync
                 this.dataRecords.Insert(uid, dataRecord);
             }
             this.Save();
-            this.OnSyncNotification(uid, SyncNotification.LOCAL_UPDATE_APPLIED, pendingRecord.Action);
+            this.OnSyncNotification(uid, SyncNotification.LocalUpdateApplied, pendingRecord.Action);
             return pendingRecord;
         }
 
@@ -382,7 +385,7 @@ namespace FHSDK.Sync
             this.syncPending = false;
             this.syncRunning = true;
             this.SyncStart = DateTime.Now;
-            this.OnSyncNotification(null, SyncNotification.SYNC_STARTED, null);
+            this.OnSyncNotification(null, SyncNotification.SyncStarted, null);
             if(networkService.IsOnline()){
                 FHSyncLoopParams syncParams = new FHSyncLoopParams(this);
                 if(syncParams.Pendings.Count > 0){
@@ -444,7 +447,7 @@ namespace FHSDK.Sync
                             await this.SyncRecords();
                         } else {
                             DebugLog("Local dataset up to date");
-                            this.SyncLoopComplete("online", SyncNotification.SYNC_COMPLETED);
+                            this.SyncLoopComplete("online", SyncNotification.SyncCompleted);
                         }
                     } else {
                         // The HTTP call failed to complete succesfully, so the state of the current pending updates is unknown
@@ -452,15 +455,15 @@ namespace FHSDK.Sync
                         // records to see if we can determine their current state.
                         this.MarkInFlightAsCrased();
                         DebugLog("syncLoop failed :: res = " + syncRes.RawResponse + " err = " + syncRes.Error);
-                        this.SyncLoopComplete(syncRes.RawResponse, SyncNotification.SYNC_FAILED);
+                        this.SyncLoopComplete(syncRes.RawResponse, SyncNotification.SyncFailed);
 
                     }
                 } catch (Exception e) {
                     DebugLog("Error performing sync - " + e.ToString());
-                    this.SyncLoopComplete(e.Message, SyncNotification.SYNC_FAILED);
+                    this.SyncLoopComplete(e.Message, SyncNotification.SyncFailed);
                 }     
             } else {
-                this.OnSyncNotification(null, SyncNotification.SYNC_FAILED, "offline");
+                this.OnSyncNotification(null, SyncNotification.SyncFailed, "offline");
             }
         }
 
@@ -476,7 +479,7 @@ namespace FHSDK.Sync
                     FHSyncDataRecord<T> r = created.Value;
                     r.Uid = created.Key;
                     this.dataRecords.Insert(created.Key, r);
-                    this.OnSyncNotification(created.Key, SyncNotification.RECORD_DELTA_RECEIVED, "create");
+                    this.OnSyncNotification(created.Key, SyncNotification.RecordDeltaReceived, "create");
                 }
 
                 Dictionary<string, FHSyncDataRecord<T>> updatedRecords = remoteDataRecords.UpdatedRecords;
@@ -484,25 +487,25 @@ namespace FHSDK.Sync
                     FHSyncDataRecord<T> r = updated.Value;
                     r.Uid = updated.Key;
                     this.dataRecords.Insert(updated.Key, r);
-                    this.OnSyncNotification(updated.Key, SyncNotification.RECORD_DELTA_RECEIVED, "update");
+                    this.OnSyncNotification(updated.Key, SyncNotification.RecordDeltaReceived, "update");
                 }
 
                 Dictionary<string, FHSyncDataRecord<T>> deletedRecords = remoteDataRecords.DeletedRecords;
                 foreach (var deleted in deletedRecords) {
                     this.dataRecords.Delete(deleted.Key);
-                    this.OnSyncNotification(deleted.Key, SyncNotification.RECORD_DELTA_RECEIVED, "delete");    
+                    this.OnSyncNotification(deleted.Key, SyncNotification.RecordDeltaReceived, "delete");    
                 }
 
 
-                this.OnSyncNotification(remoteDataRecords.Hash, SyncNotification.DELTA_RECEIVED, "partial dataset");
+                this.OnSyncNotification(remoteDataRecords.Hash, SyncNotification.DeltaReceived, "partial dataset");
                 if(null != remoteDataRecords.Hash){
                     this.HashValue = remoteDataRecords.Hash;
                 }
 
-                this.SyncLoopComplete("online", SyncNotification.SYNC_COMPLETED);
+                this.SyncLoopComplete("online", SyncNotification.SyncCompleted);
             } else {
                 DebugLog("SyncRecords failed : " + syncRecordsRes.RawResponse + " error = " + syncRecordsRes.Error);
-                this.SyncLoopComplete(syncRecordsRes.RawResponse, SyncNotification.SYNC_FAILED);
+                this.SyncLoopComplete(syncRecordsRes.RawResponse, SyncNotification.SyncFailed);
             }
 
         }
@@ -602,13 +605,13 @@ namespace FHSDK.Sync
                             switch (crashedUpdate.Type)
                             {
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.applied:
-                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.REMOTE_UPDATE_APPLIED, crashedUpdate.ToString());
+                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.RemoteUpdateApplied, crashedUpdate.ToString());
                                     break;
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.failed:
-                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.REMOTE_UPDATE_FAILED, crashedUpdate.ToString());
+                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.RemoteUpdateFailed, crashedUpdate.ToString());
                                     break;
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.collisions:
-                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.COLLISION_DETECTED, crashedUpdate.ToString());
+                                    OnSyncNotification(crashedUpdate.Uid, SyncNotification.CollisionDetected, crashedUpdate.ToString());
                                     break;
                                 default:
                                     break;
@@ -761,7 +764,7 @@ namespace FHSDK.Sync
             anotherDataStore.PersistPath = this.dataRecords.PersistPath;
             this.dataRecords = anotherDataStore;
             this.HashValue = syncResData.Hash;
-            this.OnSyncNotification(syncResData.Hash, SyncNotification.DELTA_RECEIVED, "full dataset");
+            this.OnSyncNotification(syncResData.Hash, SyncNotification.DeltaReceived, "full dataset");
         }
 
         private void ProcessUpdatesFromRemote(FHSyncResponseData<T> syncResData)
@@ -780,13 +783,13 @@ namespace FHSDK.Sync
                             switch (update.Type)
                             {
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.applied:
-                                    notification = SyncNotification.REMOTE_UPDATE_APPLIED;
+                                    notification = SyncNotification.RemoteUpdateApplied;
                                     break;
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.failed:
-                                    notification = SyncNotification.REMOTE_UPDATE_FAILED;
+                                    notification = SyncNotification.RemoteUpdateFailed;
                                     break;
                                 case FHSyncResponseUpdatesData.FHSyncResponseUpdatesDataType.collisions:
-                                    notification = SyncNotification.COLLISION_DETECTED;
+                                    notification = SyncNotification.CollisionDetected;
                                     break;
                                 default:
                                     break;
@@ -819,11 +822,11 @@ namespace FHSDK.Sync
 
         private async Task<FHResponse> DoCloudCall(object syncParams)
         {
-            if(this.SyncConfig.SyncCloud == FHSyncConfig.SyncCloudType.AUTO){
+            if(this.SyncConfig.SyncCloud == FHSyncConfig.SyncCloudType.Auto){
                 await CheckSyncCloudType();
             }
 
-            if(this.SyncConfig.SyncCloud == FHSyncConfig.SyncCloudType.MBBAS) {
+            if(this.SyncConfig.SyncCloud == FHSyncConfig.SyncCloudType.Mbbas) {
                 string service = string.Format("sync/{0}", this.DatasetId);
                 FHResponse res = await FH.Mbaas(service, syncParams);
                 return res;
@@ -839,9 +842,9 @@ namespace FHSDK.Sync
             actParams.Add("fh", "sync");
             FHResponse actRes = await FH.Act(this.DatasetId, actParams);
             if(actRes.StatusCode == HttpStatusCode.OK || actRes.StatusCode == HttpStatusCode.InternalServerError){
-                this.SyncConfig.SyncCloud = FHSyncConfig.SyncCloudType.LEGACY;
+                this.SyncConfig.SyncCloud = FHSyncConfig.SyncCloudType.Legacy;
             } else {
-                this.SyncConfig.SyncCloud = FHSyncConfig.SyncCloudType.MBBAS;
+                this.SyncConfig.SyncCloud = FHSyncConfig.SyncCloudType.Mbbas;
             }
         }
 

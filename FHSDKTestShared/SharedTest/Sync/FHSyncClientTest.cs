@@ -1,20 +1,15 @@
-﻿using System;
-using FHSDK;
-using System.IO;
-using System.Net;
-using FHSDK.Sync;
-using System.Collections.Generic;
-using System.Threading;
-using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-
-#if __ANDROID__
+﻿#if __ANDROID__
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
 #endif
-
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using FHSDK;
+using FHSDK.Sync;
 #if WINDOWS_PHONE
 using TestFixture = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestClassAttribute;
 using Test = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestMethodAttribute;
@@ -22,27 +17,27 @@ using SetUp = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestInitiali
 using TearDown = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestCleanupAttribute;
 using FHSDK.Phone;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+
 #else
 using NUnit.Framework;
 #endif
 
 namespace FHSDKTestShared
 {
-    [TestFixture()]
+    [TestFixture]
     public class FHSyncClientTest
     {
         private const string DATASET_ID = "datasetclient_tasks";
-        private string metaDataFilePath;
         private string dataFilePath;
+        private string metaDataFilePath;
         private string pendingFilePath;
-        FHSyncClient syncClient;
+        private FHSyncClient syncClient;
 
         [SetUp]
         public void SetUp()
         {
             FHClient.Init();
             FH.SetLogLevel(1);
-
         }
 
         [TearDown]
@@ -51,29 +46,29 @@ namespace FHSDKTestShared
             TestUtils.DeleteFileIfExists(metaDataFilePath);
             TestUtils.DeleteFileIfExists(dataFilePath);
             TestUtils.DeleteFileIfExists(pendingFilePath);
-            if(null != syncClient){
+            if (null != syncClient)
+            {
                 Debug.WriteLine("Stop running syncing client");
                 syncClient.StopAll();
             }
         }
 
-
         [Test]
-        #if WINDOWS_PHONE
+#if WINDOWS_PHONE
         public async Task TestFHSyncClient()
-        #else 
+#else 
         public async void TestFHSyncClient()
         #endif
         {
             //clear db
-            FHResponse setupRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "DELETE", null, null);
+            var setupRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "DELETE", null, null);
             Assert.IsTrue(HttpStatusCode.OK.Equals(setupRes.StatusCode));
 
-            FHSyncConfig syncConfig = new FHSyncConfig();
+            var syncConfig = new FHSyncConfig();
             syncConfig.SyncActive = false;
             syncConfig.SyncFrequency = 1;
             syncConfig.AutoSyncLocalUpdates = true;
-            syncConfig.SyncCloud = FHSyncConfig.SyncCloudType.MBBAS;
+            syncConfig.SyncCloud = FHSyncConfig.SyncCloudType.Mbbas;
 
             //make sure no existing data file exist
             metaDataFilePath = FHSyncUtils.GetDataFilePath(DATASET_ID, ".sync.json");
@@ -92,30 +87,34 @@ namespace FHSDKTestShared
             syncClient.Initialise(syncConfig);
             syncClient.Manage<TaskModel>(DATASET_ID, syncConfig, null);
 
-            bool syncStarted = false;
-            bool syncCompleted = false;
+            var syncStarted = false;
+            var syncCompleted = false;
 
-            syncClient.SyncStarted += (object sender, FHSyncNotificationEventArgs e) => {
-                if(e.DatasetId.Equals(DATASET_ID)){
+            syncClient.SyncStarted += (object sender, FHSyncNotificationEventArgs e) =>
+            {
+                if (e.DatasetId.Equals(DATASET_ID))
+                {
                     syncStarted = true;
                 }
             };
 
-            syncClient.SyncCompleted += (object sender, FHSyncNotificationEventArgs e) => {
-                if(e.DatasetId.Equals(DATASET_ID)){
+            syncClient.SyncCompleted += (object sender, FHSyncNotificationEventArgs e) =>
+            {
+                if (e.DatasetId.Equals(DATASET_ID))
+                {
                     syncCompleted = true;
                 }
             };
 
-            List<TaskModel> tasks = syncClient.List<TaskModel>(DATASET_ID);
+            var tasks = syncClient.List<TaskModel>(DATASET_ID);
             Assert.AreEqual(0, tasks.Count);
 
-            TaskModel newTask = new TaskModel()
+            var newTask = new TaskModel
             {
                 TaksName = "task1",
                 Completed = false
             };
-            newTask = syncClient.Create<TaskModel>(DATASET_ID, newTask);
+            newTask = syncClient.Create(DATASET_ID, newTask);
             //syncConfig.SyncActive = true;
             Assert.IsNotNull(newTask.UID);
 
@@ -123,11 +122,11 @@ namespace FHSDKTestShared
 
             Thread.Sleep(2000);
 
-            FHResponse cloudRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "GET", null, null);
+            var cloudRes = await FH.Cloud(string.Format("/syncTest/{0}", DATASET_ID), "GET", null, null);
             Assert.IsNull(cloudRes.Error);
-            JObject dbData = cloudRes.GetResponseAsJObject();
-            Assert.AreEqual(1, (int)dbData["count"]);
-            string taskNameInDb = (string)dbData["list"][0]["fields"]["taskName"];
+            var dbData = cloudRes.GetResponseAsJObject();
+            Assert.AreEqual(1, (int) dbData["count"]);
+            var taskNameInDb = (string) dbData["list"][0]["fields"]["taskName"];
             Assert.IsTrue(taskNameInDb.Equals("task1"));
 
             Assert.IsTrue(syncStarted);
@@ -137,4 +136,3 @@ namespace FHSDKTestShared
         }
     }
 }
-

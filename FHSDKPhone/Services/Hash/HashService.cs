@@ -1,34 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Hash
 {
-    class HashService : IHashService
+    internal class HashService : IHashService
     {
-        public HashService()
+        public string GenerateSha1Hash(string str)
         {
-        }
-
-        public string GenerateSHA1Hash(string str)
-        {
-            SHA1Managed sha1 = new SHA1Managed();
+            var sha1 = new SHA1Managed();
             var hash = sha1.ComputeHash(StringToAscii(str));
-            string hex = BitConverter.ToString(hash);
+            var hex = BitConverter.ToString(hash);
             return hex.Replace("-", "").ToLower();
         }
 
         public static byte[] StringToAscii(string s)
         {
-            byte[] retval = new byte[s.Length];
-            for (int ix = 0; ix < s.Length; ++ix)
+            var retval = new byte[s.Length];
+            for (var ix = 0; ix < s.Length; ++ix)
             {
-                char ch = s[ix];
-                if (ch <= 0x7f) retval[ix] = (byte)ch;
-                else retval[ix] = (byte)'?';
+                var ch = s[ix];
+                if (ch <= 0x7f) retval[ix] = (byte) ch;
+                else retval[ix] = (byte) '?';
             }
             return retval;
         }

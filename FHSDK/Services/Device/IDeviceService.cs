@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FHSDK.Services
+﻿namespace FHSDK.Services.Device
 {
     /// <summary>
-    /// A service interface provides information about the device
+    ///     A service interface provides information about the device
     /// </summary>
     public interface IDeviceService
     {
         /// <summary>
-        /// Return the unique id of the device
+        ///     Return the unique id of the device
         /// </summary>
         /// <returns>the unique device id</returns>
         string GetDeviceId();
+
         /// <summary>
-        /// Return the FeedHenry app configurations
+        ///     Return the FeedHenry app configurations
         /// </summary>
         /// <returns>the FeedHenry app configurations </returns>
-		AppProps ReadAppProps(); 
+        AppProps ReadAppProps();
+
         /// <summary>
-        /// Get the device type. E.g. iphone, android, windowsphone8
+        ///     Get the device type. E.g. iphone, android, windowsphone8
         /// </summary>
         /// <returns>the device type</returns>
-		string GetDeviceDestination();
+        string GetDeviceDestination();
     }
 
-    public sealed class Constants
+    public static class Constants
     {
-        public const string LOCAL_CONFIG_FILE_NAME = "fhconfig.local.json";
-        public const string CONFIG_FILE_NAME = "fhconfig.json";
+        public const string LocalConfigFileName = "fhconfig.local.json";
+        public const string ConfigFileName = "fhconfig.json";
     }
 }

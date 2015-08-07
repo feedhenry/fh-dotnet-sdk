@@ -1,25 +1,18 @@
-﻿using System;
-using FHSDK.Sync;
+﻿using FHSDK.Sync;
 using Newtonsoft.Json;
 
 namespace FHSDKTestShared
 {
-    public class TaskModel: IFHSyncModel
+    public class TaskModel : IFHSyncModel
     {
-        public TaskModel()
-        {
-        }
-
-        [JsonIgnore]
-        public String UID { set; get; }
-
-
         [JsonProperty("taskName")]
-        public String TaksName { set; get; }
-
+        public string TaksName { set; get; }
 
         [JsonProperty("completed")]
-        public bool Completed { set ; get; }
+        public bool Completed { set; get; }
+
+        [JsonIgnore]
+        public string UID { set; get; }
 
         public override string ToString()
         {
@@ -27,4 +20,3 @@ namespace FHSDKTestShared
         }
     }
 }
-

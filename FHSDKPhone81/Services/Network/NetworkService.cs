@@ -1,21 +1,16 @@
-﻿using System;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Network
 {
     /// <summary>
-    /// Network service provider for windows phone
+    ///     Network service provider for windows phone
     /// </summary>
-    class NetworkService : INetworkService
+    internal class NetworkService : INetworkService
     {
-        public NetworkService()
-        {
-        }
-
         public async Task<bool> IsOnlineAsync()
         {
-            return await Task.Run<bool>(() => { return IsOnline(); });
+            return await Task.Run(() => IsOnline());
         }
 
         public bool IsOnline()

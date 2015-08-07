@@ -1,54 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FHSDK
+namespace FHSDK.FHHttpClient
 {
     /// <summary>
-    /// The exception that is thrown by FH API calls
+    ///     The exception that is thrown by FH API calls
     /// </summary>
     public class FHException : Exception
     {
         /// <summary>
-        /// Possible error codes
+        ///     Possible error codes
         /// </summary>
         public enum ErrorCode
         {
             /// <summary>
-            /// This error code means the error is unknown
+            ///     This error code means the error is unknown
             /// </summary>
             UnknownError = -1,
+
             /// <summary>
-            /// This error code means the device is offline
+            ///     This error code means the device is offline
             /// </summary>
             NetworkError = 1,
+
             /// <summary>
-            /// This error code means http exception is thrown by the http client
+            ///     This error code means http exception is thrown by the http client
             /// </summary>
             HttpError = 2,
+
             /// <summary>
-            /// This error code means the server returns error 
+            ///     This error code means the server returns error
             /// </summary>
             ServerError = 3,
+
             /// <summary>
-            /// This error code means authentication failed
+            ///     This error code means authentication failed
             /// </summary>
             AuthenticationError = 4,
+
             /// <summary>
-            /// User cancelled
+            ///     User cancelled
             /// </summary>
             Cancelled = 5
-
         }
 
-        private ErrorCode errorCode = ErrorCode.UnknownError;
+        private readonly ErrorCode errorCode = ErrorCode.UnknownError;
 
         /// <summary>
         /// </summary>
         public FHException()
-            : base()
         {
         }
 
@@ -61,7 +60,6 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="message"></param>
         /// <param name="errorCode"></param>
@@ -72,7 +70,6 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="message"></param>
         /// <param name="errorCode"></param>
@@ -84,14 +81,11 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Get the error code
+        ///     Get the error code
         /// </summary>
         public ErrorCode Error
         {
-            get
-            {
-                return this.errorCode;
-            }
+            get { return errorCode; }
         }
     }
 }

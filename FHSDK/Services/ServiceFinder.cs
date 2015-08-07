@@ -1,41 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 
 namespace FHSDK.Services
 {
     /// <summary>
-    /// Contains implementations of a few services used by the FeedHenry .Net SDK. The interfaces are defined in the FHSDK.dll assemably, then each platform's 
-    /// assembly contains platform-specific implementations of these services.
+    ///     A helper class to resolve the correct implementation if a type using IAdapterResolver
     /// </summary>
-    [System.Runtime.CompilerServices.CompilerGenerated]
-    class NamespaceDoc
+    public static class ServiceFinder
     {
-
-    }
-
-    /// <summary>
-    /// A helper class to resolve the correct implementation if a type using IAdapterResolver
-    /// </summary>
-    public class ServiceFinder
-    {
-		private static UnityContainer container = new UnityContainer();
+        private static readonly UnityContainer Container = new UnityContainer();
 
         /// <summary>
-        /// Resolve the correct implementation for the type
+        ///     Resolve the correct implementation for the type
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>an instance of the correct implementation class</returns>
         public static T Resolve<T>()
         {
-			return container.Resolve<T>();
+            return Container.Resolve<T>();
         }
 
-		public static void RegisterType<TFrom, TTo>() where TTo : TFrom
-		{
-			container.RegisterType<TFrom, TTo>();
-		}
+        public static void RegisterType<TFrom, TTo>() where TTo : TFrom
+        {
+            Container.RegisterType<TFrom, TTo>();
+        }
     }
 }

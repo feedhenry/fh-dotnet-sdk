@@ -1,60 +1,62 @@
-﻿using FHSDK;
-using FHSDK81.Phone;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.System.Profile;
+using Newtonsoft.Json;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Device
 {
     /// <summary>
-    /// Device info service for windows phone
+    ///     Device info service for windows phone
     /// </summary>
-    class DeviceService : IDeviceService
+    internal class DeviceService : IDeviceService
     {
+        private const string LocalConfigFileName = "fhconfig.local.json";
 
         public string GetDeviceId()
         {
-            HardwareToken token = HardwareIdentification.GetPackageSpecificToken(null);
-            IBuffer hardwareId = token.Id;
+            var token = HardwareIdentification.GetPackageSpecificToken(null);
+            var hardwareId = token.Id;
 
-            HashAlgorithmProvider hasher = HashAlgorithmProvider.OpenAlgorithm("MD5");
-            IBuffer hashed = hasher.HashData(hardwareId);
+            var hasher = HashAlgorithmProvider.OpenAlgorithm("MD5");
+            var hashed = hasher.HashData(hardwareId);
 
-            string hashedString = CryptographicBuffer.EncodeToHexString(hashed);
+            var hashedString = CryptographicBuffer.EncodeToHexString(hashed);
             return hashedString;
         }
 
         public AppProps ReadAppProps()
         {
-            AppProps appProps = null;
-            bool IsLocalDev = false;
-            StorageFile file = GetFile(Constants.LOCAL_CONFIG_FILE_NAME);
+            AppProps appProps;
+            var isLocalDev = false;
+            var file = GetFile(Constants.LocalConfigFileName);
             if (null != file)
             {
-                IsLocalDev = true;
+                isLocalDev = true;
             }
             else
             {
-                file = GetFile(Constants.CONFIG_FILE_NAME);
+                file = GetFile(Constants.ConfigFileName);
             }
             if (null != file)
             {
-                var json = FileIO.ReadTextAsync(file).AsTask<string>().Result;
+                var json = FileIO.ReadTextAsync(file).AsTask().Result;
                 appProps = JsonConvert.DeserializeObject<AppProps>(json);
-                appProps.IsLocalDevelopment = IsLocalDev;
+                appProps.IsLocalDevelopment = isLocalDev;
             }
             else
             {
-                throw new IOException("Can not find resource " + Constants.CONFIG_FILE_NAME);
+                throw new IOException("Can not find resource " + Constants.ConfigFileName);
             }
             return appProps;
+        }
+
+        public string GetDeviceDestination()
+        {
+            return "windowsphone8";
         }
 
         private static StorageFile GetFile(string fileName)
@@ -63,15 +65,12 @@ namespace FHSDK.Services
             try
             {
                 var folder = Package.Current.InstalledLocation;
-                file = folder.GetFileAsync(fileName).AsTask<StorageFile>().Result;
+                file = folder.GetFileAsync(fileName).AsTask().Result;
             }
-            catch (AggregateException e) { }
+            catch (AggregateException)
+            {
+            }
             return file;
-        }
-
-        public string GetDeviceDestination()
-        {
-            return "windowsphone8";
         }
     }
 }

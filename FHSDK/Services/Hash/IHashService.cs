@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace FHSDK.Services
+﻿namespace FHSDK.Services.Hash
 {
 	public interface IHashService
 	{
-		string GenerateSHA1Hash(string str);
+		string GenerateSha1Hash(string str);
 	}
 
 

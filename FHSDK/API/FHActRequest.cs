@@ -1,5 +1,4 @@
 ﻿using System;
-using FHSDK.FHHttpClient;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace FHSDK.API
 	/// </summary>
 	public class FHActRequest : FHRequest
 	{
-		private CloudProps cloudProps;
+		private readonly CloudProps _cloudProps;
 
 		/// <summary>
 		/// Get or set the remote cloud function name
@@ -29,9 +28,8 @@ namespace FHSDK.API
 		/// </summary>
 		/// <param name="cloudProps"></param>
 		public FHActRequest(CloudProps cloudProps)
-			: base()
 		{
-			this.cloudProps = cloudProps;
+			_cloudProps = cloudProps;
 		}
 
 		/// <summary>
@@ -40,11 +38,11 @@ namespace FHSDK.API
 		/// <param name="remoteAct">The name of the cloud action</param>
 		/// <param name="requestParams">The request parameters</param>
 		/// <returns></returns>
-        public async Task<FHResponse> execAsync(string remoteAct, object requestParams)
+        public async Task<FHResponse> ExecAsync(string remoteAct, object requestParams)
 		{
-			this.RemoteAct = remoteAct;
-			this.RequestParams = requestParams;
-			return await this.execAsync();
+			RemoteAct = remoteAct;
+			RequestParams = requestParams;
+			return await ExecAsync();
 		}
 
 		/// <summary>
@@ -54,8 +52,8 @@ namespace FHSDK.API
 		protected override Uri GetUri()
 		{
 			Contract.Assert (null != RemoteAct, "remote act is not defined");
-			string host = this.cloudProps.GetCloudHost ();
-			return new Uri(String.Format("{0}/{1}/{2}", host, "cloud", this.RemoteAct));
+			var host = _cloudProps.GetCloudHost ();
+			return new Uri(string.Format("{0}/{1}/{2}", host, "cloud", RemoteAct));
 		}
 
 		/// <summary>
@@ -65,10 +63,10 @@ namespace FHSDK.API
 		protected override object GetRequestParams()
 		{
             JObject data = new JObject();
-			if(null != this.RequestParams)
+			if(null != RequestParams)
 			{
                 
-                data = JObject.FromObject(this.RequestParams);
+                data = JObject.FromObject(RequestParams);
 			}
 			IDictionary<string, object> defaultParams = GetDefaultParams();
 			data["__fh"] = JToken.FromObject(defaultParams);

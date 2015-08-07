@@ -1,36 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.IsolatedStorage;
+using FHSDK.Services.Data;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Data
 {
     /// <summary>
-    /// On device data service provider for windows phone
+    ///     On device data service provider for windows phone
     /// </summary>
-    class DataService: DataServiceBase
+    internal class DataService : DataServiceBase
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public DataService() :
-            base()
+        protected override string DoRead(string dataId)
         {
-        }
-
-        protected override string doRead(string dataId)
-        {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            var settings = IsolatedStorageSettings.ApplicationSettings;
             string retvalue = null;
             settings.TryGetValue(dataId, out retvalue);
             return retvalue;
         }
 
-        protected override void doSave(string dataId, string dataValue)
+        protected override void DoSave(string dataId, string dataValue)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            var settings = IsolatedStorageSettings.ApplicationSettings;
             if (!settings.Contains(dataId))
             {
                 settings.Add(dataId, dataValue);
@@ -41,7 +29,7 @@ namespace FHSDK.Services
 
         public override void DeleteData(string dataId)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            var settings = IsolatedStorageSettings.ApplicationSettings;
             settings.Remove(dataId);
             settings.Save();
         }

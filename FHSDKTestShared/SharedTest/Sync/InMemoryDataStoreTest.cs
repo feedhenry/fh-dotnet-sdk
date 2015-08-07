@@ -1,20 +1,15 @@
-﻿
-using System;
-
-using FHSDK.Services;
-using FHSDK.Sync;
-using FHSDK;
-using System.IO;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-#if __ANDROID__
+﻿#if __ANDROID__
 using FHSDK.Droid;
 #elif __IOS__
 using FHSDK.Touch;
 #endif
-
+using System.Diagnostics;
+using System.IO;
+using FHSDK.Services;
+using FHSDK.Services.Data;
+using FHSDK.Sync;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 #if WINDOWS_PHONE
 using TestFixture = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestClassAttribute;
 using Test = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestMethodAttribute;
@@ -22,6 +17,7 @@ using SetUp = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestInitiali
 using TearDown = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestCleanupAttribute;
 using FHSDK.Phone;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+
 #else
 using NUnit.Framework;
 #endif
@@ -31,80 +27,83 @@ namespace FHSDKTestShared
     [TestFixture]
     public class InMemoryDataStoreTest
     {
-        private IIOService ioService;
-        private string dataPersistDir = null;
-        private string dataPersistFile = null;
+        private string _dataPersistDir;
+        private string _dataPersistFile;
+        private IIOService _ioService;
 
         [SetUp]
         public void SetUp()
         {
             FHClient.Init();
-            ioService = ServiceFinder.Resolve<IIOService>();
-            string dataDir = ioService.GetDataPersistDir();
-            dataPersistDir = Path.Combine(dataDir, "syncTestDir");
-            if(Directory.Exists(dataPersistDir)){
-                Directory.Delete(dataPersistDir);
+            _ioService = ServiceFinder.Resolve<IIOService>();
+            var dataDir = _ioService.GetDataPersistDir();
+            _dataPersistDir = Path.Combine(dataDir, "syncTestDir");
+            if (Directory.Exists(_dataPersistDir))
+            {
+                Directory.Delete(_dataPersistDir);
             }
-            dataPersistFile = Path.Combine(dataPersistDir, ".test_data_file");
-            Debug.WriteLine(String.Format("Data persist path = {0}", dataPersistFile));
+            _dataPersistFile = Path.Combine(_dataPersistDir, ".test_data_file");
+            Debug.WriteLine("Data persist path = {0}", _dataPersistFile);
         }
 
         [TearDown]
         public void TearDown()
         {
-            if(File.Exists(dataPersistFile)){
-                File.Delete(dataPersistFile);
+            if (File.Exists(_dataPersistFile))
+            {
+                File.Delete(_dataPersistFile);
             }
-            if(Directory.Exists(dataPersistDir)){
-                Directory.Delete(dataPersistDir);
+            if (Directory.Exists(_dataPersistDir))
+            {
+                Directory.Delete(_dataPersistDir);
             }
         }
-        
+
         [Test]
         public void TestInMemoryDataStore()
         {
-            Assert.IsFalse(File.Exists(dataPersistFile));
+            Assert.IsFalse(File.Exists(_dataPersistFile));
             IDataStore<JObject> dataStore = new InMemoryDataStore<JObject>();
-            dataStore.PersistPath = dataPersistFile;
-            string key1 = "testkey1";
-            string key2 = "testkey2";
-            JObject json1 = TestUtils.GenerateJson();
-            JObject json2 = TestUtils.GenerateJson();
-            JObject json3 = TestUtils.GenerateJson();
+            dataStore.PersistPath = _dataPersistFile;
+            var key1 = "testkey1";
+            var key2 = "testkey2";
+            var json1 = TestUtils.GenerateJson();
+            var json2 = TestUtils.GenerateJson();
+            var json3 = TestUtils.GenerateJson();
 
             dataStore.Insert(key1, json1);
             dataStore.Insert(key2, json2);
 
-            Dictionary<string, JObject> listResult = dataStore.List();
+            var listResult = dataStore.List();
             Assert.AreEqual(2, listResult.Count);
             Assert.IsNotNull(listResult[key1]);
             Assert.IsNotNull(listResult[key2]);
 
-            JObject getResult = dataStore.Get(key1);
+            var getResult = dataStore.Get(key1);
             Assert.IsTrue(JsonConvert.SerializeObject(getResult).Equals(JsonConvert.SerializeObject(json1)));
 
 
             dataStore.Insert(key2, json3);
-            JObject getResult2 = dataStore.Get(key2);
+            var getResult2 = dataStore.Get(key2);
             Assert.IsTrue(JsonConvert.SerializeObject(getResult2).Equals(JsonConvert.SerializeObject(json3)));
 
             dataStore.Save();
-            Assert.IsTrue(File.Exists(dataPersistFile));
+            Assert.IsTrue(File.Exists(_dataPersistFile));
 
-            string savedFileContent = null;
-            StreamReader reader = new StreamReader(dataPersistFile);
+            string savedFileContent;
+            var reader = new StreamReader(_dataPersistFile);
             savedFileContent = reader.ReadToEnd();
             reader.Close();
-            Debug.WriteLine(String.Format("Save file content = {0}", savedFileContent));
+            Debug.WriteLine("Save file content = {0}", savedFileContent);
             Assert.IsTrue(savedFileContent.Length > 0);
 
-            IDataStore<JObject> loadedDataStore = InMemoryDataStore<JObject>.Load<JObject>(dataPersistFile);
-            Dictionary<string, JObject> listResult2 = loadedDataStore.List();
+            IDataStore<JObject> loadedDataStore = InMemoryDataStore<JObject>.Load<JObject>(_dataPersistFile);
+            var listResult2 = loadedDataStore.List();
             Assert.AreEqual(2, listResult2.Count);
             Assert.IsNotNull(listResult2[key1]);
             Assert.IsNotNull(listResult2[key2]);
 
-            JObject getResult3 = loadedDataStore.Get(key2);
+            var getResult3 = loadedDataStore.Get(key2);
             Assert.IsTrue(JsonConvert.SerializeObject(getResult3).Equals(JsonConvert.SerializeObject(json3)));
 
             loadedDataStore.Delete(key1);
@@ -114,4 +113,3 @@ namespace FHSDKTestShared
         }
     }
 }
-

@@ -1,154 +1,101 @@
-﻿using FHSDK.Services;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Text;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FHSDK.FHHttpClient;
-using System.Net.Http;
+using FHSDK.Config;
 
 namespace FHSDK.API
 {
     /// <summary>
-    /// Contains implementations for accessing FeedHenry APIs. Defined in the FHSDK.dll.
-    /// </summary>
-    [System.Runtime.CompilerServices.CompilerGenerated]
-    class NamespaceDoc
-    {
-
-    }
-
-    /// <summary>
-    /// Base class for all the API requests
+    ///     Base class for all the API requests
     /// </summary>
     public abstract class FHRequest
     {
-        const double DEFAULT_TIMEOUT = 30*1000;
-		protected FHConfig appConfig = FHConfig.getInstance ();
-
+        private const double DefaultTimeout = 30*1000;
+        protected readonly FHConfig AppConfig = FHConfig.GetInstance();
+        private IDictionary<string, string> _requestHeaders;
+        private string _requestMethod = "POST";
 
         /// <summary>
-        /// The app configurations
+        ///     The app configurations
         /// </summary>
-        private TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
-
-		private string requestMethod = "POST";
-		private IDictionary<string, string> requestHeaders = null;
+        private TimeSpan _timeout = TimeSpan.FromMilliseconds(DefaultTimeout);
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public FHRequest()
-        {
-        }
-
-        /// <summary>
-        /// Get or set the timeout value
+        ///     Get or set the timeout value
         /// </summary>
         public TimeSpan TimeOut
         {
-            get
-            {
-                return timeout;
-            }
+            private get { return _timeout; }
 
-            set
-            {
-                this.timeout = value;
-            }
+            set { _timeout = value; }
         }
 
         /// <summary>
-        /// Get or set the http request method
+        ///     Get or set the http request method
         /// </summary>
-		public string RequestMethod
-		{
-			get 
-			{
-				return requestMethod;
-			}
+        public string RequestMethod
+        {
+            private get { return _requestMethod; }
 
-			set
-			{ 
-				this.requestMethod = value;
-			}
-
-		}
+            set { _requestMethod = value; }
+        }
 
         /// <summary>
-        /// Get or set the http request headers
+        ///     Get or set the http request headers
         /// </summary>
-		public IDictionary<string, string> RequestHeaders
-		{
-			get
-			{
-				IDictionary<string, string> defaultHeaders = FH.GetDefaultParamsAsHeaders ();
-				if (null != this.requestHeaders) {
-                    foreach (var item in this.requestHeaders)
+        public IDictionary<string, string> RequestHeaders
+        {
+            private get
+            {
+                var defaultHeaders = FH.GetDefaultParamsAsHeaders();
+                if (null == _requestHeaders) return defaultHeaders;
+                foreach (var item in _requestHeaders)
+                {
+                    var key = item.Key;
+                    if (!defaultHeaders.ContainsKey(key))
                     {
-                        string key = item.Key;
-                        if(!defaultHeaders.ContainsKey(key)){
-                            defaultHeaders.Add(key, item.Value);
-                        }        
+                        defaultHeaders.Add(key, item.Value);
                     }
-				}
-				return defaultHeaders;
-			}
+                }
+                return defaultHeaders;
+            }
 
-			set
-			{
-				this.requestHeaders = value;
-			}
-
-		}
-
-
+            set { _requestHeaders = value; }
+        }
 
         /// <summary>
-        /// Execute the request asynchronously
+        ///     Execute the request asynchronously
         /// </summary>
         /// <returns>Server response</returns>
-        public virtual async Task<FHResponse> execAsync()
+        public virtual async Task<FHResponse> ExecAsync()
         {
-			Uri uri = GetUri();
-            object requestParams = GetRequestParams();
-			FHResponse fhres = await FHHttpClient.FHHttpClient.SendAsync(uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
+            var uri = GetUri();
+            var requestParams = GetRequestParams();
+            var fhres =
+                await FHHttpClient.FHHttpClient.SendAsync(uri, RequestMethod, RequestHeaders, requestParams, TimeOut);
             return fhres;
         }
 
         /// <summary>
-        /// Get the default request parameters
+        ///     Get the default request parameters
         /// </summary>
         /// <returns></returns>
-		protected IDictionary<string, object> GetDefaultParams()
+        protected IDictionary<string, object> GetDefaultParams()
         {
-			return FH.GetDefaultParams ();
+            return FH.GetDefaultParams();
         }
 
-        
-			
-
         /// <summary>
-        /// Construct the remote uri based on the request type
+        ///     Construct the remote uri based on the request type
         /// </summary>
         /// <returns></returns>
-		protected abstract Uri GetUri();
+        protected abstract Uri GetUri();
 
         /// <summary>
-        /// Construct the request data based on the request type
+        ///     Construct the request data based on the request type
         /// </summary>
         /// <returns></returns>
-		protected abstract object GetRequestParams();
-
+        protected abstract object GetRequestParams();
     }
-
-    
-
-    
-
-    
-
 }

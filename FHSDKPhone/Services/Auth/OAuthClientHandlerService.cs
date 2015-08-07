@@ -1,128 +1,116 @@
-﻿using FHSDK.Services;
-using Microsoft.Phone.Controls;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using FHSDK.Services.Auth;
+using Microsoft.Phone.Controls;
 
-namespace FHSDK.Services
+namespace FHSDK.Services.Auth
 {
     /// <summary>
-    /// OAuth login handler for windows phone
+    ///     OAuth login handler for windows phone
     /// </summary>
-    class OAuthClientHandlerService : OAuthClientHandlerServiceBase
+    internal class OAuthClientHandlerService : OAuthClientHandlerServiceBase
     {
-        private WebBrowser webBrowser;
-        private TaskCompletionSource<OAuthResult> tcs;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public OAuthClientHandlerService()
-            : base()
-        {
-
-        }
+        private TaskCompletionSource<OAuthResult> _tcs;
+        private WebBrowser _webBrowser;
 
         public override Task<OAuthResult> Login(string oauthLoginUrl)
         {
-            tcs = new TaskCompletionSource<OAuthResult>();
-            Uri uri = new Uri(oauthLoginUrl, UriKind.Absolute);
+            _tcs = new TaskCompletionSource<OAuthResult>();
+            var uri = new Uri(oauthLoginUrl, UriKind.Absolute);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+                var frame = Application.Current.RootVisual as PhoneApplicationFrame;
                 if (null != frame)
                 {
-                    PhoneApplicationPage page = frame.Content as PhoneApplicationPage;
+                    var page = frame.Content as PhoneApplicationPage;
                     if (null != page)
                     {
-                        Grid grid = page.FindName("LayoutRoot") as Grid;
+                        var grid = page.FindName("LayoutRoot") as Grid;
                         if (null != grid)
                         {
-                            webBrowser = new WebBrowser();
-                            webBrowser.IsScriptEnabled = true;
-                            webBrowser.LoadCompleted += new System.Windows.Navigation.LoadCompletedEventHandler(browser_LoadCompleted);
-                            webBrowser.NavigationFailed += new System.Windows.Navigation.NavigationFailedEventHandler(browser_NavigateFailed);
-                            webBrowser.Navigating += new EventHandler<NavigatingEventArgs>(browser_Navigating);
-                            webBrowser.Navigate(uri);
-                            grid.Children.Add(webBrowser);
-                            page.BackKeyPress += new EventHandler<CancelEventArgs>(backkey_Pressed);
+                            _webBrowser = new WebBrowser {IsScriptEnabled = true};
+                            _webBrowser.LoadCompleted += browser_LoadCompleted;
+                            _webBrowser.NavigationFailed += browser_NavigateFailed;
+                            _webBrowser.Navigating += browser_Navigating;
+                            _webBrowser.Navigate(uri);
+                            grid.Children.Add(_webBrowser);
+                            page.BackKeyPress += backkey_Pressed;
                         }
                         else
                         {
-                            tcs.TrySetException(new Exception("Can not find RooLayout"));
+                            _tcs.TrySetException(new Exception("Can not find RooLayout"));
                         }
                     }
                     else
                     {
-                        tcs.TrySetException(new Exception("Can not find ApplicationPage"));
+                        _tcs.TrySetException(new Exception("Can not find ApplicationPage"));
                     }
                 }
                 else
                 {
-                    tcs.TrySetException(new Exception("Can not find ApplicationFrame"));
+                    _tcs.TrySetException(new Exception("Can not find ApplicationFrame"));
                 }
             });
-            return tcs.Task;
+            return _tcs.Task;
         }
 
         private void Close()
         {
-            if (null != webBrowser)
+            if (null != _webBrowser)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    PhoneApplicationFrame frame = Application.Current.RootVisual as PhoneApplicationFrame;
+                    var frame = Application.Current.RootVisual as PhoneApplicationFrame;
                     if (frame != null)
                     {
-                        PhoneApplicationPage page = frame.Content as PhoneApplicationPage;
+                        var page = frame.Content as PhoneApplicationPage;
                         if (page != null)
                         {
-                            Grid grid = page.FindName("LayoutRoot") as Grid;
+                            var grid = page.FindName("LayoutRoot") as Grid;
                             if (grid != null)
                             {
-                                grid.Children.Remove(webBrowser);
+                                grid.Children.Remove(_webBrowser);
                             }
                             //page.ApplicationBar = null;
                             page.BackKeyPress -= backkey_Pressed;
                         }
                     }
-                    webBrowser = null;
+                    _webBrowser = null;
                 });
             }
         }
 
-        void backkey_Pressed(object sender, CancelEventArgs e)
+        private void backkey_Pressed(object sender, CancelEventArgs e)
         {
             Close();
             e.Cancel = true;
-            OAuthResult authResult = new OAuthResult(OAuthResult.ResultCode.CANCELLED);
-            tcs.SetResult(authResult);
+            var authResult = new OAuthResult(OAuthResult.ResultCode.Cancelled);
+            _tcs.SetResult(authResult);
         }
 
-        void browser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void browser_LoadCompleted(object sender, NavigationEventArgs e)
         {
         }
 
-        void browser_Navigating(object sender, NavigatingEventArgs e)
+        private void browser_Navigating(object sender, NavigatingEventArgs e)
         {
-            string uri = e.Uri.ToString();
+            var uri = e.Uri.ToString();
             if (uri.Contains("status=complete"))
             {
-                base.OnSuccess(e.Uri, tcs);
+                OnSuccess(e.Uri, _tcs);
                 Close();
             }
         }
 
-        void browser_NavigateFailed(object sender, System.Windows.Navigation.NavigationFailedEventArgs e)
+        private void browser_NavigateFailed(object sender, NavigationFailedEventArgs e)
         {
             Close();
-            OAuthResult result = new OAuthResult(OAuthResult.ResultCode.FAILED, e.Exception);
-            tcs.TrySetResult(result);
+            var result = new OAuthResult(OAuthResult.ResultCode.Failed, e.Exception);
+            _tcs.TrySetResult(result);
         }
     }
 }

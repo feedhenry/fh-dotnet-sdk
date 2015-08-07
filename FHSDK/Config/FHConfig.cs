@@ -1,115 +1,113 @@
-﻿using System;
-using System.Threading.Tasks;
-using FHSDK.Services;
+﻿using FHSDK.Services;
+using FHSDK.Services.Device;
 
-namespace FHSDK
+namespace FHSDK.Config
 {
     /// <summary>
-    /// Singleton class to return various configurations of the app.
+    ///     Singleton class to return various configurations of the app.
     /// </summary>
-	public class FHConfig
-	{
-		private AppProps appProps = null;
-		private string destination = null;
-		private string deviceid = null;
-		private static FHConfig instance = null;
+    public class FHConfig
+    {
+        private static FHConfig _instance;
+        private readonly AppProps _appProps;
+        private readonly string _destination;
+        private readonly string _deviceid;
+
+        private FHConfig(AppProps props, string dest, string uuid)
+        {
+            _appProps = props;
+            _destination = dest;
+            _deviceid = uuid;
+            IsLocalDevelopment = props.IsLocalDevelopment;
+        }
 
         public bool IsLocalDevelopment { get; private set; }
 
-		private FHConfig (AppProps props, string dest, string uuid)
-		{
-			appProps = props;
-			destination = dest;
-			deviceid = uuid;
-            this.IsLocalDevelopment = props.IsLocalDevelopment;
-		}
-
         /// <summary>
-        /// Return the singleton instance of the class
+        ///     Return the singleton instance of the class
         /// </summary>
         /// <returns></returns>
-		public static FHConfig getInstance()
-		{
-			if (null == instance) {
-				IDeviceService deviceService = (IDeviceService) ServiceFinder.Resolve<IDeviceService>();
-				AppProps props = deviceService.ReadAppProps ();
-				string dest = deviceService.GetDeviceDestination ();
-				string uuid = deviceService.GetDeviceId ();
-				instance = new FHConfig (props, dest, uuid);
-
-			}
-			return instance;
-		}
+        public static FHConfig GetInstance()
+        {
+            if (null != _instance) return _instance;
+            var deviceService = ServiceFinder.Resolve<IDeviceService>();
+            var props = deviceService.ReadAppProps();
+            var dest = deviceService.GetDeviceDestination();
+            var uuid = deviceService.GetDeviceId();
+            _instance = new FHConfig(props, dest, uuid);
+            return _instance;
+        }
 
         /// <summary>
-        /// Get the app's hosting server
+        ///     Get the app's hosting server
         /// </summary>
         /// <returns>the host of the app</returns>
-		public string GetHost()
-		{
-			return this.appProps.host;
-		}
+        public string GetHost()
+        {
+            return _appProps.host;
+        }
 
         /// <summary>
-        /// Get the app id
+        ///     Get the app id
         /// </summary>
         /// <returns>app id</returns>
-		public string GetAppId()
-		{
-			return this.appProps.appid;
-		}
+        public string GetAppId()
+        {
+            return _appProps.appid;
+        }
 
         /// <summary>
-        /// Get the app key
+        ///     Get the app key
         /// </summary>
         /// <returns>app key</returns>
-		public string GetAppKey()
-		{
-			return this.appProps.appkey;
-		}
+        public string GetAppKey()
+        {
+            return _appProps.appkey;
+        }
 
         /// <summary>
-        /// Get the project id
+        ///     Get the project id
         /// </summary>
         /// <returns>project id</returns>
-		public string GetProjectId()
-		{
-			return this.appProps.projectid;
-		}
+        public string GetProjectId()
+        {
+            return _appProps.projectid;
+        }
 
         /// <summary>
-        /// Get the mode of the app. Deprecated.
+        ///     Get the mode of the app. Deprecated.
         /// </summary>
         /// <returns>app mode</returns>
-		public string GetMode(){
-			return this.appProps.mode;
-		}
+        public string GetMode()
+        {
+            return _appProps.mode;
+        }
 
         /// <summary>
-        /// Get the connection tag of the app
+        ///     Get the connection tag of the app
         /// </summary>
         /// <returns>the connection tag</returns>
-		public string GetConnectionTag(){
-			return this.appProps.connectiontag;
-		}
+        public string GetConnectionTag()
+        {
+            return _appProps.connectiontag;
+        }
 
         /// <summary>
-        /// Get the device type the app is running on.
+        ///     Get the device type the app is running on.
         /// </summary>
         /// <returns>device type. E.g ios, android , windowsphone</returns>
-		public string GetDestination(){
-			return this.destination;
-		}
+        public string GetDestination()
+        {
+            return _destination;
+        }
 
         /// <summary>
-        /// Get the unique device id.
+        ///     Get the unique device id.
         /// </summary>
         /// <returns>the unique device id</returns>
-		public string GetDeviceId(){
-			return this.deviceid;
-		}
-
-
-	}
+        public string GetDeviceId()
+        {
+            return _deviceid;
+        }
+    }
 }
-

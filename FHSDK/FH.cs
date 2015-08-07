@@ -1,120 +1,94 @@
-﻿using FHSDK.Services;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using FHSDK.API;
+using FHSDK.Config;
 using FHSDK.FHHttpClient;
-using System.Diagnostics.Contracts;
+using FHSDK.Services;
+using FHSDK.Services.Data;
+using FHSDK.Services.Log;
 using FHSDK.Services.Network;
 using AeroGear.Push;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FHSDK
 {
     /// <summary>
-    /// The parent name space defined by FeedHenry .Net SDK. It is defined inside the FHSDK.dll assembly, which is a Portable Class Library.
-    /// The FHSDK.dll assembly can be referenced by other PCL projects.
+    ///     This is the main FeedHenry SDK class
     /// </summary>
-    [System.Runtime.CompilerServices.CompilerGenerated]
-    class NamespaceDoc
+    public class FH
     {
-
-    }
-    /// <summary>
-    /// This is the main FeedHenry SDK class
-    /// </summary>
-	public class FH
-    {
-        const double DEFAULT_TIMEOUT = 30 * 1000;
-		protected static bool appReady = false;
-		protected static CloudProps cloudProps = null;
-		protected static TimeSpan timeout = TimeSpan.FromMilliseconds(DEFAULT_TIMEOUT);
-		const string SDK_VERSION_STRING = "1.3.0";
-
+        private const double DefaultTimeout = 30*1000;
+        private const string SdkVersionString = "1.3.0";
+        protected static bool AppReady;
+        protected static CloudProps CloudProps;
+        protected static TimeSpan Timeout = TimeSpan.FromMilliseconds(DefaultTimeout);
 
         /// <summary>
-        /// Get the current version of the FeedHenry .NET SDk
+        ///     Get the current version of the FeedHenry .NET SDk
         /// </summary>
-		public static string SDK_VERSION
+        public static string SdkVersion
         {
-            get
-            {
-				return SDK_VERSION_STRING;
-            }
+            get { return SdkVersionString; }
         }
 
         /// <summary>
-        /// Get or Set the timeout value for all the requests. Default is 30 seconds.
+        ///     Get or Set the timeout value for all the requests. Default is 30 seconds.
         /// </summary>
-		protected static TimeSpan TimeOut
+        protected static TimeSpan TimeOut
         {
-            get
-            {
-                return timeout;
-            }
+            get { return Timeout; }
 
-            set
-            {
-                timeout = value;
-            }
+            set { Timeout = value; }
         }
 
         /// <summary>
-        /// The actual implementation of initialising the FeedHenry SDK. It is called when the Init method of each platform's FHClient class called in. 
-        /// This way it will guarantee the platform's specific assembly will be loaded so that the ServiceFinder can find the correct implmenetation for some of the services.
-        /// (The Adaptation approach used here works for wp and xamarain android without the FHClient reference. However, due to Xamarain IOS is using AOT compiler, we have to reference the FHClient class of the IOS SDK to make sure it will be loaded during compile.)
+        ///     The actual implementation of initialising the FeedHenry SDK. It is called when the Init method of each platform's
+        ///     FHClient class called in.
+        ///     This way it will guarantee the platform's specific assembly will be loaded so that the ServiceFinder can find the
+        ///     correct implmenetation for some of the services.
+        ///     (The Adaptation approach used here works for wp and xamarain android without the FHClient reference. However, due
+        ///     to Xamarain IOS is using AOT compiler, we have to reference the FHClient class of the IOS SDK to make sure it will
+        ///     be loaded during compile.)
         /// </summary>
         /// <returns>If Init is success or not</returns>
         /// <exception cref="FHException"></exception>
-		protected static async Task<bool> Init()
+        protected static async Task<bool> Init()
         {
-			FHConfig fhconfig = FHConfig.getInstance();
-            if (!appReady)
+            var fhconfig = FHConfig.GetInstance();
+            if (AppReady) return true;
+            if (fhconfig.IsLocalDevelopment)
             {
-                if(fhconfig.IsLocalDevelopment){
-                    appReady = true;
-                    JObject cloudJson = new JObject();
-                    cloudJson["url"] = fhconfig.GetHost();
-                    cloudProps = new CloudProps(cloudJson);
-                    return true;
-                }
-                FHInitRequest initRequest = new FHInitRequest();
-                initRequest.TimeOut = timeout;
-                FHResponse initRes = await initRequest.execAsync();
-                if (null == initRes.Error)
-                {
-					JObject resJson = initRes.GetResponseAsJObject();
-					cloudProps = new CloudProps (resJson);
-                    appReady = true;
-					JToken initValue = resJson["init"];
-                    if (null != initValue)
-                    {
-                        SaveInitInfo(initValue.ToString());
-                    }
-                    return true;
-                }
-                else
-                {
-                    throw initRes.Error;
-                }
-            }
-            else
-            {
+                AppReady = true;
+                var cloudJson = new JObject();
+                cloudJson["url"] = fhconfig.GetHost();
+                CloudProps = new CloudProps(cloudJson);
                 return true;
             }
+            var initRequest = new FHInitRequest();
+            initRequest.TimeOut = Timeout;
+            var initRes = await initRequest.ExecAsync();
+            if (null != initRes.Error) throw initRes.Error;
+            var resJson = initRes.GetResponseAsJObject();
+            CloudProps = new CloudProps(resJson);
+            AppReady = true;
+            var initValue = resJson["init"];
+            if (null != initValue)
+            {
+                SaveInitInfo(initValue.ToString());
+            }
+            return true;
         }
 
         /// <summary>
-        /// Invoke a cloud function which you have defined in cloud/main.js (the old way).
+        ///     Invoke a cloud function which you have defined in cloud/main.js (the old way).
         /// </summary>
         /// <param name="remoteAct">The name of the cloud function name</param>
         /// <param name="actParams">The parameters passed to the cloud function</param>
         /// <example>
-        /// <code>
+        ///     <code>
         /// string cloudFunc = "test";
         /// IDictionary&lt;string, object&gt; dict = new Dictionary&lt;string, object&gt;();
         /// dict.Add("data", "test");
@@ -139,28 +113,28 @@ namespace FHSDK
         public static async Task<FHResponse> Act(string remoteAct, object actParams)
         {
             RequireAppReady();
-            FHActRequest actRequest = new FHActRequest(cloudProps);
-            actRequest.TimeOut = timeout;
-            return await actRequest.execAsync(remoteAct, actParams);
+            var actRequest = new FHActRequest(CloudProps) {TimeOut = Timeout};
+            return await actRequest.ExecAsync(remoteAct, actParams);
         }
 
         /// <summary>
-        /// Call the FeedHenry Authentication API with the given policyId. This is normally used for OAuth type authentications. 
-        /// The user will be prompted for login details and the the login result will be returned.
+        ///     Call the FeedHenry Authentication API with the given policyId. This is normally used for OAuth type
+        ///     authentications.
+        ///     The user will be prompted for login details and the the login result will be returned.
         /// </summary>
         /// <param name="policyId">The id of the new policy</param>
         /// <returns>The result of the authencation</returns>
         public static async Task<FHResponse> Auth(string policyId)
         {
             RequireAppReady();
-            FHAuthRequest authRequest = new FHAuthRequest(cloudProps);
-            authRequest.TimeOut = timeout;
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
             authRequest.SetAuthPolicyId(policyId);
-            return await authRequest.execAsync();
+            return await authRequest.ExecAsync();
         }
 
         /// <summary>
-        ///  Call the FeedHenry Authentication API with the given policyId, user name and password. This is normally used for LDAP and other basic authentication types.
+        ///     Call the FeedHenry Authentication API with the given policyId, user name and password. This is normally used for
+        ///     LDAP and other basic authentication types.
         /// </summary>
         /// <param name="policyId">The id of the auth policy</param>
         /// <param name="userName">The name of the user</param>
@@ -169,42 +143,44 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
-            FHAuthRequest authRequest = new FHAuthRequest(cloudProps);
-            authRequest.TimeOut = timeout;
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
             authRequest.SetAuthUser(policyId, userName, userPassword);
-            return await authRequest.execAsync();
+            return await authRequest.ExecAsync();
         }
-		
-	    /// <summary>
-	    /// Build the cloud request to call the app's cloud functions.
-	    /// </summary>
-	    /// <param name="path">The path of the cloud request</param>
-	    /// <param name="requestMethod">The request method</param>
-	    /// <param name="headers">The HTTP headers for the request</param>
-	    /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
-	    /// <returns>The cloud request object</returns>
-		public static FHCloudRequest GetCloudRequest(string path, string requestMethod, IDictionary<string, string> headers, object requestParams)
-		{
-			RequireAppReady ();
-			Contract.Assert (null != path, "Cloud path is not defined");
-			Contract.Assert (null != requestMethod, "Request method is not defined");
-			FHCloudRequest cloudRequest = new FHCloudRequest (cloudProps);
-			cloudRequest.RequestMethod = requestMethod;
-			cloudRequest.RequestPath = path;
-			cloudRequest.RequestHeaders = headers;
-			cloudRequest.RequestParams = requestParams;
-			return cloudRequest;
-		}
 
         /// <summary>
-        /// Create a cloud request and execute it immediately.
+        ///     Build the cloud request to call the app's cloud functions.
+        /// </summary>
+        /// <param name="path">The path of the cloud request</param>
+        /// <param name="requestMethod">The request method</param>
+        /// <param name="headers">The HTTP headers for the request</param>
+        /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
+        /// <returns>The cloud request object</returns>
+        public static FHCloudRequest GetCloudRequest(string path, string requestMethod,
+            IDictionary<string, string> headers, object requestParams)
+        {
+            RequireAppReady();
+            Contract.Assert(null != path, "Cloud path is not defined");
+            Contract.Assert(null != requestMethod, "Request method is not defined");
+            var cloudRequest = new FHCloudRequest(CloudProps)
+            {
+                RequestMethod = requestMethod,
+                RequestPath = path,
+                RequestHeaders = headers,
+                RequestParams = requestParams
+            };
+            return cloudRequest;
+        }
+
+        /// <summary>
+        ///     Create a cloud request and execute it immediately.
         /// </summary>
         /// <param name="path">The path of the cloud request</param>
         /// <param name="requestMethod">The reqeust method</param>
         /// <param name="headers">The HTTP headers of the reqeust</param>
         /// <param name="requestParams">The request body (will be covert to query parameters for certain request methods)</param>
         /// <example>
-        /// <code>
+        ///     <code>
         /// FHResponse response = await FH.Cloud("api/echo", "GET", null, null);
         /// if(null == response.Error)
         /// {
@@ -222,104 +198,106 @@ namespace FHSDK
         /// </code>
         /// </example>
         /// <returns>The response from the cloud</returns>
-		public static async Task<FHResponse> Cloud(string path, string requestMethod, IDictionary<string, string> headers, object requestParams)
-		{
-			FHCloudRequest cloudRequest = GetCloudRequest (path, requestMethod, headers, requestParams);
-			return await cloudRequest.execAsync ();
-		}
+        public static async Task<FHResponse> Cloud(string path, string requestMethod,
+            IDictionary<string, string> headers, object requestParams)
+        {
+            var cloudRequest = GetCloudRequest(path, requestMethod, headers, requestParams);
+            return await cloudRequest.ExecAsync();
+        }
 
         /// <summary>
-        /// Invoke a FeedHenry MBAAS Service function
+        ///     Invoke a FeedHenry MBAAS Service function
         /// </summary>
         /// <param name="service">The MBAAS service name</param>
         /// <param name="requestParams">The request body</param>
         /// <returns>The response from the MBAAS service</returns>
-		public static async Task<FHResponse> Mbaas(string service, object requestParams)
-		{
-			RequireAppReady ();
-			Contract.Assert (null != service, "service is not defined");
-			string path = String.Format ("{0}/{1}", "mbaas", service);
-			FHCloudRequest cloudRequest = GetCloudRequest (path, "POST", null, requestParams);
-			return await cloudRequest.execAsync ();
-		}
+        public static async Task<FHResponse> Mbaas(string service, object requestParams)
+        {
+            RequireAppReady();
+            Contract.Assert(null != service, "service is not defined");
+            var path = string.Format("{0}/{1}", "mbaas", service);
+            var cloudRequest = GetCloudRequest(path, "POST", null, requestParams);
+            return await cloudRequest.ExecAsync();
+        }
 
         /// <summary>
-        /// Get the cloud host to use with your own choice of HTTP clients.
+        ///     Get the cloud host to use with your own choice of HTTP clients.
         /// </summary>
         /// <returns>The cloud host URL</returns>
-		public static string GetCloudHost()
-		{
-			RequireAppReady ();
-			return cloudProps.GetCloudHost ();
-		}
+        public static string GetCloudHost()
+        {
+            RequireAppReady();
+            return CloudProps.GetCloudHost();
+        }
 
         /// <summary>
-        /// Shortcut to get the FHAuthSession instance
+        ///     Shortcut to get the FHAuthSession instance
         /// </summary>
         /// <returns></returns>
         public static FHAuthSession GetAuthSession()
         {
-            return FHAuthSession.Instance;
+            return FHAuthSession.GetInstance;
         }
 
         /// <summary>
-        /// If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
-        /// you need to add the returnd object as part of the request body with the key "__fh".
+        ///     If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
+        ///     you need to add the returnd object as part of the request body with the key "__fh".
         /// </summary>
         /// <returns>The default request parameters</returns>
-		public static IDictionary<string, object> GetDefaultParams()
-		{
-			Dictionary<string, object> defaults = new Dictionary<string, object>();
-			FHConfig appConfig = FHConfig.getInstance ();
-			defaults ["appid"] = appConfig.GetAppId ();
-			defaults ["appkey"] = appConfig.GetAppKey ();
-			defaults ["cuid"] = appConfig.GetDeviceId ();
-			defaults ["destination"] = appConfig.GetDestination ();
-			defaults["sdk_version"] = "FH_SDK/" + SDK_VERSION;
-			if (null != appConfig.GetProjectId())
-			{
-				defaults["projectid"] = appConfig.GetProjectId();
-			}
-			if (null != appConfig.GetConnectionTag()) {
-				defaults["connectiontag"] = appConfig.GetConnectionTag();
-			}
-			JObject initInfo = GetInitInfo();
-			if (null != initInfo)
-			{
-				defaults["init"] = initInfo;
-			}
-            string sessionToken = FHAuthSession.Instance.GetToken();
+        public static IDictionary<string, object> GetDefaultParams()
+        {
+            var defaults = new Dictionary<string, object>();
+            var appConfig = FHConfig.GetInstance();
+            defaults["appid"] = appConfig.GetAppId();
+            defaults["appkey"] = appConfig.GetAppKey();
+            defaults["cuid"] = appConfig.GetDeviceId();
+            defaults["destination"] = appConfig.GetDestination();
+            defaults["sdk_version"] = "FH_SDK/" + SdkVersion;
+            if (null != appConfig.GetProjectId())
+            {
+                defaults["projectid"] = appConfig.GetProjectId();
+            }
+            if (null != appConfig.GetConnectionTag())
+            {
+                defaults["connectiontag"] = appConfig.GetConnectionTag();
+            }
+            var initInfo = GetInitInfo();
+            if (null != initInfo)
+            {
+                defaults["init"] = initInfo;
+            }
+            var sessionToken = FHAuthSession.GetInstance.GetToken();
             if (null != sessionToken)
             {
                 defaults["sessionToken"] = sessionToken;
             }
-			return defaults;
-		}
+            return defaults;
+        }
 
         /// <summary>
-        /// If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
-        /// you need to add the returned object as HTTP headers to each cloud request.
+        ///     If you decide to use own choice of HTTP client and want to use the built-in analytics function of FeedHenry cloud,
+        ///     you need to add the returned object as HTTP headers to each cloud request.
         /// </summary>
         /// <returns>The default HTTP request headers</returns>
-		public static IDictionary<string, string> GetDefaultParamsAsHeaders()
-		{
-			IDictionary<string, object> defaultParams = GetDefaultParams ();
-			IDictionary<string, string> headers = new Dictionary<string, string> ();
-			foreach (var item in defaultParams) {
-				string headername = "X-FH-" + item.Key;
+        public static IDictionary<string, string> GetDefaultParamsAsHeaders()
+        {
+            var defaultParams = GetDefaultParams();
+            IDictionary<string, string> headers = new Dictionary<string, string>();
+            foreach (var item in defaultParams)
+            {
+                var headername = "X-FH-" + item.Key;
                 if (null != item.Value)
                 {
                     headers.Add(headername, JsonConvert.SerializeObject(item.Value));
                 }
-				
-			}
-            if (null != FHConfig.getInstance().GetAppKey())
-            {
-                headers.Add("X-FH-AUTH-APP", FHConfig.getInstance().GetAppKey());
             }
-            
-			return headers;
-		}
+            if (null != FHConfig.GetInstance().GetAppKey())
+            {
+                headers.Add("X-FH-AUTH-APP", FHConfig.GetInstance().GetAppKey());
+            }
+
+            return headers;
+        }
         /// <summary>
         /// If you want to receive push notifications call this method with a event handler that will receive the notifications
         /// </summary>
@@ -348,58 +326,49 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Set the log levels. 
-        /// VERBOSE=1
-        /// DEBUG=2
-        /// INFO=3
-        /// WARNING=4
-        /// ERROR=5
-        /// NONE=Int16.MaxValue
+        ///     Set the log levels.
+        ///     VERBOSE=1
+        ///     DEBUG=2
+        ///     INFO=3
+        ///     WARNING=4
+        ///     ERROR=5
+        ///     NONE=Int16.MaxValue
         /// </summary>
         /// <param name="level">One of the options above</param>
-		public static void SetLogLevel(int level)
-		{
-			ILogService logService = ServiceFinder.Resolve<ILogService> ();
-			logService.SetLogLevel (level);
-		}
-        
-
-        /// <summary>
-        /// Save app init info. Mainly used for analytics.
-        /// </summary>
-        /// <param name="initInfo"></param>
-		protected static void SaveInitInfo(string initInfo)
+        public static void SetLogLevel(int level)
         {
-			IDataService dataService = GetDataService();
-			dataService.SaveData("init", initInfo);
+            var logService = ServiceFinder.Resolve<ILogService>();
+            logService.SetLogLevel(level);
         }
 
-		/// <summary>
-		/// </summary>
-		/// <returns></returns>
-		protected static JObject GetInitInfo()
-		{
-			IDataService dataService = GetDataService();
-			string initValue = dataService.GetData("init");
-			if (null != initValue) {
-				return JObject.Parse (initValue);
-			}
-			return null;
-		}
+        /// <summary>
+        ///     Save app init info. Mainly used for analytics.
+        /// </summary>
+        /// <param name="initInfo"></param>
+        protected static void SaveInitInfo(string initInfo)
+        {
+            var dataService = GetDataService();
+            dataService.SaveData("init", initInfo);
+        }
 
-		private static IDataService GetDataService()
-		{
-			return (IDataService) ServiceFinder.Resolve<IDataService>();
-		}
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        protected static JObject GetInitInfo()
+        {
+            var dataService = GetDataService();
+            var initValue = dataService.GetData("init");
+            return null != initValue ? JObject.Parse(initValue) : null;
+        }
 
-		private static void RequireAppReady()
-		{
-			Contract.Assert (appReady, "FH is not ready. Have you called FH.Init?");
-		}
+        private static IDataService GetDataService()
+        {
+            return ServiceFinder.Resolve<IDataService>();
+        }
 
+        private static void RequireAppReady()
+        {
+            Contract.Assert(AppReady, "FH is not ready. Have you called FH.Init?");
+        }
     }
-
-    
-
-
 }
