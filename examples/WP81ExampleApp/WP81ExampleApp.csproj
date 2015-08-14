@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -115,9 +115,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FHSDKPhone81\FHSDKPhone81.csproj">
+    <ProjectReference Include="..\..\FHSDKPortable\FHSDKPortable.csproj">
       <Project>{71dd40e5-ab2f-4102-aea6-bd1c33651a1a}</Project>
-      <Name>FHSDKPhone81</Name>
+      <Name>FHSDKPortable</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
       <Project>{ad87dbe9-8247-47cd-b6d2-16b63cbbc9e7}</Project>
@@ -131,7 +131,7 @@
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

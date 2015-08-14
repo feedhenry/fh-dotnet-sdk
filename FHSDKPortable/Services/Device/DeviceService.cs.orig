@@ -1,0 +1,94 @@
+﻿using System;
+using System.IO;
+using Windows.ApplicationModel;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using Windows.Storage;
+using Windows.System.Profile;
+using Newtonsoft.Json;
+
+namespace FHSDK.Services.Device
+{
+    /// <summary>
+    ///     Device info service for windows phone
+    /// </summary>
+    internal class DeviceService : IDeviceService
+    {
+<<<<<<< HEAD
+=======
+        private const string LocalConfigFileName = "fhconfig.local.json";
+        private const string ConfigFileName = "fhconfig.json";
+>>>>>>> use var for local types, reduced complex if logic removed unused using format doc and made method, field enum names more csharp standard
+
+        public string GetDeviceId()
+        {
+            var token = HardwareIdentification.GetPackageSpecificToken(null);
+            var hardwareId = token.Id;
+
+            var hasher = HashAlgorithmProvider.OpenAlgorithm("MD5");
+            var hashed = hasher.HashData(hardwareId);
+
+            var hashedString = CryptographicBuffer.EncodeToHexString(hashed);
+            return hashedString;
+        }
+
+        public AppProps ReadAppProps()
+        {
+<<<<<<< HEAD
+            AppProps appProps = null;
+            bool IsLocalDev = false;
+            StorageFile file = GetFile(Constants.LOCAL_CONFIG_FILE_NAME);
+=======
+            AppProps appProps;
+            var isLocalDev = false;
+            var file = GetFile(LocalConfigFileName);
+>>>>>>> use var for local types, reduced complex if logic removed unused using format doc and made method, field enum names more csharp standard
+            if (null != file)
+            {
+                isLocalDev = true;
+            }
+            else
+            {
+<<<<<<< HEAD
+                file = GetFile(Constants.CONFIG_FILE_NAME);
+=======
+                file = GetFile(ConfigFileName);
+>>>>>>> use var for local types, reduced complex if logic removed unused using format doc and made method, field enum names more csharp standard
+            }
+            if (null != file)
+            {
+                var json = FileIO.ReadTextAsync(file).AsTask().Result;
+                appProps = JsonConvert.DeserializeObject<AppProps>(json);
+                appProps.IsLocalDevelopment = isLocalDev;
+            }
+            else
+            {
+<<<<<<< HEAD
+                throw new IOException("Can not find resource " + Constants.CONFIG_FILE_NAME);
+=======
+                throw new IOException("Can not find resource " + ConfigFileName);
+>>>>>>> use var for local types, reduced complex if logic removed unused using format doc and made method, field enum names more csharp standard
+            }
+            return appProps;
+        }
+
+        public string GetDeviceDestination()
+        {
+            return "windowsphone8";
+        }
+
+        private static StorageFile GetFile(string fileName)
+        {
+            StorageFile file = null;
+            try
+            {
+                var folder = Package.Current.InstalledLocation;
+                file = folder.GetFileAsync(fileName).AsTask().Result;
+            }
+            catch (AggregateException)
+            {
+            }
+            return file;
+        }
+    }
+}

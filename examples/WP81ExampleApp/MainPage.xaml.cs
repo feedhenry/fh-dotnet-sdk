@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using FHSDKPhone81;
+using FHSDKPortable;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
