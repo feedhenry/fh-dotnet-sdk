@@ -12,7 +12,7 @@ using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
 using FHSDKPhone.Services.Network;
 
-namespace FHSDKPhone81
+namespace FHSDKPortable
 {
     /// <summary>
     ///     Contains the entry class of the FeedHenry SDK for Windows Phone 8 platform. It's defined in the FHSDKPhone.dll.

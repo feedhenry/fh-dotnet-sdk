@@ -9,8 +9,8 @@
     <ProjectGuid>{71DD40E5-AB2F-4102-AEA6-BD1C33651A1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FHSDKPhone81</RootNamespace>
-    <AssemblyName>FHSDKPhone81</AssemblyName>
+    <RootNamespace>FHSDKPortable</RootNamespace>
+    <AssemblyName>FHSDKPortable</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\FHSDKPhone81.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\FHSDKPortable.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

@@ -11,10 +11,13 @@ COPY /B FHSDKPhone\bin\Release\FHSDK.xml Dist\lib\wp81\
 COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.dll Dist\lib\wp81\
 COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.xml Dist\lib\wp81\
 
-COPY /B FHSDKPhone81\bin\Release\FHSDK.dll Dist\lib\wpa81\
-COPY /B FHSDKPhone81\bin\Release\FHSDK.xml Dist\lib\wpa81\
-COPY /B FHSDKPhone81\bin\Release\FHSDKPhone81.dll Dist\lib\wpa81\
-COPY /B FHSDKPhone81\bin\Release\FHSDKPhone81.XML Dist\lib\wpa81\
+COPY /B FHSDKPortable\bin\Release\FHSDK.dll Dist\lib\wpa81\
+COPY /B FHSDKPortable\bin\Release\FHSDK.xml Dist\lib\wpa81\
+COPY /B FHSDKPortable\bin\Release\FHSDKPortable.dll Dist\lib\wpa81\
+COPY /B FHSDKPortable\bin\Release\FHSDKPortable.XML Dist\lib\wpa81\
+
+COPY /B FHSDKPortable\bin\Release\FHSDKPortable.dll "Dist\lib\portable-win81+wpa81\"
+COPY /B FHSDKPortable\bin\Release\FHSDKPortable.XML "Dist\lib\portable-win81+wpa81\"
 
 COPY /B xamarin\FHXamarinAndroidSDK\bin\Release\FHSDK.dll Dist\lib\monoandroid\
 COPY /B xamarin\FHXamarinAndroidSDK\bin\Release\FHSDK.xml Dist\lib\monoandroid\
