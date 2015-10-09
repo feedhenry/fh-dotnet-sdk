@@ -6,6 +6,9 @@ before_build:
 - nuget restore
 build:
   verbosity: minimal
+  project: FHSDK.sln
+cache:
+- packages -> **\packages.config
 test_script:
 - ps: >-
     ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /inIsolation /Enablecodecoverage FHSDKWindowsPhoneTestNative\Bin\x86\Debug\FHSDKWindowsPhoneTestNative.dll /Settings:CodeCoverage.runsettings
