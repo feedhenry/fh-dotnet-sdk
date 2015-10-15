@@ -179,7 +179,7 @@ namespace FHSDK.Sync
         {
             Contract.Assert(data.UID == null, "data is not new");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "create");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(null, data, "create");
             if (null != pendingRecord)
             {
                 //for creation, the uid will be the uid of the pending record temporarily
@@ -211,7 +211,7 @@ namespace FHSDK.Sync
             FHSyncDataRecord<T> record = this.dataRecords.Get(data.UID);
             Contract.Assert(null != record, "data record with uid " + data.UID + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "update");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data.UID, data, "update");
             if (null != pendingRecord)
             {
                 FHSyncDataRecord<T> updatedRecord = this.dataRecords.Get(data.UID);
@@ -241,7 +241,7 @@ namespace FHSDK.Sync
             FHSyncDataRecord<T> record = this.dataRecords.Get(uid);
             Contract.Assert(null != record, "data record with uid " + uid + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(record.Data, "delete");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(uid, record.Data, "delete");
             if (null != pendingRecord)
             {
                 ret = (T)FHSyncUtils.Clone(record.Data);
@@ -257,11 +257,11 @@ namespace FHSDK.Sync
             }
         }
 
-        protected FHSyncPendingRecord<T> AddPendingRecord(T dataRecords, string action)
+        protected FHSyncPendingRecord<T> AddPendingRecord(string UID, T dataRecords, string action)
         {
             if (!networkService.IsOnline())
             {
-                this.OnSyncNotification(dataRecords.UID, SyncNotification.OfflineUpdate, action);
+                this.OnSyncNotification(UID, SyncNotification.OfflineUpdate, action);
             }
             //create pendingRecord
             FHSyncPendingRecord<T> pendingRecord = new FHSyncPendingRecord<T>();
@@ -280,7 +280,7 @@ namespace FHSDK.Sync
             }
             else
             {
-                FHSyncDataRecord<T> existing = this.dataRecords.Get(dataRecords.UID);
+                FHSyncDataRecord<T> existing = this.dataRecords.Get(UID);
                 dataRecord.Uid = existing.Uid;
                 pendingRecord.Uid = existing.Uid;
                 pendingRecord.PreData = existing.Clone();
@@ -288,7 +288,7 @@ namespace FHSDK.Sync
             StorePendingRecord(pendingRecord);
             string uid = pendingRecord.Uid;
             if("delete".Equals(action)){
-                this.dataRecords.Delete(dataRecords.UID);
+                this.dataRecords.Delete(UID);
             } else {
                 this.dataRecords.Insert(uid, dataRecord);
             }
@@ -473,6 +473,7 @@ namespace FHSDK.Sync
             FHResponse syncRecordsRes = await this.DoCloudCall(syncParams);
             if(null == syncRecordsRes.Error){
                 FHSyncRecordsResponseData<T> remoteDataRecords = (FHSyncRecordsResponseData<T>) FHSyncUtils.DeserializeObject(syncRecordsRes.RawResponse, typeof(FHSyncRecordsResponseData<T>));
+                ApplyPendingChangesToRecords(remoteDataRecords);
 
                 Dictionary<string, FHSyncDataRecord<T>> createdRecords = remoteDataRecords.CreatedRecords;
                 foreach(var created in createdRecords){
@@ -508,6 +509,36 @@ namespace FHSDK.Sync
                 this.SyncLoopComplete(syncRecordsRes.RawResponse, SyncNotification.SyncFailed);
             }
 
+        }
+
+        private void ApplyPendingChangesToRecords(FHSyncRecordsResponseData<T> remoteDataRecords)
+        {
+            DebugLog(string.Format("SyncRecords result = {0} pending = {1}", remoteDataRecords, pendingRecords));
+            foreach (var item in pendingRecords.List())
+            {
+                // If the records returned from syncRecord request contains elements in pendings,
+                // it means there are local changes that haven't been applied to the cloud yet.
+                // Remove those records from the response to make sure local data will not be
+                // overridden (blinking desappear / reappear effect).
+
+                var pendingRecord = item.Value;
+                if (remoteDataRecords.CreatedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    pendingRecord.PreData = remoteDataRecords.CreatedRecords[pendingRecord.Uid];
+                    remoteDataRecords.CreatedRecords.Remove(pendingRecord.Uid);
+                }
+
+                if (remoteDataRecords.UpdatedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    pendingRecord.PreData = remoteDataRecords.UpdatedRecords[pendingRecord.Uid];
+                    remoteDataRecords.UpdatedRecords.Remove(pendingRecord.Uid);
+                }
+
+                if (remoteDataRecords.DeletedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    remoteDataRecords.DeletedRecords.Remove(pendingRecord.Uid);
+                }
+            }
         }
 
         private void SyncLoopComplete(string message, SyncNotification notification)
