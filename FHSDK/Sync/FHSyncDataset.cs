@@ -524,7 +524,6 @@ namespace FHSDK.Sync
                 var pendingRecord = item.Value;
                 if (remoteDataRecords.CreatedRecords.ContainsKey(pendingRecord.Uid))
                 {
-                    pendingRecord.PreData = remoteDataRecords.CreatedRecords[pendingRecord.Uid];
                     remoteDataRecords.CreatedRecords.Remove(pendingRecord.Uid);
                 }
 
