@@ -75,7 +75,7 @@ namespace FHSDK.Sync
 			} else if (jsonObj.Type == JTokenType.Object) {
 				JObject casted = jsonObj as JObject;
 				List<String> keys = casted.Properties ().Select (c => c.Name).ToList ();
-				keys.Sort ();
+				keys.Sort(Comparison);
 				for (int i = 0; i < keys.Count; i++) {
 					string key = keys [i];
 					if ( pObject is IFHSyncModel && key.ToUpper().Equals ("UID")) {
@@ -96,6 +96,24 @@ namespace FHSDK.Sync
 			}
 			return sorted;
 		}
+
+        private static int Comparison(string x, string y)
+        {
+            const string order = "!#$%&()*,-./0123456789@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz";
+            var array1 = x.ToCharArray();
+            var array2 = y.ToCharArray();
+            var result = 0;
+            for (var i = 0; i < array1.Length; i++)
+            {
+                result = order.IndexOf(array1[i]) - order.IndexOf(array2[i]);
+                if (result != 0)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
 	}
 }
 
