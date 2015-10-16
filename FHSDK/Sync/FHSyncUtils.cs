@@ -105,7 +105,7 @@ namespace FHSDK.Sync
             var result = 0;
             for (var i = 0; i < array1.Length; i++)
             {
-                result = order.IndexOf(array1[i]) - order.IndexOf(array2[i]);
+                result = order.IndexOf(array1[i]) - array2.Length < i ? order.IndexOf(array2[i]) : 0;
                 if (result != 0)
                 {
                     break;
