@@ -99,13 +99,12 @@ namespace FHSDK.Sync
 
         private static int Comparison(string x, string y)
         {
-            const string order = "!#$%&()*,-./0123456789@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz";
             var array1 = x.ToCharArray();
             var array2 = y.ToCharArray();
             var result = 0;
             for (var i = 0; i < array1.Length; i++)
             {
-                result = order.IndexOf(array1[i]) - array2.Length < i ? order.IndexOf(array2[i]) : 0;
+                result = array1[i] - (i >= array2.Length ? 0 : array2[i]);
                 if (result != 0)
                 {
                     break;
