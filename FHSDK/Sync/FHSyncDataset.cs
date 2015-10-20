@@ -275,7 +275,7 @@ namespace FHSDK.Sync
             }
             if ("create".Equals(action))
             {
-                pendingRecord.Uid = pendingRecord.PostData.HashValue;
+                pendingRecord.Uid = pendingRecord.GetHashValue();
                 dataRecord.Uid = pendingRecord.Uid;
             }
             else

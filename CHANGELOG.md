@@ -1,4 +1,6 @@
 # FeedHenry .NET SDK
+## 1.3.1 - 2015-09-22 - Wei Li
+* FH-2052 - Make sure it's possible to link the old temp uid with the new uid for newly created data records
 
 ## 1.3.0 - 2015-04-22 - Wei Li
 * Fix an issue on Windows Phone 8.1
