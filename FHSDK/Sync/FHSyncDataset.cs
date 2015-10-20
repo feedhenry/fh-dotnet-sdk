@@ -179,7 +179,7 @@ namespace FHSDK.Sync
         {
             Contract.Assert(data.UID == null, "data is not new");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "create");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(null, data, "create");
             if (null != pendingRecord)
             {
                 //for creation, the uid will be the uid of the pending record temporarily
@@ -211,7 +211,7 @@ namespace FHSDK.Sync
             FHSyncDataRecord<T> record = this.dataRecords.Get(data.UID);
             Contract.Assert(null != record, "data record with uid " + data.UID + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data, "update");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(data.UID, data, "update");
             if (null != pendingRecord)
             {
                 FHSyncDataRecord<T> updatedRecord = this.dataRecords.Get(data.UID);
@@ -241,7 +241,7 @@ namespace FHSDK.Sync
             FHSyncDataRecord<T> record = this.dataRecords.Get(uid);
             Contract.Assert(null != record, "data record with uid " + uid + " doesn't exist");
             T ret = default(T);
-            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(record.Data, "delete");
+            FHSyncPendingRecord<T> pendingRecord = AddPendingRecord(uid, record.Data, "delete");
             if (null != pendingRecord)
             {
                 ret = (T)FHSyncUtils.Clone(record.Data);
@@ -257,11 +257,11 @@ namespace FHSDK.Sync
             }
         }
 
-        protected FHSyncPendingRecord<T> AddPendingRecord(T dataRecords, string action)
+        protected FHSyncPendingRecord<T> AddPendingRecord(string UID, T dataRecords, string action)
         {
             if (!networkService.IsOnline())
             {
-                this.OnSyncNotification(dataRecords.UID, SyncNotification.OfflineUpdate, action);
+                this.OnSyncNotification(UID, SyncNotification.OfflineUpdate, action);
             }
             //create pendingRecord
             FHSyncPendingRecord<T> pendingRecord = new FHSyncPendingRecord<T>();
@@ -280,7 +280,7 @@ namespace FHSDK.Sync
             }
             else
             {
-                FHSyncDataRecord<T> existing = this.dataRecords.Get(dataRecords.UID);
+                FHSyncDataRecord<T> existing = this.dataRecords.Get(UID);
                 dataRecord.Uid = existing.Uid;
                 pendingRecord.Uid = existing.Uid;
                 pendingRecord.PreData = existing.Clone();
@@ -288,7 +288,7 @@ namespace FHSDK.Sync
             StorePendingRecord(pendingRecord);
             string uid = pendingRecord.Uid;
             if("delete".Equals(action)){
-                this.dataRecords.Delete(dataRecords.UID);
+                this.dataRecords.Delete(UID);
             } else {
                 this.dataRecords.Insert(uid, dataRecord);
             }
