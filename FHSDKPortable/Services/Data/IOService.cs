@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Windows.Storage;
 
 namespace FHSDK.Services.Data
@@ -14,7 +13,7 @@ namespace FHSDK.Services.Data
 
         public void WriteFile(string fullPath, string content)
         {
-            var file = GetFile(fullPath);
+            var file = CreateIfNotExists(fullPath);
             FileIO.WriteTextAsync(file, content).AsTask().Wait();
         }
 
@@ -25,7 +24,7 @@ namespace FHSDK.Services.Data
                 GetFile(fullPath);
                 return true;
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
                 return false;
             }
@@ -33,12 +32,22 @@ namespace FHSDK.Services.Data
 
         public string GetDataPersistDir()
         {
-            var local = ApplicationData.Current.LocalFolder;
-            return local.Path;
+            return ApplicationData.Current.LocalFolder.Path;
         }
 
         private static StorageFile GetFile(string fullPath)
         {
+            return StorageFile.GetFileFromPathAsync(fullPath).AsTask().Result;
+        }
+
+        private StorageFile CreateIfNotExists(string fullPath)
+        {
+            if (!Exists(fullPath))
+            {
+                var path = fullPath.Substring(GetDataPersistDir().Length);
+                return ApplicationData.Current.LocalFolder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists).AsTask().Result;
+            }
+
             return StorageFile.GetFileFromPathAsync(fullPath).AsTask().Result;
         }
     }
