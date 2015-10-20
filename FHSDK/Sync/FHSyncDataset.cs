@@ -332,12 +332,27 @@ namespace FHSDK.Sync
                         if(null != previousPending) {
                             if(!previousPending.InFlight) {
                                 DebugLog("existing pre-flight pending record =" + previousPending.ToString());
-                                previousPending.PostData = pendingRecord.PostData;
-                                pendingRecords.Delete(pendingRecord.GetHashValue());
-                                metaPendingHash = previousPendingUID;
+                                if ("create".Equals(previousPending.Action))
+                                {
+                                    // We are trying to perform a delete on an existing pending create
+                                    // These cancel each other out so remove them both
+                                    pendingRecords.Delete(pendingRecord.GetHashValue());
+                                    pendingRecords.Delete(pendingRecord.Uid);
+                                }
+
+                                if ("update".Equals(pendingRecord.Action))
+                                {
+                                    // We are trying to perform a delete on an existing pending update
+                                    // Use the pre value from the pending update for the delete and
+                                    // get rid of the pending update
+                                    pendingRecord.PreData = previousPending.PreData;
+                                    pendingRecord.InFlight = false;
+                                    pendingRecords.Delete(previousPending.Uid);
+                                }
                             } else {
                                 DebugLog("existing in-flight pending record = " + previousPending.ToString());
                                 pendingRecord.SetDelayed(previousPending.GetHashValue());
+                                pendingRecord.Waiting = previousPending.GetHashValue();
                             }
                         }
                     }
@@ -368,6 +383,7 @@ namespace FHSDK.Sync
                             } else {
                                 DebugLog("existing in-flight pending record = " + previousPending.ToString());
                                 pendingRecord.SetDelayed(previousPending.GetHashValue());
+                                pendingRecord.Waiting = pendingRecord.GetHashValue();
                             }
                         }
 
@@ -1018,7 +1034,7 @@ namespace FHSDK.Sync
             public IDictionary<string, string> QueryParams { set; get; }
             [JsonProperty("config")]
             public FHSyncConfig SyncConfg { get; set; }
-            [JsonProperty("meta_data")]
+            [JsonProperty("meta")]
             public FHSyncMetaData MetaData { get; set; }
             [JsonProperty("dataset_hash")]
             public string Hash { set; get; }
