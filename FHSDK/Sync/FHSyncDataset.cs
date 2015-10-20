@@ -473,6 +473,7 @@ namespace FHSDK.Sync
             FHResponse syncRecordsRes = await this.DoCloudCall(syncParams);
             if(null == syncRecordsRes.Error){
                 FHSyncRecordsResponseData<T> remoteDataRecords = (FHSyncRecordsResponseData<T>) FHSyncUtils.DeserializeObject(syncRecordsRes.RawResponse, typeof(FHSyncRecordsResponseData<T>));
+                ApplyPendingChangesToRecords(remoteDataRecords);
 
                 Dictionary<string, FHSyncDataRecord<T>> createdRecords = remoteDataRecords.CreatedRecords;
                 foreach(var created in createdRecords){
@@ -508,6 +509,35 @@ namespace FHSDK.Sync
                 this.SyncLoopComplete(syncRecordsRes.RawResponse, SyncNotification.SyncFailed);
             }
 
+        }
+
+        private void ApplyPendingChangesToRecords(FHSyncRecordsResponseData<T> remoteDataRecords)
+        {
+            DebugLog(string.Format("SyncRecords result = {0} pending = {1}", remoteDataRecords, pendingRecords));
+            foreach (var item in pendingRecords.List())
+            {
+                // If the records returned from syncRecord request contains elements in pendings,
+                // it means there are local changes that haven't been applied to the cloud yet.
+                // Remove those records from the response to make sure local data will not be
+                // overridden (blinking desappear / reappear effect).
+
+                var pendingRecord = item.Value;
+                if (remoteDataRecords.CreatedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    remoteDataRecords.CreatedRecords.Remove(pendingRecord.Uid);
+                }
+
+                if (remoteDataRecords.UpdatedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    pendingRecord.PreData = remoteDataRecords.UpdatedRecords[pendingRecord.Uid];
+                    remoteDataRecords.UpdatedRecords.Remove(pendingRecord.Uid);
+                }
+
+                if (remoteDataRecords.DeletedRecords.ContainsKey(pendingRecord.Uid))
+                {
+                    remoteDataRecords.DeletedRecords.Remove(pendingRecord.Uid);
+                }
+            }
         }
 
         private void SyncLoopComplete(string message, SyncNotification notification)
