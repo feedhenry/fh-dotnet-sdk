@@ -6,10 +6,10 @@ COPY /B FHSDKPhone\Bin\Release\FHSDK.xml Dist\lib\wp80\
 COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.dll Dist\lib\wp80\
 COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.xml Dist\lib\wp80\
 
-COPY /B FHSDKPhone\bin\Release\FHSDK.dll Dist\lib\wp81\
-COPY /B FHSDKPhone\bin\Release\FHSDK.xml Dist\lib\wp81\
-COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.dll Dist\lib\wp81\
-COPY /B FHSDKPhone\Bin\Release\FHSDKPhone.xml Dist\lib\wp81\
+COPY /B FHSDKPortable\bin\Release\FHSDK.dll Dist\lib\wp81\
+COPY /B FHSDKPortable\bin\Release\FHSDK.xml Dist\lib\wp81\
+COPY /B FHSDKPortable\Bin\Release\FHSDKPortable.dll Dist\lib\wp81\
+COPY /B FHSDKPortable\Bin\Release\FHSDKPortable.xml Dist\lib\wp81\
 
 COPY /B FHSDKPortable\bin\Release\FHSDK.dll Dist\lib\wpa81\
 COPY /B FHSDKPortable\bin\Release\FHSDK.xml Dist\lib\wpa81\
