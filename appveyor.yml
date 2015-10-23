@@ -1,4 +1,5 @@
 version: 1.0.{build}
+configuration: Release
 environment:
   COVERALLS_REPO_TOKEN:
     secure: +9CFd0azK+Hl2J7KtYJJUQkXr8qHllJLLf1fbfefn3GcbZqEhHVUhgSGh/05umdE
@@ -11,7 +12,7 @@ cache:
 - packages -> **\packages.config
 test_script:
 - ps: >-
-    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\packages\xunit.runner.visualstudio.2.1.0\build\_common\" .\tests\bin\Debug\tests.dll /Settings:CodeCoverage.runsettings
+    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\packages\xunit.runner.visualstudio.2.1.0\build\_common\" tests\bin\Release\tests.dll /Settings:CodeCoverage.runsettings
 
     $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
 
