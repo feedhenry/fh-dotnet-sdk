@@ -11,12 +11,20 @@ cache:
 - packages -> **\packages.config
 test_script:
 - ps: >-
-    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\src\packages\xunit.runner.visualstudio.2.0.1\build\_common\" tests\bin\Release\tests.dll /Settings:CodeCoverage.runsettings
+    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\src\packages\xunit.runner.visualstudio.2.0.1\build\_common\" .\src\GameOfLife.xUnit.Tests\bin\Release\GameOfLife.xUnit.Tests.dll /Settings:CodeCoverage.runsettings
+
     $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
+
     $coverageFilePath = $coverageFilePath.ToString()
+
     if(Test-Path .\coverage.coveragexml){ rm .\coverage.coveragexml }
+
     ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:coverage.coveragexml "$coverageFilePath"
+
     Push-AppveyorArtifact coverage.coveragexml
+
     $coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
+
     & $coveralls --dynamiccodecoverage -i coverage.coveragexml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID --useRelativePaths -o cov.json
+
     Push-AppveyorArtifact cov.json
