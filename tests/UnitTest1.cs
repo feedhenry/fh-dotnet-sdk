@@ -1,5 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using FHSDK;
+using FHSDK.Services;
+using FHSDK.Services.Device;
+using FHSDK.Services.Hash;
+using FHSDK.Sync;
 using FHSDKPortable;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
@@ -9,12 +15,16 @@ namespace tests
     public class UnitTest1
     {
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task TestInit()
         {
+            //given
             await FHClient.Init();
-            var host = FH.GetCloudHost();
-            Assert.IsTrue(host.Contains("http://192.168.28.34:8001"));
 
+            //when
+            var host = FH.GetCloudHost();
+
+            //then
+            Assert.True(host.Contains("http://192.168.28.34:8001"));
         }
     }
 }
