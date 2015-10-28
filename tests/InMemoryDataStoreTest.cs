@@ -10,17 +10,16 @@ namespace tests
 {
     public class InMemoryDataStoreTest
     {
-        private string _dataPersistDir;
-        private string _dataPersistFile;
-        private IIOService _ioService;
+        private readonly string _dataPersistFile;
+        private readonly IIOService _ioService;
 
         public InMemoryDataStoreTest()
         {
             FHClient.Init();
             _ioService = ServiceFinder.Resolve<IIOService>();
             var dataDir = _ioService.GetDataPersistDir();
-            _dataPersistDir = Path.Combine(dataDir, "syncTestDir");
-            _dataPersistFile = Path.Combine(_dataPersistDir, ".test_data_file");
+            var dataPersistDir = Path.Combine(dataDir, "syncTestDir");
+            _dataPersistFile = Path.Combine(dataPersistDir, ".test_data_file");
         }
 
         [Fact]
