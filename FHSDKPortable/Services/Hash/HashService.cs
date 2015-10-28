@@ -9,7 +9,7 @@ namespace FHSDK.Services.Hash
         {
             var hashProvider = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha1);
             var hash = hashProvider.HashData(CryptographicBuffer.ConvertStringToBinary(str, BinaryStringEncoding.Utf8));
-            return CryptographicBuffer.EncodeToBase64String(hash);
+            return CryptographicBuffer.EncodeToHexString(hash);
         }
     }
 }
