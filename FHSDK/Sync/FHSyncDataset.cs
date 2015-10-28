@@ -926,7 +926,7 @@ namespace FHSDK.Sync
             logger.d(LOG_TAG, logMessage, null);
         }
 
-        private async Task<FHResponse> DoCloudCall(object syncParams)
+        protected virtual async Task<FHResponse> DoCloudCall(object syncParams)
         {
             if(this.SyncConfig.SyncCloud == FHSyncConfig.SyncCloudType.Auto){
                 await CheckSyncCloudType();
