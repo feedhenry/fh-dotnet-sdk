@@ -64,8 +64,8 @@ namespace FHSDK.Services.Device
             StorageFile file = null;
             try
             {
-                var folder = Package.Current.InstalledLocation;
-                file = folder.GetFileAsync(fileName).AsTask().Result;
+                var folder = StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///" + fileName));
+                file = folder.AsTask().Result;
             }
             catch (AggregateException)
             {
