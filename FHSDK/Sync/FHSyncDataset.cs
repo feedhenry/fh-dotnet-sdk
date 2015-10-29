@@ -20,8 +20,8 @@ namespace FHSDK.Sync
     {
         private const string LOG_TAG = "FHSyncDataset";
         private const string PERSIST_FILE_NAME = ".sync.json";
-        private const string DATA_PERSIST_FILE_NAME = ".data.json";
-        private const string PENDING_DATA_PERSIST_FILE_NAME = ".pendings.json";
+        protected const string DATA_PERSIST_FILE_NAME = ".data.json";
+        protected const string PENDING_DATA_PERSIST_FILE_NAME = ".pendings.json";
         /// <summary>
         /// If the sync loop is running
         /// </summary>
@@ -33,11 +33,11 @@ namespace FHSDK.Sync
         private Boolean syncPending = false;
         /// The store of pending records
         /// </summary>
-        private IDataStore<FHSyncPendingRecord<T>> pendingRecords;
+        protected IDataStore<FHSyncPendingRecord<T>> pendingRecords;
         /// <summary>
         /// The store of data records
         /// </summary>
-        private IDataStore<FHSyncDataRecord<T>> dataRecords;
+        protected IDataStore<FHSyncDataRecord<T>> dataRecords;
         /// <summary>
         /// Should the sync be stopped
         /// </summary>
@@ -100,7 +100,7 @@ namespace FHSDK.Sync
         public event EventHandler<FHSyncNotificationEventArgs> SyncNotificationHandler;
 
         [JsonProperty]
-        private IDictionary<string, string> UidMapping { get; set;} 
+        protected IDictionary<string, string> UidMapping { get; set;} 
 
         public FHSyncDataset()
         {
@@ -127,10 +127,14 @@ namespace FHSDK.Sync
                 dataset.SyncConfig = syncConfig;
                 dataset.QueryParams = null == qp ? new Dictionary<string, string>() : qp;
                 dataset.MetaData = null == meta ? new FHSyncMetaData() : meta;
-                dataset.dataRecords = new InMemoryDataStore<FHSyncDataRecord<X>>();
-                dataset.dataRecords.PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, DATA_PERSIST_FILE_NAME);
-                dataset.pendingRecords = new InMemoryDataStore<FHSyncPendingRecord<X>>();
-                dataset.pendingRecords.PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, PENDING_DATA_PERSIST_FILE_NAME);
+                dataset.dataRecords = new InMemoryDataStore<FHSyncDataRecord<X>>
+                {
+                    PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, DATA_PERSIST_FILE_NAME)
+                };
+                dataset.pendingRecords = new InMemoryDataStore<FHSyncPendingRecord<X>>
+                {
+                    PersistPath = GetPersistFilePathForDataset(syncConfig, datasetId, PENDING_DATA_PERSIST_FILE_NAME)
+                };
                 dataset.UidMapping = new Dictionary<string, string>();
                 //persist the dataset immediately
                 dataset.Save();
@@ -1015,7 +1019,7 @@ namespace FHSDK.Sync
             return dataSet;
         }
 
-        private static String GetPersistFilePathForDataset(FHSyncConfig syncConfig, string datasetId, string fileName)
+        protected static String GetPersistFilePathForDataset(FHSyncConfig syncConfig, string datasetId, string fileName)
         {
             string filePath = FHSyncUtils.GetDataFilePath(datasetId, fileName);
             if(null != syncConfig){
