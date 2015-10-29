@@ -12,6 +12,8 @@ cache:
 - packages -> **\packages.config
 test_script:
 - ps: >-
+    Certutil -addStore root .\tests\tests_1.0.0.0_x86_Debug.cer
+
     vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\packages\xunit.runner.visualstudio.2.1.0\build\_common\" tests\AppPackages\tests_1.0.0.0_x86_Test\tests_1.0.0.0_x86.appx /Settings:CodeCoverage.runsettings
 
     $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
