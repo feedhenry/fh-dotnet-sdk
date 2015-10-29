@@ -95,7 +95,7 @@ namespace FHSDK.Sync
                 ioService.WriteFile(this.PersistPath, FHSyncUtils.SerializeObject(memoryStore));
             } catch (Exception ex) {
                 logger.e ("FHSyncClient.InMemoryDataStore", "Failed to save file " + this.PersistPath, ex);
-                throw ex;
+                throw;
             } finally {
                 Monitor.Exit(this);
             }
