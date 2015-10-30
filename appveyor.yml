@@ -6,7 +6,7 @@ environment:
   developer_username:
     secure: suK8vcypy3XzTFRTeinJa/EJJWfglBllU3860HrfGNU=
   developer_password:
-    secure: +5nFYzuvJgRXJNGg8x6+rQ==
+    secure: +5nFYzuvJgRXJNGg8x6+rQ==
 before_build:
 - nuget restore
 build:
