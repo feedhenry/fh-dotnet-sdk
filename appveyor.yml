@@ -3,6 +3,10 @@ configuration: Release
 environment:
   COVERALLS_REPO_TOKEN:
     secure: +9CFd0azK+Hl2J7KtYJJUQkXr8qHllJLLf1fbfefn3GcbZqEhHVUhgSGh/05umdE
+  developer_username:
+    secure: suK8vcypy3XzTFRTeinJa/EJJWfglBllU3860HrfGNU=
+  developer_password:
+    secure: +5nFYzuvJgRXJNGg8x6+rQ==
 before_build:
 - nuget restore
 build:
@@ -12,6 +16,8 @@ cache:
 - packages -> **\packages.config
 test_script:
 - ps: >-
+	.\tests\DeveloperLicenseAcquirer.exe "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\TailoredDeploy.exe" $env:developer_username $env:developer_password
+
     Certutil -addStore root .\tests\tests_1.0.0.0_x86_Debug.cer
 
     vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\packages\xunit.runner.visualstudio.2.1.0\build\_common\" tests\AppPackages\tests_1.0.0.0_x86_Test\tests_1.0.0.0_x86.appx /Settings:CodeCoverage.runsettings
