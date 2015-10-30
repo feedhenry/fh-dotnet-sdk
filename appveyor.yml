@@ -16,7 +16,7 @@ cache:
 - packages -> **\packages.config
 test_script:
 - ps: >-
-	.\tests\DeveloperLicenseAcquirer.exe "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\TailoredDeploy.exe" $env:developer_username $env:developer_password
+    .\tests\DeveloperLicenseAcquirer.exe "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\TailoredDeploy.exe" $env:developer_username $env:developer_password
 
     Certutil -addStore root .\tests\tests_1.0.0.0_x86_Debug.cer
 
