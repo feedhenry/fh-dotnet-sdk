@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="HashTester.cs" />
     <Compile Include="InMemoryDataStoreTest.cs" />
+    <Compile Include="MockResponseDataset.cs" />
     <Compile Include="SyncTest.cs" />
     <Compile Include="TaskModel.cs" />
     <Compile Include="UnitTest1.cs" />
