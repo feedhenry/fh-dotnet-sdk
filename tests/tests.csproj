@@ -119,6 +119,7 @@
     <Compile Include="FHConfigTest.cs" />
     <Compile Include="HashTester.cs" />
     <Compile Include="InMemoryDataStoreTest.cs" />
+    <Compile Include="Mocks\TestDevice.cs" />
     <Compile Include="SyncTest.cs" />
     <Compile Include="TaskModel.cs" />
     <Compile Include="UnitTest1.cs" />

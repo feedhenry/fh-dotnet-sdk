@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.Services;
 using FHSDK.Services.Device;
-using FHSDK.Services.Hash;
-using FHSDK.Sync;
 using FHSDKPortable;
-using Newtonsoft.Json.Linq;
 using Xunit;
+using tests.Mocks;
 
 namespace tests
 {
@@ -18,13 +14,14 @@ namespace tests
         public async Task TestInit()
         {
             //given
+            ServiceFinder.RegisterType<IDeviceService, TestDevice>();
             await FHClient.Init();
 
             //when
             var host = FH.GetCloudHost();
 
             //then
-            Assert.True(host.Contains("http://192.168.28.34:8001"));
+            Assert.True(host.Contains("HOST"));
         }
     }
 }
