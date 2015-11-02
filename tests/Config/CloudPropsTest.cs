@@ -1,8 +1,8 @@
 ﻿using FHSDK;
+using FHSDK.Config;
 using FHSDK.Services;
 using FHSDK.Services.Device;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using tests.Mocks;
 using Xunit;
@@ -19,8 +19,8 @@ namespace tests
                 'url': 'URL',
                 'hosts': {'host': 'HOST',  'environment': 'ENV'}
              }");
-
-            var props = new CloudProps(json);
+            var config = new FHConfig(new TestDevice());
+            var props = new CloudProps(json, config);
 
             // when
             string host = props.GetCloudHost();
@@ -39,8 +39,8 @@ namespace tests
                 'url': 'http://someserver.com/',
                 'hosts': {'host': 'HOST',  'environment': 'ENV'}
              }");
-
-            var props = new CloudProps(json);
+            var config = new FHConfig(new TestDevice());
+            var props = new CloudProps(json, config);
 
             // when
             string host = props.GetCloudHost();
@@ -56,8 +56,8 @@ namespace tests
             var json = JObject.Parse(@"{
                 'hosts': {'host': 'HOST', 'environment': 'ENV', 'url': 'URL_HOST'}
              }");
-
-            var props = new CloudProps(json);
+            var config = new FHConfig(new TestDevice());
+            var props = new CloudProps(json, config);
 
             // when
             string host = props.GetCloudHost();
@@ -75,9 +75,8 @@ namespace tests
             var json = JObject.Parse(@"{
                 'hosts': {'host': 'HOST',  'environment': 'ENV', 'releaseCloudUrl': 'RELEASE_CLOUD_URL'}
              }");
-            ServiceFinder.RegisterType<IDeviceService, TestDevice>();
-
-            var props = new CloudProps(json);
+            var config = new FHConfig(new TestDevice());
+            var props = new CloudProps(json, config);
 
             // when
             string host = props.GetCloudHost();

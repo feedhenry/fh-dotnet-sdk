@@ -144,5 +144,10 @@ namespace FHSDK
 			}
 			return dict;
 		}
+
+        public static implicit operator string (FHResponse v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

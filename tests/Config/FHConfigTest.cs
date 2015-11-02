@@ -4,6 +4,7 @@ using FHSDK.Config;
 using FHSDK.Services;
 using FHSDK.Services.Device;
 using tests.Mocks;
+using FHSDKPortable;
 
 namespace tests
 {
@@ -13,8 +14,7 @@ namespace tests
         public async Task TestReadConfigWithMockedDevice()
         {
             // given a mocked DeviceService
-            ServiceFinder.RegisterType<IDeviceService, TestDevice>();
-            var config = FHConfig.GetInstance();
+            var config = new FHConfig(new TestDevice());
 
             // when
             // default instanciation
@@ -28,6 +28,24 @@ namespace tests
             Assert.Equal("DEVICE_DESTINATION", config.GetDestination());
             Assert.Equal("DEVICE_ID", config.GetDeviceId());
         }
+
         
+        [Fact]
+        public async Task TestReadConfig()
+        {
+            // given a mocked DeviceService
+            await FHClient.Init();
+            var config = FHConfig.GetInstance();
+
+            // when
+            // default instanciation
+
+            // then
+            Assert.Equal("http://192.168.28.34:8001", config.GetHost());
+            Assert.Equal("project_id_for_test", config.GetProjectId());
+            Assert.Equal("app_key_for_test", config.GetAppKey());
+            Assert.Equal("appid_for_test", config.GetAppId());
+            Assert.Equal("connection_tag_for_test", config.GetConnectionTag());
+        }
     }
 }
