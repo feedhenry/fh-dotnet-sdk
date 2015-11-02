@@ -87,7 +87,5 @@ namespace tests
             Assert.Equal("RELEASE_CLOUD_URL", host);
             Assert.Equal("ENV", env);
         }
-
-
     }
 }
