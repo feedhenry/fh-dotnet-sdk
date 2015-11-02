@@ -16,7 +16,6 @@ namespace tests
             ServiceFinder.RegisterType<IDeviceService, TestDevice>();
             var config = FHConfig.GetInstance();
 
-
             // when
             // default instanciation
 
