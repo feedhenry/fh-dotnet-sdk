@@ -19,15 +19,15 @@ namespace FHSDK.Services
                 msg = e.StackTrace;
             }
 			if (level == LogLevels.VERBOSE) {
-                Log.Verbose(tag, msg);
+				Android.Util.Log.Verbose(tag, msg);
 			} else if (level == LogLevels.DEBUG) {
-				Log.Debug (tag, msg);
+				Android.Util.Log.Debug (tag, msg);
 			} else if (level == LogLevels.INFO) {
-                Log.Info (tag, msg);
+				Android.Util.Log.Info (tag, msg);
 			} else if (level == LogLevels.WARNING) {
-                Log.Warn (tag, msg);
+				Android.Util.Log.Warn (tag, msg);
 			}  else if (level == LogLevels.ERROR) {
-                Log.Error (tag, msg);
+				Android.Util.Log.Error (tag, msg);
 			}
 		}
 

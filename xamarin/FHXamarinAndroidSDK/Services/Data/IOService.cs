@@ -1,6 +1,8 @@
 ﻿using System;
 using Android.App;
 using System.IO;
+using FHSDK.Services.Data;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {
