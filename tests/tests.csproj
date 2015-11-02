@@ -116,8 +116,8 @@
     <SDKReference Include="TestPlatform, Version=11.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloudPropsTest.cs" />
-    <Compile Include="FHConfigTest.cs" />
+    <Compile Include="Config\CloudPropsTest.cs" />
+    <Compile Include="Config\FHConfigTest.cs" />
     <Compile Include="HashTester.cs" />
     <Compile Include="InMemoryDataStoreTest.cs" />
     <Compile Include="Mocks\TestDevice.cs" />
