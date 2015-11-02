@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FHSDK.Services.Network;
 
 namespace FHSDK.Services
 {

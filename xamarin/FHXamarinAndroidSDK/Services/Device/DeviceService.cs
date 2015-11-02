@@ -4,6 +4,8 @@ using Android.App;
 using Java.IO;
 using Java.Util;
 using System.IO;
+using FHSDK.Services.Device;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {

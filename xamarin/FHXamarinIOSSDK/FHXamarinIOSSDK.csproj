@@ -38,7 +38,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\FHSDK\FHSDK.csproj">
+    <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
       <Project>{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}</Project>
       <Name>FHSDK</Name>
     </ProjectReference>

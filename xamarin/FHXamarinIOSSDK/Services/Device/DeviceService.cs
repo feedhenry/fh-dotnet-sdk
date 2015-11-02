@@ -4,6 +4,8 @@ using MonoTouch.Security;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.AdSupport;
+using FHSDK.Services.Device;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {

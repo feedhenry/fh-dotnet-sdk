@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {

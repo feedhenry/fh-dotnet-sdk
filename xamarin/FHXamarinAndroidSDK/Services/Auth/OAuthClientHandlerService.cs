@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.App;
 using Android.OS;
+using FHSDK.Services.Auth;
+using FHSDK.Services.Log;
 
 namespace FHSDK.Services
 {
@@ -63,14 +65,14 @@ namespace FHSDK.Services
 				this.parent.logger.d (OAuthClientHandlerService.LOG_TAG, "recieved event, data: " + intent.GetStringExtra ("url"), null);
 				string data = intent.GetStringExtra ("url");
 				if ("NOT_FINISHED".Equals (data)) {
-					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.FAILED, new Exception ("NOT_FINISHED"));
+					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.Failed, new Exception ("NOT_FINISHED"));
 					this.parent.tcs.TrySetResult (oauthResult);
 				} else if ("CANCELLED".Equals (data)) {
-					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.CANCELLED, new Exception ("USER_CANCELLED"));
+					OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.Cancelled, new Exception ("USER_CANCELLED"));
 					this.parent.tcs.TrySetResult (oauthResult);
 				} else {
 					this.parent.appContext.UnregisterReceiver (this.parent.receiver);
-					this.parent.OnSuccess (new Uri (data), this.parent.tcs);
+					OnSuccess (new Uri (data), this.parent.tcs);
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.App;
 using FHSDK.Services;
+using FHSDK.Services.Data;
 
 namespace FHSDK.Services
 {
@@ -14,14 +15,14 @@ namespace FHSDK.Services
 		{
 		}
 
-		protected override string doRead(string dataId)
+		protected override string DoRead(string dataId)
 		{
 			var prefs = Application.Context.GetSharedPreferences (PREF_ID, Android.Content.FileCreationMode.Private);
 			var value = prefs.GetString (dataId, null);
 			return value;
 		}
 
-		protected override void doSave(string dataId, string dataValue)
+		protected override void DoSave(string dataId, string dataValue)
 		{
 			var prefs = Application.Context.GetSharedPreferences (PREF_ID, Android.Content.FileCreationMode.Private);
 			var prefsEditor = prefs.Edit ();
@@ -29,7 +30,7 @@ namespace FHSDK.Services
 			prefsEditor.Commit();
 		}
 
-        public override void DeleteData(string dataId)
+		public override void DeleteData(string dataId)
         {
             var prefs = Application.Context.GetSharedPreferences (PREF_ID, Android.Content.FileCreationMode.Private);
             var prefsEditor = prefs.Edit ();

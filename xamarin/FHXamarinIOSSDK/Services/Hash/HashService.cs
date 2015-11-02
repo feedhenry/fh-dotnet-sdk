@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using FHSDK.Services.Hash;
 
 namespace FHSDK.Services
 {
@@ -10,7 +11,7 @@ namespace FHSDK.Services
         {
         }
 
-        public string GenerateSHA1Hash(string str)
+        public string GenerateSha1Hash(string str)
         {
             SHA1Managed sha1 = new SHA1Managed();
             var hash = sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(str));

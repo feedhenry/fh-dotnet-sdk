@@ -2,6 +2,7 @@
 using MonoTouch.UIKit;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
+using FHSDK.Services.Auth;
 
 namespace FHSDK.Services
 {
@@ -36,16 +37,16 @@ namespace FHSDK.Services
 		}
 
 		public void OnFail(bool cancelled){
-			OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.FAILED, new Exception ("NOT_FINISHED"));
+			OAuthResult oauthResult = new OAuthResult (OAuthResult.ResultCode.Failed, new Exception ("NOT_FINISHED"));
 			if (cancelled) {
-				oauthResult = new OAuthResult (OAuthResult.ResultCode.CANCELLED, new Exception ("USER_CANCELLED"));
+				oauthResult = new OAuthResult (OAuthResult.ResultCode.Cancelled, new Exception ("USER_CANCELLED"));
 			}
 			this.tcs.TrySetResult (oauthResult);
 		}
 
 		public void OnSuccess(Uri uri)
 		{
-			this.OnSuccess (uri, tcs);
+			OnSuccess (uri, tcs);
 		}
 
 

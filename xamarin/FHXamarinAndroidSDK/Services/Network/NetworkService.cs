@@ -3,6 +3,7 @@ using Android.Net;
 using Android.App;
 using Android.Content;
 using System.Threading.Tasks;
+using FHSDK.Services.Network;
 
 namespace FHSDK.Services
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoTouch.Foundation;
+using FHSDK.Services.Data;
 
 namespace FHSDK.Services
 {
@@ -12,7 +13,7 @@ namespace FHSDK.Services
 		{
 		}
 
-		protected override string doRead(string dataId)
+		protected override string DoRead(string dataId)
 		{
 			NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
 			NSObject value = prefs.ValueForKey (new NSString (dataId));
@@ -24,14 +25,14 @@ namespace FHSDK.Services
 			
 		}
 
-		protected override void doSave(string dataId, string dataValue)
+		protected override void DoSave(string dataId, string dataValue)
 		{
 			NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
 			prefs.SetValueForKey (new NSString (dataValue), new NSString (dataId));
 			prefs.Synchronize ();
 		}
 
-        public override void DeleteData(string dataId)
+		public override void DeleteData(string dataId)
         {
             NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
             prefs.RemoveObject(new NSString(dataId));
