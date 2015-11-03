@@ -46,5 +46,25 @@ namespace tests
             //then
             Assert.Equal("5f4675723d658919ede35fac62fade8c6397df1d", hash);
         }
+
+        [Fact]
+        public void TestGenerateHashWithUnderscoreInKey()
+        {
+            // given
+            var data = new JObject();
+            data["COMMENTS"] = "";
+            data["FHID"] = "2553C7ED-9025-48F9-A346-EBE3E3AF943B";
+            data["QUESTION_ID"] = 22;
+            data["QUES_VALUE"] = "NO";
+            data["VISIT_ID"] = 100220;
+            data["TEST1_ttt"] = "test";
+            data["TEST11_ttt"] = "test2";
+
+            // when
+            var hash = FHSyncUtils.GenerateSHA1Hash(data);
+
+            // then
+            Assert.Equal("824d6ded431d16fe8f2ab02b0744ca06822a3fff", hash);
+        }
     }
 }
