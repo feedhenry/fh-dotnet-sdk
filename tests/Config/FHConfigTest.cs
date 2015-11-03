@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FHSDK.Config;
-using FHSDKPortable;
+using FHSDK;
 using tests.Mocks;
 using Xunit;
 

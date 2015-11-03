@@ -1,8 +1,8 @@
 ﻿using System.IO;
+using FHSDK;
 using FHSDK.Services;
 using FHSDK.Services.Data;
 using FHSDK.Sync;
-using FHSDKPortable;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
