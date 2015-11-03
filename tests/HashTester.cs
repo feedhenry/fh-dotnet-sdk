@@ -48,9 +48,10 @@ namespace tests
         }
 
         [Fact]
-        public void TestGenerateHashWithUnderscoreInKey()
+        public async Task TestGenerateHashWithUnderscoreInKey()
         {
             // given
+            await FHClient.Init();
             var data = new JObject();
             data["COMMENTS"] = "";
             data["FHID"] = "2553C7ED-9025-48F9-A346-EBE3E3AF943B";
