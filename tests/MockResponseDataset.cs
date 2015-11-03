@@ -37,6 +37,17 @@ namespace tests
 	            }
             }");
 
+        public readonly FHResponse AwkRespone = new FHResponse(HttpStatusCode.OK, 
+            @"{
+            	""hash"": ""97d170e1550eee4afc0af065b78cda302a97674c"",
+	            ""updates"": {}
+            }");
+
+        public readonly FHResponse NoUpdates = new FHResponse(HttpStatusCode.OK, 
+            @"{
+	            ""updates"": {}
+            }");
+
         public MockResponseDataset(string datasetId)
         {
             DatasetId = datasetId;

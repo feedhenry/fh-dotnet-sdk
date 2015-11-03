@@ -14,8 +14,12 @@ namespace tests
             //given
             await FHClient.Init();
             const string taskName = "task1";
-            TaskModel task;
-            var dataset = InitDataset(taskName, out task);
+            var dataset1 = FHSyncDataset<TaskModel>.Build<TaskModel>("dataset", new FHSyncConfig(), null, null);
+            var task = new TaskModel
+            {
+                TaksName = taskName
+            };
+            var dataset = dataset1;
 
             //when
             var savedTask = dataset.Create(task);
@@ -34,10 +38,14 @@ namespace tests
         {
             //given
             await FHClient.Init();
-            TaskModel task;
-            InitDataset("test", out task);
+
             var dataset = new MockResponseDataset<TaskModel>("dataset");
             dataset.MockResponse = dataset.AppliedCreateResponse;
+            var task = new TaskModel
+            {
+                TaksName = "test"
+            };
+
             dataset.Create(task);
 
             //when
@@ -47,18 +55,38 @@ namespace tests
             //then
             Assert.True(shouldSync);
             Assert.Empty(dataset.GetPendingRecords().List());
-            //Assert.Equal( , dataset.SyncParams);
         }
 
-        private static FHSyncDataset<TaskModel> InitDataset(string taskName, out TaskModel task)
+        [Fact]
+        public async Task ShouldCreateUpdate()
         {
-            var dataset = FHSyncDataset<TaskModel>.Build<TaskModel>("dataset", new FHSyncConfig(), null, null);
-
-            task = new TaskModel
+            //given
+            await FHClient.Init();
+            var dataset = new MockResponseDataset<TaskModel>("dataset");
+            var task = new TaskModel
             {
-                TaksName = taskName
+                TaksName = "test"
             };
-            return dataset;
+            
+            //when
+            task = dataset.Create(task);
+            const string name = "super";
+            task.TaksName = name;
+            dataset.Update(task);
+
+            //then
+            var readTask = dataset.Read(task.UID);
+            Assert.NotNull(readTask);
+            Assert.Equal(name, readTask.TaksName);
+
+            //when
+            dataset.MockResponse = dataset.AwkRespone;
+            await dataset.StartSyncLoop();
+
+            //then
+            var list = dataset.List();
+            Assert.Equal(1, list.Count);
+            Assert.Equal(name, list[0].TaksName);
         }
     }
 }
