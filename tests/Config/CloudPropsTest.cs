@@ -1,14 +1,15 @@
 ﻿using FHSDK;
 using FHSDK.Config;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
 using tests.Mocks;
-using Xunit;
 
 namespace tests.Config
 {
+    [TestClass]
     public class CloudPropsTest
     {
-        [Fact]
+        [TestMethod]
         public void TestReadCloudPropsWithJsonContainingValues()
         {
             // given
@@ -24,11 +25,11 @@ namespace tests.Config
             var env = props.GetEnv();
 
             // then
-            Assert.Equal("URL", host);
-            Assert.Equal("ENV", env);
+            Assert.AreEqual("URL", host);
+            Assert.AreEqual("ENV", env);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestURLFormatting()
         {
             // given
@@ -43,10 +44,10 @@ namespace tests.Config
             var host = props.GetCloudHost();
 
             // then
-            Assert.Equal("http://someserver.com", host);
+            Assert.AreEqual("http://someserver.com", host);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestReadCloudPropsWithJsonEmptyValuesForUrlAndHostWithUrl()
         {
             // given
@@ -61,11 +62,11 @@ namespace tests.Config
             var env = props.GetEnv();
 
             // then
-            Assert.Equal("URL_HOST", host);
-            Assert.Equal("ENV", env);
+            Assert.AreEqual("URL_HOST", host);
+            Assert.AreEqual("ENV", env);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestReadCloudPropsWithJsonEmptyValuesForUrlAndHostWithoutUrl()
         {
             // given
@@ -80,8 +81,8 @@ namespace tests.Config
             var env = props.GetEnv();
 
             // then
-            Assert.Equal("RELEASE_CLOUD_URL", host);
-            Assert.Equal("ENV", env);
+            Assert.AreEqual("RELEASE_CLOUD_URL", host);
+            Assert.AreEqual("ENV", env);
         }
     }
 }

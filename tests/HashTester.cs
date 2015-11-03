@@ -3,14 +3,15 @@ using FHSDK;
 using FHSDK.Services;
 using FHSDK.Services.Hash;
 using FHSDK.Sync;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
-using Xunit;
 
 namespace tests
 {
+    [TestClass]
     public class HashTester
     {
-        [Fact]
+        [TestMethod]
         public async Task TestStringHash()
         {
             //given
@@ -21,10 +22,10 @@ namespace tests
             //when
             var nativeHashed = hasher.GenerateSha1Hash(text);
 
-            Assert.Equal("a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", nativeHashed);
+            Assert.AreEqual("a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", nativeHashed);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestObjectHash()
         {
             //given
@@ -44,10 +45,10 @@ namespace tests
             var hash = FHSyncUtils.GenerateSHA1Hash(testObject);
 
             //then
-            Assert.Equal("5f4675723d658919ede35fac62fade8c6397df1d", hash);
+            Assert.AreEqual("5f4675723d658919ede35fac62fade8c6397df1d", hash);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestGenerateHashWithUnderscoreInKey()
         {
             // given
@@ -65,7 +66,7 @@ namespace tests
             var hash = FHSyncUtils.GenerateSHA1Hash(data);
 
             // then
-            Assert.Equal("824d6ded431d16fe8f2ab02b0744ca06822a3fff", hash);
+            Assert.AreEqual("824d6ded431d16fe8f2ab02b0744ca06822a3fff", hash);
         }
     }
 }

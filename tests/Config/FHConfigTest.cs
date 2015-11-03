@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using FHSDK.Config;
 using FHSDK;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using tests.Mocks;
-using Xunit;
 
 namespace tests.Config
 {
+    [TestClass]
     public class FHConfigTest
     {
-        [Fact]
+        [TestMethod]
         public void TestReadConfigWithMockedDevice()
         {
             // given a mocked DeviceService
@@ -18,17 +19,17 @@ namespace tests.Config
             // default instanciation
 
             // then
-            Assert.Equal(MockDeviceService.Host, config.GetHost());
-            Assert.Equal(MockDeviceService.ProjectId, config.GetProjectId());
-            Assert.Equal(MockDeviceService.AppKey, config.GetAppKey());
-            Assert.Equal(MockDeviceService.AppId, config.GetAppId());
-            Assert.Equal(MockDeviceService.ConnectionTag, config.GetConnectionTag());
-            Assert.Equal(MockDeviceService.DeviceDestination, config.GetDestination());
-            Assert.Equal(MockDeviceService.DeviceId, config.GetDeviceId());
+            Assert.AreEqual(MockDeviceService.Host, config.GetHost());
+            Assert.AreEqual(MockDeviceService.ProjectId, config.GetProjectId());
+            Assert.AreEqual(MockDeviceService.AppKey, config.GetAppKey());
+            Assert.AreEqual(MockDeviceService.AppId, config.GetAppId());
+            Assert.AreEqual(MockDeviceService.ConnectionTag, config.GetConnectionTag());
+            Assert.AreEqual(MockDeviceService.DeviceDestination, config.GetDestination());
+            Assert.AreEqual(MockDeviceService.DeviceId, config.GetDeviceId());
         }
 
 
-        [Fact]
+        [TestMethod]
         public async Task TestReadConfig()
         {
             // given a mocked DeviceService
@@ -39,11 +40,11 @@ namespace tests.Config
             // default instanciation
 
             // then
-            Assert.Equal("http://192.168.28.34:8001", config.GetHost());
-            Assert.Equal("project_id_for_test", config.GetProjectId());
-            Assert.Equal("app_key_for_test", config.GetAppKey());
-            Assert.Equal("appid_for_test", config.GetAppId());
-            Assert.Equal("connection_tag_for_test", config.GetConnectionTag());
+            Assert.AreEqual("http://192.168.28.34:8001", config.GetHost());
+            Assert.AreEqual("project_id_for_test", config.GetProjectId());
+            Assert.AreEqual("app_key_for_test", config.GetAppKey());
+            Assert.AreEqual("appid_for_test", config.GetAppId());
+            Assert.AreEqual("connection_tag_for_test", config.GetConnectionTag());
         }
     }
 }

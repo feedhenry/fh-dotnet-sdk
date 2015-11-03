@@ -2,14 +2,15 @@
 using FHSDK;
 using FHSDK.Sync;
 using FHSDKTestShared;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using tests.Mocks;
-using Xunit;
 
 namespace tests
 {
+    [TestClass]
     public class SyncTest
     {
-        [Fact]
+        [TestMethod]
         public async Task ShouldCreatePendingTaskForCreate()
         {
             //given
@@ -26,15 +27,15 @@ namespace tests
             var savedTask = dataset.Create(task);
 
             //then
-            Assert.NotNull(savedTask.UID);
-            Assert.Equal(1, dataset.GetPendingRecords().List().Count);
+            Assert.IsNotNull(savedTask.UID);
+            Assert.AreEqual(1, dataset.GetPendingRecords().List().Count);
 
             var taskRead = dataset.Read(savedTask.UID);
-            Assert.NotNull(taskRead);
-            Assert.Equal(taskName, taskRead.TaksName);
+            Assert.IsNotNull(taskRead);
+            Assert.AreEqual(taskName, taskRead.TaksName);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ShouldUploadPendingEdits()
         {
             //given
@@ -54,11 +55,11 @@ namespace tests
             await dataset.StartSyncLoop();
 
             //then
-            Assert.True(shouldSync);
-            Assert.Empty(dataset.GetPendingRecords().List());
+            Assert.IsTrue(shouldSync);
+            Assert.AreEqual(0, dataset.GetPendingRecords().List().Count);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ShouldCreateUpdate()
         {
             //given
@@ -77,8 +78,8 @@ namespace tests
 
             //then
             var readTask = dataset.Read(task.UID);
-            Assert.NotNull(readTask);
-            Assert.Equal(name, readTask.TaksName);
+            Assert.IsNotNull(readTask);
+            Assert.AreEqual(name, readTask.TaksName);
 
             //when
             dataset.MockResponse = dataset.AwkRespone;
@@ -86,8 +87,8 @@ namespace tests
 
             //then
             var list = dataset.List();
-            Assert.Equal(1, list.Count);
-            Assert.Equal(name, list[0].TaksName);
+            Assert.AreEqual(1, list.Count);
+            Assert.AreEqual(name, list[0].TaksName);
         }
     }
 }

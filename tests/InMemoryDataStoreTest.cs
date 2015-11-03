@@ -3,17 +3,19 @@ using FHSDK;
 using FHSDK.Services;
 using FHSDK.Services.Data;
 using FHSDK.Sync;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
-using Xunit;
 
 namespace tests
 {
+    [TestClass]
     public class InMemoryDataStoreTest
     {
-        private readonly string _dataPersistFile;
-        private readonly IIOService _ioService;
+        private string _dataPersistFile;
+        private IIOService _ioService;
 
-        public InMemoryDataStoreTest()
+        [TestInitialize]
+        public void Setup()
         {
             FHClient.Init();
             _ioService = ServiceFinder.Resolve<IIOService>();
@@ -22,7 +24,7 @@ namespace tests
             _dataPersistFile = Path.Combine(dataPersistDir, ".test_data_file");
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInsertIntoDataStore()
         {
             //given
@@ -36,14 +38,14 @@ namespace tests
 
             //then
             var list = dataStore.List();
-            Assert.Equal(2, list.Count);
-            Assert.NotNull(list["key1"]);
+            Assert.AreEqual(2, list.Count);
+            Assert.IsNotNull(list["key1"]);
 
             var result = dataStore.Get("key1");
-            Assert.Equal(obj, result);
+            Assert.AreEqual(obj, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSaveDataStoreToJson()
         {
             //given
@@ -57,9 +59,9 @@ namespace tests
             dataStore.Save();
 
             //then
-            Assert.True(_ioService.Exists(_dataPersistFile));
+            Assert.IsTrue(_ioService.Exists(_dataPersistFile));
             var content = _ioService.ReadFile(_dataPersistFile);
-            Assert.Equal("{\"main-key\":{\"key\":\"value\"}}", content);
+            Assert.AreEqual("{\"main-key\":{\"key\":\"value\"}}", content);
         }
     }
 }
