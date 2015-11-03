@@ -6,7 +6,7 @@ using FHSDK.Services;
 using FHSDK.Services.Hash;
 using FHSDK.Sync;
 
-namespace tests
+namespace tests.Mocks
 {
     public class MockResponseDataset<T> : FHSyncDataset<T> where T : IFHSyncModel
     {
@@ -68,16 +68,14 @@ namespace tests
             Save();
         }
 
-        public object SyncParams { get; set; }
-        public FHResponse MockResponse { get; set; }
+        public FHResponse MockResponse { private get; set; }
 
         protected override Task<FHResponse> DoCloudCall(object syncParams)
         {
-            SyncParams = syncParams;
             return Task.Factory.StartNew(() => MockResponse);
         }
 
-        public class TestHasher : IHashService
+        private class TestHasher : IHashService
         {
             public string GenerateSha1Hash(string str)
             {

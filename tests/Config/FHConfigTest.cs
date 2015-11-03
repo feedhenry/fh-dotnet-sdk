@@ -1,35 +1,33 @@
 ﻿using System.Threading.Tasks;
-using Xunit;
 using FHSDK.Config;
-using FHSDK.Services;
-using FHSDK.Services.Device;
-using tests.Mocks;
 using FHSDKPortable;
+using tests.Mocks;
+using Xunit;
 
-namespace tests
+namespace tests.Config
 {
     public class FHConfigTest
     {
         [Fact]
-        public async Task TestReadConfigWithMockedDevice()
+        public void TestReadConfigWithMockedDevice()
         {
             // given a mocked DeviceService
-            var config = new FHConfig(new TestDevice());
+            var config = new FHConfig(new MockDeviceService());
 
             // when
             // default instanciation
 
             // then
-            Assert.Equal("HOST", config.GetHost());
-            Assert.Equal("PROJECT_ID", config.GetProjectId());
-            Assert.Equal("APP_KEY", config.GetAppKey());
-            Assert.Equal("APP_ID", config.GetAppId());
-            Assert.Equal("CONNECTION_TAG", config.GetConnectionTag());
-            Assert.Equal("DEVICE_DESTINATION", config.GetDestination());
-            Assert.Equal("DEVICE_ID", config.GetDeviceId());
+            Assert.Equal(MockDeviceService.Host, config.GetHost());
+            Assert.Equal(MockDeviceService.ProjectId, config.GetProjectId());
+            Assert.Equal(MockDeviceService.AppKey, config.GetAppKey());
+            Assert.Equal(MockDeviceService.AppId, config.GetAppId());
+            Assert.Equal(MockDeviceService.ConnectionTag, config.GetConnectionTag());
+            Assert.Equal(MockDeviceService.DeviceDestination, config.GetDestination());
+            Assert.Equal(MockDeviceService.DeviceId, config.GetDeviceId());
         }
 
-        
+
         [Fact]
         public async Task TestReadConfig()
         {

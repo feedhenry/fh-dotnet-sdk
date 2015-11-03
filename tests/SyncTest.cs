@@ -2,6 +2,7 @@
 using FHSDK.Sync;
 using FHSDKPortable;
 using FHSDKTestShared;
+using tests.Mocks;
 using Xunit;
 
 namespace tests
