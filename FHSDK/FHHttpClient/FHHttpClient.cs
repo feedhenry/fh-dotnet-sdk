@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FHSDK.Services;
 using FHSDK.Services.Log;
@@ -144,7 +145,7 @@ namespace FHSDK.FHHttpClient
                 }
 
                 timer.Start();
-                var responseMessage = await httpClient.SendAsync(requestMessage);
+                var responseMessage = await httpClient.SendAsync(requestMessage, CancellationToken.None);
                 timer.Stop();
                 logger.d(LogTag, "Reqeust Time: " + timer.ElapsedMilliseconds + "ms", null);
                 var responseStr = await responseMessage.Content.ReadAsStringAsync();

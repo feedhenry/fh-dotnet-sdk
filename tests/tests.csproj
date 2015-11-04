@@ -110,10 +110,12 @@
     <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config\CloudPropsTest.cs" />
-    <Compile Include="Config\FHConfigTest.cs" />
+    <Compile Include="CloudPropsTest.cs" />
+    <Compile Include="HttpClientTest.cs" />
+    <Compile Include="FHHttpClientTest.cs" />
     <Compile Include="HashTester.cs" />
     <Compile Include="InMemoryDataStoreTest.cs" />
+    <Compile Include="Mocks\MockHttpClient.cs" />
     <Compile Include="Mocks\MockResponseDataset.cs" />
     <Compile Include="Mocks\MockDeviceService.cs" />
     <Compile Include="SyncTest.cs" />
