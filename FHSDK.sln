@@ -9,18 +9,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHSDK", "FHSDK\FHSDK.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsPhoneExample", "examples\WindowsPhoneExample\WindowsPhoneExample.csproj", "{BBB535FD-F6FD-4B1E-818B-10A0E5B053F9}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FHSDKTestShared", "FHSDKTestShared\FHSDKTestShared.shproj", "{365592E9-5E66-4110-B4FA-764F4111096E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP81ExampleApp", "examples\WP81ExampleApp\WP81ExampleApp.csproj", "{F34AFBF0-57D1-4992-8CF6-E125652153E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHSDKPortable", "FHSDKPortable\FHSDKPortable.csproj", "{71DD40E5-AB2F-4102-AEA6-BD1C33651A1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{48C770A4-D1F6-4C4B-989E-C216AA4148D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests-phone", "tests-phone\tests-phone.csproj", "{D15124E2-A4F1-4D96-AA84-3516C3369C81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B4D75C59-A0A9-4F3E-994F-41F4D9287521}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		FHSDKTestShared\FHSDKTestShared.projitems*{365592e9-5e66-4110-b4fa-764f4111096e}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM
@@ -378,6 +380,58 @@ Global
 		{48C770A4-D1F6-4C4B-989E-C216AA4148D9}.Release|x86.ActiveCfg = Release|x86
 		{48C770A4-D1F6-4C4B-989E-C216AA4148D9}.Release|x86.Build.0 = Release|x86
 		{48C770A4-D1F6-4C4B-989E-C216AA4148D9}.Release|x86.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|Any CPU.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|ARM.ActiveCfg = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|ARM.Build.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|ARM.Deploy.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|iPhone.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|Mixed Platforms.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|Mixed Platforms.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|Mixed Platforms.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|x64.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|x86.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|x86.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Ad-Hoc|x86.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|Any CPU.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|ARM.ActiveCfg = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|ARM.Build.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|ARM.Deploy.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|iPhone.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|iPhoneSimulator.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|Mixed Platforms.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|Mixed Platforms.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|Mixed Platforms.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|x64.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|x86.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|x86.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.AppStore|x86.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|ARM.ActiveCfg = Debug|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|ARM.Build.0 = Debug|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|ARM.Deploy.0 = Debug|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|iPhone.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|x64.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|x86.ActiveCfg = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|x86.Build.0 = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Debug|x86.Deploy.0 = Debug|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|Any CPU.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|ARM.ActiveCfg = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|ARM.Build.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|ARM.Deploy.0 = Release|ARM
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|iPhone.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|iPhoneSimulator.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|x64.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|x86.ActiveCfg = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|x86.Build.0 = Release|x86
+		{D15124E2-A4F1-4D96-AA84-3516C3369C81}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
