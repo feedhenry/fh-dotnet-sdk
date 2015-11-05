@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.Sync;
-using FHSDKTestShared;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using tests.Mocks;
 
@@ -16,7 +15,7 @@ namespace tests
             //given
             await FHClient.Init();
             const string taskName = "task1";
-            var dataset1 = FHSyncDataset<TaskModel>.Build<TaskModel>("dataset", new FHSyncConfig(), null, null);
+            var dataset1 = FHSyncDataset<TaskModel>.Build<TaskModel>("set", new FHSyncConfig(), null, null);
             var task = new TaskModel
             {
                 TaksName = taskName
@@ -89,6 +88,52 @@ namespace tests
             var list = dataset.List();
             Assert.AreEqual(1, list.Count);
             Assert.AreEqual(name, list[0].TaksName);
+        }
+
+        [TestMethod]
+        public async Task ShouldAddRemoteCreatedRecord()
+        {
+            //given
+            await FHClient.Init();
+            var dataset = new MockResponseDataset<TaskModel>("dataset");
+            var task = new TaskModel
+            {
+                TaksName = "test"
+            };
+
+            //when
+            task = dataset.Create(task);
+            dataset.MockResponse = dataset.RemoteCreatedResponse;
+            await dataset.StartSyncLoop();
+
+            //then
+            var list = dataset.List();
+            Assert.AreEqual(2, list.Count);
+            Assert.IsTrue(list.Contains(task));
+            Assert.IsTrue(list.Contains(new TaskModel() { UID = "561b7cf1810880dc18000029" }));
+        }
+
+        [TestMethod]
+        public async Task ShouldDeleteRecord()
+        {
+            //given
+            await FHClient.Init();
+            var dataset = new MockResponseDataset<TaskModel>("dataset");
+            dataset.MockResponse = dataset.AppliedCreateResponse;
+            var task = new TaskModel
+            {
+                TaksName = "test"
+            };
+
+            //when
+            task = dataset.Create(task);
+            await dataset.StartSyncLoop();
+            dataset.Delete(task.UID);
+
+            //then
+            var list = dataset.List();
+            Assert.AreEqual(0, list.Count);
+            Assert.AreEqual(1, dataset.GetPendingRecords().List().Count);
         }
     }
 }

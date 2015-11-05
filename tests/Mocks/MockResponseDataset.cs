@@ -48,6 +48,28 @@ namespace tests.Mocks
 	            ""updates"": {}
             }");
 
+        public readonly FHResponse RemoteCreatedResponse = new FHResponse(HttpStatusCode.OK,
+            @"{
+               ""create"":{
+                  ""561b7cf1810880dc18000029"":{
+                     ""data"":{
+                        ""taskName"":""123"",
+                        ""completed"": true
+                     },
+                     ""hash"":""6b749553cc45d1344cc12426f70d6ff584284bf8""
+                  }
+               },
+               ""update"":{
+
+               },
+               ""delete"":{
+                  ""6b749553cc45d1344cc12426f70d6ff584284bf8"":{
+
+                  }
+               },
+               ""hash"":""d8a15c0831eb10cb99766f4d976250e3a3a49de3""
+            }");
+
         public MockResponseDataset(string datasetId)
         {
             DatasetId = datasetId;
