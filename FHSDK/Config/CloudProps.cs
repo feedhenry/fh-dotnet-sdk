@@ -11,7 +11,7 @@ namespace FHSDK
         private readonly JObject _cloudPropsJson;
         private string _env;
         private string _hostUrl;
-        private FHConfig _config;
+        private readonly FHConfig _config;
 
         /// <summary>
         ///     Constructor
