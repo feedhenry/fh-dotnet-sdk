@@ -71,11 +71,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\tests\Config\CloudPropsTest.cs">
+    <Compile Include="..\tests\AuthRequestTest.cs">
+      <Link>AuthRequestTest.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\CloudPropsTest.cs">
       <Link>Config\CloudPropsTest.cs</Link>
     </Compile>
-    <Compile Include="..\tests\Config\FHConfigTest.cs">
-      <Link>Config\FHConfigTest.cs</Link>
+    <Compile Include="..\tests\ConfigTest.cs">
+      <Link>Config\ConfigTest.cs</Link>
     </Compile>
     <Compile Include="..\tests\HashTester.cs">
       <Link>HashTester.cs</Link>
@@ -88,6 +91,12 @@
     </Compile>
     <Compile Include="..\tests\Mocks\MockDeviceService.cs">
       <Link>Mocks\MockDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Mocks\MockHttpClient.cs">
+      <Link>Mocks\MockHttpClient.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Mocks\MockOAuthClient.cs">
+      <Link>Mocks\MockOAuthClient.cs</Link>
     </Compile>
     <Compile Include="..\tests\Mocks\MockResponseDataset.cs">
       <Link>Mocks\MockResponseDataset.cs</Link>
@@ -105,7 +114,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Mocks\MockHttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
