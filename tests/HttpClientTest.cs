@@ -1,50 +1,58 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using FHSDK;
-using FHSDK.Config;
+using FHSDK.FHHttpClient;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Newtonsoft.Json.Linq;
 using tests.Mocks;
 
 namespace tests
 {
     [TestClass]
-    public class FHConfigTest
+    public class HttpClientTest
     {
-        [TestMethod]
-        public void TestReadConfigWithMockedDevice()
+        [TestInitialize]
+        public void Setup()
         {
-            // given a mocked DeviceService
-            var config = new FHConfig(new MockDeviceService());
-
-            // when
-            // default instanciation
-
-            // then
-            Assert.AreEqual(MockDeviceService.Host, config.GetHost());
-            Assert.AreEqual(MockDeviceService.ProjectId, config.GetProjectId());
-            Assert.AreEqual(MockDeviceService.AppKey, config.GetAppKey());
-            Assert.AreEqual(MockDeviceService.AppId, config.GetAppId());
-            Assert.AreEqual(MockDeviceService.ConnectionTag, config.GetConnectionTag());
-            Assert.AreEqual(MockDeviceService.DeviceDestination, config.GetDestination());
-            Assert.AreEqual(MockDeviceService.DeviceId, config.GetDeviceId());
+            FHClient.Init();
         }
 
+        [TestMethod]
+        public async Task ShouldSendAsync()
+        {
+            //given
+            var mock = new MockHttpClient();
+            FHHttpClientFactory.Get = () => mock;
+            const string method = "POST";
+
+            //when
+            await FHHttpClient.SendAsync(new Uri("http://localhost/test"), method, new Dictionary<string, string>() {{"key", "value"}}, 
+                "request-data", TimeSpan.FromSeconds(20));
+
+            //then
+            Assert.IsNotNull(mock.Request);
+            Assert.AreEqual(method, mock.Request.Method.Method);
+            Assert.IsTrue(mock.Request.Headers.Contains("key"));
+            Assert.AreEqual("\"request-data\"", await mock.Request.Content.ReadAsStringAsync());
+            Assert.AreEqual(20, mock.Timeout.Seconds);
+        }
 
         [TestMethod]
-        public async Task TestReadConfig()
+        public async Task ShouldPerformGet()
         {
-            // given a mocked DeviceService
-            await FHClient.Init();
-            var config = FHConfig.GetInstance();
+            //given
+            var mock = new MockHttpClient();
+            FHHttpClientFactory.Get = () => mock;
+            const string method = "GET";
 
-            // when
-            // default instanciation
+            //when
+            await FHHttpClient.SendAsync(new Uri("http://localhost/test"), method, null,
+                JObject.Parse("{'key-data': 'value'}"), TimeSpan.FromSeconds(20));
 
-            // then
-            Assert.AreEqual("http://192.168.28.34:8001", config.GetHost());
-            Assert.AreEqual("project_id_for_test", config.GetProjectId());
-            Assert.AreEqual("app_key_for_test", config.GetAppKey());
-            Assert.AreEqual("appid_for_test", config.GetAppId());
-            Assert.AreEqual("connection_tag_for_test", config.GetConnectionTag());
+            //then
+            Assert.IsNotNull(mock.Request);
+            Assert.AreEqual("http://localhost/test?key-data=\"value\"", mock.Request.RequestUri.ToString());
         }
     }
 }

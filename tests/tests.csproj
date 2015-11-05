@@ -111,8 +111,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CloudPropsTest.cs" />
+    <Compile Include="ConfigTest.cs" />
     <Compile Include="HttpClientTest.cs" />
-    <Compile Include="FHHttpClientTest.cs" />
     <Compile Include="HashTester.cs" />
     <Compile Include="InMemoryDataStoreTest.cs" />
     <Compile Include="Mocks\MockHttpClient.cs" />
