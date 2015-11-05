@@ -11,6 +11,7 @@ namespace FHSDK
         private readonly JObject _cloudPropsJson;
         private string _env;
         private string _hostUrl;
+        private FHConfig _config;
 
         /// <summary>
         ///     Constructor
@@ -19,8 +20,17 @@ namespace FHSDK
         public CloudProps(JObject props)
         {
             _cloudPropsJson = props;
+            _config = FHConfig.GetInstance();
         }
-
+        /// <summary>
+        /// Constructor used for unit testing and injecting mock.
+        /// </summary>
+        /// <param name="props"></param>
+        public CloudProps(JObject props, FHConfig config)
+        {
+            _cloudPropsJson = props;
+            _config = config;
+        }
         /// <summary>
         ///     Return the cloud host info as URL
         /// </summary>
@@ -41,7 +51,7 @@ namespace FHSDK
                 }
                 else
                 {
-                    var appMode = FHConfig.GetInstance().GetMode();
+                    var appMode = _config.GetMode();
                     if ("dev" == appMode)
                     {
                         _hostUrl = (string) hosts["debugCloudUrl"];

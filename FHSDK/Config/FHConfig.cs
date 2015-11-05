@@ -20,6 +20,16 @@ namespace FHSDK.Config
             _deviceid = uuid;
             IsLocalDevelopment = props.IsLocalDevelopment;
         }
+        /// <summary>
+        /// Initializer used for unit testing.
+        /// </summary>
+        /// <param name="deviceService"></param>
+        public FHConfig(IDeviceService deviceService)
+        {
+            _appProps = deviceService.ReadAppProps();
+            _destination = deviceService.GetDeviceDestination();
+            _deviceid = deviceService.GetDeviceId();
+        }
 
         public bool IsLocalDevelopment { get; private set; }
 
