@@ -4,10 +4,6 @@ configuration: Release
 environment:
   COVERALLS_REPO_TOKEN:
     secure: +9CFd0azK+Hl2J7KtYJJUQkXr8qHllJLLf1fbfefn3GcbZqEhHVUhgSGh/05umdE
-  developer_username:
-    secure: suK8vcypy3XzTFRTeinJa/EJJWfglBllU3860HrfGNU=
-  developer_password:
-    secure: +5nFYzuvJgRXJNGg8x6+rQ==
 before_build:
 - nuget restore
 build:
