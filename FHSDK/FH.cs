@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 using FHSDK.API;
 using FHSDK.Config;
@@ -20,11 +21,11 @@ namespace FHSDK
     /// </summary>
     public class FH
     {
-        private const double DefaultTimeout = 30*1000;
+        private const double DefaultTimeout = 30;
         private const string SdkVersionString = "1.3.0";
         protected static bool AppReady;
         protected static CloudProps CloudProps;
-        protected static TimeSpan Timeout = TimeSpan.FromMilliseconds(DefaultTimeout);
+        private static TimeSpan _timeout = TimeSpan.FromSeconds(DefaultTimeout);
 
         /// <summary>
         ///     Get the current version of the FeedHenry .NET SDk
@@ -37,11 +38,11 @@ namespace FHSDK
         /// <summary>
         ///     Get or Set the timeout value for all the requests. Default is 30 seconds.
         /// </summary>
-        protected static TimeSpan TimeOut
+        public static TimeSpan TimeOut
         {
-            get { return Timeout; }
+            private get { return _timeout; }
 
-            set { Timeout = value; }
+            set { _timeout = value; }
         }
 
         /// <summary>
@@ -67,8 +68,7 @@ namespace FHSDK
                 CloudProps = new CloudProps(cloudJson);
                 return true;
             }
-            var initRequest = new FHInitRequest();
-            initRequest.TimeOut = Timeout;
+            var initRequest = new FHInitRequest {TimeOut = TimeOut};
             var initRes = await initRequest.ExecAsync();
             if (null != initRes.Error) throw initRes.Error;
             var resJson = initRes.GetResponseAsJObject();
@@ -113,7 +113,7 @@ namespace FHSDK
         public static async Task<FHResponse> Act(string remoteAct, object actParams)
         {
             RequireAppReady();
-            var actRequest = new FHActRequest(CloudProps) {TimeOut = Timeout};
+            var actRequest = new FHActRequest(CloudProps) {TimeOut = TimeOut};
             return await actRequest.ExecAsync(remoteAct, actParams);
         }
 
@@ -127,7 +127,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId)
         {
             RequireAppReady();
-            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = TimeOut};
             authRequest.SetAuthPolicyId(policyId);
             return await authRequest.ExecAsync();
         }
@@ -143,7 +143,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
-            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
+            var authRequest = new FHAuthRequest(CloudProps) { TimeOut = TimeOut };
             authRequest.SetAuthUser(policyId, userName, userPassword);
             return await authRequest.ExecAsync();
         }
@@ -167,7 +167,8 @@ namespace FHSDK
                 RequestMethod = requestMethod,
                 RequestPath = path,
                 RequestHeaders = headers,
-                RequestParams = requestParams
+                RequestParams = requestParams,
+                TimeOut = TimeOut
             };
             return cloudRequest;
         }
