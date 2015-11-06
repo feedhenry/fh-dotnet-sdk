@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Threading;
 using System.Threading.Tasks;
+using AeroGear.Push;
 using FHSDK.API;
 using FHSDK.Config;
 using FHSDK.FHHttpClient;
@@ -10,7 +10,6 @@ using FHSDK.Services;
 using FHSDK.Services.Data;
 using FHSDK.Services.Log;
 using FHSDK.Services.Network;
-using AeroGear.Push;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -143,7 +142,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
-            var authRequest = new FHAuthRequest(CloudProps) { TimeOut = TimeOut };
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = TimeOut};
             authRequest.SetAuthUser(policyId, userName, userPassword);
             return await authRequest.ExecAsync();
         }
@@ -299,8 +298,9 @@ namespace FHSDK
 
             return headers;
         }
+
         /// <summary>
-        /// If you want to receive push notifications call this method with a event handler that will receive the notifications
+        ///     If you want to receive push notifications call this method with a event handler that will receive the notifications
         /// </summary>
         /// <param name="HandleNotification">The andlerl that will receive the notifications</param>
         public static async void RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
@@ -309,7 +309,7 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Update the categories used for push notifications
+        ///     Update the categories used for push notifications
         /// </summary>
         /// <param name="categories">then new categories</param>
         public static async void SetPushCategories(List<string> categories)
@@ -318,7 +318,7 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Update the alias used for the push notifications
+        ///     Update the alias used for the push notifications
         /// </summary>
         /// <param name="alias">the alias for this device</param>
         public static async void SetPushAlias(string alias)
