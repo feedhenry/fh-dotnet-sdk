@@ -9,7 +9,7 @@ using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
 
-namespace FHSDK.Droid
+namespace FHSDK
 {
     /// <summary>
     /// Contains the entry class of the FeedHenry Xamarin SDK for Android platform. It's defined in the FHXamarinAndroidSDK.dll.

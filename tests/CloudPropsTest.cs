@@ -1,6 +1,13 @@
-﻿using FHSDK;
-using FHSDK.Config;
+﻿#if __MOBILE__
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+
+using FHSDK;
+using FHSDK.Config;
 using Newtonsoft.Json.Linq;
 using tests.Mocks;
 

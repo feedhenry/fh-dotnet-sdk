@@ -1,11 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿#if __MOBILE__
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+using TestInitialize = NUnit.Framework.SetUpAttribute;
+#else
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+
+using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.API;
 using FHSDK.Config;
 using FHSDK.FHHttpClient;
 using FHSDK.Services;
 using FHSDK.Services.Auth;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
 using tests.Mocks;
 

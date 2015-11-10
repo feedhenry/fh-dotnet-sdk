@@ -1,9 +1,17 @@
-﻿using System.IO;
+﻿#if __MOBILE__
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+using TestInitialize = NUnit.Framework.SetUpAttribute;
+#else
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+
+using System.IO;
 using FHSDK;
 using FHSDK.Services;
 using FHSDK.Services.Data;
 using FHSDK.Sync;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
 
 namespace tests

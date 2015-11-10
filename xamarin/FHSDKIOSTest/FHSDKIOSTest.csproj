@@ -92,6 +92,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -101,6 +102,42 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
+    <Compile Include="..\..\tests\HashTester.cs">
+      <Link>HashTester.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockDeviceService.cs">
+      <Link>Mocks\MockDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockHttpClient.cs">
+      <Link>Mocks\MockHttpClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockOAuthClient.cs">
+      <Link>Mocks\MockOAuthClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockResponseDataset.cs">
+      <Link>Mocks\MockResponseDataset.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\AuthRequestTest.cs">
+      <Link>AuthRequestTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\CloudPropsTest.cs">
+      <Link>CloudPropsTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\ConfigTest.cs">
+      <Link>ConfigTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\HttpClientTest.cs">
+      <Link>HttpClientTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\InMemoryDataStoreTest.cs">
+      <Link>InMemoryDataStoreTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\SyncTest.cs">
+      <Link>SyncTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\TaskModel.cs">
+      <Link>TaskModel.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FHXamarinIOSSDK\FHXamarinIOSSDK.csproj">
@@ -116,4 +153,7 @@
     <BundleResource Include="fhconfiglocal.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Mocks\" />
+  </ItemGroup>
 </Project>
