@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
-using TestInitialize = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
@@ -20,16 +19,11 @@ namespace tests
     [TestClass]
     public class HttpClientTest
     {
-        [TestInitialize]
-        public async void Setup()
-        {
-            await FHClient.Init();
-        }
-
         [TestMethod]
         public async Task ShouldSendAsync()
         {
             //given
+            await FHClient.Init();
             var mock = new MockHttpClient();
             FHHttpClientFactory.Get = () => mock;
             const string method = "POST";
@@ -50,6 +44,7 @@ namespace tests
         public async Task ShouldPerformGet()
         {
             //given
+            await FHClient.Init();
             var mock = new MockHttpClient();
             FHHttpClientFactory.Get = () => mock;
             const string method = "GET";
