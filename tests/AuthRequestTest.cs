@@ -50,11 +50,3 @@ namespace tests
         }
     }
 }
-            //then
-            Assert.IsNotNull(response);
-            var responseParams = response.GetResponseAsDictionary();
-            Assert.IsNotNull(responseParams);
-            Assert.AreEqual("token", responseParams["sessionToken"]);
-        }
-    }
-}
