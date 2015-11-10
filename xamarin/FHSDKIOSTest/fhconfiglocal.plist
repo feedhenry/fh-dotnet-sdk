@@ -4,5 +4,15 @@
 <dict>
 	<key>host</key>
 	<string>http://192.168.28.34:8001</string>
+	<key>appid</key>
+	<string>appid_for_test</string>
+	<key>projectid</key>
+	<string>project_id_for_test</string>
+	<key>appkey</key>
+	<string>app_key_for_test</string>
+	<key>connectiontag</key>
+	<string>connection_tag_for_test</string>
+	<key>apptitle</key>
+	<string>my_app</string>
 </dict>
 </plist>

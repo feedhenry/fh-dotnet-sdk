@@ -1,9 +1,17 @@
-﻿using System;
+﻿#if __MOBILE__
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+using TestInitialize = NUnit.Framework.SetUpAttribute;
+#else
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.FHHttpClient;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json.Linq;
 using tests.Mocks;
 
@@ -13,9 +21,9 @@ namespace tests
     public class HttpClientTest
     {
         [TestInitialize]
-        public void Setup()
+        public async void Setup()
         {
-            FHClient.Init();
+            await FHClient.Init();
         }
 
         [TestMethod]
