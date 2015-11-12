@@ -13,6 +13,10 @@ namespace FHSDK.Services.Network
         /// <returns>if the device is online</returns>
         Task<bool> IsOnlineAsync();
 
+        /// <summary>
+        /// Check is the device is online.
+        /// </summary>
+        /// <returns></returns>
         bool IsOnline();
     }
 }

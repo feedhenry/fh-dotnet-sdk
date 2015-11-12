@@ -7,6 +7,9 @@ using FHSDK.Services.Data;
 
 namespace FHSDK.API
 {
+    /// <summary>
+    /// FHAuthSession is resposible to manage OAuth tokens.
+    /// </summary>
     public sealed class FHAuthSession
     {
         private const string SessionTokenKey = "sessionToken";
@@ -19,6 +22,9 @@ namespace FHSDK.API
         {
         }
 
+        /// <summary>
+        ///     Get unique instance of FHAuthSession singleton.
+        /// </summary>
         public static FHAuthSession GetInstance
         {
             get { return Instance; }

@@ -16,13 +16,19 @@ using Newtonsoft.Json.Linq;
 namespace FHSDK
 {
     /// <summary>
-    ///     This is the main FeedHenry SDK class
+    ///     This is the main FeedHenry SDK class.
     /// </summary>
     public class FH
     {
         private const double DefaultTimeout = 30;
         private const string SdkVersionString = "1.3.0";
+        /// <summary>
+        /// App is ready when app is successfully initialized.
+        /// </summary>
         protected static bool AppReady;
+        /// <summary>
+        /// Properties returned by Cloud app.
+        /// </summary>
         protected static CloudProps CloudProps;
         private static TimeSpan _timeout = TimeSpan.FromSeconds(DefaultTimeout);
 
