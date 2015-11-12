@@ -11,19 +11,31 @@ using FHSDK.Services.Log;
 namespace FHSDK.Sync
 {
     /// <summary>
-    /// Thread-safe in memory data cache
+    /// Thread-safe in memory data cache.
     /// </summary>
 	public class InMemoryDataStore<T> : IDataStore<T>
 	{
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
         private Dictionary<string, T> memoryStore;
+
+        /// <summary>
+        /// Path to file storage.
+        /// </summary>
 		public string PersistPath { set; get; }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
 		public InMemoryDataStore ()
 		{
 			memoryStore = new Dictionary<string, T> ();
 		}
 
+        /// <summary>
+        /// Add an item.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="obj"></param>
 		public void Insert(string key, T obj)
 		{
             cacheLock.EnterWriteLock();
@@ -37,6 +49,11 @@ namespace FHSDK.Sync
             }
 		}
 
+        /// <summary>
+        /// Get an item.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
 		public T Get(string key)
 		{
             cacheLock.EnterReadLock();
@@ -53,6 +70,11 @@ namespace FHSDK.Sync
 			
 		}
 
+        /// <summary>
+        /// Delete an item.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public T Delete(string key)
         {
             cacheLock.EnterUpgradeableReadLock();
@@ -81,11 +103,18 @@ namespace FHSDK.Sync
 
         }
 
+        /// <summary>
+        /// List all items.
+        /// </summary>
+        /// <returns></returns>
 		public Dictionary<string, T> List()
 		{
 			return memoryStore;
 		}
 
+        /// <summary>
+        /// Save permentently the storage.
+        /// </summary>
 		public void Save()
 		{
 			IIOService ioService = ServiceFinder.Resolve<IIOService> ();
@@ -101,6 +130,9 @@ namespace FHSDK.Sync
             }
 		}
 
+        /// <summary>
+        /// Reset storage.
+        /// </summary>
         public void Clear()
         {
             cacheLock.EnterWriteLock();
@@ -111,6 +143,10 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Clone storage.
+        /// </summary>
+        /// <returns></returns>
         public IDataStore<T> Clone()
         {
             InMemoryDataStore<T> cloned = new InMemoryDataStore<T>();
@@ -129,7 +165,12 @@ namespace FHSDK.Sync
 
         }
 
-
+        /// <summary>
+        /// Load in-memory storage from file.
+        /// </summary>
+        /// <typeparam name="X"></typeparam>
+        /// <param name="fullFilePath"></param>
+        /// <returns></returns>
 		public static InMemoryDataStore<X> Load<X>(string fullFilePath)
 		{
 			InMemoryDataStore<X> dataStore = new InMemoryDataStore<X>();

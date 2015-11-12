@@ -16,11 +16,21 @@ using Newtonsoft.Json.Converters;
 
 namespace FHSDK.Sync
 {
+    /// <summary>
+    /// FHsyncDataset represent a set of data to expose to synchronization.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class FHSyncDataset<T> where T : IFHSyncModel
     {
         private const string LOG_TAG = "FHSyncDataset";
         private const string PERSIST_FILE_NAME = ".sync.json";
+        /// <summary>
+        /// Where is the data persisted.
+        /// </summary>
         protected const string DATA_PERSIST_FILE_NAME = ".data.json";
+        /// <summary>
+        /// Where is the pending data persisted.
+        /// </summary>
         protected const string PENDING_DATA_PERSIST_FILE_NAME = ".pendings.json";
         /// <summary>
         /// If the sync loop is running
@@ -99,9 +109,15 @@ namespace FHSDK.Sync
 
         public event EventHandler<FHSyncNotificationEventArgs> SyncNotificationHandler;
 
+        /// <summary>
+        /// Used to have a mapping if the temporary assigned uid and its definitive uid (assigned in cloud apps).
+        /// </summary>
         [JsonProperty]
         protected IDictionary<string, string> UidMapping { get; set;} 
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FHSyncDataset()
         {
         }
@@ -186,7 +202,7 @@ namespace FHSDK.Sync
         }
 
         /// <summary>
-        /// Create data
+        /// Create data.
         /// </summary>
         /// <param name="data">Data.</param>
         public T Create(T data)
@@ -272,7 +288,13 @@ namespace FHSDK.Sync
                 return ret;
             }
         }
-
+        /// <summary>
+        /// Add pending records.
+        /// </summary>
+        /// <param name="UID"></param>
+        /// <param name="dataRecords"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         protected FHSyncPendingRecord<T> AddPendingRecord(string UID, T dataRecords, string action)
         {
             if (!networkService.IsOnline())
@@ -314,6 +336,10 @@ namespace FHSDK.Sync
         }
 
         //TODO: probably move this to a dedicated PendingRecordsManager
+        /// <summary>
+        /// Store pending record to a local storage.
+        /// </summary>
+        /// <param name="pendingRecord"></param>
         protected void StorePendingRecord(FHSyncPendingRecord<T> pendingRecord)
         {
             this.pendingRecords.Insert(pendingRecord.GetHashValue(), pendingRecord);
@@ -411,7 +437,10 @@ namespace FHSDK.Sync
                 this.syncPending = true;
             }
         }
-
+        /// <summary>
+        /// Mainmethod called to start synchronization pooling.
+        /// </summary>
+        /// <returns></returns>
         public async Task StartSyncLoop()
         {
             this.syncPending = false;
@@ -962,7 +991,7 @@ namespace FHSDK.Sync
 
 
         /// <summary>
-        /// Persist the dataset
+        /// Persist the dataset.
         /// </summary>
         protected void Save()
         {
@@ -1019,6 +1048,13 @@ namespace FHSDK.Sync
             return dataSet;
         }
 
+        /// <summary>
+        /// Get file storage path.
+        /// </summary>
+        /// <param name="syncConfig"></param>
+        /// <param name="datasetId"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         protected static String GetPersistFilePathForDataset(FHSyncConfig syncConfig, string datasetId, string fileName)
         {
             string filePath = FHSyncUtils.GetDataFilePath(datasetId, fileName);
@@ -1056,7 +1092,9 @@ namespace FHSDK.Sync
                 return false;
            }
         }
-
+        /// <summary>
+        /// Start synchronization pooling.
+        /// </summary>
         public async void RunSyncLoop()
         {
             DebugLog("Checking if sync loop should run");
@@ -1066,7 +1104,7 @@ namespace FHSDK.Sync
         }
 
         /// <summary>
-        /// Will run a sync loop
+        /// Will run a sync loop.
         /// </summary>
         public void DoSync()
         {
@@ -1074,7 +1112,7 @@ namespace FHSDK.Sync
         }
 
         /// <summary>
-        /// Stop the sync
+        /// Stop the sync.
         /// </summary>
         public void StopSync()
         {
@@ -1084,7 +1122,7 @@ namespace FHSDK.Sync
         }
 
         /// <summary>
-        /// Start sync
+        /// Start sync.
         /// </summary>
         public void StartSync()
         {
@@ -1093,11 +1131,21 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Get le thist of pending records.
+        /// </summary>
+        /// <returns></returns>
         public IDataStore<FHSyncPendingRecord<T>> GetPendingRecords()
         {
             return this.pendingRecords.Clone();
         }
 
+        /// <summary>
+        /// Callback method for synchronization events.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
         protected virtual void OnSyncNotification(string uid, SyncNotification code, string message)
         {
             if(null != this.SyncNotificationHandler){
@@ -1112,31 +1160,70 @@ namespace FHSDK.Sync
             }
         }
             
-
+        /// <summary>
+        /// 
+        /// </summary>
         public class FHSyncLoopParams
         {
+            /// <summary>
+            /// Constructor.
+            /// </summary>
             public FHSyncLoopParams()
             {
 
             }
-
+            /// <summary>
+            /// Get dataset name.
+            /// </summary>
             [JsonProperty("fn")]
             public string FnName { get; set; }
+
+            /// <summary>
+            /// Get dataset id.
+            /// </summary>
             [JsonProperty("dataset_id")]
             public string DatasetId { get; set; }
+
+            /// <summary>
+            /// Get query params.
+            /// </summary>
             [JsonProperty("query_params")]
             public IDictionary<string, string> QueryParams { set; get; }
+
+            /// <summary>
+            /// Get sync config.
+            /// </summary>
             [JsonProperty("config")]
             public FHSyncConfig SyncConfg { get; set; }
+
+            /// <summary>
+            /// Get meta data.
+            /// </summary>
             [JsonProperty("meta")]
             public FHSyncMetaData MetaData { get; set; }
+
+            /// <summary>
+            /// Get dataset hash.
+            /// </summary>
             [JsonProperty("dataset_hash")]
             public string Hash { set; get; }
+
+            /// <summary>
+            /// Get acknowledgements.
+            /// </summary>
             [JsonProperty("acknowledgements")]
             public List<FHSyncResponseUpdatesData> Acknowledgements { set; get;}
+
+            /// <summary>
+            /// Get pendings.
+            /// </summary>
             [JsonProperty("pending")]
             public List<JObject> Pendings { set; get; }
-
+            
+            /// <summary>
+            /// Set loops params.
+            /// </summary>
+            /// <param name="dataset"></param>
             public FHSyncLoopParams(FHSyncDataset<T> dataset)
             {
                 this.FnName = "sync";
@@ -1158,30 +1245,63 @@ namespace FHSDK.Sync
                 this.Pendings = pendingRecords;
             }
 
+            /// <summary>
+            /// Serialize to string.
+            /// </summary>
+            /// <returns></returns>
             public override string ToString()
             {
                 return FHSyncUtils.SerializeObject(this);
             }
         }
 
+        /// <summary>
+        /// Class to represents Sync data params.
+        /// </summary>
         public class FHSyncRecordsParams
         {
+            /// <summary>
+            /// Constructor.
+            /// </summary>
             public FHSyncRecordsParams()
             {
                 
             }
 
+            /// <summary>
+            /// Name.
+            /// </summary>
             [JsonProperty("fn")]
             public string FnName { get; set; }
+
+            /// <summary>
+            /// Dataset id.
+            /// </summary>
             [JsonProperty("dataset_id")]
             public string DatasetId { get; set; }
+
+            /// <summary>
+            /// Query params.
+            /// </summary>
             [JsonProperty("query_params")]
             public IDictionary<string, string> QueryParams { set; get; }
+
+            /// <summary>
+            /// Client records.
+            /// </summary>
             [JsonProperty("clientRecs")]
             Dictionary<string, string> ClientRecords { set; get; }
+
+            /// <summary>
+            /// Dataset hash.
+            /// </summary>
             [JsonProperty("dataset_hash")]
             public string Hash { set; get; }
 
+            /// <summary>
+            /// Constructor.
+            /// </summary>
+            /// <param name="dataset"></param>
             public FHSyncRecordsParams(FHSyncDataset<T> dataset)
             {
                 this.FnName = "syncRecords";
@@ -1198,13 +1318,22 @@ namespace FHSDK.Sync
         }
     }
 
+    /// <summary>
+    /// MetaData used for sync.
+    /// </summary>
     public class FHSyncMetaData
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FHSyncMetaData()
         {
             this.metaData = new Dictionary<string, Dictionary<string, string>>();
         }
 
+        /// <summary>
+        /// A dictionary of meta data. 
+        /// </summary>
         public Dictionary<string, Dictionary<string, string>> metaData { set; get; }
 
         private Dictionary<string, string> GetDict(string uid)
@@ -1221,18 +1350,35 @@ namespace FHSDK.Sync
             return dict;
         }
 
+        /// <summary>
+        /// Add a string meta data with its key/value.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void InsertStringMetaData(string uid, string key, string value)
         {
             GetDict(uid);
             metaData[uid][key] = value;
         }
 
+        /// <summary>
+        /// Add a boolean meta data with its key/value.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void InsertBoolMetaData(string uid, string key, bool value)
         {
             GetDict(uid);
             metaData[uid][key] = value.ToString();
         }
-
+        /// <summary>
+        /// Get a string meta data fron its key.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string GetMetaDataAsString(string uid, string key)
         {
             if(metaData.ContainsKey(uid)){
@@ -1246,6 +1392,12 @@ namespace FHSDK.Sync
 
         }
 
+        /// <summary>
+        /// Get a boolean meta data from its key.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool GetMetaDataAsBool(string uid, string key)
         {
             string val = GetMetaDataAsString(uid, key);
@@ -1259,6 +1411,9 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// List of metadata keys/
+        /// </summary>
         [JsonIgnore]
         public Dictionary<string, Dictionary<string, string>>.KeyCollection Keys 
         {
@@ -1267,6 +1422,11 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Delete a meta data object from its key.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="key"></param>
         public void DeleteMetaData(string uid, string key)
         {
             Dictionary<string, string>  dict = GetDict(uid);
@@ -1275,6 +1435,10 @@ namespace FHSDK.Sync
             }
         }
 
+        /// <summary>
+        /// Delete all meta data.
+        /// </summary>
+        /// <param name="uid"></param>
         public void Delete(string uid)
         {
             if(metaData.ContainsKey(uid)){
@@ -1284,22 +1448,43 @@ namespace FHSDK.Sync
 
     }
 
+    /// <summary>
+    /// Sync Response.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class FHSyncResponseData<T> where T : IFHSyncModel
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FHSyncResponseData()
         {
 
         }
 
+        /// <summary>
+        /// List records from cloud app.
+        /// </summary>
         [JsonProperty("records")]
         public Dictionary<string, FHSyncDataRecord<T>> Records { set; get; }
 
+        /// <summary>
+        /// List updates detected in cloud app.
+        /// </summary>
         [JsonProperty("updates")]
         public Dictionary<string, Dictionary<string, FHSyncResponseUpdatesData>> Updates { set; get; }
 
+        /// <summary>
+        /// Hash from cloud app.
+        /// </summary>
         [JsonProperty("hash")]
         public string Hash { set; get; }
 
+        /// <summary>
+        /// Applied updates in cloud app.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public FHSyncResponseUpdatesData GetAppliedUpdates(string key)
         {
             if(null != this.Updates && this.Updates.Count > 0){
@@ -1313,6 +1498,11 @@ namespace FHSDK.Sync
             return null;
         }
 
+        /// <summary>
+        /// All remote records.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public FHSyncDataRecord<T> GetRemoteRecord(string key)
         {
             if(null != this.Records && this.Records.Count > 0){
@@ -1322,7 +1512,11 @@ namespace FHSDK.Sync
             }
             return null;
         }
-
+        /// <summary>
+        /// Updates per hash from cloud app.
+        /// </summary>
+        /// <param name="hash"></param>
+        /// <returns></returns>
         public FHSyncResponseUpdatesData GetUpdateByHash(string hash){
             if(null != this.Updates && this.Updates.ContainsKey("hashes")){
                 Dictionary<string, FHSyncResponseUpdatesData> hashes = this.Updates["hashes"];
@@ -1334,13 +1528,22 @@ namespace FHSDK.Sync
         }
     }
 
+    /// <summary>
+    /// Utilities class to get list of updates from cloud app.
+    /// </summary>
     public class FHSyncResponseUpdatesData
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FHSyncResponseUpdatesData()
         {
 
         }
 
+        /// <summary>
+        /// Was the update applied, failed or in collisions.
+        /// </summary>
         public enum FHSyncResponseUpdatesDataType
         {
             applied,
@@ -1348,37 +1551,79 @@ namespace FHSDK.Sync
             collisions
         }
 
+        /// <summary>
+        /// Cuid.
+        /// </summary>
         [JsonProperty("cuid")]
         public string Cuid { set; get; }
+
+        /// <summary>
+        /// Type.
+        /// </summary>
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public FHSyncResponseUpdatesDataType Type { set; get; }
+
+        /// <summary>
+        /// Action.
+        /// </summary>
         [JsonProperty("action")]
         public string Action { set; get; }
+
+        /// <summary>
+        /// Hash.
+        /// </summary>
         [JsonProperty("hash")]
         public string Hash { set; get; }
+
+        /// <summary>
+        /// Uid.
+        /// </summary>
         [JsonProperty("uid")]
         public string Uid { set; get; }
+
+        /// <summary>
+        /// Message.
+        /// </summary>
         [JsonProperty("message")]
         public string Message { set; get; }
     }
 
+    /// <summary>
+    /// Response received from a syncRecords call.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class FHSyncRecordsResponseData<T> where T: IFHSyncModel
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public FHSyncRecordsResponseData()
         {
 
         }
 
+        /// <summary>
+        /// Hash.
+        /// </summary>
         [JsonProperty("hash")]
         public string Hash { set; get; }
 
+        /// <summary>
+        /// List of required "Create" action.
+        /// </summary>
         [JsonProperty("create")]
         public Dictionary<string, FHSyncDataRecord<T>> CreatedRecords { set; get; }
 
+        /// <summary>
+        /// List of required "update" action.
+        /// </summary>
         [JsonProperty("update")]
         public Dictionary<string, FHSyncDataRecord<T>> UpdatedRecords { set; get; }
 
+        /// <summary>
+        /// List of required "delete" action.
+        /// </summary>
         [JsonProperty("delete")]
         public Dictionary<string, FHSyncDataRecord<T>> DeletedRecords { set; get; }
 
