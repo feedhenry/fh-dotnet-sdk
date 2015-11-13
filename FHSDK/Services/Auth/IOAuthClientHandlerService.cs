@@ -6,17 +6,29 @@ using Newtonsoft.Json.Linq;
 namespace FHSDK.Services.Auth
 {
     /// <summary>
-    ///     Class to handle oAuth logins given the oauth login url
+    /// Interface to handle OAuth login.
     /// </summary>
     public interface IOAuthClientHandlerService
     {
         Task<OAuthResult> Login(string oauthLoginUrl);
     }
-
+    /// <summary>
+    ///  Class to handle OAuth login given the oauth login URL.
+    /// </summary>
     public abstract class OAuthClientHandlerServiceBase : IOAuthClientHandlerService
     {
+        /// <summary>
+        /// Abstract method to login.
+        /// </summary>
+        /// <param name="oauthLoginUrl"></param>
+        /// <returns></returns>
         public abstract Task<OAuthResult> Login(string oauthLoginUrl);
 
+        /// <summary>
+        /// Callback method once the login method is successfull.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="tcs"></param>
         protected static void OnSuccess(Uri uri, TaskCompletionSource<OAuthResult> tcs)
         {
             var queryParams = uri.Query;
@@ -46,10 +58,13 @@ namespace FHSDK.Services.Auth
     }
 
     /// <summary>
-    ///     Class represents the result of the OAuth login
+    /// Class represents the result of the OAuth login.
     /// </summary>
     public class OAuthResult
     {
+        /// <summary>
+        /// Enum to list possible OAuth result.
+        /// </summary>
         public enum ResultCode
         {
             Ok = 0,
@@ -59,7 +74,7 @@ namespace FHSDK.Services.Auth
         }
 
         /// <summary>
-        ///     Constructor
+        /// Constructor.
         /// </summary>
         /// <param name="result">the result code</param>
         public OAuthResult(ResultCode result)
@@ -71,7 +86,7 @@ namespace FHSDK.Services.Auth
         }
 
         /// <summary>
-        ///     Constructor
+        /// Constructor.
         /// </summary>
         /// <param name="result">the result code</param>
         /// <param name="exception">the error exception</param>
@@ -84,7 +99,7 @@ namespace FHSDK.Services.Auth
         }
 
         /// <summary>
-        ///     Constructor
+        /// Constructor.
         /// </summary>
         /// <param name="result">the result code</param>
         /// <param name="sessionToken">the session token</param>
@@ -98,27 +113,27 @@ namespace FHSDK.Services.Auth
         }
 
         /// <summary>
-        ///     Get the result code
+        /// Get the result code.
         /// </summary>
         public ResultCode Result { get; private set; }
 
         /// <summary>
-        ///     Get the sessionToken
+        /// Get the sessionToken.
         /// </summary>
         public string SessionToken { get; private set; }
 
         /// <summary>
-        ///     Get the acutal OAuth response
+        /// Get the acutal OAuth response.
         /// </summary>
         public string AuthResponse { get; private set; }
 
         /// <summary>
-        ///     Get the error message if failed.
+        /// Get the error message if failed.
         /// </summary>
         public Exception Error { get; private set; }
 
         /// <summary>
-        ///     Return the string representation of this object
+        /// Return the string representation of this object.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

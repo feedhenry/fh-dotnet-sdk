@@ -23,10 +23,19 @@
         /// <returns>the device type</returns>
         string GetDeviceDestination();
     }
-
+    /// <summary>
+    /// Constant that holds default name for config files.
+    /// </summary>
     public static class Constants
     {
+        /// <summary>
+        /// Development mode config file which override deafult config file.
+        /// </summary>
         public const string LocalConfigFileName = "fhconfig.local.json";
+
+        /// <summary>
+        /// Default config file.
+        /// </summary>
         public const string ConfigFileName = "fhconfig.json";
     }
 }

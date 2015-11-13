@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Windows;
+using AeroGear.Push;
 using FHSDK;
-using FHSDK.Phone;
 using FHSDK.Services;
 using FHSDK.Services.Device;
 using Microsoft.Phone.Info;
 using Environment = Microsoft.Devices.Environment;
-using AeroGear.Push;
-using FHSDK.Services.Network;
 
 namespace WindowsPhoneExample
 {
@@ -26,22 +24,18 @@ namespace WindowsPhoneExample
         private async void InitApp()
         {
             await FHClient.Init();
-            FHClient.RegisterPush(NotificationReceived);
+            FH.RegisterPush(NotificationReceived);
             ShowMessage("App Ready!");
         }
 
-        void NotificationReceived(object sender, PushReceivedEvent pushEvent)
+        private void NotificationReceived(object sender, PushReceivedEvent pushEvent)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                ShowMessage(pushEvent.Args.Message);
-            });
+            Dispatcher.BeginInvoke(() => { ShowMessage(pushEvent.Args.Message); });
         }
 
         private async void CloudButton_Click(object sender, RoutedEventArgs e)
         {
-            var data = new Dictionary<string, object>();
-            data.Add("hello", "world");
+            var data = new Dictionary<string, object> {{"hello", "world"}};
             string message;
             var res = await FH.Cloud("hello", "GET", null, data);
             if (res.StatusCode == HttpStatusCode.OK)
@@ -63,39 +57,23 @@ namespace WindowsPhoneExample
 
         private async void AuthButton_Click(object sender, RoutedEventArgs e)
         {
-            var authPolicy = "TestGooglePolicy";
+            const string authPolicy = "TestGooglePolicy";
             var res = await FH.Auth(authPolicy);
-            if (null == res.Error)
-            {
-                ShowMessage(res.RawResponse);
-            }
-            else
-            {
-                ShowMessage(res.Error.Message);
-            }
+            ShowMessage(null == res.Error ? res.RawResponse : res.Error.Message);
         }
 
         private async void MBAASAuthButton_Click(object sender, RoutedEventArgs e)
         {
-            var authPolicy = "LdapTest";
-            var username = "Martin Murphy";
-            var password = "hello";
+            const string authPolicy = "LdapTest";
+            const string username = "Martin Murphy";
+            const string password = "hello";
             var res = await FH.Auth(authPolicy, username, password);
-            if (null == res.Error)
-            {
-                ShowMessage(res.RawResponse);
-            }
-            else
-            {
-                ShowMessage(res.Error.Message);
-            }
+            ShowMessage(null == res.Error ? res.RawResponse : res.Error.Message);
         }
 
         private async void MBAASButton_Click(object sender, RoutedEventArgs e)
         {
-            var data = new Dictionary<string, object>();
-            data.Add("act", "create");
-            data.Add("type", CollectionName);
+            var data = new Dictionary<string, object> {{"act", "create"}, {"type", CollectionName}};
             //create the collection first
             var createRes = await FH.Mbaas("db", data);
             ShowMessage(createRes.RawResponse);
@@ -104,11 +82,8 @@ namespace WindowsPhoneExample
             var deviceId = GetDeviceId();
 
             //check if it exists
-            data = new Dictionary<string, object>();
-            data.Add("type", CollectionName);
-            data.Add("act", "list");
-            var deviceIdField = new Dictionary<string, string>();
-            deviceIdField.Add("deviceId", deviceId);
+            data = new Dictionary<string, object> {{"type", CollectionName}, {"act", "list"}};
+            var deviceIdField = new Dictionary<string, string> {{"deviceId", deviceId}};
             data.Add("eq", deviceIdField);
             var listRes = await FH.Mbaas("db", data);
             ShowMessage(listRes.RawResponse);
@@ -116,10 +91,12 @@ namespace WindowsPhoneExample
             var listResDic = listRes.GetResponseAsDictionary();
             if (Convert.ToInt16(listResDic["count"]) == 0)
             {
-                data = new Dictionary<string, object>();
-                data.Add("act", "create");
-                data.Add("type", CollectionName);
-                data.Add("fields", GetDeviceInfo());
+                data = new Dictionary<string, object>
+                {
+                    {"act", "create"},
+                    {"type", CollectionName},
+                    {"fields", GetDeviceInfo()}
+                };
 
                 var dataCreateRes = await FH.Mbaas("db", data);
                 ShowMessage(dataCreateRes.RawResponse);
@@ -132,16 +109,18 @@ namespace WindowsPhoneExample
 
         private Dictionary<string, string> GetDeviceInfo()
         {
-            var info = new Dictionary<string, string>();
-            info.Add("deviceId", GetDeviceId());
-            info.Add("device", Environment.DeviceType.ToString());
-            info.Add("model", DeviceStatus.DeviceHardwareVersion);
-            info.Add("manufacture", DeviceStatus.DeviceManufacturer);
-            info.Add("product", DeviceStatus.DeviceName);
+            var info = new Dictionary<string, string>
+            {
+                {"deviceId", GetDeviceId()},
+                {"device", Environment.DeviceType.ToString()},
+                {"model", DeviceStatus.DeviceHardwareVersion},
+                {"manufacture", DeviceStatus.DeviceManufacturer},
+                {"product", DeviceStatus.DeviceName}
+            };
             return info;
         }
 
-        private string GetDeviceId()
+        private static string GetDeviceId()
         {
             var deviceService = ServiceFinder.Resolve<IDeviceService>();
             var deviceId = deviceService.GetDeviceId();

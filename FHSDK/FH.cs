@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using AeroGear.Push;
 using FHSDK.API;
 using FHSDK.Config;
 using FHSDK.FHHttpClient;
@@ -9,22 +10,27 @@ using FHSDK.Services;
 using FHSDK.Services.Data;
 using FHSDK.Services.Log;
 using FHSDK.Services.Network;
-using AeroGear.Push;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FHSDK
 {
     /// <summary>
-    ///     This is the main FeedHenry SDK class
+    ///     This is the main FeedHenry SDK class.
     /// </summary>
     public class FH
     {
-        private const double DefaultTimeout = 30*1000;
+        private const double DefaultTimeout = 30;
         private const string SdkVersionString = "1.3.0";
+        /// <summary>
+        /// App is ready when app is successfully initialized.
+        /// </summary>
         protected static bool AppReady;
+        /// <summary>
+        /// Properties returned by Cloud app.
+        /// </summary>
         protected static CloudProps CloudProps;
-        protected static TimeSpan Timeout = TimeSpan.FromMilliseconds(DefaultTimeout);
+        private static TimeSpan _timeout = TimeSpan.FromSeconds(DefaultTimeout);
 
         /// <summary>
         ///     Get the current version of the FeedHenry .NET SDk
@@ -37,11 +43,11 @@ namespace FHSDK
         /// <summary>
         ///     Get or Set the timeout value for all the requests. Default is 30 seconds.
         /// </summary>
-        protected static TimeSpan TimeOut
+        public static TimeSpan TimeOut
         {
-            get { return Timeout; }
+            private get { return _timeout; }
 
-            set { Timeout = value; }
+            set { _timeout = value; }
         }
 
         /// <summary>
@@ -67,8 +73,7 @@ namespace FHSDK
                 CloudProps = new CloudProps(cloudJson);
                 return true;
             }
-            var initRequest = new FHInitRequest();
-            initRequest.TimeOut = Timeout;
+            var initRequest = new FHInitRequest {TimeOut = TimeOut};
             var initRes = await initRequest.ExecAsync();
             if (null != initRes.Error) throw initRes.Error;
             var resJson = initRes.GetResponseAsJObject();
@@ -113,7 +118,7 @@ namespace FHSDK
         public static async Task<FHResponse> Act(string remoteAct, object actParams)
         {
             RequireAppReady();
-            var actRequest = new FHActRequest(CloudProps) {TimeOut = Timeout};
+            var actRequest = new FHActRequest(CloudProps) {TimeOut = TimeOut};
             return await actRequest.ExecAsync(remoteAct, actParams);
         }
 
@@ -127,7 +132,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId)
         {
             RequireAppReady();
-            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = TimeOut};
             authRequest.SetAuthPolicyId(policyId);
             return await authRequest.ExecAsync();
         }
@@ -143,7 +148,7 @@ namespace FHSDK
         public static async Task<FHResponse> Auth(string policyId, string userName, string userPassword)
         {
             RequireAppReady();
-            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = Timeout};
+            var authRequest = new FHAuthRequest(CloudProps) {TimeOut = TimeOut};
             authRequest.SetAuthUser(policyId, userName, userPassword);
             return await authRequest.ExecAsync();
         }
@@ -167,7 +172,8 @@ namespace FHSDK
                 RequestMethod = requestMethod,
                 RequestPath = path,
                 RequestHeaders = headers,
-                RequestParams = requestParams
+                RequestParams = requestParams,
+                TimeOut = TimeOut
             };
             return cloudRequest;
         }
@@ -298,8 +304,9 @@ namespace FHSDK
 
             return headers;
         }
+
         /// <summary>
-        /// If you want to receive push notifications call this method with a event handler that will receive the notifications
+        ///     If you want to receive push notifications call this method with a event handler that will receive the notifications
         /// </summary>
         /// <param name="HandleNotification">The andlerl that will receive the notifications</param>
         public static async void RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
@@ -308,7 +315,7 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Update the categories used for push notifications
+        ///     Update the categories used for push notifications
         /// </summary>
         /// <param name="categories">then new categories</param>
         public static async void SetPushCategories(List<string> categories)
@@ -317,7 +324,7 @@ namespace FHSDK
         }
 
         /// <summary>
-        /// Update the alias used for the push notifications
+        ///     Update the alias used for the push notifications
         /// </summary>
         /// <param name="alias">the alias for this device</param>
         public static async void SetPushAlias(string alias)

@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FHSDK;
 using FHSDK.FHHttpClient;
 using FHSDK.Services;
 using FHSDK.Services.Auth;
@@ -10,9 +9,8 @@ using FHSDK.Services.Hash;
 using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
-using FHSDKPhone.Services.Network;
 
-namespace FHSDKPortable
+namespace FHSDK
 {
     /// <summary>
     ///     Contains the entry class of the FeedHenry SDK for Windows Phone 8 platform. It's defined in the FHSDKPhone.dll.

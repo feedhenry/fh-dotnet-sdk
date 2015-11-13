@@ -12,15 +12,9 @@ namespace FHSDK.Services
     /// </summary>
 	public class NetworkService: INetworkService
 	{
-		public NetworkService ()
-		{
-		}
-
 		public async Task<bool> IsOnlineAsync()
 		{
-			return await Task.Run( () => {
-				return checkNetworkStatus();
-			});
+			return await Task.Run(() => checkNetworkStatus()).ConfigureAwait(false);
 		}
 
 		public bool IsOnline ()

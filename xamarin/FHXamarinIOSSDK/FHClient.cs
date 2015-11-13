@@ -9,7 +9,7 @@ using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
 
-namespace FHSDK.Touch
+namespace FHSDK
 {
     /// <summary>
     /// Contains the entry class of the FeedHenry Xamarin SDK for iOS platform. It's defined in the FHXamarinIOSSDK.dll.

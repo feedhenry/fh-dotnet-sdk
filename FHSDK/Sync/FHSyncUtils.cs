@@ -10,12 +10,23 @@ using FHSDK.Services.Hash;
 
 namespace FHSDK.Sync
 {
+    /// <summary>
+    /// Utiliies class for synchronization.
+    /// </summary>
 	public class FHSyncUtils
 	{
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
 		public FHSyncUtils ()
 		{
 		}
 
+        /// <summary>
+        /// Gnerate SHA1 hash.
+        /// </summary>
+        /// <param name="pObject"></param>
+        /// <returns></returns>
 		public static string GenerateSHA1Hash (object pObject)
 		{
 			JArray sorted = SortObj (pObject);
@@ -24,6 +35,11 @@ namespace FHSDK.Sync
 			return hasher.GenerateSha1Hash (strVal);
 		}
 
+        /// <summary>
+        /// Clone an object.
+        /// </summary>
+        /// <param name="pData"></param>
+        /// <returns></returns>
 		public static object Clone (object pData)
 		{
 			string strVal = SerializeObject (pData);
@@ -31,24 +47,46 @@ namespace FHSDK.Sync
 			return cloned;
 		}
 
+        /// <summary>
+        /// Serialize an object into a string.
+        /// </summary>
+        /// <param name="pData"></param>
+        /// <returns></returns>
 		public static string SerializeObject(object pData)
 		{
 			return JsonConvert.SerializeObject (pData);
 		}
 
+        /// <summary>
+        /// Deserialized a string into an object.
+        /// </summary>
+        /// <param name="pVal"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
 		public static object DeserializeObject(string pVal, Type t)
 		{
 			return JsonConvert.DeserializeObject(pVal, t);
 		}
 
+        /// <summary>
+        /// Get default storage path.
+        /// </summary>
+        /// <param name="dataId"></param>
+        /// <returns></returns>
 		public static string GetDefaultDataDir(string dataId)
 		{
 			IIOService ioService = ServiceFinder.Resolve<IIOService> ();
 			string dirName = "com_feedhenry_sync";
 			string dataDirPath = Path.Combine (ioService.GetDataPersistDir (), dataId, dirName);
-      return dataDirPath;
+            return dataDirPath;
 		}
 
+        /// <summary>
+        /// Get storage path.
+        /// </summary>
+        /// <param name="dataId"></param>
+        /// <param name="dataFileName"></param>
+        /// <returns></returns>
 		public static string GetDataFilePath(string dataId, string dataFileName)
 		{
 			string defaultDataDir = GetDefaultDataDir (dataId);

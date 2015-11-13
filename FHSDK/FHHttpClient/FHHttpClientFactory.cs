@@ -9,7 +9,7 @@ namespace FHSDK.FHHttpClient
     /// </summary>
 	public static class FHHttpClientFactory
 	{
-		public static Func<HttpClient> Get { get; private set; }
+		public static Func<HttpClient> Get { get; set; }
 
 		static FHHttpClientFactory()
 		{

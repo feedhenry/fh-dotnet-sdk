@@ -1,8 +1,13 @@
 version: 1.0.{build}
+configuration: Release
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: +9CFd0azK+Hl2J7KtYJJUQkXr8qHllJLLf1fbfefn3GcbZqEhHVUhgSGh/05umdE
 before_build:
 - nuget restore
 build:
-  project: FHSDK.sln
   verbosity: minimal
+  project: FHSDK.sln
+test: off
 cache:
-  - packages -> **\packages.config
+- packages -> **\packages.config

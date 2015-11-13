@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace FHSDK.Services.Network
 {
+    /// <summary>
+    /// Push interface to register to Push notification, add categorie or aliases.
+    /// </summary>
     public interface IPush
     {
         /// <summary>

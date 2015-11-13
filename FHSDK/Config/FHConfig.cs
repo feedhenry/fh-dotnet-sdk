@@ -4,7 +4,7 @@ using FHSDK.Services.Device;
 namespace FHSDK.Config
 {
     /// <summary>
-    ///     Singleton class to return various configurations of the app.
+    /// Singleton class to return various configurations of the app.
     /// </summary>
     public class FHConfig
     {
@@ -20,11 +20,24 @@ namespace FHSDK.Config
             _deviceid = uuid;
             IsLocalDevelopment = props.IsLocalDevelopment;
         }
+        /// <summary>
+        /// Initializer used for unit testing.
+        /// </summary>
+        /// <param name="deviceService"></param>
+        public FHConfig(IDeviceService deviceService)
+        {
+            _appProps = deviceService.ReadAppProps();
+            _destination = deviceService.GetDeviceDestination();
+            _deviceid = deviceService.GetDeviceId();
+        }
 
+        /// <summary>
+        /// Whether or not this is a "development" mode config.
+        /// </summary>
         public bool IsLocalDevelopment { get; private set; }
 
         /// <summary>
-        ///     Return the singleton instance of the class
+        /// Return the singleton instance of the class.
         /// </summary>
         /// <returns></returns>
         public static FHConfig GetInstance()
@@ -39,7 +52,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the app's hosting server
+        /// Get the app's hosting server.
         /// </summary>
         /// <returns>the host of the app</returns>
         public string GetHost()
@@ -48,7 +61,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the app id
+        /// Get the app id.
         /// </summary>
         /// <returns>app id</returns>
         public string GetAppId()
@@ -57,7 +70,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the app key
+        /// Get the app key.
         /// </summary>
         /// <returns>app key</returns>
         public string GetAppKey()
@@ -66,7 +79,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the project id
+        /// Get the project id.
         /// </summary>
         /// <returns>project id</returns>
         public string GetProjectId()
@@ -75,7 +88,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the mode of the app. Deprecated.
+        /// Get the mode of the app. Deprecated.
         /// </summary>
         /// <returns>app mode</returns>
         public string GetMode()
@@ -84,7 +97,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the connection tag of the app
+        /// Get the connection tag of the app.
         /// </summary>
         /// <returns>the connection tag</returns>
         public string GetConnectionTag()
@@ -93,7 +106,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the device type the app is running on.
+        /// Get the device type the app is running on.
         /// </summary>
         /// <returns>device type. E.g ios, android , windowsphone</returns>
         public string GetDestination()
@@ -102,7 +115,7 @@ namespace FHSDK.Config
         }
 
         /// <summary>
-        ///     Get the unique device id.
+        /// Get the unique device id.
         /// </summary>
         /// <returns>the unique device id</returns>
         public string GetDeviceId()
