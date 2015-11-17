@@ -903,7 +903,6 @@ namespace FHSDK.Sync
             anotherDataStore.PersistPath = this.dataRecords.PersistPath;
             this.dataRecords = anotherDataStore;
             this.HashValue = syncResData.Hash;
-            this.OnSyncNotification(syncResData.Hash, SyncNotification.DeltaReceived, "full dataset");
         }
 
         private void ProcessUpdatesFromRemote(FHSyncResponseData<T> syncResData)
