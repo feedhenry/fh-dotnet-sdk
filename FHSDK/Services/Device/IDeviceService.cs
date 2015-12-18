@@ -18,10 +18,16 @@
         AppProps ReadAppProps();
 
         /// <summary>
-        ///     Get the device type. E.g. iphone, android, windowsphone8
+        ///     Get the device type. E.g. iphone, android, windowsphone8, windows
         /// </summary>
         /// <returns>the device type</returns>
         string GetDeviceDestination();
+
+        /// <summary>
+        ///     Get the installation directory of the app
+        /// </summary>
+        /// <returns>the directory the app was installed in</returns>
+        string GetPackageDir();
     }
     /// <summary>
     /// Constant that holds default name for config files.
