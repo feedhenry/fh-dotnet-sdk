@@ -4,8 +4,11 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using AeroGear.Push;
 using FHSDK.Config;
+using FHSDK.Services.Data;
 using FHSDK.Services.Device;
 using FHSDK.Services.Log;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FHSDK.Services.Network
 {
@@ -38,7 +41,7 @@ namespace FHSDK.Services.Network
 
             try
             {
-                var config = await ReadConfig(registration);
+                var config = ReadConfig();
                 await registration.Register(config);
             }
             catch (SerializationException)
@@ -56,7 +59,7 @@ namespace FHSDK.Services.Network
         public async Task SetCategories(List<string> categories)
         {
             var registration = CreateRegistration();
-            var config = await ReadConfig(registration);
+            var config = ReadConfig();
             config.Categories = categories;
             await registration.UpdateConfig(config);
         }
@@ -69,7 +72,7 @@ namespace FHSDK.Services.Network
         public async Task SetAlias(string alias)
         {
             var registration = CreateRegistration();
-            var config = await ReadConfig(registration);
+            var config = ReadConfig();
             config.Alias = alias;
             await registration.UpdateConfig(config);
         }
@@ -78,14 +81,26 @@ namespace FHSDK.Services.Network
         /// Read a config file for a given rgistration. Defaulted to fhconfig.json. 
         /// In development mode, fhconfig.local.json overrides default config file.
         /// </summary>
-        /// <param name="registration"></param>
-        /// <returns></returns>
-        private async Task<PushConfig> ReadConfig(Registration registration)
+        /// <returns>The push config</returns>
+        private static PushConfig ReadConfig()
         {
-            string configName;
-            configName = FHConfig.GetInstance().IsLocalDevelopment ? Constants.LocalConfigFileName : Constants.ConfigFileName;
+            var configName = FHConfig.GetInstance().IsLocalDevelopment ? Constants.LocalConfigFileName : Constants.ConfigFileName;
 
-            return await registration.LoadConfigJson(configName);
+            var appProps = ServiceFinder.Resolve<IDeviceService>().ReadAppProps();
+            var json = ServiceFinder.Resolve<IIOService>().ReadFile(configName);
+            var config = (JObject)JsonConvert.DeserializeObject(json);
+            var configWindows = config["windows"];
+
+            var pushConfig = new PushConfig()
+            {
+                Alias = (string) config["Alias"],
+                Categories = config["Categories"].ToObject<List<string>>(),
+                UnifiedPushUri = new Uri(appProps.host + "/api/v2/ag-push"),
+                VariantId = (string) (configWindows != null ? configWindows["VariantID"] : config["VariantID"]),
+                VariantSecret = (string)(configWindows != null ? configWindows["variantSecret"] : config["variantSecret"])
+            };
+
+            return pushConfig;
         }
 
         /// <summary>
