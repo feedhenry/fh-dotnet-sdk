@@ -82,12 +82,14 @@ namespace FHSDK.Services.Network
         /// In development mode, fhconfig.local.json overrides default config file.
         /// </summary>
         /// <returns>The push config</returns>
-        private static PushConfig ReadConfig()
+        internal static PushConfig ReadConfig()
         {
             var configName = FHConfig.GetInstance().IsLocalDevelopment ? Constants.LocalConfigFileName : Constants.ConfigFileName;
 
-            var appProps = ServiceFinder.Resolve<IDeviceService>().ReadAppProps();
-            var json = ServiceFinder.Resolve<IIOService>().ReadFile(configName);
+            var deviceService = ServiceFinder.Resolve<IDeviceService>();
+            var appProps = deviceService.ReadAppProps();
+            var configLocation = deviceService.GetPackageDir() + "\\" + configName;
+            var json = ServiceFinder.Resolve<IIOService>().ReadFile(configLocation);
             var config = (JObject)JsonConvert.DeserializeObject(json);
             var configWindows = config["windows"];
 
@@ -96,7 +98,7 @@ namespace FHSDK.Services.Network
                 Alias = (string) config["Alias"],
                 Categories = config["Categories"].ToObject<List<string>>(),
                 UnifiedPushUri = new Uri(appProps.host + "/api/v2/ag-push"),
-                VariantId = (string) (configWindows != null ? configWindows["VariantID"] : config["VariantID"]),
+                VariantId = (string)(configWindows != null ? configWindows["variantID"] : config["variantID"]),
                 VariantSecret = (string)(configWindows != null ? configWindows["variantSecret"] : config["variantSecret"])
             };
 
