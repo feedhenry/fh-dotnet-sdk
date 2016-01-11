@@ -102,6 +102,9 @@
     <Compile Include="..\tests\Mocks\MockResponseDataset.cs">
       <Link>Mocks\MockResponseDataset.cs</Link>
     </Compile>
+    <Compile Include="..\tests\PushBaseTest.cs">
+      <Link>PushBaseTest.cs</Link>
+    </Compile>
     <Compile Include="..\tests\SyncTest.cs">
       <Link>SyncTest.cs</Link>
     </Compile>
@@ -171,6 +174,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="aerogear-windows-push, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\windowsphone8\aerogear-windows-push.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="cordova, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\windowsphone8\cordova.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Windows.ApplicationModel;
 using Microsoft.Phone.Info;
 using Newtonsoft.Json;
 
@@ -64,6 +65,11 @@ namespace FHSDK.Services.Device
         public string GetDeviceDestination()
         {
             return "windowsphone8";
+        }
+
+        public string GetPackageDir()
+        {
+            return Package.Current.InstalledLocation.Path;
         }
     }
 }

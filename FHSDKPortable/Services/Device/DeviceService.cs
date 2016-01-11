@@ -14,8 +14,6 @@ namespace FHSDK.Services.Device
     /// </summary>
     internal class DeviceService : IDeviceService
     {
-        private const string LocalConfigFileName = "fhconfig.local.json";
-
         public string GetDeviceId()
         {
             var token = HardwareIdentification.GetPackageSpecificToken(null);
@@ -56,7 +54,12 @@ namespace FHSDK.Services.Device
 
         public string GetDeviceDestination()
         {
-            return "windowsphone8";
+            return "windows";
+        }
+
+        public string GetPackageDir()
+        {
+            return Package.Current.InstalledLocation.Path;
         }
 
         private static StorageFile GetFile(string fileName)
