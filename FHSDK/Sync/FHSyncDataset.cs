@@ -494,24 +494,15 @@ namespace FHSDK.Sync
                         // Update the new dataset with details of any pending updates
                         this.UpdateNewDataFromPending(returnedSyncData);
 
-                        if(null != returnedSyncData.Records){
-                            this.UpdateLocalDatasetFromRemote(returnedSyncData);
-                        }
-
                         if(null != returnedSyncData.Updates)
                         {
                             CheckUidChanges(returnedSyncData);
                             this.ProcessUpdatesFromRemote(returnedSyncData);
                         }
 
-                        if(null == returnedSyncData.Records && returnedSyncData.Hash != null){
-                            DebugLog("Local dataset stale - syncing records :: local hash = " + this.HashValue + " - remoteHash = " + returnedSyncData.Hash);
-                            //Different hash value returned - sync individual records
-                            await this.SyncRecords();
-                        } else {
-                            DebugLog("Local dataset up to date");
-                            this.SyncLoopComplete("online", SyncNotification.SyncCompleted);
-                        }
+                        DebugLog("Local dataset stale - syncing records :: local hash = " + this.HashValue + " - remoteHash = " + returnedSyncData.Hash);
+                        //Different hash value returned - sync individual records
+                        await this.SyncRecords();
                     } else {
                         // The HTTP call failed to complete succesfully, so the state of the current pending updates is unknown
                         // Mark them as "crashed". The next time a syncLoop completets successfully, we will review the crashed
@@ -890,19 +881,6 @@ namespace FHSDK.Sync
                     }    
                 }
             }
-        }
-
-        private void UpdateLocalDatasetFromRemote(FHSyncResponseData<T> syncResData)
-        {
-            IDataStore<FHSyncDataRecord<T>> anotherDataStore = new InMemoryDataStore<FHSyncDataRecord<T>>();
-            foreach(var item in syncResData.Records){
-                FHSyncDataRecord<T> record = item.Value;
-                record.Uid = item.Key;
-                anotherDataStore.Insert(item.Key, record);
-            }
-            anotherDataStore.PersistPath = this.dataRecords.PersistPath;
-            this.dataRecords = anotherDataStore;
-            this.HashValue = syncResData.Hash;
         }
 
         private void ProcessUpdatesFromRemote(FHSyncResponseData<T> syncResData)
