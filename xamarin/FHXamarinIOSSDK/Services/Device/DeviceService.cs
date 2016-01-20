@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MonoTouch.Security;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.AdSupport;
 using FHSDK.Services.Device;
 using FHSDK.Services.Log;
+using Security;
+using Foundation;
+using UIKit;
+using AdSupport;
 
 namespace FHSDK.Services
 {
@@ -64,6 +64,11 @@ namespace FHSDK.Services
 		public string GetDeviceDestination()
 		{
 			return "ios";
+		}
+
+		public string GetPackageDir()
+		{
+			return "./";
 		}
 
 		//a simple way to generate and persist unique id for ios device using keychain. This unique id won't change even if app is uninstalled and re-installed.

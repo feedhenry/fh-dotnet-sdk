@@ -1,5 +1,4 @@
-﻿using Windows.ApplicationModel;
-using FHSDK;
+﻿using FHSDK;
 using FHSDK.Services.Device;
 
 namespace tests.Mocks
@@ -21,7 +20,7 @@ namespace tests.Mocks
 
         public string GetPackageDir()
         {
-            return Package.Current.InstalledLocation.Path;
+            return "./";
         }
 
         public string GetDeviceId()

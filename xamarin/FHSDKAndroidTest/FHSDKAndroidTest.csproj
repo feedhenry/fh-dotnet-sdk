@@ -47,6 +47,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -76,6 +77,18 @@
     <Compile Include="..\..\tests\AuthRequestTest.cs">
       <Link>AuthRequestTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\tests\Mocks\MockDeviceService.cs">
+      <Link>Mocks\MockDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockHttpClient.cs">
+      <Link>Mocks\MockHttpClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockOAuthClient.cs">
+      <Link>Mocks\MockOAuthClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Mocks\MockResponseDataset.cs">
+      <Link>Mocks\MockResponseDataset.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -86,7 +99,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\FHXamarinAndroidSDK\FHXamarinAndroidSDK.csproj">
       <Project>{46E20803-ED70-4605-A132-AC86D6BBCF52}</Project>
@@ -100,7 +112,5 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\fhconfig.local.properties" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mocks\" />
-  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
