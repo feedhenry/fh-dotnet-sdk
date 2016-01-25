@@ -29,7 +29,10 @@ namespace tests
 
             //then
             Assert.AreEqual(new Uri("http://192.168.28.34:8001/api/v2/ag-push"), config.UnifiedPushUri);
-            CollectionAssert.AreEqual(new List<string>() {"one", "two"}, new List<string>(config.Categories));
+            Assert.IsNotNull (config.Categories);
+            Assert.AreEqual (2, config.Categories.Count);
+            Assert.IsTrue (config.Categories.IndexOf ("one") != -1);
+            Assert.IsTrue (config.Categories.IndexOf ("two") != -1);
         }
     }
 }

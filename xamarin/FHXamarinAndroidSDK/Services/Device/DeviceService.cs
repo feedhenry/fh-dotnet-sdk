@@ -91,6 +91,11 @@ namespace FHSDK.Services
 			return "android";
 
 		}
+
+		public string GetPackageDir()
+		{
+			return "./";
+		}
 	}
 }
 

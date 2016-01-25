@@ -1,7 +1,8 @@
 ﻿using System;
-using MonoTouch.UIKit;
 using System.Drawing;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
+using CoreGraphics;
 
 namespace FHSDK.Services
 {
@@ -31,23 +32,23 @@ namespace FHSDK.Services
         /// </summary>
 		public override void LoadView()
 		{
-			UIWindow appWindow = UIApplication.SharedApplication.Delegate.Window;
+			UIWindow appWindow = UIApplication.SharedApplication.Delegate.GetWindow();
 			float titlebarHeight = 45F;
-			float appHeight = appWindow.Frame.Size.Height;
-			float appWidth = appWindow.Frame.Size.Width;
-			RectangleF frame = new RectangleF (0F, 0F, appWidth, appHeight);
+			var appHeight = appWindow.Frame.Size.Height;
+			var appWidth = appWindow.Frame.Size.Width;
+			var frame = new CGRect (0f, 0f, appWidth, appHeight);
 			topView = new UIView (frame);
 			topView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
-			RectangleF barFrame = new RectangleF (0F, 0F, appWidth, titlebarHeight);
+			var barFrame = new CGRect (0F, 0F, appWidth, titlebarHeight);
 			titleBar = new UINavigationBar (barFrame);
 			titleBar.BarStyle = UIBarStyle.Black;
 			titleBar.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
 
-			RectangleF webviewFrame = new RectangleF (0F, titlebarHeight, appWidth, appHeight - titleBar.Frame.Size.Height);
+			var webviewFrame = new CGRect (0, titlebarHeight, appWidth, appHeight - titleBar.Frame.Size.Height);
 			webView = new UIWebView (webviewFrame);
 			webView.ScalesPageToFit = true;
 
-			RectangleF activityFrame = new RectangleF(appWidth/2 - 12.5f, appHeight/2 -12.5f, 25F, 25F);
+			var activityFrame = new CGRect(appWidth/2 - 12.5f, appHeight/2 -12.5f, 25F, 25F);
 			activityView = new UIActivityIndicatorView (activityFrame);
 			activityView.ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray;
 			activityView.SizeToFit ();
@@ -88,7 +89,7 @@ namespace FHSDK.Services
 			base.ViewDidLoad ();
 			this.webView.Delegate = new AuthDelegate (this);
 			NSUrl reqeustUrl = new NSUrl (this.authUrl);
-			this.webView.LoadRequest (new MonoTouch.Foundation.NSUrlRequest (reqeustUrl));
+			this.webView.LoadRequest (new NSUrlRequest (reqeustUrl));
 		}
 			
 		private void ShowActivityView()
@@ -126,7 +127,7 @@ namespace FHSDK.Services
 				}
 			}
 
-			public override bool ShouldStartLoad (UIWebView webView, MonoTouch.Foundation.NSUrlRequest request, UIWebViewNavigationType navigationType)
+			public override bool ShouldStartLoad (UIWebView webView, NSUrlRequest request, UIWebViewNavigationType navigationType)
 			{
 				string urlStr = request.Url.AbsoluteString;
 				Uri uri = new Uri (urlStr);

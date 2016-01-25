@@ -1,37 +1,8 @@
-﻿<Properties>
+﻿<Properties StartupItem="FHSDKPhone/FHSDKPhone.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/API/FHActRequest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDK/Sync/FHSyncDataset.cs">
     <Files>
-      <File FileName="FHSDKAndroidTest/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncDatasetTest.cs" Line="168" Column="71" />
-      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncPendingRecord.cs" Line="1" Column="1" />
-      <File FileName="FHXamarinIOSSDK/Services/Hash/HashService.cs" Line="1" Column="1" />
-      <File FileName="FHXamarinIOSSDK/Services/Monitor/MonitorService.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/FHSDKTest.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/TestUtils.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncClientTest.cs" Line="1" Column="1" />
-      <File FileName="FHSDKIOSTest/Info.plist" />
-      <File FileName="FHSDKIOSTest/fhconfiglocal.plist" />
-      <File FileName="FHSDKAndroidTest/Assets/fhconfig.local.properties" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/TaskModel.cs" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/Properties/AndroidManifest.xml" Line="1" Column="1" />
-      <File FileName="FHSDKAndroidTest/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/FHHttpClient/FHHttpClient.cs" Line="1" Column="1" />
-      <File FileName="FHXamarinAndroidSDK/Services/Log/LogService.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncClient.cs" Line="1" Column="1" />
-      <File FileName="FHXamarinAndroidSDK/Services/Monitor/MonitorService.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/FHSyncUtilsTest.cs" Line="1" Column="1" />
-      <File FileName="FHSDKTestShared/SharedTest/Sync/InMemoryDataStoreTest.cs" Line="1" Column="1" />
-      <File FileName="FHSDKIOSTest/UnitTestAppDelegate.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncConfig.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncDataRecord.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/FHSyncUtils.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/IDataStore.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/Sync/IFHSyncModel.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/FH.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/API/FHRequest.cs" Line="1" Column="1" />
-      <File FileName="FHSDK/API/FHActRequest.cs" Line="1" Column="1" />
+      <File FileName="FHSDK/Sync/FHSyncDataset.cs" Line="886" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
