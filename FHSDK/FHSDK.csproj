@@ -77,8 +77,13 @@
     <Compile Include="Services\Monitor\IMonitorService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="aerogear-windows-push">
+    <Reference Include="System.Net.Http.Extensions">
+       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+      </Reference>
+     <Reference Include="System.Net.Http.Primitives">
+       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="aerogear-windows-push">
       <HintPath>..\xamarin\packages\aerogear-windows-push.0.1.0\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
