@@ -9,6 +9,7 @@ using FHSDK.Services.Device;
 using FHSDK.Services.Log;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace FHSDK.Services.Network
 {
@@ -90,7 +91,7 @@ namespace FHSDK.Services.Network
 
             var deviceService = ServiceFinder.Resolve<IDeviceService>();
             var appProps = deviceService.ReadAppProps();
-            var configLocation = deviceService.GetPackageDir() + "\\" + configName;
+			var configLocation = Path.Combine(deviceService.GetPackageDir(), configName);
             var json = ServiceFinder.Resolve<IIOService>().ReadFile(configLocation);
             var config = (JObject)JsonConvert.DeserializeObject(json);
             var configWindows = config["windows"];
