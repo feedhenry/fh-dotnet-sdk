@@ -4,6 +4,7 @@ using FHSDK.Services.Network;
 using AeroGear.Push;
 using Foundation;
 using UIKit;
+using System.Threading;
 
 namespace FHSDK.Services
 {
@@ -27,6 +28,27 @@ namespace FHSDK.Services
 	}
 
 	public class IosRegistration: Registration {
+		private AutoResetEvent _waitHandle = new AutoResetEvent(false);
+		private string token;
+
+		public IosRegistration() 
+		{
+			NSNotificationCenter.DefaultCenter.AddObserver (new NSString("sucess_registered"), (NSNotification obj) => {
+				OnRegisteredForRemoteNotifications((NSData) obj.Object);
+			});
+		}
+			
+		private void OnRegisteredForRemoteNotifications(NSData deviceToken)
+		{
+			token = deviceToken.Description;
+			if (!string.IsNullOrWhiteSpace(token))
+			{
+				token = token.Trim('<').Trim('>');
+			}
+
+			_waitHandle.Set();
+		}
+
 	    protected override Installation CreateInstallation(PushConfig pushConfig)
 	    {
             var device = new UIDevice();
@@ -50,22 +72,12 @@ namespace FHSDK.Services
 	    }
 
 	    protected override Task<string> ChannelUri()
-	    {
-            return Task.Run(() => CreateChannelStore().Read("PushDeviceToken"));
+	    {			
+			return Task.Run(() => {
+				_waitHandle.WaitOne();
+				return token;
+			});
 	    }
-
-	    public void OnRegisteredForRemoteNotifications(NSData deviceToken)
-	    {
-	        var storage = CreateChannelStore();
-            var token = deviceToken.Description;
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                token = token.Trim('<').Trim('>');
-            }
-
-            storage.Save("PushDeviceToken", token);
-        }
-
     }
 
     public class IosStorage : ILocalStore

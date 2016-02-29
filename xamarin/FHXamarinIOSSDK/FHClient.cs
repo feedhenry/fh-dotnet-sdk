@@ -8,6 +8,7 @@ using FHSDK.Services.Hash;
 using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
+using Foundation;
 
 namespace FHSDK
 {
@@ -58,6 +59,12 @@ namespace FHSDK
 		{
 			RegisterServices ();
 			return await FH.Init ();
+		}
+
+		public static void FinishRegistration(NSData deviceToken)
+		{
+			var notification = NSNotification.FromName("sucess_registered", deviceToken);
+			NSNotificationCenter.DefaultCenter.PostNotification (notification);
 		}
 
 		private static void RegisterServices()
