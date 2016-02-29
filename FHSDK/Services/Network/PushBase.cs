@@ -35,7 +35,7 @@ namespace FHSDK.Services.Network
         /// </summary>
         /// <param name="handleNotification">Attached handler triggered when push notifications are received.</param>
         /// <returns></returns>
-		public async Task<Registration> Register(EventHandler<PushReceivedEvent> handleNotification)
+        public async Task Register(EventHandler<PushReceivedEvent> handleNotification)
         {
             var registration = CreateRegistration();
             registration.PushReceivedEvent += handleNotification;
@@ -50,8 +50,6 @@ namespace FHSDK.Services.Network
                 _logger.e(LogTag,
                     "push configuration not found skipping push register, update fhconfig with UPS details", null);
             }
-
-			return registration;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace FHSDK.Services.Network
         /// </summary>
         /// <param name="handleNotification">The handler to receive the notifications</param>
         /// <returns>Void</returns>
-		Task<Registration> Register(EventHandler<PushReceivedEvent> handleNotification);
+        Task Register(EventHandler<PushReceivedEvent> handleNotification);
 
         /// <summary>
         /// Set the categories

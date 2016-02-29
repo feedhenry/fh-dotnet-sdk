@@ -309,9 +309,9 @@ namespace FHSDK
         ///     If you want to receive push notifications call this method with a event handler that will receive the notifications
         /// </summary>
         /// <param name="HandleNotification">The andlerl that will receive the notifications</param>
-		public static async Task<Registration> RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
+        public static async void RegisterPush(EventHandler<PushReceivedEvent> HandleNotification)
         {
-            return await ServiceFinder.Resolve<IPush>().Register(HandleNotification);
+            await ServiceFinder.Resolve<IPush>().Register(HandleNotification);
         }
 
         /// <summary>
