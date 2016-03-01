@@ -14,5 +14,14 @@
 	<string>connection_tag_for_test</string>
 	<key>apptitle</key>
 	<string>my_app</string>
+	<key>alias</key>
+	<string>edewit@me.com</string>
+	<key>categories</key>
+	<array>
+		<string>sport</string>
+		<string>news</string>
+	</array>
+	<key>variantID</key>
+	<string>123</string>
 </dict>
 </plist>

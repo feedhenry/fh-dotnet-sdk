@@ -6,6 +6,10 @@ using Security;
 using Foundation;
 using UIKit;
 using AdSupport;
+using AeroGear.Push;
+using System.Collections.Generic;
+using System.Collections;
+using ObjCRuntime;
 
 namespace FHSDK.Services
 {
@@ -16,6 +20,7 @@ namespace FHSDK.Services
 	{
 		private ILogService logger;
 		private AppProps appProps;
+		private bool localDev;
 		private const string APP_PROPS_FILE = "fhconfig";
         private const string LOCAL_DEV_APP_PROPS_FILE = "fhconfiglocal";
 
@@ -39,14 +44,7 @@ namespace FHSDK.Services
 		public AppProps ReadAppProps()
 		{
 			if (null == appProps) {
-                bool localDev = false;
-                string path = NSBundle.MainBundle.PathForResource (LOCAL_DEV_APP_PROPS_FILE, "plist");
-                if(null == path){
-                    path = NSBundle.MainBundle.PathForResource(APP_PROPS_FILE, "plist");
-                } else {
-                    localDev = true;
-                }
-				NSDictionary props = NSDictionary.FromFile (path);
+				NSDictionary props = ReadProperties ();
 				appProps = new AppProps ();
 				appProps.host = ((NSString) props["host"]).ToString();
 				appProps.appid = null == props["appid"]? null : ((NSString)props ["appid"]).ToString();
@@ -59,6 +57,40 @@ namespace FHSDK.Services
                 }
 			}
 			return appProps;
+		}
+
+		public PushConfig ReadPushConfig() 
+		{
+			var config = ReadProperties ();
+			List<string> categoryList = null;
+			var categories = (NSArray)config ["categories"];
+			if (categories != null) {
+				categoryList = new List<string> ();
+				for (uint i = 0; i < categories.Count; i++) {
+					categoryList.Add (Runtime.GetNSObject (categories.ValueAt (i)).ToString ());
+				}
+			}
+			return new PushConfig()
+			{
+				Alias = (NSString) config["alias"],
+				Categories = categoryList,
+				//UnifiedPushUri = new Uri(ReadAppProps().host + "/api/v2/ag-push"),
+				UnifiedPushUri = new Uri("https://unifiedpush-edewit.rhcloud.com/ag-push/"),
+				VariantId = (NSString) config["variantID"],
+				VariantSecret = (NSString) config["variantSecret"]
+			};
+
+		}
+
+		private NSDictionary ReadProperties() 
+		{
+			string path = NSBundle.MainBundle.PathForResource (LOCAL_DEV_APP_PROPS_FILE, "plist");
+			if(null == path){
+				path = NSBundle.MainBundle.PathForResource(APP_PROPS_FILE, "plist");
+			} else {
+				localDev = true;
+			}
+			return NSDictionary.FromFile (path);
 		}
 
 		public string GetDeviceDestination()
