@@ -5,6 +5,7 @@ using AeroGear.Push;
 using Foundation;
 using UIKit;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace FHSDK.Services
 {
@@ -36,6 +37,27 @@ namespace FHSDK.Services
 			NSNotificationCenter.DefaultCenter.AddObserver (new NSString("sucess_registered"), (NSNotification obj) => {
 				OnRegisteredForRemoteNotifications((NSData) obj.Object);
 			});
+
+			NSNotificationCenter.DefaultCenter.AddObserver (new NSString("message_received"), (NSNotification obj) => {
+				var data = (NSDictionary) obj.Object;
+				var message = (NSDictionary) data["aps"];
+				var alert = message["alert"];
+				if (alert is NSDictionary) {
+					alert = ((NSDictionary) alert)["body"];
+				}
+				OnPushNotification(alert.ToString(), Convert(message));
+			});
+
+		}
+
+		public static Dictionary<string, string> Convert(NSDictionary nativeDict)
+		{
+			var dict = new Dictionary<string, string> ();
+
+			foreach (var item in nativeDict)
+				dict.Add ((NSString)item.Key, item.Value.ToString());
+
+			return dict;
 		}
 			
 		private void OnRegisteredForRemoteNotifications(NSData deviceToken)

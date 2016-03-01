@@ -67,6 +67,12 @@ namespace FHSDK
 			NSNotificationCenter.DefaultCenter.PostNotification (notification);
 		}
 
+		public static void OnMessageReceived(NSDictionary userInfo) 
+		{
+			var notification = NSNotification.FromName("message_received", userInfo);
+			NSNotificationCenter.DefaultCenter.PostNotification (notification);
+		}
+
 		private static void RegisterServices()
 		{
 			ServiceFinder.RegisterType<IOAuthClientHandlerService, OAuthClientHandlerService> ();
