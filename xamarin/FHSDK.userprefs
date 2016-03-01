@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="FHSDKIOSTests/FHSDKIOSTests.csproj">
+﻿<Properties StartupItem="FHSDKIOSTests\FHSDKIOSTests.csproj" GitUserInfo="UsingGIT" RefactoringSettings.EnableRefactorings="True">
   <DisabledProjects>
     <String>Documentations\FHDotNetSDKDoc\FHDotNetSDKDoc.shfbproj</String>
     <String>FHSDK\FHSDK.csproj</String>
@@ -7,45 +7,34 @@
     <String>FHSDKWindowsPhoneTestNative\FHSDKWindowsPhoneTestNative.csproj</String>
     <String>examples\WindowsPhoneExample\WindowsPhoneExample.csproj</String>
   </DisabledProjects>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../tests/PushBaseTest.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FHSDKAndroidTest\Resources\Resource.designer.cs">
     <Files>
-      <File FileName="../FHSDK/Services/Network/IPush.cs" Line="1" Column="1" />
-      <File FileName="../FHSDK/Services/ServiceFinder.cs" Line="1" Column="1" />
-      <File FileName="FHXamarinAndroidSDK/Services/Device/DeviceService.cs" Line="95" Column="1" />
-      <File FileName="FHXamarinIOSSDK/Services/Device/DeviceService.cs" Line="73" Column="3" />
-      <File FileName="../tests/CloudPropsTest.cs" Line="30" Column="20" />
-      <File FileName="../tests/Mocks/MockDeviceService.cs" Line="1" Column="1" />
-      <File FileName="../tests/Mocks/MockHttpClient.cs" Line="2" Column="18" />
-      <File FileName="../tests/AuthRequestTest.cs" Line="17" Column="7" />
-      <File FileName="../tests/PushBaseTest.cs" Line="31" Column="55" />
-      <File FileName="../FHSDK/Services/Network/PushBase.cs" Line="85" Column="36" />
-      <File FileName="../FHSDK/Properties/AssemblyInfo.cs" Line="34" Column="3" />
+      <File FileName="..\FHSDK\Services\Network\PushBase.cs" Line="98" Column="20" />
+      <File FileName="FHXamarinAndroidSDK\Services\Network\FeedHenryMessageReceiver.cs" Line="26" Column="1" />
+      <File FileName="..\FHSDK\FH.cs" Line="313" Column="10" />
+      <File FileName="FHXamarinAndroidSDK\Services\Network\GcmRegistration.cs" Line="48" Column="35" />
+      <File FileName="FHXamarinAndroidSDK\Services\Network\FeedHenryInstanceIDListenerService.cs" Line="20" Column="75" />
+      <File FileName="FHXamarinAndroidSDK\Services\Network\Push.cs" Line="6" Column="26" />
+      <File FileName="..\tests\Mocks\MockDeviceService.cs" Line="23" Column="10" />
+      <File FileName="FHSDKAndroidTest\Resources\Resource.designer.cs" Line="29" Column="108" />
+      <File FileName="FHXamarinAndroidSDK\Services\Auth\FHOAuthWebview.cs" Line="26" Column="23" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FHSDK" expanded="True">
-            <Node name="FHSDK" expanded="True">
-              <Node name="Properties" expanded="True" />
-              <Node name="Services" expanded="True">
-                <Node name="Network" expanded="True" />
+            <Node name="FHSDKAndroidTest" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="Mocks" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="Resource.designer.cs" selected="True" />
               </Node>
-            </Node>
-            <Node name="FHSDKAndroidTest" expanded="True" />
-            <Node name="FHSDKIOSTests" expanded="True">
-              <Node name="tests" expanded="True" />
-              <Node name="fhconfiglocal.plist" selected="True" />
             </Node>
             <Node name="FHXamarinAndroidSDK" expanded="True">
-              <Node name="Services" expanded="True">
-                <Node name="Device" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="FHXamarinIOSSDK" expanded="True">
-              <Node name="Services" expanded="True">
-                <Node name="Device" expanded="True" />
-              </Node>
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
             </Node>
           </Node>
         </State>

@@ -6,6 +6,8 @@ using Java.Util;
 using System.IO;
 using FHSDK.Services.Device;
 using FHSDK.Services.Log;
+using System.Collections.Generic;
+using AeroGear.Push;
 
 namespace FHSDK.Services
 {
@@ -96,6 +98,56 @@ namespace FHSDK.Services
 		{
 			return "./";
 		}
+
+		public PushConfig ReadPushConfig ()
+		{
+			Properties appProps = new Properties();
+			Stream input = null;
+			ILogService logger = ServiceFinder.Resolve<ILogService>();
+			try {
+				input = Application.Context.Assets.Open(APP_PROP_FILE);
+				appProps.Load(input);
+
+				string pushServerUrl = appProps.GetProperty("PUSH_SERVER_URL");
+				string pushSenderId = appProps.GetProperty("PUSH_SENDER_ID");
+				string pushVariant = appProps.GetProperty("PUSH_VARIANT");
+				string pushSecret = appProps.GetProperty("PUSH_SECRET");
+
+				if (pushServerUrl == null || pushSenderId == null || pushVariant == null || pushSecret == null) {
+					var ex = new System.InvalidOperationException ("fhconfig.properties must define PUSH_SERVER_URL, PUSH_SENDER_ID, PUSH_VARIANT, and PUSH_SECRET.  One or more were not defined.");
+					logger.e(TAG, "fhconfig.properties must define PUSH_SERVER_URL, PUSH_SENDER_ID, PUSH_VARIANT, and PUSH_SECRET.  One or more were not defined.", ex);
+					throw ex;
+				}
+
+
+				var config = new AndroidPushConfig();
+
+				config.UnifiedPushUri  = new Uri( pushServerUrl ) ;
+				config.SenderId = pushSenderId;
+				config.VariantId = pushVariant;
+				config.VariantSecret = pushSecret;
+
+				return config;
+
+			} catch (Exception ex) {
+				if(null != logger) {
+					logger.e(TAG, "Failed to load " + APP_PROP_FILE, ex);
+				}
+				return null;
+
+			} finally {
+				if(null != input){
+					try {
+						input.Close();
+					} catch (Exception exc) {
+						if(null != logger){
+							logger.w(TAG, "Failed to close stream", exc);
+						}
+					}
+				}
+			}
+		}
+
 	}
 }
 

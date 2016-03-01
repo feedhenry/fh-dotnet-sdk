@@ -4,7 +4,7 @@ using UIKit;
 
 namespace FHSDK.Services
 {
-	public class Push: PushBase
+	public class Push : PushBase
 	{
 		protected override Registration CreateRegistration() 
 		{
