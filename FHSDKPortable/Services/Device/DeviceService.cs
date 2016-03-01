@@ -12,9 +12,9 @@ namespace FHSDK.Services.Device
     /// <summary>
     ///     Device info service for windows phone
     /// </summary>
-    internal class DeviceService : IDeviceService
+    internal class DeviceService : DeviceServiceBase
     {
-        public string GetDeviceId()
+        public override string GetDeviceId()
         {
             var token = HardwareIdentification.GetPackageSpecificToken(null);
             var hardwareId = token.Id;
@@ -26,7 +26,7 @@ namespace FHSDK.Services.Device
             return hashedString;
         }
 
-        public AppProps ReadAppProps()
+        public override AppProps ReadAppProps()
         {
             AppProps appProps;
             var isLocalDev = false;
@@ -52,12 +52,12 @@ namespace FHSDK.Services.Device
             return appProps;
         }
 
-        public string GetDeviceDestination()
+        public override string GetDeviceDestination()
         {
             return "windows";
         }
 
-        public string GetPackageDir()
+        public override string GetPackageDir()
         {
             return Package.Current.InstalledLocation.Path;
         }

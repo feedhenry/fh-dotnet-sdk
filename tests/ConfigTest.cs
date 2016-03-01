@@ -2,16 +2,14 @@
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
-using FHSDK.Services;
-
-
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
-
 using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.Config;
+using FHSDK.Services;
+using FHSDK.Services.Device;
 using tests.Mocks;
 
 namespace tests
@@ -46,7 +44,7 @@ namespace tests
             await FHClient.Init();
 
             // when
-			var config = FHConfig.GetInstance();
+            var config = FHConfig.GetInstance();
 
             // then
             Assert.AreEqual("http://192.168.28.34:8001", config.GetHost());
@@ -56,21 +54,21 @@ namespace tests
             Assert.AreEqual("connection_tag_for_test", config.GetConnectionTag());
         }
 
-		[TestMethod]
-		public async Task TestReadPushConfig()
-		{
-			// given
-			await FHClient.Init();
-			var deviceService = new DeviceService();
+        [TestMethod]
+        public async Task TestReadPushConfig()
+        {
+            // given
+            await FHClient.Init();
+            var deviceService = ServiceFinder.Resolve<IDeviceService>();
 
-			// when
-			var config = deviceService.ReadPushConfig();
+            // when
+            var config = deviceService.ReadPushConfig();
 
-			// then
-			Assert.AreEqual("edewit@me.com", config.Alias);
-			var cat = config.Categories;
-			Assert.AreEqual (2, cat.Count);
-			Assert.IsTrue(cat.Contains("sport"));
-		}
+            // then
+            Assert.AreEqual("edewit@me.com", config.Alias);
+            var cat = config.Categories;
+            Assert.AreEqual(2, cat.Count);
+            Assert.IsTrue(cat.Contains("one"));
+        }
     }
 }
