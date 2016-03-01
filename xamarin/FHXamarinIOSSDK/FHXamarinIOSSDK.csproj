@@ -49,6 +49,8 @@
     <Compile Include="Services\Device\DeviceService.cs" />
     <Compile Include="Services\Data\DataService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Network\IosRegistration.cs" />
+    <Compile Include="Services\Network\IosStorage.cs" />
     <Compile Include="Services\Network\Reachability.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
