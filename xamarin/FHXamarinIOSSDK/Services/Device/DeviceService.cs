@@ -74,8 +74,7 @@ namespace FHSDK.Services
 			{
 				Alias = (NSString) config["alias"],
 				Categories = categoryList,
-				//UnifiedPushUri = new Uri(ReadAppProps().host + "/api/v2/ag-push"),
-				UnifiedPushUri = new Uri("https://unifiedpush-edewit.rhcloud.com/ag-push/"),
+				UnifiedPushUri = new Uri(ReadAppProps().host + "/api/v2/ag-push"),
 				VariantId = (NSString) config["variantID"],
 				VariantSecret = (NSString) config["variantSecret"]
 			};
