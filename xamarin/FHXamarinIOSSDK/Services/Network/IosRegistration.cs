@@ -32,7 +32,7 @@ namespace FHSDK.Services
             });
         }
 
-        public static Dictionary<string, string> Convert(NSDictionary nativeDict)
+        private static Dictionary<string, string> Convert(NSDictionary nativeDict)
         {
             return nativeDict.ToDictionary<KeyValuePair<NSObject, NSObject>, string, string>(
                 item => (NSString) item.Key, item => item.Value.ToString());
