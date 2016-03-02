@@ -10,5 +10,3 @@ build:
   verbosity: minimal
   project: FHSDK.sln
 test: off
-cache:
-- packages -> **\packages.config
