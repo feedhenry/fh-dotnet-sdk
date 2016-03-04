@@ -31,6 +31,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="aerogear-windows-push">
+      <HintPath>..\packages\aerogear-windows-push.0.0.9\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -46,6 +49,8 @@
     <Compile Include="Services\Device\DeviceService.cs" />
     <Compile Include="Services\Data\DataService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Network\IosRegistration.cs" />
+    <Compile Include="Services\Network\IosStorage.cs" />
     <Compile Include="Services\Network\Reachability.cs" />
     <Compile Include="Services\Network\NetworkService.cs" />
     <Compile Include="Services\Auth\OAuthClientHandlerService.cs" />
@@ -54,5 +59,9 @@
     <Compile Include="Services\Hash\HashService.cs" />
     <Compile Include="Services\Monitor\MonitorService.cs" />
     <Compile Include="Services\Data\IOService.cs" />
+    <Compile Include="Services\Network\Push.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

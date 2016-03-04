@@ -8,6 +8,7 @@ using FHSDK.Services.Hash;
 using FHSDK.Services.Log;
 using FHSDK.Services.Monitor;
 using FHSDK.Services.Network;
+using Foundation;
 
 namespace FHSDK
 {
@@ -60,6 +61,18 @@ namespace FHSDK
 			return await FH.Init ();
 		}
 
+		public static void FinishRegistration(NSData deviceToken)
+		{
+			var notification = NSNotification.FromName("sucess_registered", deviceToken);
+			NSNotificationCenter.DefaultCenter.PostNotification (notification);
+		}
+
+		public static void OnMessageReceived(NSDictionary userInfo) 
+		{
+			var notification = NSNotification.FromName("message_received", userInfo);
+			NSNotificationCenter.DefaultCenter.PostNotification (notification);
+		}
+
 		private static void RegisterServices()
 		{
 			ServiceFinder.RegisterType<IOAuthClientHandlerService, OAuthClientHandlerService> ();
@@ -70,6 +83,7 @@ namespace FHSDK
 			ServiceFinder.RegisterType<ILogService, LogService> ();
 			ServiceFinder.RegisterType<IMonitorService, MonitorService> ();
 			ServiceFinder.RegisterType<INetworkService, NetworkService> ();
+			ServiceFinder.RegisterType<IPush, Push> ();
 		}
 	}
 }

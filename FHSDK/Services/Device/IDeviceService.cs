@@ -1,4 +1,6 @@
-﻿namespace FHSDK.Services.Device
+﻿using AeroGear.Push;
+
+namespace FHSDK.Services.Device
 {
     /// <summary>
     ///     A service interface provides information about the device
@@ -16,6 +18,12 @@
         /// </summary>
         /// <returns>the FeedHenry app configurations </returns>
         AppProps ReadAppProps();
+
+		/// <summary>
+		///     Return the Push Notification configurations
+		/// </summary>
+		/// <returns>The push configuration for this app </returns>
+		PushConfig ReadPushConfig ();
 
         /// <summary>
         ///     Get the device type. E.g. iphone, android, windowsphone8, windows

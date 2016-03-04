@@ -5,10 +5,11 @@ using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
-
 using System.Threading.Tasks;
 using FHSDK;
 using FHSDK.Config;
+using FHSDK.Services;
+using FHSDK.Services.Device;
 using tests.Mocks;
 
 namespace tests
@@ -39,12 +40,11 @@ namespace tests
         [TestMethod]
         public async Task TestReadConfig()
         {
-            // given a mocked DeviceService
+            // given
             await FHClient.Init();
-            var config = FHConfig.GetInstance();
 
             // when
-            // default instanciation
+            var config = FHConfig.GetInstance();
 
             // then
             Assert.AreEqual("http://192.168.28.34:8001", config.GetHost());
@@ -52,6 +52,23 @@ namespace tests
             Assert.AreEqual("app_key_for_test", config.GetAppKey());
             Assert.AreEqual("appid_for_test", config.GetAppId());
             Assert.AreEqual("connection_tag_for_test", config.GetConnectionTag());
+        }
+
+        [TestMethod]
+        public async Task TestReadPushConfig()
+        {
+            // given
+            await FHClient.Init();
+            var deviceService = ServiceFinder.Resolve<IDeviceService>();
+
+            // when
+            var config = deviceService.ReadPushConfig();
+
+            // then
+            Assert.AreEqual("edewit@me.com", config.Alias);
+            var cat = config.Categories;
+            Assert.AreEqual(2, cat.Count);
+            Assert.IsTrue(cat.Contains("one"));
         }
     }
 }

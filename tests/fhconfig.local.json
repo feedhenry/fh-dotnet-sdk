@@ -5,7 +5,8 @@
   "appkey": "app_key_for_test",
   "connectiontag": "connection_tag_for_test",
   "apptitle":  "my_app",
-  "Categories": ["one", "two"],
+  "Categories": [ "one", "two" ],
+  "Alias":  "edewit@me.com",
   "windows": {
     "variantID": "ce17f310-09fd-4a18-8928-854af79d79bf",
     "variantSecret": "7d47b5ea-304f-43f7-aef2-e436916ab992"

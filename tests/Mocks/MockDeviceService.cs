@@ -1,5 +1,6 @@
 ﻿using FHSDK;
 using FHSDK.Services.Device;
+using AeroGear.Push;
 
 namespace tests.Mocks
 {
@@ -41,5 +42,10 @@ namespace tests.Mocks
             };
             return props;
         }
+
+		public PushConfig ReadPushConfig() 
+		{
+			return new PushConfig ();
+		}
     }
 }

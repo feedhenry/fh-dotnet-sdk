@@ -10,9 +10,9 @@ namespace FHSDK.Services.Device
     /// <summary>
     ///     Device info service for windows phone
     /// </summary>
-    internal class DeviceService : IDeviceService
+    internal class DeviceService : DeviceServiceBase
     {
-        public string GetDeviceId()
+        public override string GetDeviceId()
         {
             string retVal = null;
             object uuid;
@@ -32,9 +32,9 @@ namespace FHSDK.Services.Device
             return retVal;
         }
 
-        public AppProps ReadAppProps()
+        public override AppProps ReadAppProps()
         {
-            AppProps appProps = null;
+            AppProps appProps;
             var isLocalDev = false;
             var streamInfo = Application.GetResourceStream(new Uri(Constants.LocalConfigFileName, UriKind.Relative));
             if (null != streamInfo)
@@ -62,12 +62,12 @@ namespace FHSDK.Services.Device
             return appProps;
         }
 
-        public string GetDeviceDestination()
+        public override string GetDeviceDestination()
         {
             return "windowsphone8";
         }
 
-        public string GetPackageDir()
+        public override string GetPackageDir()
         {
             return Package.Current.InstalledLocation.Path;
         }
