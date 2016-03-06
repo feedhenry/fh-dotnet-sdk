@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace FHSDK.Services
 {
-	[Service (Exported = false), IntentFilter (new [] { "com.google.android.c2dm.intent.RECEIVE" })]
+	[Service (Name="fhsdk.Services.FeedHenryMessageReceiver", Exported = false)]
 	public class FeedHenryMessageReceiver : GcmListenerService
 	{
 		public override void OnMessageReceived (string from, Bundle data)

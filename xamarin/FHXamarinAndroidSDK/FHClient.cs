@@ -53,8 +53,10 @@ namespace FHSDK
 			ServiceFinder.RegisterType<ILogService, LogService> ();
 			ServiceFinder.RegisterType<IMonitorService, MonitorService> ();
 			ServiceFinder.RegisterType<INetworkService, NetworkService> ();
+			ServiceFinder.RegisterInstance<IPush> (new Push());
 		}
 	}
 }
+
 
 

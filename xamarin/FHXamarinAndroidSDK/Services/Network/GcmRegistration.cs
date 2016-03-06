@@ -46,7 +46,9 @@ namespace FHSDK.Services
 		protected override System.Threading.Tasks.Task<string> ChannelUri ()
 		{
 			return System.Threading.Tasks.Task.Run (() => {
-				return InstanceID.GetInstance (Application.Context).GetToken(Config.SenderId, GoogleCloudMessaging.InstanceIdScope, null);
+				var token = InstanceID.GetInstance (Application.Context).GetToken(Config.SenderId, GoogleCloudMessaging.InstanceIdScope, new Android.OS.Bundle());
+
+				return token;
 			});
 		}
 
