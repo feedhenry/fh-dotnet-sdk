@@ -1,12 +1,8 @@
-version: 1.0.{build}
+version: 1.3.6-BUILD{build}
 os: Visual Studio 2015
-configuration: Release
-environment:
-  COVERALLS_REPO_TOKEN:
-    secure: +9CFd0azK+Hl2J7KtYJJUQkXr8qHllJLLf1fbfefn3GcbZqEhHVUhgSGh/05umdE
 before_build:
 - nuget restore
 build:
-  verbosity: minimal
+  verbosity: normal
   project: FHSDK.sln
 test: off
