@@ -1,30 +1,51 @@
-﻿using Android.App;
-using Android.Widget;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
 using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+using System.Threading.Tasks;
+using FHSDK;
+using Android.Util;
 
 namespace PushTest
 {
 	[Activity (Label = "PushTest", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
+
+
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+		}
 
-			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
-			button.Click += delegate {
-				button.Text = string.Format ("{0} clicks!", count++);
-			};
+		protected override void OnPause ()
+		{
+			base.OnPause ();
+			((PushTestApplication)Application).MainThreadPushEvent -= DisplayToast;
+		}
+
+		protected override void OnResume ()
+		{
+			base.OnResume ();
+			((PushTestApplication)Application).MainThreadPushEvent += DisplayToast;
+		}
+
+		void DisplayToast (object sender, AeroGear.Push.PushReceivedEvent e)
+		{
+			Toast.MakeText (this, e.Args.Message, ToastLength.Long).Show ();
 		}
 	}
 }
+
 
 

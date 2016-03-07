@@ -15,11 +15,15 @@ namespace  FHSDK.Services
 	{
 		public override void OnTokenRefresh()
 		{
-			var push = ServiceFinder.Resolve<IPush>() as Push;
 
-			var config = ServiceFinder.Resolve<IDeviceService> ().ReadPushConfig ();
+			if (ServiceFinder.IsRegistered<IPush> ()) {
 
-			push.Registration.UpdateConfig (config);
+				var push = ServiceFinder.Resolve<IPush> () as Push;
+
+				var config = ServiceFinder.Resolve<IDeviceService> ().ReadPushConfig ();
+
+				push.Registration.UpdateConfig (config);
+			}
 
 		}
 	}
