@@ -1,40 +1,30 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
+﻿using System.Linq;
+using AeroGear.Push;
 using Android.Gms.Gcm;
-using Android.Util;
+using Android.OS;
 using FHSDK.Services.Network;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace FHSDK.Services
 {
-	public abstract class FeedHenryMessageReceiver : GcmListenerService
-	{
+    public abstract class FeedHenryMessageReceiver : GcmListenerService
+    {
+        private const string DefaultMessageHandlerKey = "DEFAULT_MESSAGE_HANDLER_KEY";
 
-		private const string DEFAULT_MESSAGE_HANDLER_KEY = "DEFAULT_MESSAGE_HANDLER_KEY";
+        public override async void OnMessageReceived(string from, Bundle data)
+        {
+            if (!ServiceFinder.IsRegistered<IPush>())
+            {
+                await FHClient.Init();
+                FH.RegisterPush(DefaultHandleEvent);
+            }
 
-		public override async void OnMessageReceived (string from, Bundle data)
-		{
+            var push = ServiceFinder.Resolve<IPush>() as Push;
+            var message = data.GetString("alert");
+            var messageData = data.KeySet().ToDictionary(key => key, key => data.GetString(key));
 
-			if (!ServiceFinder.IsRegistered<IPush> ()) {
-					await FHClient.Init ();
-					FH.RegisterPush(DefaultHandleEvent);
-			}
+            (push.Registration as GcmRegistration).OnPushNotification(message, messageData);
+        }
 
-			var push = ServiceFinder.Resolve<IPush>() as Push;
-			string message = data.GetString ("alert");
-			Dictionary<string, string> messageData = new Dictionary<string,string> ();
-
-			foreach (string key in data.KeySet()) {
-				messageData.Add(key, data.GetString(key));	
-			}
-
-			(push.Registration as GcmRegistration).OnPushNotification (message, messageData);
-		}
-
-		protected abstract void DefaultHandleEvent (object sender, AeroGear.Push.PushReceivedEvent e);
-	}
+        protected abstract void DefaultHandleEvent(object sender, PushReceivedEvent e);
+    }
 }
-

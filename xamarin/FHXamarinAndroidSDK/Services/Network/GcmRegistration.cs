@@ -1,61 +1,56 @@
-﻿using System;
-using AeroGear.Push;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AeroGear.Push;
 using Android.App;
-using Android.Gms.Gcm.Iid;
 using Android.Gms.Gcm;
-using System.Collections.Generic;
+using Android.Gms.Gcm.Iid;
+using Android.OS;
 using FHSDK.Services.Device;
-
+using Task = System.Threading.Tasks.Task;
 
 namespace FHSDK.Services
 {
-	public class GcmRegistration : Registration
-	{
+    public class GcmRegistration : Registration
+    {
+        private AndroidPushConfig _config;
+        private Installation _installation;
 
-		private AndroidPushConfig Config;
-		private Installation Installation;
-		public GcmRegistration ()
-		{
-		}
+        public override Task<PushConfig> LoadConfigJson(string filename)
+        {
+            return Task.Run(() => ServiceFinder.Resolve<IDeviceService>().ReadPushConfig());
+        }
 
-		public override System.Threading.Tasks.Task<PushConfig> LoadConfigJson (string filename)
-		{
-			return System.Threading.Tasks.Task.Run (() => {
-				return	ServiceFinder.Resolve<IDeviceService> ().ReadPushConfig ();
-			});
-		}
+        protected override Installation CreateInstallation(PushConfig pushConfig)
+        {
+            _config = (AndroidPushConfig) pushConfig;
+            return _installation = new Installation
+            {
+                alias = pushConfig.Alias,
+                categories = pushConfig.Categories,
+                operatingSystem = "android",
+                osVersion = Build.VERSION.Release
+            };
+        }
 
-		protected override Installation CreateInstallation (PushConfig pushConfig)
-		{
-			Config = (AndroidPushConfig) pushConfig;
-			return Installation = new Installation
-			{
-				alias = pushConfig.Alias,
-				categories = pushConfig.Categories,
-				operatingSystem = "android",
-				osVersion = Android.OS.Build.VERSION.Release
-			};
-		}
+        protected override ILocalStore CreateChannelStore()
+        {
+            return new AndroidStore();
+        }
 
-		protected override ILocalStore CreateChannelStore ()
-		{
-			return new AndroidStore();
-		}
+        protected override Task<string> ChannelUri()
+        {
+            return Task.Run(() =>
+            {
+                var token = InstanceID.GetInstance(Application.Context)
+                    .GetToken(_config.SenderId, GoogleCloudMessaging.InstanceIdScope, new Bundle());
 
-		protected override System.Threading.Tasks.Task<string> ChannelUri ()
-		{
-			return System.Threading.Tasks.Task.Run (() => {
-				var token = InstanceID.GetInstance (Application.Context).GetToken(Config.SenderId, GoogleCloudMessaging.InstanceIdScope, new Android.OS.Bundle());
+                return token;
+            });
+        }
 
-				return token;
-			});
-		}
-
-		public void OnPushNotification (string message, Dictionary<string, string> messageData)
-		{
-			base.OnPushNotification (message, messageData);
-		}
-	}
+        public void OnPushNotification(string message, Dictionary<string, string> messageData)
+        {
+            base.OnPushNotification(message, messageData);
+        }
+    }
 }
-
