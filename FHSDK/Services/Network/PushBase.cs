@@ -17,6 +17,8 @@ namespace FHSDK.Services.Network
         private const string LogTag = "Push";
         private readonly ILogService _logger;
 
+		public Registration Registration { get; private set; }
+
         /// <summary>
         ///     Default constructor.
         /// </summary>
@@ -32,13 +34,16 @@ namespace FHSDK.Services.Network
         /// <returns></returns>
         public async Task Register(EventHandler<PushReceivedEvent> handleNotification)
         {
-            var registration = CreateRegistration();
-            registration.PushReceivedEvent += handleNotification;
+			if (Registration == null) {
+				Registration = CreateRegistration ();
+			}
+
+            Registration.PushReceivedEvent += handleNotification;
 
             try
             {
                 var config = ReadConfig();
-                await registration.Register(config);
+                await Registration.Register(config);
             }
             catch (SerializationException)
             {
@@ -54,10 +59,12 @@ namespace FHSDK.Services.Network
         /// <returns></returns>
         public async Task SetCategories(List<string> categories)
         {
-            var registration = CreateRegistration();
-            var config = ReadConfig();
+			if (Registration == null) {
+				Registration = CreateRegistration ();
+			}
+			var config = ReadConfig();
             config.Categories = categories;
-            await registration.UpdateConfig(config);
+            await Registration.UpdateConfig(config);
         }
 
         /// <summary>
@@ -67,10 +74,13 @@ namespace FHSDK.Services.Network
         /// <returns></returns>
         public async Task SetAlias(string alias)
         {
-            var registration = CreateRegistration();
-            var config = ReadConfig();
+			if (Registration == null) {
+				Registration = CreateRegistration ();
+			}
+
+			var config = ReadConfig();
             config.Alias = alias;
-            await registration.UpdateConfig(config);
+            await Registration.UpdateConfig(config);
         }
 
         /// <summary>

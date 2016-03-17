@@ -23,5 +23,16 @@ namespace FHSDK.Services
         {
             Container.RegisterType<TFrom, TTo>();
         }
+
+		public static void RegisterInstance<TInstance> (TInstance instance) 
+		{
+			Container.RegisterInstance<TInstance>(instance);
+		}
+
+		public static bool IsRegistered<TInstance> () 
+		{
+			return Container.IsRegistered<TInstance>();
+		}
+
     }
 }

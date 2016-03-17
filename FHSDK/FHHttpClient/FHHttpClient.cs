@@ -64,6 +64,7 @@ namespace FHSDK.FHHttpClient
                         var i = 0;
                         foreach (var item in jArray)
                         {
+							
                             qs.Add(string.Format("{0}={1}", i, JsonConvert.SerializeObject(item)));
                             i++;
                         }
