@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+summary: FeedHenry native .NET SDK for Xamarin platform and Windows Phone 8+.
+getting-started: GettingStarted.md
+details: Details.md
+screenshots: 
+  - screenshots/screenshot1.png
+license: License.md
+icons: 
+  - fh-dotnet-sdk_128x128.png
+  - fh-dotnet-sdk_512x512.png
+publisher: feedhenry
+name: fh-dotnet-sdk
+id: fh-dotnet-sdk
+samples: 
+  iOS Sample: ../samples/helloworld-xamarin/helloworld-xamarin.sln
+  android Sample: ../samples/helloworld-xamarin/helloworld-xamarin.sln
+publisher-url: http://feedhenry.org/
+libraries: 
+  ios: ../lib/xamarinios10/FHXamarinIOSSDK.dll
+  android: ../lib/monoandroid/FHXamarinAndroidSDK.dll
+version: 1.3.6
+...
