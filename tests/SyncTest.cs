@@ -142,5 +142,29 @@ namespace tests
             Assert.AreEqual(0, list.Count);
             Assert.AreEqual(1, dataset.GetPendingRecords().List().Count);
         }
+
+        [TestMethod]
+        public async Task ShouldOmitFieldWithNull()
+        {
+            //given
+            await FHClient.Init();
+            var dataset = new MockResponseDataset<TaskModel>("dataset")
+            {
+                KeepSyncParamType = typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams)
+            };
+            dataset.MockResponse = dataset.AppliedCreateResponse;
+            var task = new TaskModel();
+
+            //when
+            dataset.Create(task);
+            await dataset.StartSyncLoop();
+            
+            //then
+            Assert.IsInstanceOfType(dataset.SyncParams, typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams));
+            var param = (FHSyncDataset<TaskModel>.FHSyncLoopParams)dataset.SyncParams;
+            Assert.AreEqual(1, param.Pendings.Count);
+            var post = param.Pendings[0]["post"];
+            Assert.IsTrue(post["taskName"] == null); 
+        }
     }
 }
