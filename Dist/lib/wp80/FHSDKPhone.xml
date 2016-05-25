@@ -4,14 +4,14 @@
         <name>FHSDKPhone</name>
     </assembly>
     <members>
-        <member name="T:FHSDK.Phone.NamespaceDoc">
+        <member name="T:FHSDK.NamespaceDoc">
             <summary>
                 Contains the entry class of the FeedHenry SDK for Windows Phone 8 platform. It's defined in the FHSDKPhone.dll.
                 To use the FeedHenry SDK, both FHSDK.dll and FHSDKPhone.dll should be referenced by your WP8 project, and
                 initialise the SDK using the FHClient class in this name space.
             </summary>
         </member>
-        <member name="T:FHSDK.Phone.FHClient">
+        <member name="T:FHSDK.FHClient">
             <summary>
                 Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should
                 be called after the app finish intialising.
