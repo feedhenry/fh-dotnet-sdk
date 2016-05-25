@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -91,11 +92,18 @@ namespace tests.Mocks
         }
 
         public FHResponse MockResponse { private get; set; }
+        public object SyncParams { get; private set; }
+        public Type KeepSyncParamType { private get; set; }
 
         protected override Task<FHResponse> DoCloudCall(object syncParams)
         {
+            if (syncParams.GetType() == KeepSyncParamType)
+            {
+                SyncParams = syncParams;
+            }
             return Task.Factory.StartNew(() => MockResponse);
         }
+
 
         private class TestHasher : IHashService
         {
