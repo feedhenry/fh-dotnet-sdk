@@ -148,8 +148,6 @@ To generate and publish the API docs, please do the following:
 * Merge the branch which contains the latests docs
 * Push gh-pages to remote repo
 
-## Publishing
+## Publishing to NuGet
 
 Read the [infomation in the dist folder](Dist/make-dist.md)
-
-
