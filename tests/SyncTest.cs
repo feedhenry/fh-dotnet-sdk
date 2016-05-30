@@ -160,7 +160,7 @@ namespace tests
             await dataset.StartSyncLoop();
             
             //then
-            Assert.IsInstanceOfType(dataset.SyncParams, typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams));
+            Assert.IsTrue(dataset.SyncParams.GetType() == typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams));
             var param = (FHSyncDataset<TaskModel>.FHSyncLoopParams)dataset.SyncParams;
             Assert.AreEqual(1, param.Pendings.Count);
             var post = param.Pendings[0]["post"];
