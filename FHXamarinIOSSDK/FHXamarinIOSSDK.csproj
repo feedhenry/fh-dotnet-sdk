@@ -27,17 +27,18 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="aerogear-windows-push, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="aerogear-windows-push">
-      <HintPath>..\packages\aerogear-windows-push.0.0.9\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
+    <ProjectReference Include="..\FHSDK\FHSDK.csproj">
       <Project>{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}</Project>
       <Name>FHSDK</Name>
     </ProjectReference>

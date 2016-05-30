@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -75,16 +75,16 @@
     <MtouchProfiling>true</MtouchProfiling>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="MonoTouch.NUnitLite" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="aerogear-windows-push">
       <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
     </Reference>
@@ -97,43 +97,43 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
-    <Compile Include="..\..\tests\AuthRequestTest.cs">
+    <Compile Include="..\tests\AuthRequestTest.cs">
       <Link>tests\AuthRequestTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\CloudPropsTest.cs">
+    <Compile Include="..\tests\CloudPropsTest.cs">
       <Link>tests\CloudPropsTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\ConfigTest.cs">
+    <Compile Include="..\tests\ConfigTest.cs">
       <Link>tests\ConfigTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\HashTester.cs">
+    <Compile Include="..\tests\HashTester.cs">
       <Link>tests\HashTester.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\HttpClientTest.cs">
+    <Compile Include="..\tests\HttpClientTest.cs">
       <Link>tests\HttpClientTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\InMemoryDataStoreTest.cs">
+    <Compile Include="..\tests\InMemoryDataStoreTest.cs">
       <Link>tests\InMemoryDataStoreTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\PushBaseTest.cs">
+    <Compile Include="..\tests\PushBaseTest.cs">
       <Link>tests\PushBaseTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\SyncTest.cs">
+    <Compile Include="..\tests\SyncTest.cs">
       <Link>tests\SyncTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\TaskModel.cs">
+    <Compile Include="..\tests\TaskModel.cs">
       <Link>tests\TaskModel.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Mocks\MockDeviceService.cs">
+    <Compile Include="..\tests\Mocks\MockDeviceService.cs">
       <Link>tests\Mocks\MockDeviceService.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Mocks\MockHttpClient.cs">
+    <Compile Include="..\tests\Mocks\MockHttpClient.cs">
       <Link>tests\Mocks\MockHttpClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Mocks\MockOAuthClient.cs">
+    <Compile Include="..\tests\Mocks\MockOAuthClient.cs">
       <Link>tests\Mocks\MockOAuthClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Mocks\MockResponseDataset.cs">
+    <Compile Include="..\tests\Mocks\MockResponseDataset.cs">
       <Link>tests\Mocks\MockResponseDataset.cs</Link>
     </Compile>
   </ItemGroup>
@@ -143,7 +143,7 @@
       <Project>{24D1F74F-EB7B-48F3-A610-FCB45EA17FB2}</Project>
       <Name>FHXamarinIOSSDK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\FHSDK\FHSDK.csproj">
+    <ProjectReference Include="..\FHSDK\FHSDK.csproj">
       <Project>{AD87DBE9-8247-47CD-B6D2-16B63CBBC9E7}</Project>
       <Name>FHSDK</Name>
     </ProjectReference>
