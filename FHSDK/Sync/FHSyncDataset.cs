@@ -132,6 +132,11 @@ namespace FHSDK.Sync
         /// <typeparam name="X">The 1st type parameter.</typeparam>
         public static FHSyncDataset<X> Build<X>(string datasetId, FHSyncConfig syncConfig, IDictionary<string, string> qp, FHSyncMetaData meta) where X : IFHSyncModel
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
             //check if there is a dataset model file exists and load it
             string syncClientMeta = FHSyncUtils.GetDataFilePath(datasetId, PERSIST_FILE_NAME);
             FHSyncDataset<X> dataset = LoadExistingDataSet<X>(syncClientMeta, datasetId);

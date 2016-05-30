@@ -150,17 +150,6 @@ To generate and publish the API docs, please do the following:
 
 ## Publishing
 
-* Make sure FHSDK, FHSDKPhone, FHXamarinAndroidSDK and FHXamarinIOSSDK projects are building correctly. 
-* Run copyLibs.bat
-* Bump version in Dist/FHSDK.nuspec file
-* Make sure nuget.exe is installed and on the PATH. Download From [here](http://nuget.org/nuget.exe)
-* Run
-
-````batch
-nuget setApiKey <api key>
-nuget pack FHSDK.nuspec
-nuget push FH.SDK.<VERSION>.nupkg
-````
-
+Read the [infomation in the dist folder](Dist/make-dist.md)
 
 

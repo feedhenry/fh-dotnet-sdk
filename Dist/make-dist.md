@@ -1,3 +1,13 @@
+* Make sure FHSDK, FHSDKPhone, FHXamarinAndroidSDK and FHXamarinIOSSDK projects are building correctly. 
+* Run copyLibs.bat
+* Bump version in Dist/FHSDK.nuspec file
+* Make sure nuget.exe is installed and on the PATH. Download From [here](http://nuget.org/nuget.exe)
+* Run
+
+````batch
+nuget setApiKey <api key>
+````
+
 ```bash
 find .. -name '*.cs' -print > copy-src.sh
 ```
