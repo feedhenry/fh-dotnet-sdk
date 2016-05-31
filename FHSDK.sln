@@ -21,7 +21,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests-android", "test-andro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests-ios", "test-ios\tests-ios.csproj", "{E3A61243-85BB-4D64-B985-859DBC8B8448}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "tests-xamarin-utils", "tests-xamarin-utils\tests-xamarin-utils.shproj", "{14947DB6-40FF-48AB-BA39-533FD88CC2B6}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		tests-xamarin-utils\tests-xamarin-utils.projitems*{358ba144-452b-414d-b90c-f0d7006b7bc4}*SharedItemsImports = 4
+		tests-xamarin-utils\tests-xamarin-utils.projitems*{e3a61243-85bb-4d64-b985-859dbc8b8448}*SharedItemsImports = 4
+		tests-xamarin-utils\tests-xamarin-utils.projitems*{14947db6-40ff-48ab-ba39-533fd88cc2b6}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM

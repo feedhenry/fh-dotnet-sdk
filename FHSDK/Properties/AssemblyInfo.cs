@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("tests")]
 [assembly: InternalsVisibleTo("tests-phone")]
-[assembly: InternalsVisibleTo("FHSDKIOSTests")]
-//[assembly: InternalsVisibleTo("FHSDKAndroidTest")]
+[assembly: InternalsVisibleTo("tests-ios")]
+[assembly: InternalsVisibleTo("tests-android")]

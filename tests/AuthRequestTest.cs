@@ -1,8 +1,6 @@
 ﻿#if __MOBILE__
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-using TestInitialize = NUnit.Framework.SetUpAttribute;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
@@ -22,15 +20,11 @@ namespace tests
     [TestClass]
     public class AuthRequestTest
     {
-        [TestInitialize]
-        public async Task Init()
-        {
-            await FHClient.Init();
-        }
-
         [TestMethod]
         public async Task ShouldOAuthRequest()
         {
+			await FHClient.Init();
+
             //given
             ServiceFinder.RegisterType<IOAuthClientHandlerService, MockOAuthClient>();
 

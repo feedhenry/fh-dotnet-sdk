@@ -1,8 +1,6 @@
 ﻿#if __MOBILE__
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-using TestInitialize = NUnit.Framework.SetUpAttribute;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
@@ -22,8 +20,7 @@ namespace tests
         private string _dataPersistFile;
         private IIOService _ioService;
 
-        [TestInitialize]
-        public void Setup()
+		public InMemoryDataStoreTest()
         {
             FHClient.Init();
             _ioService = ServiceFinder.Resolve<IIOService>();
