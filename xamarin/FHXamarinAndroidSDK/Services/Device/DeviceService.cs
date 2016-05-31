@@ -97,7 +97,7 @@ namespace FHSDK.Services
                 input = Application.Context.Assets.Open(AppPropFile);
                 appProps.Load(input);
 
-                var pushServerUrl = appProps.GetProperty(HostProp) + "api/v2/ag-push/";
+                var pushServerUrl = appProps.GetProperty(HostProp) + "/api/v2/ag-push/";
                 var pushSenderId = appProps.GetProperty("PUSH_SENDER_ID");
                 var pushVariant = appProps.GetProperty("PUSH_VARIANT");
                 var pushSecret = appProps.GetProperty("PUSH_SECRET");
