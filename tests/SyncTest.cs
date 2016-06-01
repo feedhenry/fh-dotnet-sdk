@@ -1,7 +1,6 @@
 ﻿#if __MOBILE__
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
@@ -160,7 +159,7 @@ namespace tests
             await dataset.StartSyncLoop();
             
             //then
-            Assert.IsInstanceOfType(dataset.SyncParams, typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams));
+            Assert.IsTrue(dataset.SyncParams.GetType() == typeof(FHSyncDataset<TaskModel>.FHSyncLoopParams));
             var param = (FHSyncDataset<TaskModel>.FHSyncLoopParams)dataset.SyncParams;
             Assert.AreEqual(1, param.Pendings.Count);
             var post = param.Pendings[0]["post"];

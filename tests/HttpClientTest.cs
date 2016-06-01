@@ -1,7 +1,6 @@
 ﻿#if __MOBILE__
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
+using Xunit;
+using TestMethod = Xunit.FactAttribute;
 #else
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
