@@ -164,11 +164,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="aerogear-windows-push, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\portable-win81+wpa81\aerogear-windows-push.dll</HintPath>
+      <HintPath>..\packages\aerogear-windows-push.0.1.2-rc2\lib\portable-win81+wpa81\aerogear-windows-push.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\aerogear-windows-push.0.1.0\lib\portable-win81+wpa81\lib.dll</HintPath>
+      <HintPath>..\packages\aerogear-windows-push.0.1.2-rc2\lib\portable-win81+wpa81\lib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

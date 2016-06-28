@@ -17,7 +17,7 @@ namespace FHSDK.Services.Network
         private const string LogTag = "Push";
         private readonly ILogService _logger;
 
-		public Registration Registration { get; private set; }
+		public RegistrationBase Registration { get; private set; }
 
         /// <summary>
         ///     Default constructor.
@@ -97,6 +97,6 @@ namespace FHSDK.Services.Network
         ///     Abstract method to create a registration.
         /// </summary>
         /// <returns></returns>
-        protected abstract Registration CreateRegistration();
+        protected abstract RegistrationBase CreateRegistration();
     }
 }

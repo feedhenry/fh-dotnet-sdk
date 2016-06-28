@@ -9,7 +9,7 @@ using UIKit;
 
 namespace FHSDK.Services
 {
-    public class IosRegistration : Registration
+    public class IosRegistration : RegistrationBase
     {
         private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
         private string _token;

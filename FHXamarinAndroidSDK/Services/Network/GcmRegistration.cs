@@ -10,7 +10,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace FHSDK.Services
 {
-    public class GcmRegistration : Registration
+    public class GcmRegistration : RegistrationBase
     {
         private AndroidPushConfig _config;
         private Installation _installation;
@@ -46,6 +46,17 @@ namespace FHSDK.Services
 
                 return token;
             });
+        }
+
+        public override async Task<string> Register(PushConfig pushConfig, IUPSHttpClient client)
+        {
+            Installation installation = CreateInstallation(pushConfig);
+            ILocalStore store = CreateChannelStore();
+            string channelUri = await ChannelUri();
+            var token = pushConfig.VariantId + channelUri;
+            installation.deviceToken = channelUri;
+            await client.Register(installation);
+            return installation.deviceToken;
         }
 
         public void OnPushNotification(string message, Dictionary<string, string> messageData)
