@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>tests</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>tests-ios</AssemblyName>
+    <AssemblyName>testsios</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,7 +76,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="aerogear-windows-push, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\aerogear-windows-push.0.1.2-rc2\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
+      <HintPath>..\packages\aerogear-windows-push.0.1.2\lib\portable-net45+win8+wp8+wpa81\aerogear-windows-push.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
