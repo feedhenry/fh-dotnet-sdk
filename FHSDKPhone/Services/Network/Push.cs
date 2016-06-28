@@ -7,9 +7,9 @@ namespace FHSDKPhone.Services.Network
 {
     public class Push: PushBase
     {
-        protected override Registration CreateRegistration()
+        protected override RegistrationBase CreateRegistration()
         {
-            return new MpnsRegistration();
+            return new Registration();
         }
     }
 }

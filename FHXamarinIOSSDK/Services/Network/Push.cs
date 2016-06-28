@@ -6,7 +6,7 @@ namespace FHSDK.Services
 {
 	public class Push : PushBase
 	{
-		protected override Registration CreateRegistration() 
+		protected override RegistrationBase CreateRegistration() 
 		{
 			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0)) {
 				var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes (UIUserNotificationType.Sound |

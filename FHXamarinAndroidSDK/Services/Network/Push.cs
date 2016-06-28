@@ -5,7 +5,7 @@ namespace FHSDK.Services
 {
     public class Push : PushBase
     {
-        protected override Registration CreateRegistration()
+        protected override RegistrationBase CreateRegistration()
         {
             return new GcmRegistration();
         }
