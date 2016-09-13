@@ -40,6 +40,5 @@ var searchData=
   ['gettoken',['GetToken',['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_auth_session.html#a22da783c81b5042a5041f06e1a566ef6',1,'FHSDK::API::FHAuthSession']]],
   ['getupdatebyhash',['GetUpdateByHash',['../class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_response_data.html#a659ea526025b176121ae70886c3761c1',1,'FHSDK::Sync::FHSyncResponseData']]],
   ['geturi',['GetUri',['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_act_request.html#a6a4ecd0c440425fe80251c118fd5bf62',1,'FHSDK.API.FHActRequest.GetUri()'],['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_auth_request.html#a97c872be46f514409db06ecb5ec8e85c',1,'FHSDK.API.FHAuthRequest.GetUri()'],['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_cloud_request.html#acf11b5b6218e68da790729b14bf99204',1,'FHSDK.API.FHCloudRequest.GetUri()'],['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_init_request.html#a4cb3f6ba95f2dc36f30fd1a3b4aad508',1,'FHSDK.API.FHInitRequest.GetUri()'],['../class_f_h_s_d_k_1_1_a_p_i_1_1_f_h_request.html#a96375a6dddd2b1fdfdeab699633a4320',1,'FHSDK.API.FHRequest.GetUri()']]],
-  ['getview',['GetView',['../class_f_h_s_d_k_1_1_services_1_1_f_h_o_auth_webview.html#a35a650d99557cd5e08f35673996a7c4e',1,'FHSDK::Services::FHOAuthWebview']]],
-  ['google_5fplay_5fservices_5fversion',['google_play_services_version',['../class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_integer.html#a2863414ac850c429e169592ca8f4fe46',1,'FHXamarinAndroidSDK::Resource::Integer']]]
+  ['getview',['GetView',['../class_f_h_s_d_k_1_1_services_1_1_f_h_o_auth_webview.html#a35a650d99557cd5e08f35673996a7c4e',1,'FHSDK::Services::FHOAuthWebview']]]
 ];

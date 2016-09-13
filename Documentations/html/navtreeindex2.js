@@ -104,12 +104,7 @@ var NAVTREEINDEX2 =
 "class_f_h_s_d_k_phone_1_1_services_1_1_network_1_1_push.html#aa3e0d19c7e8ca83fa0e181e0e02f63f3":[1,0,3,0,0,0,0],
 "class_f_h_xamarin_android_s_d_k_1_1_resource.html":[1,0,4,0],
 "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_attribute.html":[1,0,4,0,0],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_color.html":[1,0,4,0,1],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_drawable.html":[1,0,4,0,2],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_id.html":[1,0,4,0,3],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_integer.html":[1,0,4,0,4],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_string.html":[1,0,4,0,5],
-"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_styleable.html":[1,0,4,0,6],
+"class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_string.html":[1,0,4,0,1],
 "classandroid_1_1support_1_1v4_1_1_r.html":[1,0,0,0,0,0],
 "classcom_1_1google_1_1android_1_1gms_1_1_r.html":[1,0,1,0,0,0,3],
 "classcom_1_1google_1_1android_1_1gms_1_1base_1_1_r.html":[1,0,1,0,0,0,0,0],
@@ -249,5 +244,10 @@ var NAVTREEINDEX2 =
 "functions_h.html":[1,3,0,7],
 "functions_i.html":[1,3,0,8],
 "functions_k.html":[1,3,0,9],
-"functions_l.html":[1,3,0,10]
+"functions_l.html":[1,3,0,10],
+"functions_m.html":[1,3,0,11],
+"functions_o.html":[1,3,0,12],
+"functions_p.html":[1,3,0,13],
+"functions_prop.html":[1,3,4],
+"functions_q.html":[1,3,0,14]
 };
