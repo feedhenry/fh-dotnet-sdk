@@ -31,7 +31,7 @@ XCOPY FHSDKPortable\*.cs Dist\src\FHSDKPortable /sy
 XCOPY FHXamarinAndroidSDK\*.cs Dist\src\FHXamarinAndroidSDK /sy
 XCOPY FHXamarinIOSSDK\*.cs Dist\src\FHXamarinIOSSDK /sy
 
-REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHSDK.dll Dist\lib\monotouch\
-REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHSDK.xml Dist\lib\monotouch\
-REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHXamarinIOSSDK.dll Dist\lib\monotouch\
-REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHXamarinIOSSDK.xml Dist\lib\monotouch\
+REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHSDK.dll Dist\lib\xamarinios10\
+REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHSDK.xml Dist\lib\xamarinios10\
+REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHXamarinIOSSDK.dll Dist\lib\xamarinios10\
+REM COPY /B xamarin\FHXamarinIOSSDK\bin\Debug\FHXamarinIOSSDK.xml Dist\lib\xamarinios10\
