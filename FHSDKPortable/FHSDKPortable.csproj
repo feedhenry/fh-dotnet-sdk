@@ -9,7 +9,7 @@
     <ProjectGuid>{71DD40E5-AB2F-4102-AEA6-BD1C33651A1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FHSDKPortable</RootNamespace>
+    <RootNamespace>FHSDK</RootNamespace>
     <AssemblyName>FHSDKPortable</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
