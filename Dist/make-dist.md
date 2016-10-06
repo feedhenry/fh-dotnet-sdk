@@ -8,7 +8,7 @@ Publishing to NuGet requires you to build for each platforms. Create a branch wi
 2) Build on iOS:
 
  * open Xamarin Studio, open solution: `FHSDK.sln`
- * choose `Release` on the top bar schema selection
+ * choose `Debug` on the top bar schema selection
   select `FHXamarinIOSSDK` project, clean and build
  * open a command line and run:
 ```
@@ -20,7 +20,7 @@ $ copyIOSLibs.sh
 3) Build on Windows/Android:
 
 * open Visual Studio, open solution: `FHSDK.sln`
-* choose `Release` on the top bar schema selection
+* choose `Debug` on the top bar schema selection
 * select `FHXamarinAndroidSDK` project, clean and build
 * select `FHSDK` project, clean and build
 * open a command line and run:
@@ -41,20 +41,6 @@ In `Dist/FHSDK.nuspec` file, change the version
 ````batch
 nuget setApiKey <api key>
 ````
-
-```bash
-find .. -name '*.cs' -print > copy-src.sh
-```
-
-open copy-src.sh in a good text editor and use regex to find `\.\./(.*)` and replace with ``mkdir -p src/`dirname $1` && cp ../$1 src/$1``
-
-Excecute the created script and remove the tests source and xamarin, cause tests are not in the nuget package and xamarin can't be debugged:
-
-```bash
-chmod +x copy-src.sh
-./copy-src.sh
-rm -rf src/tests* src/xamarin
-```
 
 After updating the nuspec with the right version you can pack the release and upload:
 
