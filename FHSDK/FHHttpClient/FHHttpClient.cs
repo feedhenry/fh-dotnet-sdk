@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using FHSDK.Services;
 using FHSDK.Services.Log;
 using FHSDK.Services.Network;
+using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -43,52 +44,64 @@ namespace FHSDK.FHHttpClient
 
         private static Uri BuildUri(Uri uri, string requestMethod, object requestData)
         {
-            if (!"POST".Equals(requestMethod.ToUpper()) && !"PUT".Equals(requestMethod.ToUpper()))
-            {
-                if (null != requestData)
-                {
-                    var ub = new UriBuilder(uri);
-                    var qs = new List<string>();
-                    var jToken = JToken.FromObject(requestData);
-                    if (jToken.Type == JTokenType.Object)
-                    {
-                        var jObject = (JObject) jToken;
-                        foreach (var item in jObject)
-                        {
-                            qs.Add(string.Format("{0}={1}", item.Key, JsonConvert.SerializeObject(item.Value)));
-                        }
-                    }
-                    else if (jToken.Type == JTokenType.Array)
-                    {
-                        var jArray = (JArray) jToken;
-                        var i = 0;
-                        foreach (var item in jArray)
-                        {
-							
-                            qs.Add(string.Format("{0}={1}", i, JsonConvert.SerializeObject(item)));
-                            i++;
-                        }
-                    }
-                    else
-                    {
-                        qs.Add(JsonConvert.SerializeObject(requestData));
-                    }
+            if ("POST".Equals(requestMethod.ToUpper()) || "PUT".Equals(requestMethod.ToUpper())) return uri;
+            if (null == requestData) return uri;
+            var ub = new UriBuilder(uri);
+            var jToken = JToken.FromObject(requestData);
+            var qs = ConvertToParam(null, jToken);
 
-                    var query = string.Join(",", qs.ToArray());
-                    var existingQuery = ub.Query;
-                    if (null != existingQuery && existingQuery.Length > 1)
+            var query = string.Join("&", qs.ToArray());
+            var existingQuery = ub.Query;
+            if (null != existingQuery && existingQuery.Length > 1)
+            {
+                ub.Query = existingQuery.Substring(1) + "&" + query;
+            }
+            else
+            {
+                ub.Query = query;
+            }
+            return ub.Uri;
+        }
+
+        private static List<string> ConvertToParam(string prefix, JToken jToken)
+        {
+            var qs = new List<string>();
+            if (jToken.Type == JTokenType.Object)
+            {
+                var jObject = (JObject) jToken;
+                foreach (var item in jObject)
+                {
+                    if (item.Value.Type == JTokenType.Object || item.Value.Type == JTokenType.Array)
                     {
-                        ub.Query = existingQuery.Substring(1) + "&" + query;
+                        ConvertToParam(item.Key, item.Value).ForEach(i => qs.Add(i));
                     }
                     else
                     {
-                        ub.Query = query;
+                        var value = prefix != null ? $"{prefix}[{item.Key}]={item.Value}" : $"{item.Key}={item.Value}";
+                        qs.Add(value);
                     }
-                    return ub.Uri;
                 }
-                return uri;
             }
-            return uri;
+            else if (jToken.Type == JTokenType.Array)
+            {
+                var jArray = (JArray) jToken;
+                foreach (var item in jArray)
+                {
+                    if (item.Type == JTokenType.Array)
+                    {
+                        ConvertToParam(prefix + "[]", item).ForEach(p => qs.Add(p));
+                    }
+                    else
+                    {
+                        qs.Add($"{prefix}[]={item}");
+                    }
+                }
+            }
+            else
+            {
+                qs.Add(jToken.ToString());
+            }
+            return qs;
         }
 
         /// <summary>
