@@ -1,0 +1,27 @@
+var class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client =
+[
+    [ "Create< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a6269eadacf1b9d9aae2e66e8333df69f", null ],
+    [ "Delete< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a7c4be6436ad072b766b7db650b2d1a9d", null ],
+    [ "ForceSync< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#afe6c7959a91d6cdfc0cd89ee0a9f2f6e", null ],
+    [ "Initialise", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a125106734bad5511d1ad2da5e79f686c", null ],
+    [ "List< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a527baf3d7475aab9e26da29dbdb65c37", null ],
+    [ "Manage< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a3a76b4c0808928c2fd0acfe53b36e358", null ],
+    [ "OnSyncNotification", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a2a0a06aad6f62cbd4c31f13ada0df4cc", null ],
+    [ "Read< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a5065d713e8c807239c38cf556ace21d1", null ],
+    [ "Start< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a3d6d4899df0fdbcf11ea1b9de34c94bc", null ],
+    [ "StartAll", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a77ae2cf575dfe7efa80e8c2d09004978", null ],
+    [ "Stop< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#abae42586824616922dea6f9d013483ae", null ],
+    [ "StopAll", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a5d2afbf42f007dcd02627b1743972e27", null ],
+    [ "Update< T >", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#ac06c35b435fc424f705a07b404c920e8", null ],
+    [ "ClientStorageFailed", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#af5e955097fd215bbb0a563ac4dc5b3f1", null ],
+    [ "CollisionDetected", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a37df36ed0824acb94f3d9eee2133670d", null ],
+    [ "DeltaReceived", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#af8de5722ee84b4da94ce1c77e6f54c2b", null ],
+    [ "LocalUpdateApplied", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a95d1dd36f40d4b0ace8b96820554fb3c", null ],
+    [ "OfflineUpdate", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#adcb433a0bb7a8ed62180e1fc22cdda15", null ],
+    [ "RecordDeltaReceived", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a80419cbb783a6f7bc950bd538f3019cb", null ],
+    [ "RemoteUpdateApplied", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a78c6941a9770d3c91d2cb3c952f15a85", null ],
+    [ "RemoteUpdateFailed", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#ae535edc8238938d25c4e19a3ebbcf441", null ],
+    [ "SyncCompleted", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#ad236ccbe72deb6380a7377fb85c70f41", null ],
+    [ "SyncFailed", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a1c18b838ba207857ec9a29ccb401b993", null ],
+    [ "SyncStarted", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_client.html#a256b48fa5391250a9bbb2a52be2f8aec", null ]
+];
