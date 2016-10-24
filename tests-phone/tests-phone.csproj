@@ -105,6 +105,9 @@
     <Compile Include="..\tests\PushBaseTest.cs">
       <Link>PushBaseTest.cs</Link>
     </Compile>
+    <Compile Include="..\tests\ResponseTest.cs">
+      <Link>ResponseTest.cs</Link>
+    </Compile>
     <Compile Include="..\tests\SyncTest.cs">
       <Link>SyncTest.cs</Link>
     </Compile>
