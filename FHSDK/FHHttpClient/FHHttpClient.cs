@@ -29,7 +29,7 @@ namespace FHSDK.FHHttpClient
     /// </summary>
     public class FHHttpClient
     {
-        private const int BufferSize = 10*1024;
+        private const int BufferSize = 1024*1024;
         private const string LogTag = "FHHttpClient";
 
         /// <summary>
