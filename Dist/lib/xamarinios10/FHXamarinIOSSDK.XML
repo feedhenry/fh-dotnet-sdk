@@ -5,87 +5,88 @@
     </assembly>
     <members>
         <member name="T:FHSDK.Services.DeviceService">
-            <summary>
-            Device info service provider for iOS
-            </summary>
-        </member>
+             <summary>
+                 Device info service provider for iOS
+             </summary>
+            </member>
         <member name="T:FHSDK.Services.DataService">
-            <summary>
-            Data Service provider for ios
-            </summary>
-        </member>
+             <summary>
+             Data Service provider for ios
+             </summary>
+            </member>
         <member name="T:FHSDK.Services.LogService">
-            <summary>
-            Logging service provider for iOS
-            </summary>
-        </member>
+             <summary>
+             Logging service provider for iOS
+             </summary>
+            </member>
         <member name="T:FHSDK.Services.NetworkService">
-            <summary>
-            Network service provider for iOS
-            </summary>
-        </member>
+             <summary>
+             Network service provider for iOS
+             </summary>
+            </member>
         <member name="T:FHSDK.Services.OAuthClientHandlerService">
-            <summary>
-            OAuth login handler implementation for iOS
-            </summary>
-        </member>
+             <summary>
+             OAuth login handler implementation for iOS
+             </summary>
+            </member>
         <member name="T:FHSDK.Services.FHOAuthViewController">
-            <summary>
-            A view controller to handle OAuth login using UIWebView
-            </summary>
-        </member>
+             <summary>
+             A view controller to handle OAuth login using UIWebView
+             </summary>
+            </member>
         <member name="M:FHSDK.Services.FHOAuthViewController.LoadView">
-            <summary>
-            Construct the UI
-            </summary>
-        </member>
+             <summary>
+             Construct the UI
+             </summary>
+            </member>
         <member name="M:FHSDK.Services.FHOAuthViewController.CloseView">
-            <summary>
-            Close the view
-            </summary>
-        </member>
+             <summary>
+             Close the view
+             </summary>
+            </member>
         <member name="M:FHSDK.Services.FHOAuthViewController.ViewDidLoad">
-            <summary>
-            Start to load request when view is loaded
-            </summary>
-        </member>
-        <member name="T:FHSDK.Touch.NamespaceDoc">
-            <summary>
-            Contains the entry class of the FeedHenry Xamarin SDK for iOS platform. It's defined in the FHXamarinIOSSDK.dll.
-            To use the FeedHenry SDK, both FHSDK.dll and FHXamarinIOSSDK.dll should be referenced by your Xamarain iOS project, and initialise the SDK using the FHClient class in this name space.
-            </summary>
-        </member>
-        <member name="M:FHSDK.Touch.FHClient.Init">
-            <summary>
-            Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should be called after the app finish intialising.
-            </summary>
-            <example>
-                <code>
-            public override void ViewDidLoad ()
-            {
-            //Other app init work
-            InitApp();
-            }
-            private async void InitApp()
-            {
-            try
-            {
-            bool inited = await FHClient.Init();
-            if(inited)
-            {
-            //Initialisation is successful
-            }
-            }
-            catch(FHException e)
-            {
-            //Initialisation failed, handle exception
-            }
-            }
-            </code>
-            </example>
-            <returns>If Init is success or not</returns>
-            <exception cref="T:FHSDK.FHException">
-            </exception>
-        </member>
+             <summary>
+             Start to load request when view is loaded
+             </summary>
+            </member>
+        <member name="T:FHSDK.NamespaceDoc">
+             <summary>
+             Contains the entry class of the FeedHenry Xamarin SDK for iOS platform. It's defined in the FHXamarinIOSSDK.dll.
+             To use the FeedHenry SDK, both FHSDK.dll and FHXamarinIOSSDK.dll should be referenced by your Xamarain iOS project, and initialise the SDK using the FHClient class in this name space.
+             </summary>
+            </member>
+        <member name="M:FHSDK.FHClient.Init">
+             <summary>
+             Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should be called after the app finish intialising.
+             </summary>
+             <example>
+             <code>
+              public override void ViewDidLoad ()
+              {
+                  //Other app init work
+                  InitApp();
+              }
+            
+              private async void InitApp()
+              {
+                  try
+                  {
+                      bool inited = await FHClient.Init();
+                      if(inited)
+                      {
+                        //Initialisation is successful
+                      }
+                   }
+                   catch(FHException e)
+                   {
+                       //Initialisation failed, handle exception
+                   }
+                }
+             
+             </code>
+             </example>
+             <returns>If Init is success or not</returns>
+             <exception cref="!:FHException"></exception>
+            </member>
     </members>
 </doc>
