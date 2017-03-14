@@ -6,7 +6,7 @@
     <members>
         <member name="T:FHSDK.Services.DeviceService">
             <summary>
-            Device info service provider for iOS
+                Device info service provider for iOS
             </summary>
         </member>
         <member name="T:FHSDK.Services.DataService">
@@ -49,43 +49,44 @@
             Start to load request when view is loaded
             </summary>
         </member>
-        <member name="T:FHSDK.Touch.NamespaceDoc">
+        <member name="T:FHSDK.NamespaceDoc">
             <summary>
             Contains the entry class of the FeedHenry Xamarin SDK for iOS platform. It's defined in the FHXamarinIOSSDK.dll.
             To use the FeedHenry SDK, both FHSDK.dll and FHXamarinIOSSDK.dll should be referenced by your Xamarain iOS project, and initialise the SDK using the FHClient class in this name space.
             </summary>
         </member>
-        <member name="M:FHSDK.Touch.FHClient.Init">
-            <summary>
-            Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should be called after the app finish intialising.
-            </summary>
-            <example>
-                <code>
-            public override void ViewDidLoad ()
-            {
-            //Other app init work
-            InitApp();
-            }
-            private async void InitApp()
-            {
-            try
-            {
-            bool inited = await FHClient.Init();
-            if(inited)
-            {
-            //Initialisation is successful
-            }
-            }
-            catch(FHException e)
-            {
-            //Initialisation failed, handle exception
-            }
-            }
-            </code>
-            </example>
-            <returns>If Init is success or not</returns>
-            <exception cref="T:FHSDK.FHException">
-            </exception>
+        <member name="M:FHSDK.FHClient.Init">
+             <summary>
+             Initialise the FeedHenry SDK. This should be called before any other API functions are invoked. Usually this should be called after the app finish intialising.
+             </summary>
+             <example>
+             <code>
+              public override void ViewDidLoad ()
+              {
+                  //Other app init work
+                  InitApp();
+              }
+            
+              private async void InitApp()
+              {
+                  try
+                  {
+                      bool inited = await FHClient.Init();
+                      if(inited)
+                      {
+                        //Initialisation is successful
+                      }
+                   }
+                   catch(FHException e)
+                   {
+                       //Initialisation failed, handle exception
+                   }
+                }
+             
+             </code>
+             </example>
+             <returns>If Init is success or not</returns>
+             <exception cref="!:FHException"></exception>
         </member>
     </members>
 </doc>
