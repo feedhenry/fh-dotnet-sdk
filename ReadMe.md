@@ -92,7 +92,7 @@ Return the url of the cloud host the app is communicating with. Can be used in P
 
 Invoke a cloud function which you have defined in cloud/main.js (the old way). Can be used in PCL projects.
 
-For full list of APIs, please check [FH .NET SDK API References](http://feedhenry.github.io/fh-dotnet-sdk/Documentations/FHDotNetSDKDoc/Help/index.html).
+For full list of APIs, please check [FH .NET SDK API References](http://feedhenry.org/fh-dotnet-sdk/Documentations/html/index.html).
 
 ## Sync Client
 
@@ -131,24 +131,25 @@ They all link to the test files in [FHSDKTestShared](FHSDKTestShared) project.
 Before running the test, make sure the [TestCloudApp](https://github.com/fheng/fh-sdks-test-cloud-app) is running somewhere, and update the following files to point them to the cloud app:
 
 * [fhconfig.local.properties](FHSDKAndroidTest/Assets/fhconfig.local.properties)
-* [fhconfiglocal.plist](FHSDKIOSTest/fhconfiglocal.plist)
+* [fhconfig.local.plist](FHSDKIOSTest/fhconfiglocal.plist)
 * [fhconfig.local.json](FHSDKWindowsPhoneTestNative/fhconfig.local.json)
 
 Then you can deploy the test projects to the emulators or devices and run the tests (For Windows Phone, just run the tests using Visual Studio).
 
 ## Building
 
-Open FHSDK.sln solution in Visual Studio and build for Xamarin open FHSDK.sln in xamarin folder
+Open `FHSDK.sln` solution in Visual Studio and build.
+For Xamarin open `FHSDK-xamarin-studio.sln` in root folder.
 
+### Documentation
 To generate and publish the API docs, please do the following:
 
-* Build the FHDotNetSDKDoc project
-  - [Install doxygen](http://www.stack.nl/~dimitri/doxygen/download.html)
-  - from the command prompt run `doxygen .\Documentations\Doxyfile`
+* [Install doxygen](http://www.stack.nl/~dimitri/doxygen/download.html)
+* From the command prompt run `doxygen .\Documentations\Doxyfile`
 * Commit changes
-* Checkout gh-pages branch
+* Checkout `gh-pages` branch
 * Merge the branch which contains the latests docs
-* Push gh-pages to remote repo
+* Push `gh-pages` to remote repo
 
 ## Publishing to NuGet
 

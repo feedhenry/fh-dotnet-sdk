@@ -6,6 +6,8 @@ var hierarchy =
     [ "FHSDK.AppProps", "class_f_h_s_d_k_1_1_app_props.html", null ],
     [ "FHXamarinAndroidSDK.Resource.Attribute", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_attribute.html", null ],
     [ "FHSDK.CloudProps", "class_f_h_s_d_k_1_1_cloud_props.html", null ],
+    [ "FHXamarinAndroidSDK.Resource.Color", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_color.html", null ],
+    [ "FHXamarinAndroidSDK.Resource.Drawable", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_drawable.html", null ],
     [ "EventArgs", null, [
       [ "FHSDK.Sync.FHSyncNotificationEventArgs", "class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_notification_event_args.html", null ]
     ] ],
@@ -44,6 +46,7 @@ var hierarchy =
     [ "GcmListenerService", null, [
       [ "FHSDK.Services.FeedHenryMessageReceiver", "class_f_h_s_d_k_1_1_services_1_1_feed_henry_message_receiver.html", null ]
     ] ],
+    [ "FHXamarinAndroidSDK.Resource.Id", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_id.html", null ],
     [ "FHSDK.Services.Data.IDataService", "interface_f_h_s_d_k_1_1_services_1_1_data_1_1_i_data_service.html", [
       [ "FHSDK.Services.Data.DataServiceBase", "class_f_h_s_d_k_1_1_services_1_1_data_1_1_data_service_base.html", [
         [ "FHSDK.Services.DataService", "class_f_h_s_d_k_1_1_services_1_1_data_service.html", null ],
@@ -85,6 +88,7 @@ var hierarchy =
     [ "InstanceIDListenerService", null, [
       [ "FHSDK.Services.FeedHenryInstanceIDListenerService", "class_f_h_s_d_k_1_1_services_1_1_feed_henry_instance_i_d_listener_service.html", null ]
     ] ],
+    [ "FHXamarinAndroidSDK.Resource.Integer", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_integer.html", null ],
     [ "FHSDK.Services.Auth.IOAuthClientHandlerService", "interface_f_h_s_d_k_1_1_services_1_1_auth_1_1_i_o_auth_client_handler_service.html", [
       [ "FHSDK.Services.Auth.OAuthClientHandlerServiceBase", "class_f_h_s_d_k_1_1_services_1_1_auth_1_1_o_auth_client_handler_service_base.html", [
         [ "FHSDK.Services.OAuthClientHandlerService", "class_f_h_s_d_k_1_1_services_1_1_o_auth_client_handler_service.html", null ],
@@ -106,18 +110,19 @@ var hierarchy =
     [ "PushConfig", null, [
       [ "FHSDK.Services.AndroidPushConfig", "class_f_h_s_d_k_1_1_services_1_1_android_push_config.html", null ]
     ] ],
-    [ "com.google.android.gms.R", "classcom_1_1google_1_1android_1_1gms_1_1_r.html", null ],
     [ "android.support.v4.R", "classandroid_1_1support_1_1v4_1_1_r.html", null ],
-    [ "fhxamarinandroidsdk.fhxamarinandroidsdk.R", "classfhxamarinandroidsdk_1_1fhxamarinandroidsdk_1_1_r.html", null ],
-    [ "com.google.android.gms.base.R", "classcom_1_1google_1_1android_1_1gms_1_1base_1_1_r.html", null ],
     [ "com.google.android.gms.gcm.R", "classcom_1_1google_1_1android_1_1gms_1_1gcm_1_1_r.html", null ],
+    [ "fhxamarinandroidsdk.fhxamarinandroidsdk.R", "classfhxamarinandroidsdk_1_1fhxamarinandroidsdk_1_1_r.html", null ],
     [ "com.google.android.gms.measurement.R", "classcom_1_1google_1_1android_1_1gms_1_1measurement_1_1_r.html", null ],
+    [ "com.google.android.gms.R", "classcom_1_1google_1_1android_1_1gms_1_1_r.html", null ],
+    [ "com.google.android.gms.base.R", "classcom_1_1google_1_1android_1_1gms_1_1base_1_1_r.html", null ],
     [ "RegistrationBase", null, [
       [ "FHSDK.Services.GcmRegistration", "class_f_h_s_d_k_1_1_services_1_1_gcm_registration.html", null ],
       [ "FHSDK.Services.IosRegistration", "class_f_h_s_d_k_1_1_services_1_1_ios_registration.html", null ]
     ] ],
     [ "FHXamarinAndroidSDK.Resource", "class_f_h_xamarin_android_s_d_k_1_1_resource.html", null ],
     [ "FHXamarinAndroidSDK.Resource.String", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_string.html", null ],
+    [ "FHXamarinAndroidSDK.Resource.Styleable", "class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_styleable.html", null ],
     [ "UIViewController", null, [
       [ "FHSDK.Services.FHOAuthViewController", "class_f_h_s_d_k_1_1_services_1_1_f_h_o_auth_view_controller.html", null ]
     ] ]

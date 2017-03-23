@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['pending_5fdata_5fpersist_5ffile_5fname',['PENDING_DATA_PERSIST_FILE_NAME',['../class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_dataset.html#a44f74c2b4d02fe3cf0a115e38cb1d890',1,'FHSDK::Sync::FHSyncDataset']]],
-  ['pendingrecords',['pendingRecords',['../class_f_h_s_d_k_1_1_sync_1_1_f_h_sync_dataset.html#a79eaee6d06f2b6f16b50bd5ba379db1b',1,'FHSDK::Sync::FHSyncDataset']]]
+  ['icon_5fonly',['icon_only',['../class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_id.html#aba5a8a4f3f2e9303b96d7f27f5c3a6ee',1,'FHXamarinAndroidSDK::Resource::Id']]],
+  ['imageaspectratio',['imageAspectRatio',['../class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_attribute.html#adecde6e2e3c3d9b8c009a4ecab3c99b6',1,'FHXamarinAndroidSDK::Resource::Attribute']]],
+  ['imageaspectratioadjust',['imageAspectRatioAdjust',['../class_f_h_xamarin_android_s_d_k_1_1_resource_1_1_attribute.html#a3717b17d7e287b45a76efc25b6b4ba66',1,'FHXamarinAndroidSDK::Resource::Attribute']]]
 ];
