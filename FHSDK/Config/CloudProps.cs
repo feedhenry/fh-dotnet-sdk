@@ -25,7 +25,8 @@ namespace FHSDK
         /// <summary>
         /// Constructor used for unit testing and injecting mock.
         /// </summary>
-        /// <param name="props"></param>
+        /// <param name="props">list of properties returned by FH.init</param>
+        /// <param name="config">config retrievd from fhconfig.json file.</param>
         public CloudProps(JObject props, FHConfig config)
         {
             _cloudPropsJson = props;
