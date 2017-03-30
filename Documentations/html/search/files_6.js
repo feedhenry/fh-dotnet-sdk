@@ -11,10 +11,7 @@ var searchData=
   ['inetworkservice_2ecs',['INetworkService.cs',['../_i_network_service_8cs.html',1,'']]],
   ['inmemorydatastore_2ecs',['InMemoryDataStore.cs',['../_in_memory_data_store_8cs.html',1,'']]],
   ['ioauthclienthandlerservice_2ecs',['IOAuthClientHandlerService.cs',['../_i_o_auth_client_handler_service_8cs.html',1,'']]],
-  ['ioservice_2ecs',['IOService.cs',['../_f_h_xamarin_android_s_d_k_2_services_2_data_2_i_o_service_8cs.html',1,'']]],
-  ['ioservice_2ecs',['IOService.cs',['../_f_h_s_d_k_phone_2_services_2_data_2_i_o_service_8cs.html',1,'']]],
-  ['ioservice_2ecs',['IOService.cs',['../_f_h_xamarin_i_o_s_s_d_k_2_services_2_data_2_i_o_service_8cs.html',1,'']]],
-  ['ioservice_2ecs',['IOService.cs',['../_f_h_s_d_k_portable_2_services_2_data_2_i_o_service_8cs.html',1,'']]],
+  ['ioservice_2ecs',['IOService.cs',['../_f_h_s_d_k_phone_2_services_2_data_2_i_o_service_8cs.html',1,'(Global Namespace)'],['../_f_h_s_d_k_portable_2_services_2_data_2_i_o_service_8cs.html',1,'(Global Namespace)'],['../_f_h_xamarin_android_s_d_k_2_services_2_data_2_i_o_service_8cs.html',1,'(Global Namespace)'],['../_f_h_xamarin_i_o_s_s_d_k_2_services_2_data_2_i_o_service_8cs.html',1,'(Global Namespace)']]],
   ['iosregistration_2ecs',['IosRegistration.cs',['../_ios_registration_8cs.html',1,'']]],
   ['iosstorage_2ecs',['IosStorage.cs',['../_ios_storage_8cs.html',1,'']]],
   ['ipush_2ecs',['IPush.cs',['../_i_push_8cs.html',1,'']]]

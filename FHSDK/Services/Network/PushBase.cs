@@ -88,7 +88,7 @@ namespace FHSDK.Services.Network
         ///     In development mode, fhconfig.local.json overrides default config file.
         /// </summary>
         /// <returns>The push config</returns>
-        internal static PushConfig ReadConfig()
+        public static PushConfig ReadConfig()
         {
             return ServiceFinder.Resolve<IDeviceService>().ReadPushConfig();
         }
