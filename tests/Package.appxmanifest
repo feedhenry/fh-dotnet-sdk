@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="7c1e7c45-65d6-4f08-905c-008da95e3748" Publisher="CN=corinnekrych" Version="1.0.0.0" />
+  <Identity Name="7c1e7c45-65d6-4f08-905c-008da95e3748" Publisher="CN=corinne" Version="1.0.0.0" />
   <Properties>
     <DisplayName>tests</DisplayName>
-    <PublisherDisplayName>CorinneKrych</PublisherDisplayName>
+    <PublisherDisplayName>corinne</PublisherDisplayName>
     <Logo>Images\UnitTestStoreLogo.png</Logo>
     <Description>tests</Description>
   </Properties>
