@@ -35,7 +35,7 @@ In `Dist/FHSDK.nuspec` file, change the version
 
 5) Push to NuGet
 
-* Make sure nuget.exe is installed and on the PATH. Download From [here](http://nuget.org/nuget.exe)
+* Make sure nuget.exe is installed and on the PATH. Download From [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe)
 * Run:
 
 ````batch
