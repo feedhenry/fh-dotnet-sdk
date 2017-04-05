@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>FH.SDK</id>
-    <version>1.3.9-rc6</version>
+    <version>1.3.9</version>
     <authors>FeedHenry</authors>
     <owners>FeedHenry</owners>
     <projectUrl>https://github.com/feedhenry/fh-dotnet-sdk</projectUrl>
