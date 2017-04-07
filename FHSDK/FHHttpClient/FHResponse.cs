@@ -145,5 +145,14 @@ namespace FHSDK
 			return dict;
 		}
 
+        /// <summary>
+        /// Get the response as a specific type
+        /// </summary>
+        /// <typeparam name="T">type of the returned data</typeparam>
+        /// <returns>the data deseialized to type or null</returns>
+        public T GetResponseAs<T>()
+        {
+            return (T) (rawResponse != null ? JsonConvert.DeserializeObject(rawResponse, typeof(T)) : null);
+        }
     }
 }

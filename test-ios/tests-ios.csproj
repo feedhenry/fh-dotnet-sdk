@@ -125,6 +125,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\tests\ResponseTest.cs">
+      <Link>tests\ResponseTest.cs</Link>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
     <Compile Include="..\tests\AuthRequestTest.cs">

@@ -122,6 +122,7 @@
     <Compile Include="Mocks\MockOAuthClient.cs" />
     <Compile Include="Mocks\MockResponseDataset.cs" />
     <Compile Include="Mocks\MockDeviceService.cs" />
+    <Compile Include="ResponseTest.cs" />
     <Compile Include="SyncTest.cs" />
     <Compile Include="TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
