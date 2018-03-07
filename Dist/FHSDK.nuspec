@@ -16,7 +16,7 @@
         <dependency id="Newtonsoft.Json" version="8.0.3" />
         <dependency id="Microsoft.Net.Http" version="2.2.29" />
         <dependency id="Unity" version="4.0.1" />
-        <dependency id="aerogear-windows-push" version="(0.1,]" />
+        <dependency id="aerogear-windows-push" version="0.1.2" />
         <dependency id="Microsoft.Bcl.Build" version="(1.0,]" />
       </group>
 
@@ -25,13 +25,13 @@
         <dependency id="Xamarin.GooglePlayServices.Gcm" version="29.0.0.2" />
         <dependency id="Newtonsoft.Json" version="8.0.3" />
         <dependency id="Unity" version="4.0.1" />
-        <dependency id="aerogear-windows-push" version="(0.1,]" />
+        <dependency id="aerogear-windows-push" version="0.1.2" />
        </group>
 
        <group targetFramework="xamarinios10">
         <dependency id="Newtonsoft.Json" version="8.0.3" />
         <dependency id="Unity" version="4.0.1" />
-        <dependency id="aerogear-windows-push" version="(0.1,]" />
+        <dependency id="aerogear-windows-push" version="0.1.2" />
        </group>
 
     </dependencies>
